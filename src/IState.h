@@ -4,8 +4,6 @@
 #include <string>
 #include "util.h"
 
-class IGUIManager;
-
 /*! \class IState
     \brief Program state base class.
     \details An IState object defines the state the program can be in. Exactly one state has to be
@@ -32,14 +30,11 @@ class IState : public noncopyable, ObjectCounter<IState>
 		/// deactivating a state, logging an error is the preferred course of action.
 		virtual void onDeactivate() noexcept = 0;
 
-		/// get unique identifier.
-		virtual int getUUID() const noexcept = 0;
-
 		/// gets the states name
-		virtual const std::string& getName() const noexcept = 0;
+		virtual const char* getName() const noexcept = 0;
 
 		/// gets the GUI manager
-		virtual IGUIManager* getGUIManager() noexcept = 0;
+		virtual IGUIEnvironment* getGUIEnvironment() noexcept = 0;
 
 };
 

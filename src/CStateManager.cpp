@@ -5,6 +5,7 @@
 #include "util.h"
 #include <stdexcept>
 #include <boost/exception/diagnostic_information.hpp>
+#include <irrlicht/IGUIEnvironment.h>
 
 CStateManager::CStateManager(IEngine* engine): mEngine(engine)
 {
@@ -40,7 +41,7 @@ void CStateManager::deleteCurrentState()
 		getCurrentState()->onActivate();
 }
 
-IState* CStateManager::createState(std::string name, const irr::io::IAttributes&  param)
+IState* CStateManager::createState(std::string name, const irr::io::IAttributes*  param)
 {
 	if(!mStateStack.empty())
 		getCurrentState()->onDeactivate();
@@ -72,7 +73,7 @@ IState* CStateManager::createState(std::string name, const irr::io::IAttributes&
 	return state.get();
 }
 
-void CStateManager::switchState(std::string name, const irr::io::IAttributes& param) noexcept
+void CStateManager::switchState(std::string name, const irr::io::IAttributes* param) noexcept
 {
 	// save old state, so in case the creation of the new one does not work, we can restore it
 	auto old = mStateStack.top();
@@ -117,6 +118,6 @@ void CStateManager::addFactory(std::string name, factory_fptr factory)
 bool CStateManager::onEvent(irr::SEvent::SGUIEvent event)
 {
 	/// \todo ????
-//	return getCurrentState()->getGUIManager()->onEvent(event);
+	//return getCurrentState()->getGUIEnvironment()->onEvent(event);
 }
 

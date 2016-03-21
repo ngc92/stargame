@@ -17,7 +17,7 @@ class IState;
 class IStateManager : public noncopyable, ObjectCounter<IStateManager>
 {
 	protected:
-		typedef std::function<std::shared_ptr<IState>(const irr::io::IAttributes&)> factory_fptr;
+		typedef std::function<std::shared_ptr<IState>(const irr::io::IAttributes*)> factory_fptr;
 
 	public:
 		virtual ~IStateManager() {};
@@ -33,12 +33,12 @@ class IStateManager : public noncopyable, ObjectCounter<IStateManager>
 		virtual void deleteCurrentState() = 0;
 
 		/// creates a new state an pushes it onto the state stack.
-		virtual IState* createState(std::string name, const irr::io::IAttributes& param) = 0;
+		virtual IState* createState(std::string name, const irr::io::IAttributes* param) = 0;
 
 		/// creates a new state and replaces the old one.
 		/// if the new state cannot be created, the old state is left intact (onDeactivate and onActivate called).
 		/// the new state is created after onDeactivate for the old one is called, but before it is deleted.
-		virtual void switchState(std::string name, const irr::io::IAttributes& param) noexcept = 0;
+		virtual void switchState(std::string name, const irr::io::IAttributes* param) noexcept = 0;
 
 		///// sets a new state as active state
 		//virtual void pushState(std::shared_ptr<IState> state) = 0;

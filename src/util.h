@@ -32,6 +32,7 @@ namespace irr
 	namespace gui
 	{
 		class IGUIEnvironment;
+		class IGUIElement;
 	}
 }
 
@@ -39,6 +40,7 @@ typedef b2Body PhysicsLibraryBodyType;
 typedef b2World PhysicsLibraryWorldType;
 typedef irr::IrrlichtDevice DeviceType;
 using irr::gui::IGUIEnvironment;
+using irr::gui::IGUIElement;
 
 typedef irr::video::SColor color_type;
 typedef b2Vec2 vector2d;

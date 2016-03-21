@@ -1,10 +1,25 @@
 #include "CEngine.h"
+#include "IStateManager.h"
 #include "Options.h"
+#include "ShipEditor/ShipEditorState.h"
 #include <irrlicht/irrlicht.h>
 #include <iostream>
 using namespace irr;
 
 void cmd_getsettings(Options& opt);
+
+
+IEngine* getGlobalEngine()
+{
+	static std::shared_ptr<IEngine> engine = std::make_shared<CEngine>( );
+	return engine.get();
+}
+
+std::shared_ptr<IState> createShipEditorState(const irr::io::IAttributes* param)
+{
+	return std::make_shared<ShipEditorState> (getGlobalEngine());
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -27,14 +42,14 @@ int main(int argc, char *argv[])
 	// basic setup
 	try
 	{
-		auto engine = std::make_shared<CEngine>( );
+		auto engine = getGlobalEngine();
 
 		// create irrlicht
-		if (! engine->init( opt ) )
+		if (!engine->init( opt ) )
 			return 1;
 
-		//engine->getStateManager()->addFactory("Game", createGameState);
-		//engine->getStateManager()->createState("MainMenu", nullptr);
+		engine->getStateManager().addFactory("ShipEditor", createShipEditorState);
+		engine->getStateManager().createState("ShipEditor", nullptr);
 
 		// main game loop
 		while(engine->tick())
