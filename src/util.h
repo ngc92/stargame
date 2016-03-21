@@ -29,11 +29,16 @@ namespace irr
 	{
 		class IAttributes;
 	}
+	namespace gui
+	{
+		class IGUIEnvironment;
+	}
 }
 
 typedef b2Body PhysicsLibraryBodyType;
 typedef b2World PhysicsLibraryWorldType;
 typedef irr::IrrlichtDevice DeviceType;
+using irr::gui::IGUIEnvironment;
 
 typedef irr::video::SColor color_type;
 typedef b2Vec2 vector2d;

@@ -1,7 +1,7 @@
 #ifndef ITIMEMANAGER_H_INCLUDED
 #define ITIMEMANAGER_H_INCLUDED
 
-#include "ObjectCounter.h"
+#include "util.h"
 
 /*! \class ITimeManager
 	\brief Manages timing of frames

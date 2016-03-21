@@ -1,7 +1,6 @@
 #include "CStateManager.h"
 #include "IState.h"
 #include "IEngine.h"
-#include "IGUIManager.h"
 
 #include "util.h"
 #include <stdexcept>
@@ -117,6 +116,7 @@ void CStateManager::addFactory(std::string name, factory_fptr factory)
 
 bool CStateManager::onEvent(irr::SEvent::SGUIEvent event)
 {
-	return getCurrentState()->getGUIManager()->onEvent(event);
+	/// \todo ????
+//	return getCurrentState()->getGUIManager()->onEvent(event);
 }
 
