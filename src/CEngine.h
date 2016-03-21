@@ -32,19 +32,12 @@ class CEngine : public IEngine
 		IStateManager& getStateManager() override;
 		const IStateManager& getStateManager() const override;
 
-		ILogManager& getLogManager() override;
-		const ILogManager& getLogManager() const override;
-
 		std::shared_ptr<IGameWorld> loadLevel(const std::string& filename) override;
 		std::shared_ptr<IGameWorld> createLevel() override;
 	private:
-		// initialised first, so other components can use this
-		std::unique_ptr<ILogManager> mLogManager;
-
 		DeviceType* mIrrlichtDevice;
 
 		std::unique_ptr<CDebugConsole> mDebugConsole;
-		std::unique_ptr<CDebugCommands> mDebugCommands;
 		std::unique_ptr<CDebugDraw> mDebugDrawer;
 
 		std::unique_ptr<IInputManager> mInputManager;

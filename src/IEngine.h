@@ -8,7 +8,6 @@ class IGameWorld;
 class IGraphixManager;
 class IGUIManager;
 class IDebugDrawer;
-class ILogManager;
 class IStateManager;
 
 /*! \class IEngine
@@ -55,10 +54,6 @@ class IEngine : public ObjectCounter<IEngine>, noncopyable
 		virtual IStateManager& getStateManager() = 0;
 		/// gets state manager (const)
 		virtual const IStateManager& getStateManager() const = 0;
-
-		/// gets Log manager
-		virtual ILogManager& getLogManager() = 0;
-		virtual const ILogManager& getLogManager() const = 0;
 
 		// conveninece function: relays work to level loader
 		virtual std::shared_ptr<IGameWorld> loadLevel(const std::string& filename) = 0;

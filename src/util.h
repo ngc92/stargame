@@ -7,7 +7,7 @@
 #include <boost/noncopyable.hpp>
 #include <boost/lexical_cast.hpp>
 #include "util/make_unique.h"
-#include "util/ObjectCounter.h"
+#include "debug/ObjectCounter.h"
 
 // forward declarations
 class b2Body;
