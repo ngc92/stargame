@@ -7,6 +7,7 @@ class IInputManager;
 class IGUIManager;
 class IDebugDrawer;
 class IStateManager;
+class ISoundManager;
 class Options;
 
 /*! \class IEngine
@@ -43,6 +44,11 @@ class IEngine : public ObjectCounter<IEngine>, noncopyable
 		virtual IStateManager& getStateManager() = 0;
 		/// gets state manager (const)
 		virtual const IStateManager& getStateManager() const = 0;
+
+		/// gets sound manager
+		virtual ISoundManager& getSoundManager() = 0;
+		/// gets sound manager (const)
+		virtual const ISoundManager& getSoundManager() const = 0;
 };
 
 #endif // IENGINE_H_INCLUDED

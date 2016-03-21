@@ -3,7 +3,7 @@
 
 #include <irrlicht/ISceneNodeAnimator.h>
 
-namespace Graphix
+namespace gfx
 {
 	using namespace irr;
 	using namespace scene;

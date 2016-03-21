@@ -1,9 +1,9 @@
 #include "FollowObjectAnimator.h"
+#include <irrlicht/ISceneNode.h>
 #include <iostream>
 
 namespace gfx
 {
-
 	FollowObjectAnimator::FollowObjectAnimator(const ISceneNode* objToFollow,
 				double dis, double smooth, double maxSpeed, vector3df off) :
 					target(objToFollow),
@@ -21,8 +21,8 @@ namespace gfx
 		target->drop();
 	}
 
-	void FollowObjectAnimator::animateNode(ISceneNode* node, u32 timeMs) {
-
+	void FollowObjectAnimator::animateNode(ISceneNode* node, u32 timeMs)
+	{
 		if(lastTime)
 		{
 			double dt = (timeMs - lastTime) / 1000.0;
@@ -34,7 +34,8 @@ namespace gfx
 
 			vector3df vel = (fak-1) * node->getPosition() + (1-fak)*targetpos ;
 
-			if(vel.getLengthSQ() > mSpeed * mSpeed * dt * dt) {
+			if(vel.getLengthSQ() > mSpeed * mSpeed * dt * dt)
+			{
 				vel.setLength(mSpeed * dt);
 			}
 

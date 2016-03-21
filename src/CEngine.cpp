@@ -1,6 +1,7 @@
 #include "CEngine.h"
 #include "CStateManager.h"
 #include "CInputManager.h"
+#include "CSoundManager.h"
 #include "CIrrMasterEventReceiver.h"
 #include "CTimeManager.h"
 #include "Options.h"
@@ -13,6 +14,7 @@ CEngine::CEngine() :	mIrrlichtDevice( nullptr ),
 						mDebugConsole( make_unique<CDebugConsole>() ),
 						mInputManager( make_unique<CInputManager>() ),
 						mStateManager ( make_unique<CStateManager>(this) ),
+						mSoundManager( make_unique<CSoundManager>() ),
 						mMasterEventReceiver(make_unique<CIrrMasterEventReceiver>(mInputManager.get(), mStateManager.get()))
 {
 }
@@ -95,4 +97,5 @@ return *(m##name); }
 
 MAKE_GETTER(StateManager);
 MAKE_GETTER(InputManager);
+MAKE_GETTER(SoundManager);
 
