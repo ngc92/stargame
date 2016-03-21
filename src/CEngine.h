@@ -5,7 +5,6 @@
 
 class CIrrMasterEventReceiver;
 class CDebugDraw;
-class CDebugCommands;
 class CDebugConsole;
 class ITimeManager;
 
