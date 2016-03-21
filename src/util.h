@@ -3,10 +3,15 @@
 
 #include <memory>
 #include <Box2D/Common/b2Math.h>
+
 #include <irrlicht/vector2d.h>
+#include <irrlicht/SColor.h>
+
 #include <boost/noncopyable.hpp>
 #include <boost/lexical_cast.hpp>
+
 #include "util/make_unique.h"
+#include "util/logging.h"
 #include "debug/ObjectCounter.h"
 
 // forward declarations
@@ -18,20 +23,32 @@ namespace irr
 	class IrrlichtDevice;
 	namespace video
 	{
-		class SColor;
 		class ITexture;
+	}
+	namespace io
+	{
+		class IAttributes;
+	}
+	namespace gui
+	{
+		class IGUIEnvironment;
+		class IGUIElement;
 	}
 }
 
 typedef b2Body PhysicsLibraryBodyType;
 typedef b2World PhysicsLibraryWorldType;
 typedef irr::IrrlichtDevice DeviceType;
+using irr::gui::IGUIEnvironment;
+using irr::gui::IGUIElement;
 
 typedef irr::video::SColor color_type;
 typedef b2Vec2 vector2d;
 typedef irr::core::vector2di screen_vector;
 typedef irr::video::ITexture texture_type;
-// can't forward declare screen_vector, as it is a template typedef
+
+/// use this as default argument for color multiplying modifications. White with full alpha -> no change
+const color_type ColorWhite = color_type(255, 255, 255, 255);
 
 #define __unused __attribute__((unused))
 

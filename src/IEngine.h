@@ -4,11 +4,10 @@
 #include "util.h"
 
 class IInputManager;
-class IGameWorld;
-class IGraphixManager;
 class IGUIManager;
 class IDebugDrawer;
 class IStateManager;
+class Options;
 
 /*! \class IEngine
 	\brief Base class of stargame
@@ -23,7 +22,7 @@ class IEngine : public ObjectCounter<IEngine>, noncopyable
 
 		/// init function. has to be called before any call to tick.
 		/// creates the graphic device (e.g. Irrlicht device)
-		virtual bool init(bool dbdraw) = 0;
+		virtual bool init(const Options& options) = 0;
 
 		/// has to be called every time step. updates the engine. returns
 		/// false if the main window was closed and the program should quit.
@@ -38,27 +37,12 @@ class IEngine : public ObjectCounter<IEngine>, noncopyable
 		virtual const IInputManager& getInputManager() const = 0;
 
 		/// creates a gui manager
-		virtual std::shared_ptr<IGUIManager> createGUIManager() const = 0;
-
-		/// gets the graphic manager
-		virtual IGraphixManager& getGraphixManager() = 0;
-		/// gets the graphic manager (const)
-		virtual const IGraphixManager& getGraphixManager() const = 0;
-
-		/// gets debug drawer
-		virtual IDebugDrawer& getDebugDrawer() = 0;
-		/// gets debug drawer (const)
-		virtual const IDebugDrawer& getDebugDrawer() const = 0;
+		virtual IGUIEnvironment* getGUIEnvironment() const = 0;
 
 		/// gets state manager
 		virtual IStateManager& getStateManager() = 0;
 		/// gets state manager (const)
 		virtual const IStateManager& getStateManager() const = 0;
-
-		// conveninece function: relays work to level loader
-		virtual std::shared_ptr<IGameWorld> loadLevel(const std::string& filename) = 0;
-
-		virtual std::shared_ptr<IGameWorld> createLevel() = 0;
 };
 
 #endif // IENGINE_H_INCLUDED

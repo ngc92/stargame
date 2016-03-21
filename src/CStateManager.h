@@ -23,10 +23,10 @@ class CStateManager : public IStateManager
 		void deleteCurrentState() override;
 
 		/// creates a new state an pushes it onto the state stack.
-		IState* createState(std::string name, const irr::io::IAttributes& param) override;
+		IState* createState(std::string name, const irr::io::IAttributes* param) override;
 
 		/// creates a new state and replaces the old one.
-		void switchState(std::string name, const irr::io::IAttributes& param) noexcept override;
+		void switchState(std::string name, const irr::io::IAttributes* param) noexcept override;
 
 		///// sets a new state as ative state
 		//void pushState(std::shared_ptr<IState> state) override;

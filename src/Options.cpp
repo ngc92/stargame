@@ -69,9 +69,9 @@ bool Options::getReset() const{
 }
 
 // IrrlichtDevice mit den Anforderungen erstellen
-irr::IrrlichtDevice* Options::startDevice() {
+irr::IrrlichtDevice* Options::startDevice() const {
 	irr::IrrlichtDevice* d = irr::createDevice(driverType, size, colorDepth, fullscreen, false, false, 0);
-	mustReset = false;
+//	mustReset = false;
 	if( d == 0 ) {
 		std::cerr << "\nCould not create device! Please check options.xml!\n";
 		std::cout << "\n\n\n\aCould not create device! Please check options.xml!\n\tType h for more information!\n\t";

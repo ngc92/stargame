@@ -16,7 +16,7 @@ CDebugConsole::~CDebugConsole()
 	mThread.detach();
 }
 
-void CDebugConsole::registerCommand(std::string name, command_fn func)
+void CDebugConsole::registerCommand(const std::string& name, command_fn func)
 {
 	mCommands[name] = func;
 }
