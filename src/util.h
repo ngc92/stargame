@@ -12,6 +12,7 @@
 
 #include "util/make_unique.h"
 #include "util/logging.h"
+#include "util/convert.h"
 #include "debug/ObjectCounter.h"
 
 // forward declarations
@@ -36,8 +37,6 @@ namespace irr
 	}
 }
 
-typedef b2Body PhysicsLibraryBodyType;
-typedef b2World PhysicsLibraryWorldType;
 typedef irr::IrrlichtDevice DeviceType;
 using irr::gui::IGUIEnvironment;
 using irr::gui::IGUIElement;
