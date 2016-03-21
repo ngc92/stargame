@@ -222,3 +222,277 @@
 	<irrlicht/IAttributes.h>
 	"util.h"
 
+1458600130 source:c:\users\erik\documents\c++\stargame\src\cengine.cpp
+	"CEngine.h"
+	"CStateManager.h"
+	"CInputManager.h"
+	"CSoundManager.h"
+	"CIrrMasterEventReceiver.h"
+	"CTimeManager.h"
+	"Options.h"
+	"debug/CDebugConsole.h"
+	"IState.h"
+
+1458600225 c:\users\erik\documents\c++\stargame\src\cengine.h
+	"IEngine.h"
+
+1458599989 c:\users\erik\documents\c++\stargame\src\iengine.h
+	"util.h"
+
+1458597246 c:\users\erik\documents\c++\stargame\src\util.h
+	<memory>
+	<Box2D/Common/b2Math.h>
+	<irrlicht/vector2d.h>
+	<irrlicht/SColor.h>
+	<boost/noncopyable.hpp>
+	<boost/lexical_cast.hpp>
+	"util/make_unique.h"
+	"util/logging.h"
+	"util/convert.h"
+	"debug/ObjectCounter.h"
+
+1458570407 c:\users\erik\documents\c++\stargame\src\util\make_unique.h
+	<memory>
+	<utility>
+	<cstddef>
+	<type_traits>
+
+1455467425 c:\users\erik\documents\c++\stargame\src\util\logging.h
+	<string>
+	<boost/lexical_cast.hpp>
+
+1419445459 c:\users\erik\documents\c++\stargame\src\util\convert.h
+	<Box2D/Common/b2Math.h>
+	<irrlicht/vector3d.h>
+
+1378976866 c:\users\erik\documents\c++\stargame\src\debug\objectcounter.h
+	<typeinfo>
+	<iosfwd>
+	<functional>
+
+1458592952 c:\users\erik\documents\c++\stargame\src\cstatemanager.h
+	"IStateManager.h"
+	<stack>
+	<unordered_map>
+
+1458592980 c:\users\erik\documents\c++\stargame\src\istatemanager.h
+	<string>
+	<functional>
+	<irrlicht/IEventReceiver.h>
+	"util.h"
+
+1455468686 c:\users\erik\documents\c++\stargame\src\cinputmanager.h
+	"IInputManager.h"
+	<vector>
+	<array>
+
+1455468854 c:\users\erik\documents\c++\stargame\src\iinputmanager.h
+	<memory>
+	<irrlicht/Keycodes.h>
+	<irrlicht/vector2d.h>
+	<irrlicht/IEventReceiver.h>
+	"util.h"
+
+1458599875 c:\users\erik\documents\c++\stargame\src\csoundmanager.h
+	"ISoundManager.h"
+
+1458600007 c:\users\erik\documents\c++\stargame\src\isoundmanager.h
+	<string>
+	<irrlicht/vector3d.h>
+	"util.h"
+
+1458573033 c:\users\erik\documents\c++\stargame\src\cirrmastereventreceiver.h
+	<irrlicht/IEventReceiver.h>
+	"util.h"
+
+1458571154 c:\users\erik\documents\c++\stargame\src\ctimemanager.h
+	"ITimeManager.h"
+	<chrono>
+
+1458572804 c:\users\erik\documents\c++\stargame\src\itimemanager.h
+	"util.h"
+
+1458573934 c:\users\erik\documents\c++\stargame\src\options.h
+	<irrlicht/irrlicht.h>
+
+1458571689 c:\users\erik\documents\c++\stargame\src\debug\cdebugconsole.h
+	"IDebugConsole.h"
+	<thread>
+	<mutex>
+	<unordered_map>
+	<queue>
+
+1458571589 c:\users\erik\documents\c++\stargame\src\debug\idebugconsole.h
+	<functional>
+	<string>
+	<vector>
+	"util.h"
+
+1458597246 c:\users\erik\documents\c++\stargame\src\\util.h
+	<memory>
+	<Box2D/Common/b2Math.h>
+	<irrlicht/vector2d.h>
+	<irrlicht/SColor.h>
+	<boost/noncopyable.hpp>
+	<boost/lexical_cast.hpp>
+	"util/make_unique.h"
+	"util/logging.h"
+	"util/convert.h"
+	"debug/ObjectCounter.h"
+
+1458570407 c:\users\erik\documents\c++\stargame\src\\util\make_unique.h
+	<memory>
+	<utility>
+	<cstddef>
+	<type_traits>
+
+1455467425 c:\users\erik\documents\c++\stargame\src\\util\logging.h
+	<string>
+	<boost/lexical_cast.hpp>
+
+1419445459 c:\users\erik\documents\c++\stargame\src\\util\convert.h
+	<Box2D/Common/b2Math.h>
+	<irrlicht/vector3d.h>
+
+1378976866 c:\users\erik\documents\c++\stargame\src\\debug\objectcounter.h
+	<typeinfo>
+	<iosfwd>
+	<functional>
+
+1458592529 c:\users\erik\documents\c++\stargame\src\istate.h
+	<string>
+	"util.h"
+
+1458575106 source:c:\users\erik\documents\c++\stargame\src\cinputmanager.cpp
+	"CInputManager.h"
+	"IEventListener.h"
+	<cassert>
+
+1458575094 c:\users\erik\documents\c++\stargame\src\ieventlistener.h
+	"util.h"
+	<irrlicht/Keycodes.h>
+	<irrlicht/IEventReceiver.h>
+
+1458574839 source:c:\users\erik\documents\c++\stargame\src\cirrmastereventreceiver.cpp
+	"CIrrMasterEventReceiver.h"
+	"IInputManager.h"
+	"IStateManager.h"
+	<irrlicht/IGUIElement.h>
+	<irrlicht/IrrlichtDevice.h>
+	<irrlicht/IGUIEnvironment.h>
+	<boost/exception/diagnostic_information.hpp>
+	<iostream>
+
+1458599918 source:c:\users\erik\documents\c++\stargame\src\csoundmanager.cpp
+	"CSoundManager.h"
+	<map>
+	<iterator>
+	<iostream>
+	<irrlicht/irrlicht.h>
+	<irrklang/irrKlang.h>
+
+1458592963 source:c:\users\erik\documents\c++\stargame\src\cstatemanager.cpp
+	"CStateManager.h"
+	"IState.h"
+	"IEngine.h"
+	"util.h"
+	<stdexcept>
+	<boost/exception/diagnostic_information.hpp>
+	<irrlicht/IGUIEnvironment.h>
+
+1455471896 source:c:\users\erik\documents\c++\stargame\src\ctimemanager.cpp
+	"CTimeManager.h"
+	<thread>
+
+1458572686 source:c:\users\erik\documents\c++\stargame\src\debug\cdebugconsole.cpp
+	"CDebugConsole.h"
+	<iostream>
+	<algorithm>
+	<boost/algorithm/string.hpp>
+	<boost/algorithm/string/split.hpp>
+
+1378976866 source:c:\users\erik\documents\c++\stargame\src\debug\objectcounter.cpp
+	"ObjectCounter.h"
+	<string>
+	<unordered_map>
+	<typeindex>
+	<iostream>
+
+1458597384 source:c:\users\erik\documents\c++\stargame\src\graphic\cdebugdraw.cpp
+	"CDebugDraw.h"
+	"util.h"
+	<irrlicht/irrlicht.h>
+	<iostream>
+
+1458596506 c:\users\erik\documents\c++\stargame\src\graphic\cdebugdraw.h
+	<vector>
+	<Box2D/Box2D.h>
+
+1458598394 source:c:\users\erik\documents\c++\stargame\src\graphic\engineexhaust.cpp
+	"EngineExhaust.h"
+	"util.h"
+	<irrlicht/ISceneManager.h>
+	<irrlicht/ILightSceneNode.h>
+
+1458597906 c:\users\erik\documents\c++\stargame\src\graphic\engineexhaust.h
+	<irrlicht/ISceneNode.h>
+	<irrlicht/IParticleSystemSceneNode.h>
+	<vector>
+	<Box2D/Common/b2Math.h>
+
+1458598478 source:c:\users\erik\documents\c++\stargame\src\graphic\explosionnode.cpp
+	"ExplosionNode.h"
+	<irrlicht/irrlicht.h>
+	<iostream>
+
+1458597894 c:\users\erik\documents\c++\stargame\src\graphic\explosionnode.h
+	<irrlicht/ISceneNode.h>
+
+1458599232 source:c:\users\erik\documents\c++\stargame\src\graphic\followobjectanimator.cpp
+	"FollowObjectAnimator.h"
+	<irrlicht/ISceneNode.h>
+	<iostream>
+
+1458599064 c:\users\erik\documents\c++\stargame\src\graphic\followobjectanimator.h
+	<irrlicht/ISceneNodeAnimator.h>
+
+1458598986 source:c:\users\erik\documents\c++\stargame\src\graphic\trackobjectanimator.cpp
+	"TrackObjectAnimator.h"
+	<irrlicht/ICameraSceneNode.h>
+
+1458598797 c:\users\erik\documents\c++\stargame\src\graphic\trackobjectanimator.h
+	<irrlicht/ISceneNodeAnimator.h>
+
+1458593214 source:c:\users\erik\documents\c++\stargame\src\main.cpp
+	"CEngine.h"
+	"IStateManager.h"
+	"Options.h"
+	"ShipEditor/ShipEditorState.h"
+	<irrlicht/irrlicht.h>
+	<iostream>
+
+1458594662 c:\users\erik\documents\c++\stargame\src\shipeditor\shipeditorstate.h
+	"IState.h"
+
+1458592529 c:\users\erik\documents\c++\stargame\src\\istate.h
+	<string>
+	"util.h"
+
+1458574853 source:c:\users\erik\documents\c++\stargame\src\options.cpp
+	"Options.h"
+	<iostream>
+	"SoundOptions.h"
+
+1458595272 source:c:\users\erik\documents\c++\stargame\src\shipeditor\shipeditorstate.cpp
+	"ShipEditorState.h"
+	"IEngine.h"
+	<irrlicht/IGUIEnvironment.h>
+	<iostream>
+
+1458599989 c:\users\erik\documents\c++\stargame\src\\iengine.h
+	"util.h"
+
+1458576395 source:c:\users\erik\documents\c++\stargame\src\util\logging.cpp
+	"logging.h"
+	<iostream>
+

@@ -1,2 +1,5 @@
-*.layout
-bin/Debug/Stargame.exe
+/obj
+/bin
+/*.depend
+/*.layout
+/*.dll

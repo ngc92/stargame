@@ -23,6 +23,10 @@ class CEngine : public IEngine
 
 		IStateManager& getStateManager() override;
 		const IStateManager& getStateManager() const override;
+
+		ISoundManager& getSoundManager() override;
+		const ISoundManager& getSoundManager() const override;
+
 	private:
 		DeviceType* mIrrlichtDevice;
 
@@ -31,6 +35,7 @@ class CEngine : public IEngine
 		std::unique_ptr<IInputManager> mInputManager;
 		std::unique_ptr<ITimeManager> mTimeManager;
 		std::unique_ptr<IStateManager> mStateManager;
+		std::unique_ptr<ISoundManager> mSoundManager;
 
 		std::unique_ptr<CIrrMasterEventReceiver> mMasterEventReceiver;
 };
