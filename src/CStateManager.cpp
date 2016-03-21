@@ -3,7 +3,7 @@
 #include "IEngine.h"
 #include "IGUIManager.h"
 
-#include "logging.h"
+#include "util.h"
 #include <stdexcept>
 #include <boost/exception/diagnostic_information.hpp>
 
