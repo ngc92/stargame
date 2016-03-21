@@ -18,9 +18,6 @@ class Options: public irr::io::IAttributeExchangingObject {
 		//Farbtiefe
 		irr::s32 colorDepth;
 
-		//True, wenn das Device neu gestartet werden muss
-		bool mustReset;
-
 	public:
 		//Konstruktor
 		Options();
@@ -37,8 +34,6 @@ class Options: public irr::io::IAttributeExchangingObject {
 
 		void setColorDepth(irr::s32 dpt);
 		irr::s32 getColorDepth() const;
-
-		bool getReset() const;
 
 		//Device mit den Einstellungen starten
 		irr::IrrlichtDevice* startDevice();
