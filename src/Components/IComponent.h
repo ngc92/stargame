@@ -5,18 +5,16 @@
 #include <list>
 #include <functional>
 #include <irrlicht/IAttributes.h>
+#include "util.h"
 
-class ShipComponent
+class SpaceShip;
+
+class IComponent : ObjectCounter<IComponent>
 {
-	class Spaceship;
-
-	protected:
+	public:
 		using dmgListener = std::function<void(float)>;
 		using dmgListenerPtr = std::list<dmgListener>::iterator;
-
-	public:
-		ShipComponent(irr::io::IAttributes& a, Spaceship* myship );
-
+		IComponent(irr::io::IAttributes& a, SpaceShip* myship );
 		float damage( float dam );
 		void repair( float time_sec );
 		dmgListenerPtr addDmgListener(dmgListener l);
@@ -37,7 +35,7 @@ class ShipComponent
 		float mMaxHP;
 		std::string mType;
 		float mMaxRepairHP;
-		Spaceship* mShip;
+		SpaceShip* mShip;
 		std::list<dmgListener> dmgListenerList;
 		float mCurrHP;
 		void fireDmgChangeEvent(float dmg);

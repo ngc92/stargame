@@ -1,7 +1,7 @@
-#include "ShipComponent.h"
+#include "IComponent.h"
 #include <irrlicht/IAttributes.h>
 
-ShipComponent::ShipComponent(/*const*/ irr::io::IAttributes& a, Spaceship* ship):
+IComponent::IComponent(/*const*/ irr::io::IAttributes& a, SpaceShip* ship):
 			mShip(ship),
 			mWeight(a.getAttributeAsFloat("weight") ),
 			mMaxHP( a.getAttributeAsFloat("HP")),
@@ -10,24 +10,24 @@ ShipComponent::ShipComponent(/*const*/ irr::io::IAttributes& a, Spaceship* ship)
 {
 }
 
-float ShipComponent::getWeight()
+float IComponent::getWeight()
 {
 	return mWeight;
 }
-int ShipComponent::getMaxHP()
+int IComponent::getMaxHP()
 {
 	return mMaxHP;
 }
-int ShipComponent::getCurrHP()
+int IComponent::getCurrHP()
 {
 	return mCurrHP;
 }
-std::string ShipComponent::getType()
+std::string IComponent::getType()
 {
 	return mType;
 }
 
-float ShipComponent::damage( float dam )
+float IComponent::damage( float dam )
 {
 				// small damage can always be repaired 2 + 0.5%
 			float rep_dmg = 2 + 0.005 * mMaxHP;
@@ -42,16 +42,27 @@ float ShipComponent::damage( float dam )
 			return dam;
 }
 
-
-void ShipComponent::fireDmgChangeEvent(float dmg)
+IComponent::dmgListenerPtr IComponent::addDmgListener(dmgListener l)
 {
-    for(auto& lst : dmgListenerList)
+	dmgListenerList.push_back(l);
+	return --dmgListenerList.end();
+}
+
+void IComponent::removeDmgListener(dmgListenerPtr l_ptr)
+{
+	dmgListenerList.erase(l_ptr);
+}
+
+void IComponent::fireDmgChangeEvent(float dmg)
+{
+	std::list<dmgListener> workList = dmgListenerList;
+    for(auto& lst : workList)
 	{
 		lst(dmg);
     }
 }
 
-void ShipComponent::repair( float time_sec )
+void IComponent::repair( float time_sec )
 {
 	mCurrHP = std::min( mMaxRepairHP, mCurrHP + time_sec );
 }

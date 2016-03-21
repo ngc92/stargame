@@ -1,0 +1,224 @@
+# depslib dependency file v1.0
+1458595764 source:c:\users\felix\documents\github\stargame\src\components\shipcomponent.cpp
+	"ShipComponent.h"
+	<irrlicht/IAttributes.h>
+
+1458595714 c:\users\felix\documents\github\stargame\src\components\shipcomponent.h
+	<string>
+	<list>
+	<functional>
+	<irrlicht/IAttributes.h>
+
+1458596144 source:c:\users\felix\documents\github\stargame\src\cengine.cpp
+	"CEngine.h"
+	"CStateManager.h"
+	"CInputManager.h"
+	"CIrrMasterEventReceiver.h"
+	"CTimeManager.h"
+	"Options.h"
+	"debug/CDebugConsole.h"
+	"IState.h"
+
+1458596144 c:\users\felix\documents\github\stargame\src\cengine.h
+	"IEngine.h"
+
+1458596144 c:\users\felix\documents\github\stargame\src\iengine.h
+	"util.h"
+
+1458596144 c:\users\felix\documents\github\stargame\src\util.h
+	<memory>
+	<Box2D/Common/b2Math.h>
+	<irrlicht/vector2d.h>
+	<irrlicht/SColor.h>
+	<boost/noncopyable.hpp>
+	<boost/lexical_cast.hpp>
+	"util/make_unique.h"
+	"util/logging.h"
+	"debug/ObjectCounter.h"
+
+1458571506 c:\users\felix\documents\github\stargame\src\util\make_unique.h
+	<memory>
+	<utility>
+	<cstddef>
+	<type_traits>
+
+1458596144 c:\users\felix\documents\github\stargame\src\util\logging.h
+	<string>
+	<boost/lexical_cast.hpp>
+
+1458573132 c:\users\felix\documents\github\stargame\src\debug\objectcounter.h
+	<typeinfo>
+	<iosfwd>
+	<functional>
+
+1458596144 c:\users\felix\documents\github\stargame\src\cstatemanager.h
+	"IStateManager.h"
+	<stack>
+	<unordered_map>
+
+1458596144 c:\users\felix\documents\github\stargame\src\istatemanager.h
+	<string>
+	<functional>
+	<irrlicht/IEventReceiver.h>
+	"util.h"
+
+1458596144 c:\users\felix\documents\github\stargame\src\cinputmanager.h
+	"IInputManager.h"
+	<vector>
+	<array>
+
+1458596144 c:\users\felix\documents\github\stargame\src\iinputmanager.h
+	<memory>
+	<irrlicht/Keycodes.h>
+	<irrlicht/vector2d.h>
+	<irrlicht/IEventReceiver.h>
+	"util.h"
+
+1458596144 c:\users\felix\documents\github\stargame\src\cirrmastereventreceiver.h
+	<irrlicht/IEventReceiver.h>
+	"util.h"
+
+1458571506 c:\users\felix\documents\github\stargame\src\ctimemanager.h
+	"ITimeManager.h"
+	<chrono>
+
+1458596144 c:\users\felix\documents\github\stargame\src\itimemanager.h
+	"util.h"
+
+1458596144 c:\users\felix\documents\github\stargame\src\options.h
+	<irrlicht/irrlicht.h>
+
+1458573132 c:\users\felix\documents\github\stargame\src\debug\cdebugconsole.h
+	"IDebugConsole.h"
+	<thread>
+	<mutex>
+	<unordered_map>
+	<queue>
+
+1458573132 c:\users\felix\documents\github\stargame\src\debug\idebugconsole.h
+	<functional>
+	<string>
+	<vector>
+	"util.h"
+
+1458596144 c:\users\felix\documents\github\stargame\src\\util.h
+	<memory>
+	<Box2D/Common/b2Math.h>
+	<irrlicht/vector2d.h>
+	<irrlicht/SColor.h>
+	<boost/noncopyable.hpp>
+	<boost/lexical_cast.hpp>
+	"util/make_unique.h"
+	"util/logging.h"
+	"debug/ObjectCounter.h"
+
+1458571506 c:\users\felix\documents\github\stargame\src\\util\make_unique.h
+	<memory>
+	<utility>
+	<cstddef>
+	<type_traits>
+
+1458596144 c:\users\felix\documents\github\stargame\src\\util\logging.h
+	<string>
+	<boost/lexical_cast.hpp>
+
+1458573132 c:\users\felix\documents\github\stargame\src\\debug\objectcounter.h
+	<typeinfo>
+	<iosfwd>
+	<functional>
+
+1458596144 c:\users\felix\documents\github\stargame\src\istate.h
+	<string>
+	"util.h"
+
+1458596144 source:c:\users\felix\documents\github\stargame\src\cinputmanager.cpp
+	"CInputManager.h"
+	"IEventListener.h"
+	<cassert>
+
+1458596144 c:\users\felix\documents\github\stargame\src\ieventlistener.h
+	"util.h"
+	<irrlicht/Keycodes.h>
+	<irrlicht/IEventReceiver.h>
+
+1458596144 source:c:\users\felix\documents\github\stargame\src\cirrmastereventreceiver.cpp
+	"CIrrMasterEventReceiver.h"
+	"IInputManager.h"
+	"IStateManager.h"
+	<irrlicht/IGUIElement.h>
+	<irrlicht/IrrlichtDevice.h>
+	<irrlicht/IGUIEnvironment.h>
+	<boost/exception/diagnostic_information.hpp>
+	<iostream>
+
+1458596144 source:c:\users\felix\documents\github\stargame\src\cstatemanager.cpp
+	"CStateManager.h"
+	"IState.h"
+	"IEngine.h"
+	"util.h"
+	<stdexcept>
+	<boost/exception/diagnostic_information.hpp>
+	<irrlicht/IGUIEnvironment.h>
+
+1458571506 source:c:\users\felix\documents\github\stargame\src\ctimemanager.cpp
+	"CTimeManager.h"
+	<thread>
+
+1458596144 source:c:\users\felix\documents\github\stargame\src\debug\cdebugconsole.cpp
+	"CDebugConsole.h"
+	<iostream>
+	<algorithm>
+	<boost/algorithm/string.hpp>
+	<boost/algorithm/string/split.hpp>
+
+1458573132 source:c:\users\felix\documents\github\stargame\src\debug\objectcounter.cpp
+	"ObjectCounter.h"
+	<string>
+	<unordered_map>
+	<typeindex>
+	<iostream>
+
+1458596144 source:c:\users\felix\documents\github\stargame\src\main.cpp
+	"CEngine.h"
+	"IStateManager.h"
+	"Options.h"
+	"ShipEditor/ShipEditorState.h"
+	<irrlicht/irrlicht.h>
+	<iostream>
+
+1458596144 c:\users\felix\documents\github\stargame\src\shipeditor\shipeditorstate.h
+	"IState.h"
+
+1458596144 c:\users\felix\documents\github\stargame\src\\istate.h
+	<string>
+	"util.h"
+
+1458596144 source:c:\users\felix\documents\github\stargame\src\options.cpp
+	"Options.h"
+	<iostream>
+	"SoundOptions.h"
+
+1458596144 source:c:\users\felix\documents\github\stargame\src\shipeditor\shipeditorstate.cpp
+	"ShipEditorState.h"
+	"IEngine.h"
+	<irrlicht/IGUIEnvironment.h>
+	<iostream>
+
+1458596144 c:\users\felix\documents\github\stargame\src\\iengine.h
+	"util.h"
+
+1458596144 source:c:\users\felix\documents\github\stargame\src\util\logging.cpp
+	"logging.h"
+	<iostream>
+
+1458599688 source:c:\users\felix\documents\github\stargame\src\components\icomponent.cpp
+	"IComponent.h"
+	<irrlicht/IAttributes.h>
+
+1458599945 c:\users\felix\documents\github\stargame\src\components\icomponent.h
+	<string>
+	<list>
+	<functional>
+	<irrlicht/IAttributes.h>
+	"util.h"
+
