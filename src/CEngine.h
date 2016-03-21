@@ -26,6 +26,7 @@ class CEngine : public IEngine
 
 		ISoundManager& getSoundManager() override;
 		const ISoundManager& getSoundManager() const override;
+
 	private:
 		DeviceType* mIrrlichtDevice;
 
