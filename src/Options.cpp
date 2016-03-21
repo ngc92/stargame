@@ -120,7 +120,7 @@ void Options::deserializeAttributes(io::IAttributes* in, io::SAttributeReadWrite
 	enumvs[6] = 0;
 
 	IAttributeExchangingObject::deserializeAttributes(in, options);
-	driverType = E_DRIVER_TYPE(in->getAttributeAsEnumeration("driverType", enumvs));
+	driverType = video::E_DRIVER_TYPE(in->getAttributeAsEnumeration("driverType", enumvs));
 	size.Width = in->getAttributeAsInt("viewportWidth");
 	size.Height = in->getAttributeAsInt("viewportHeight");
 	colorDepth = in->getAttributeAsInt("colorDepth");
