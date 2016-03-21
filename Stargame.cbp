@@ -55,6 +55,8 @@
 		<Unit filename="src/IStateManager.h" />
 		<Unit filename="src/Options.cpp" />
 		<Unit filename="src/Options.h" />
+		<Unit filename="src/ShipEditor/ShipEditorState.cpp" />
+		<Unit filename="src/ShipEditor/ShipEditorState.h" />
 		<Unit filename="src/debug/CDebugConsole.cpp" />
 		<Unit filename="src/debug/CDebugConsole.h" />
 		<Unit filename="src/debug/IDebugConsole.h" />

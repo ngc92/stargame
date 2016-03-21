@@ -58,7 +58,7 @@ bool CEngine::tick()
 			return false;
 		};
 
-		if(mTimeManager->waitTillNextFrame())
+		if(mTimeManager->waitTillNextFrame() || true)
 		{
 			mIrrlichtDevice->getVideoDriver()->beginScene(true, true, video::SColor(0,0,0,0));
 			//! TODO
