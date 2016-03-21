@@ -37,8 +37,17 @@
 			<Add library="irrklang" />
 			<Add library="box2D" />
 		</Linker>
+		<Unit filename="src/CEngine.h" />
+		<Unit filename="src/CStateManager.cpp" />
+		<Unit filename="src/CStateManager.h" />
+		<Unit filename="src/CTimeManager.cpp" />
+		<Unit filename="src/CTimeManager.h" />
+		<Unit filename="src/IEngine.h" />
+		<Unit filename="src/IStateManager.h" />
+		<Unit filename="src/ITimeManager.h" />
 		<Unit filename="src/Options.cpp" />
 		<Unit filename="src/Options.h" />
+		<Unit filename="src/util.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
