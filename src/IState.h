@@ -3,6 +3,7 @@
 
 #include <string>
 #include "util.h"
+#include <irrlicht/IEventReceiver.h>
 
 /*! \class IState
     \brief Program state base class.
@@ -35,6 +36,9 @@ class IState : public noncopyable, ObjectCounter<IState>
 
 		/// gets the GUI manager
 		virtual IGUIEnvironment* getGUIEnvironment() noexcept = 0;
+
+		/// a GUI event was detected, the current state has to process it.
+		virtual bool onEvent(const irr::SEvent::SGUIEvent& event) = 0;
 
 };
 

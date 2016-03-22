@@ -32,6 +32,8 @@ public:
 
 	/// gets the GUI manager
 	IGUIEnvironment* getGUIEnvironment() noexcept override;
+
+	bool onEvent(const irr::SEvent::SGUIEvent& event) override;
 private:
 	IGUIEnvironment* mGUIEnv;
 	irr::gui::IGUIElement* mRootElement;

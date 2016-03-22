@@ -117,7 +117,6 @@ void CStateManager::addFactory(std::string name, factory_fptr factory)
 
 bool CStateManager::onEvent(irr::SEvent::SGUIEvent event)
 {
-	/// \todo ????
-	//return getCurrentState()->getGUIEnvironment()->onEvent(event);
+	return getCurrentState()->onEvent(event);
 }
 

@@ -36,5 +36,10 @@ const char* ShipEditorState::getName() const noexcept
 
 IGUIEnvironment* ShipEditorState::getGUIEnvironment() noexcept
 {
-	return nullptr;
+	return mGUIEnv;
+}
+
+bool ShipEditorState::onEvent(const irr::SEvent::SGUIEvent& event)
+{
+
 }
