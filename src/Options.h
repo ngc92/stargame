@@ -41,7 +41,7 @@ class Options: public irr::io::IAttributeExchangingObject {
 		bool getReset() const;
 
 		//Device mit den Einstellungen starten
-		irr::IrrlichtDevice* startDevice();
+		irr::IrrlichtDevice* startDevice() const;
 
 		//
 		void serializeAttributes(irr::io::IAttributes* out, irr::io::SAttributeReadWriteOptions* options=0) const;
