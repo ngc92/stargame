@@ -9,23 +9,24 @@
 	<functional>
 	<irrlicht/IAttributes.h>
 
-1458596144 source:c:\users\felix\documents\github\stargame\src\cengine.cpp
+1458601925 source:c:\users\felix\documents\github\stargame\src\cengine.cpp
 	"CEngine.h"
 	"CStateManager.h"
 	"CInputManager.h"
+	"CSoundManager.h"
 	"CIrrMasterEventReceiver.h"
 	"CTimeManager.h"
 	"Options.h"
 	"debug/CDebugConsole.h"
 	"IState.h"
 
-1458596144 c:\users\felix\documents\github\stargame\src\cengine.h
+1458601925 c:\users\felix\documents\github\stargame\src\cengine.h
 	"IEngine.h"
 
-1458596144 c:\users\felix\documents\github\stargame\src\iengine.h
+1458601925 c:\users\felix\documents\github\stargame\src\iengine.h
 	"util.h"
 
-1458596144 c:\users\felix\documents\github\stargame\src\util.h
+1458601925 c:\users\felix\documents\github\stargame\src\util.h
 	<memory>
 	<Box2D/Common/b2Math.h>
 	<irrlicht/vector2d.h>
@@ -34,6 +35,7 @@
 	<boost/lexical_cast.hpp>
 	"util/make_unique.h"
 	"util/logging.h"
+	"util/convert.h"
 	"debug/ObjectCounter.h"
 
 1458571506 c:\users\felix\documents\github\stargame\src\util\make_unique.h
@@ -101,7 +103,7 @@
 	<vector>
 	"util.h"
 
-1458596144 c:\users\felix\documents\github\stargame\src\\util.h
+1458601925 c:\users\felix\documents\github\stargame\src\\util.h
 	<memory>
 	<Box2D/Common/b2Math.h>
 	<irrlicht/vector2d.h>
@@ -110,6 +112,7 @@
 	<boost/lexical_cast.hpp>
 	"util/make_unique.h"
 	"util/logging.h"
+	"util/convert.h"
 	"debug/ObjectCounter.h"
 
 1458571506 c:\users\felix\documents\github\stargame\src\\util\make_unique.h
@@ -186,8 +189,10 @@
 	<irrlicht/irrlicht.h>
 	<iostream>
 
-1458596144 c:\users\felix\documents\github\stargame\src\shipeditor\shipeditorstate.h
+1458636479 c:\users\felix\documents\github\stargame\src\shipeditor\shipeditorstate.h
 	"IState.h"
+	"CompEditorData.h"
+	"CompEditorController.h"
 
 1458596144 c:\users\felix\documents\github\stargame\src\\istate.h
 	<string>
@@ -198,13 +203,13 @@
 	<iostream>
 	"SoundOptions.h"
 
-1458596144 source:c:\users\felix\documents\github\stargame\src\shipeditor\shipeditorstate.cpp
+1458636544 source:c:\users\felix\documents\github\stargame\src\shipeditor\shipeditorstate.cpp
 	"ShipEditorState.h"
 	"IEngine.h"
 	<irrlicht/IGUIEnvironment.h>
 	<iostream>
 
-1458596144 c:\users\felix\documents\github\stargame\src\\iengine.h
+1458601925 c:\users\felix\documents\github\stargame\src\\iengine.h
 	"util.h"
 
 1458596144 source:c:\users\felix\documents\github\stargame\src\util\logging.cpp
@@ -495,4 +500,71 @@
 1458576395 source:c:\users\erik\documents\c++\stargame\src\util\logging.cpp
 	"logging.h"
 	<iostream>
+
+1458601925 c:\users\felix\documents\github\stargame\src\util\convert.h
+	<Box2D/Common/b2Math.h>
+	<irrlicht/vector3d.h>
+
+1458601925 c:\users\felix\documents\github\stargame\src\\util\convert.h
+	<Box2D/Common/b2Math.h>
+	<irrlicht/vector3d.h>
+
+1458601925 c:\users\felix\documents\github\stargame\src\csoundmanager.h
+	"ISoundManager.h"
+
+1458601925 c:\users\felix\documents\github\stargame\src\isoundmanager.h
+	<string>
+	<irrlicht/vector3d.h>
+	"util.h"
+
+1458601925 source:c:\users\felix\documents\github\stargame\src\csoundmanager.cpp
+	"CSoundManager.h"
+	<map>
+	<iterator>
+	<iostream>
+	<irrlicht/irrlicht.h>
+	<irrklang/irrKlang.h>
+
+1458600656 source:c:\users\felix\documents\github\stargame\src\components\iweapon.cpp
+	"IWeapon.h"
+
+1458600631 c:\users\felix\documents\github\stargame\src\components\iweapon.h
+	"IComponent.h"
+
+1458601925 source:c:\users\felix\documents\github\stargame\src\graphic\followobjectanimator.cpp
+	"FollowObjectAnimator.h"
+	<irrlicht/ISceneNode.h>
+	<iostream>
+
+1458601925 c:\users\felix\documents\github\stargame\src\graphic\followobjectanimator.h
+	<irrlicht/ISceneNodeAnimator.h>
+
+1458601925 source:c:\users\felix\documents\github\stargame\src\graphic\trackobjectanimator.cpp
+	"TrackObjectAnimator.h"
+	<irrlicht/ICameraSceneNode.h>
+
+1458601925 c:\users\felix\documents\github\stargame\src\graphic\trackobjectanimator.h
+	<irrlicht/ISceneNodeAnimator.h>
+
+1458635951 source:c:\users\felix\documents\github\stargame\src\shipeditor\compeditorcontroller.cpp
+	"CompEditorController.h"
+	<irrlicht/IGUIEnvironment.h>
+
+1458635785 c:\users\felix\documents\github\stargame\src\shipeditor\compeditorcontroller.h
+	"CompEditorData.h"
+	"CompEditorView.h"
+	<irrlicht/IGUIEnvironment.h>
+	<memory>
+
+1458603025 c:\users\felix\documents\github\stargame\src\shipeditor\compeditordata.h
+
+1458605725 c:\users\felix\documents\github\stargame\src\shipeditor\compeditorview.h
+	"CompEditorData.h"
+	<irrlicht/IGUIEnvironment.h>
+
+1458604207 source:c:\users\felix\documents\github\stargame\src\shipeditor\compeditordata.cpp
+	"CompEditorData.h"
+
+1458605674 source:c:\users\felix\documents\github\stargame\src\shipeditor\compeditorview.cpp
+	"CompEditorView.h"
 

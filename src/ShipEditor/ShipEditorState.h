@@ -2,6 +2,8 @@
 #define SHIPEDITORSTATE_H_INCLUDED
 
 #include "IState.h"
+#include "CompEditorData.h"
+#include "CompEditorController.h"
 
 class IEngine;
 
@@ -33,6 +35,9 @@ public:
 private:
 	IGUIEnvironment* mGUIEnv;
 	irr::gui::IGUIElement* mRootElement;
+
+	CompEditorData mData;
+	std::shared_ptr<CompEditorController> mController;
 };
 
 #endif // SHIPEDITORSTATE_H_INCLUDED

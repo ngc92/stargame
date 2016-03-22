@@ -50,6 +50,10 @@
 		<Unit filename="src/CStateManager.h" />
 		<Unit filename="src/CTimeManager.cpp" />
 		<Unit filename="src/CTimeManager.h" />
+		<Unit filename="src/Components/IComponent.cpp" />
+		<Unit filename="src/Components/IComponent.h" />
+		<Unit filename="src/Components/IWeapon.cpp" />
+		<Unit filename="src/Components/IWeapon.h" />
 		<Unit filename="src/IEngine.h" />
 		<Unit filename="src/IInputManager.h" />
 		<Unit filename="src/ISoundManager.h" />
@@ -57,6 +61,12 @@
 		<Unit filename="src/IStateManager.h" />
 		<Unit filename="src/Options.cpp" />
 		<Unit filename="src/Options.h" />
+		<Unit filename="src/ShipEditor/CompEditorController.cpp" />
+		<Unit filename="src/ShipEditor/CompEditorController.h" />
+		<Unit filename="src/ShipEditor/CompEditorData.cpp" />
+		<Unit filename="src/ShipEditor/CompEditorData.h" />
+		<Unit filename="src/ShipEditor/CompEditorView.cpp" />
+		<Unit filename="src/ShipEditor/CompEditorView.h" />
 		<Unit filename="src/ShipEditor/ShipEditorState.cpp" />
 		<Unit filename="src/ShipEditor/ShipEditorState.h" />
 		<Unit filename="src/debug/CDebugConsole.cpp" />
@@ -65,11 +75,16 @@
 		<Unit filename="src/debug/IDebugDrawer.h" />
 		<Unit filename="src/debug/ObjectCounter.cpp" />
 		<Unit filename="src/debug/ObjectCounter.h" />
-		<Unit filename="src/graphic/CDebugDraw.cpp" />
 		<Unit filename="src/graphic/CDebugDraw.h" />
-		<Unit filename="src/graphic/EngineExhaust.cpp" />
+		<Unit filename="src/graphic/EngineExhaust.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="src/graphic/EngineExhaust.h" />
-		<Unit filename="src/graphic/ExplosionNode.cpp" />
+		<Unit filename="src/graphic/ExplosionNode.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="src/graphic/ExplosionNode.h" />
 		<Unit filename="src/graphic/FollowObjectAnimator.cpp" />
 		<Unit filename="src/graphic/FollowObjectAnimator.h" />

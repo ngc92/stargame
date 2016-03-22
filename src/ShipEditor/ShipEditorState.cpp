@@ -5,7 +5,8 @@
 
 ShipEditorState::ShipEditorState(IEngine* engine) : mGUIEnv(engine->getGUIEnvironment())
 {
-
+	mController = std::make_shared<CompEditorController>(mData);
+	mController->initView(mGUIEnv);
 }
 
 void ShipEditorState::update()
