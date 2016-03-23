@@ -41,5 +41,5 @@ IGUIEnvironment* ShipEditorState::getGUIEnvironment() noexcept
 
 bool ShipEditorState::onEvent(const irr::SEvent::SGUIEvent& event)
 {
-
+	mController->performEvent(event);
 }

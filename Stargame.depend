@@ -130,9 +130,10 @@
 	<iosfwd>
 	<functional>
 
-1458596144 c:\users\felix\documents\github\stargame\src\istate.h
+1458638986 c:\users\felix\documents\github\stargame\src\istate.h
 	<string>
 	"util.h"
+	<irrlicht/IEventReceiver.h>
 
 1458596144 source:c:\users\felix\documents\github\stargame\src\cinputmanager.cpp
 	"CInputManager.h"
@@ -154,7 +155,7 @@
 	<boost/exception/diagnostic_information.hpp>
 	<iostream>
 
-1458596144 source:c:\users\felix\documents\github\stargame\src\cstatemanager.cpp
+1458638986 source:c:\users\felix\documents\github\stargame\src\cstatemanager.cpp
 	"CStateManager.h"
 	"IState.h"
 	"IEngine.h"
@@ -189,21 +190,22 @@
 	<irrlicht/irrlicht.h>
 	<iostream>
 
-1458636479 c:\users\felix\documents\github\stargame\src\shipeditor\shipeditorstate.h
+1458638986 c:\users\felix\documents\github\stargame\src\shipeditor\shipeditorstate.h
 	"IState.h"
 	"CompEditorData.h"
 	"CompEditorController.h"
 
-1458596144 c:\users\felix\documents\github\stargame\src\\istate.h
+1458638986 c:\users\felix\documents\github\stargame\src\\istate.h
 	<string>
 	"util.h"
+	<irrlicht/IEventReceiver.h>
 
 1458596144 source:c:\users\felix\documents\github\stargame\src\options.cpp
 	"Options.h"
 	<iostream>
 	"SoundOptions.h"
 
-1458636544 source:c:\users\felix\documents\github\stargame\src\shipeditor\shipeditorstate.cpp
+1458639858 source:c:\users\felix\documents\github\stargame\src\shipeditor\shipeditorstate.cpp
 	"ShipEditorState.h"
 	"IEngine.h"
 	<irrlicht/IGUIEnvironment.h>
@@ -525,10 +527,10 @@
 	<irrlicht/irrlicht.h>
 	<irrklang/irrKlang.h>
 
-1458600656 source:c:\users\felix\documents\github\stargame\src\components\iweapon.cpp
+1458728573 source:c:\users\felix\documents\github\stargame\src\components\iweapon.cpp
 	"IWeapon.h"
 
-1458600631 c:\users\felix\documents\github\stargame\src\components\iweapon.h
+1458728619 c:\users\felix\documents\github\stargame\src\components\iweapon.h
 	"IComponent.h"
 
 1458601925 source:c:\users\felix\documents\github\stargame\src\graphic\followobjectanimator.cpp
@@ -546,25 +548,68 @@
 1458601925 c:\users\felix\documents\github\stargame\src\graphic\trackobjectanimator.h
 	<irrlicht/ISceneNodeAnimator.h>
 
-1458635951 source:c:\users\felix\documents\github\stargame\src\shipeditor\compeditorcontroller.cpp
+1458733343 source:c:\users\felix\documents\github\stargame\src\shipeditor\compeditorcontroller.cpp
 	"CompEditorController.h"
-	<irrlicht/IGUIEnvironment.h>
 
-1458635785 c:\users\felix\documents\github\stargame\src\shipeditor\compeditorcontroller.h
+1458731757 c:\users\felix\documents\github\stargame\src\shipeditor\compeditorcontroller.h
 	"CompEditorData.h"
 	"CompEditorView.h"
+	"CUIEventListener.h"
 	<irrlicht/IGUIEnvironment.h>
 	<memory>
+	<irrlicht/IGUIButton.h>
 
-1458603025 c:\users\felix\documents\github\stargame\src\shipeditor\compeditordata.h
+1458638980 c:\users\felix\documents\github\stargame\src\shipeditor\compeditordata.h
 
-1458605725 c:\users\felix\documents\github\stargame\src\shipeditor\compeditorview.h
+1458738186 c:\users\felix\documents\github\stargame\src\shipeditor\compeditorview.h
 	"CompEditorData.h"
 	<irrlicht/IGUIEnvironment.h>
 
-1458604207 source:c:\users\felix\documents\github\stargame\src\shipeditor\compeditordata.cpp
+1458638980 source:c:\users\felix\documents\github\stargame\src\shipeditor\compeditordata.cpp
 	"CompEditorData.h"
 
-1458605674 source:c:\users\felix\documents\github\stargame\src\shipeditor\compeditorview.cpp
+1458737653 source:c:\users\felix\documents\github\stargame\src\shipeditor\compeditorview.cpp
 	"CompEditorView.h"
+	"CompEditorController.h"
+	<irrlicht/coreutil.h>
+	<irrlicht/IGUIButton.h>
+
+1458639265 source:c:\users\felix\documents\github\stargame\src\cuieventlistener.cpp
+	"CUIEventListener.h"
+	<irrlicht/IGUIElement.h>
+	<algorithm>
+
+1458638986 c:\users\felix\documents\github\stargame\src\cuieventlistener.h
+	"IUIEventListener.h"
+	<unordered_map>
+
+1458638986 c:\users\felix\documents\github\stargame\src\iuieventlistener.h
+	<functional>
+	<list>
+	"util.h"
+	<irrlicht/IEventReceiver.h>
+
+1458638986 c:\users\felix\documents\github\stargame\src\\cuieventlistener.h
+	"IUIEventListener.h"
+	<unordered_map>
+
+1458638986 c:\users\felix\documents\github\stargame\src\\iuieventlistener.h
+	<functional>
+	<list>
+	"util.h"
+	<irrlicht/IEventReceiver.h>
+
+1458729607 source:c:\users\felix\documents\github\stargame\src\components\gunmachine.cpp
+	"GunMachine.h"
+
+1458729532 c:\users\felix\documents\github\stargame\src\components\gunmachine.h
+	"IGun.h"
+
+1458729511 c:\users\felix\documents\github\stargame\src\components\igun.h
+	"IWeapon.h"
+
+1458728521 source:c:\users\felix\documents\github\stargame\src\components\gunturrent.cpp
+
+1458729374 source:c:\users\felix\documents\github\stargame\src\components\igun.cpp
+	"IGun.h"
 

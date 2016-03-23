@@ -3,9 +3,7 @@
 IWeapon::IWeapon(/*const*/ irr::io::IAttributes& a, SpaceShip* ship):
 			IComponent(a,ship),
 			loadingProgress(0),
-			mIsBusy(false),
-			currAmmoCount(0),
-			maxAmmoCount(a.getAttributeAsFloat("maxAmmoCount") )
+			mIsBusy(false)
 {
 }
 

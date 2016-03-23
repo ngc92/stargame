@@ -4,7 +4,6 @@
 
 CUIEventListener::~CUIEventListener()
 {
-    /// \todo remove all listeners
     for(auto& pair_llist : mListeners)
 	{
 		for(auto& listener : pair_llist.second)

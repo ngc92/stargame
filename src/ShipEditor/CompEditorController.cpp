@@ -1,13 +1,26 @@
 #include "CompEditorController.h"
-#include <irrlicht/IGUIEnvironment.h>
-
 CompEditorController::CompEditorController(CompEditorData& data):
 	mData(data)
 {
 }
 
-void CompEditorController::initView(irr::gui::IGUIEnvironment* guiEnv)
+void CompEditorController::addEventListener(IGUIElement* elm,std::function<bool(Event)> func)
 {
-	view = std::make_shared<CompEditorView>(mData,*this,guiEnv);
+	eventListener.registerListenerForElement(elm,func);
 }
 
+void CompEditorController::performEvent(Event& event)
+{
+	eventListener.onEvent(event);
+}
+
+void CompEditorController::initView(IGUIEnvironment* guiEnv)
+{
+	view = std::make_shared<CompEditorView>(mData, *this,guiEnv);
+}
+
+///---controller-functions--------------------
+bool test_f(Event& event)
+{
+
+}
