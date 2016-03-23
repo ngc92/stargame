@@ -8,7 +8,7 @@ namespace game
 	enum class DamageType
 	{
 		PIERCE,
-		EXPLOSIVE,
+		BLUNT,
 		THERMAL,
 		COUNT
 	};
@@ -22,7 +22,7 @@ namespace game
 		/// convenience constructor for single damage type
 		Damage(DamageType type, float value);
 
-        // get/set damage
+		// get/set damage
 		/// get type specific damage
 		float getDamage( DamageType t ) const;
 		/// set type specific damage
@@ -35,7 +35,7 @@ namespace game
 			\details substructs absorbtion from current damage values, but makes
 					sure no damage value is decreased below zero.
 		*/
-        void absorb( const Damage& absorbtion );
+		void absorb( const Damage& absorbtion );
 	private:
 		std::array<float, (unsigned int)DamageType::COUNT> mDamages;
 

@@ -24,4 +24,11 @@ namespace game
 		mFlightModel->update_movement( *mBody );
 		return true;
 	}
+
+	void SpaceShip::onImpact(GameObject* other, const ImpactInfo& info)
+	{
+		/// \todo sophisticated damage behaviour
+		Damage damage(DamageType::BLUNT, info.impulse * 0.0008);
+		mStructure->hit(damage, info.position, -info.normal);
+	}
 }

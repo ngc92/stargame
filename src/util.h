@@ -18,6 +18,7 @@
 // forward declarations
 class b2Body;
 class b2World;
+class b2Fixture;
 
 namespace irr
 {
