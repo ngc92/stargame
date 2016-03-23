@@ -5,12 +5,9 @@
 
 ShipEditorState::ShipEditorState(IEngine* engine) : mGUIEnv(engine->getGUIEnvironment())
 {
-<<<<<<< HEAD
 	mController = std::make_shared<CompEditorController>(mData);
 	mController->initView(mGUIEnv);
-=======
 
->>>>>>> refs/remotes/origin/master
 }
 
 void ShipEditorState::update()
@@ -45,9 +42,5 @@ IGUIEnvironment* ShipEditorState::getGUIEnvironment() noexcept
 
 bool ShipEditorState::onEvent(const irr::SEvent::SGUIEvent& event)
 {
-<<<<<<< HEAD
 	mController->performEvent(event);
-=======
-
->>>>>>> refs/remotes/origin/master
 }

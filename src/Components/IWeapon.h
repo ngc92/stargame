@@ -3,17 +3,6 @@
 
 #include "IComponent.h"
 
-<<<<<<< HEAD
-=======
-enum AmmunitionType
-{
-	ROCKET,
-	PLASMA,
-	LASER,
-	BULLET
-};
-
->>>>>>> refs/remotes/origin/master
 class IWeapon : IComponent
 {
 
@@ -29,18 +18,10 @@ public:
 
 	float getLoadingProgress();
 
-<<<<<<< HEAD
 private:
 	float loadingProgress;
 	bool mIsBusy;
-=======
 
-private:
-	float loadingProgress;
-	bool mIsBusy;
-	float maxAmmoCount;
-	float currAmmoCount;
->>>>>>> refs/remotes/origin/master
 	std::list<stateListener> stateListenerList;
 };
 
