@@ -4,6 +4,10 @@
 
 CUIEventListener::~CUIEventListener()
 {
+<<<<<<< HEAD
+=======
+    /// \todo remove all listeners
+>>>>>>> refs/remotes/origin/master
     for(auto& pair_llist : mListeners)
 	{
 		for(auto& listener : pair_llist.second)

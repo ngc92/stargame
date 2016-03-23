@@ -27,6 +27,10 @@ namespace gfx
 		}
 
 		// create particle system to set up affectors, then delete  again
+<<<<<<< HEAD
+=======
+		/// \todo fix this
+>>>>>>> refs/remotes/origin/master
 		auto fire = SceneManager->addParticleSystemSceneNode(false, 0, 0);
 		fire->setParticleBehavior( scene::EPB_EMITTER_VECTOR_IGNORE_ROTATION | scene::EPB_EMITTER_FRAME_INTERPOLATION);
 		//Emitter
