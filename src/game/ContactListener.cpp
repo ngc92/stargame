@@ -5,6 +5,15 @@
 namespace game
 {
 
+	ContactListener::ContactListener()
+	{
+	}
+
+	ContactListener::~ContactListener()
+	{
+	}
+
+
 	struct ContactListener::Contact
 	{
 		std::weak_ptr<GameObject> A;

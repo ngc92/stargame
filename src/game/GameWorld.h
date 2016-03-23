@@ -19,6 +19,7 @@ namespace game
 	{
 	public:
 		GameWorld();
+		~GameWorld();
 
 		void step( float dt );
 	private:

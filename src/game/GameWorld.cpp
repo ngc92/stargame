@@ -13,6 +13,10 @@ namespace game
 		mPhysicWorld->SetContinuousPhysics( true );
 	}
 
+	GameWorld::~GameWorld()
+	{
+	}
+
 	void GameWorld::step(float dt)
 	{
 		// step the physic world
