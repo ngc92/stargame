@@ -1,6 +1,6 @@
 #include "Actions.h"
-#include "FlightModel.h"
-#include "Components/IComponent.h"
+#include "../FlightModel.h"
+#include "IComponent.h"
 
 namespace game
 {

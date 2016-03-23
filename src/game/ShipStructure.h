@@ -7,10 +7,10 @@
 #include "StructureCell.h"
 #include "ArmourSegment.h"
 
-class IActionListInterface;
-
 namespace game
 {
+	class IActionListInterface;
+
 	/*! \class ShipStructure
 		\brief ShipStructure defines the global structure of the ship, i.e.
 				its separation into cells.

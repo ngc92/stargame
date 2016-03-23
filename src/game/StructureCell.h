@@ -4,11 +4,12 @@
 #include <vector>
 #include <memory>
 
-class IComponent;
 class b2Shape;
 
 namespace game
 {
+	class IComponent;
+
 	typedef std::vector<std::shared_ptr<IComponent>> comp_vec_t;
 	/*! \class StructureCell
 		\brief A single cell within the space ships structural built.

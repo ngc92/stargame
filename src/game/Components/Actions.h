@@ -1,7 +1,7 @@
 #ifndef ACTIONS_H_INCLUDED
 #define ACTIONS_H_INCLUDED
 
-#include "Components/IAction.h"
+#include "IAction.h"
 
 namespace game
 {
