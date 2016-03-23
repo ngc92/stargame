@@ -8,6 +8,7 @@
 #include "util.h"
 
 class SpaceShip;
+class IActionListInterface;
 
 class IComponent : ObjectCounter<IComponent>
 {
@@ -31,9 +32,25 @@ class IComponent : ObjectCounter<IComponent>
 
 		// virtual functions
 		virtual float getStatus(std::string bez) = 0;
-		virtual void step(float time_sec) = 0;
+		virtual void step(float time_sec, IActionListInterface& actionlist) = 0;
 		virtual void onDamage(float dam) = 0;
 		virtual int actionPerformed(int ctrlbits, float dt) = 0;
+
+		// ----------------------------------------------------------------------
+		// 					component connection interface
+		// ----------------------------------------------------------------------
+		/// this functions returns whether this component offers
+		/// resource as a supply.
+		virtual bool canSupply(const std::string& resource) const = 0;
+
+		/// this function is called by other components to get resource
+		/// from this component.
+		/// \return how much was actually supplied.
+		virtual float getSupply(const std::string& resource, float amount) = 0;
+
+		/// this function is called to register another component as a supplier
+		/// for a certain resource.
+		virtual void registerSupplier(const std::string& resource, IComponent* component) = 0;
 
 	private:
 		float mWeight;

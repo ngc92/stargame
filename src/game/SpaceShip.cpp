@@ -1,6 +1,7 @@
 #include "SpaceShip.h"
 #include "ShipStructure.h"
 #include "FlightModel.h"
+#include "Components/ActionList.h"
 
 namespace game
 {
@@ -13,7 +14,14 @@ namespace game
 
 	bool SpaceShip::step(float dt)
 	{
-		mStructure->update(dt);
+		ActionList lst;
+		mStructure->update(dt, lst);
+
+		// now act based on the generated actions
+		lst.act( *mFlightModel );
+		mStructure->foreachComponent([](IComponent& cmp, ActionList& al){ al.act(cmp); }, std::ref(lst));
+
 		mFlightModel->update_movement( *mBody );
+		return true;
 	}
 }

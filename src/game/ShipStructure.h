@@ -7,6 +7,8 @@
 #include "StructureCell.h"
 #include "ArmourSegment.h"
 
+class IActionListInterface;
+
 namespace game
 {
 	/*! \class ShipStructure
@@ -32,7 +34,7 @@ namespace game
 		void hit(Damage damage, vector2d position, vector2d direction);
 
 		/// called every step
-		void update(float dt);
+		void update(float dt, IActionListInterface& actions);
 
 		// hitpoints, weight, etc
 		float getMaxHP() const;

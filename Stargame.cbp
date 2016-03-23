@@ -52,6 +52,11 @@
 		<Unit filename="src/CTimeManager.h" />
 		<Unit filename="src/CUIEventListener.cpp" />
 		<Unit filename="src/CUIEventListener.h" />
+		<Unit filename="src/Components/ActionList.cpp" />
+		<Unit filename="src/Components/ActionList.h" />
+		<Unit filename="src/Components/FuelTank.cpp" />
+		<Unit filename="src/Components/FuelTank.h" />
+		<Unit filename="src/Components/IAction.h" />
 		<Unit filename="src/Components/IComponent.cpp" />
 		<Unit filename="src/Components/IComponent.h" />
 		<Unit filename="src/Components/IWeapon.cpp" />
@@ -72,6 +77,8 @@
 		<Unit filename="src/debug/IDebugDrawer.h" />
 		<Unit filename="src/debug/ObjectCounter.cpp" />
 		<Unit filename="src/debug/ObjectCounter.h" />
+		<Unit filename="src/game/Actions.cpp" />
+		<Unit filename="src/game/Actions.h" />
 		<Unit filename="src/game/ArmourSegment.cpp" />
 		<Unit filename="src/game/ArmourSegment.h" />
 		<Unit filename="src/game/Damage.cpp" />
