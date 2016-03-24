@@ -1,6 +1,7 @@
 #include "GameObject.h"
 #include <cassert>
 #include "Box2D/Box2D.h"
+#include "IPropertyVisitor.h"
 
 namespace game
 {
@@ -13,6 +14,10 @@ namespace game
 		mBody->SetUserData(this);
 	}
 
+	GameObject::~GameObject()
+	{
+	}
+
 	void GameObject::remove()
 	{
 		mIsAlive = false;
@@ -22,6 +27,7 @@ namespace game
 	{
 		assert(!mIsAlive);
 		mBody->GetWorld()->DestroyBody(mBody);
+		mBody = nullptr;
 	}
 
 	// setter
@@ -120,4 +126,13 @@ namespace game
 		return false;
 	}
 
+	void GameObject::visitProperties(IPropertyVisitor& visitor) const
+	{
+		/// \todo these properties should come from somewhere else.
+		///  visitors should be more interesting for going deeper into the hierachie.
+		visitor("position", getPosition());
+		visitor("velocity", getVelocity());
+		visitor("rotation", getRotation());
+		visitor("angular_vel", getAngularVelocity());
+	}
 }

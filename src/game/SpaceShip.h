@@ -15,6 +15,7 @@ namespace game
 		SpaceShip();
 
 		void step() override;
+		void onImpact(GameObject* other, const ImpactInfo& info) override;
 
 	private:
 		std::unique_ptr<ShipStructure> mStructure;

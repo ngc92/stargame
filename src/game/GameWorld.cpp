@@ -1,13 +1,28 @@
 #include "GameWorld.h"
 #include "GameObject.h"
+#include "ContactListener.h"
 #include <algorithm>
 
 namespace game
 {
+	GameWorld::GameWorld() : mPhysicWorld( make_unique<b2World>(b2Vec2(0,0)) ),
+							 mContactListener( make_unique<ContactListener>() )
+	{
+		mPhysicWorld->SetAutoClearForces( true );
+		mPhysicWorld->SetContactListener( mContactListener.get() );
+		mPhysicWorld->SetContinuousPhysics( true );
+	}
+
+	GameWorld::~GameWorld()
+	{
+	}
+
 	void GameWorld::step(float dt)
 	{
 		// step the physic world
 		mPhysicWorld->Step(1.0/60, 8, 3);
+		// and trigger corresponding physic events
+		mContactListener->triggerEvents();
 
 		// update all objects
 		for(auto& obj : mGameObjects)

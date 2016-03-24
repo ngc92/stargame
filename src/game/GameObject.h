@@ -2,16 +2,33 @@
 #define GAMEOBJECT_H_INCLUDED
 
 #include "util.h"
+#include "util/ListenerList.h"
 
 namespace game
 {
-	class GameObject : ObjectCounter<GameObject>
+	class IPropertyVisitor;
+
+	struct ImpactInfo
+	{
+		b2Fixture* 	fixture;
+		b2Vec2 		normal;
+		b2Vec2		position;
+		float		impulse;
+	};
+
+	class GameObject : ObjectCounter<GameObject>, noncopyable,
+					   public std::enable_shared_from_this<GameObject>
 	{
 		public:
 			GameObject(b2Body* body = nullptr, long ID = -1);
-			virtual ~GameObject() = default;
+			virtual ~GameObject();
 
 			virtual void step() = 0;
+			virtual void onImpact(GameObject* other, const ImpactInfo& info) = 0;
+
+			/// \note implementations in derived classes should manually call
+			/// this base class method.
+			virtual void visitProperties(IPropertyVisitor& visitor) const;
 
 			void setPosition(const vector2d& pos);
 			void setRotation(float rot);
@@ -58,6 +75,8 @@ namespace game
 
 			// id
 			long mID;
+
+			ListenerList<void> mStepListeners;
 	};
 }
 
