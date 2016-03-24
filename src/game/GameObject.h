@@ -11,7 +11,7 @@ namespace game
 			GameObject(b2Body* body = nullptr, long ID = -1);
 			virtual ~GameObject() = default;
 
-			virtual bool step(float dt) = 0;
+			virtual void step() = 0;
 
 			void setPosition(const vector2d& pos);
 			void setRotation(float rot);

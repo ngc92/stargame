@@ -34,7 +34,7 @@ namespace game
 		void hit(Damage damage, vector2d position, vector2d direction);
 
 		/// called every step
-		void update(float dt, IActionListInterface& actions);
+		void update(IActionListInterface& actions);
 
 		// hitpoints, weight, etc
 		float getMaxHP() const;

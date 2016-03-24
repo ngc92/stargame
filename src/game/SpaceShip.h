@@ -14,7 +14,7 @@ namespace game
 	public:
 		SpaceShip();
 
-		bool step(float dt) override;
+		void step() override;
 
 	private:
 		std::unique_ptr<ShipStructure> mStructure;

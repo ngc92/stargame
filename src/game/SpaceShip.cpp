@@ -12,16 +12,15 @@ namespace game
 
 	}
 
-	bool SpaceShip::step(float dt)
+	void SpaceShip::step()
 	{
 		ActionList lst;
-		mStructure->update(dt, lst);
+		mStructure->update(lst);
 
 		// now act based on the generated actions
 		lst.act( *mFlightModel );
 		mStructure->foreachComponent([](IComponent& cmp, ActionList& al){ al.act(cmp); }, std::ref(lst));
 
 		mFlightModel->update_movement( *mBody );
-		return true;
 	}
 }

@@ -34,7 +34,7 @@ namespace game
 
 			// virtual functions
 			virtual float getStatus(std::string bez) = 0;
-			virtual void step(float time_sec, IActionListInterface& actionlist) = 0;
+			virtual void step(IActionListInterface& actionlist) = 0;
 			virtual void onDamage(float dam) = 0;
 			virtual int actionPerformed(int ctrlbits, float dt) = 0;
 

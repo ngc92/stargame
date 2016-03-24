@@ -18,7 +18,7 @@ namespace game
 			FuelTank(irr::io::IAttributes& a, SpaceShip* myship);
 			virtual ~FuelTank();
 
-			void step(float time_sec, IActionListInterface& actionlist) override;
+			void step(IActionListInterface& actionlist) override;
 
 			bool canSupply(const std::string& resource) const override;
 			float getSupply(const std::string& resource, float amount) override;

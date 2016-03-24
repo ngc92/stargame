@@ -20,9 +20,9 @@ namespace game
 		getCell(cellid).addComponent( std::move(cmp) );
 	}
 
-	void ShipStructure::update(float dt, IActionListInterface& actions)
+	void ShipStructure::update(IActionListInterface& actions)
 	{
-		foreachComponent([](IComponent& c, float dt, IActionListInterface& l){ c.step(dt, l); }, dt, std::ref(actions));
+		foreachComponent([](IComponent& c, IActionListInterface& l){ c.step(l); }, std::ref(actions));
 	}
 
 	void ShipStructure::hit(Damage damage, vector2d position, vector2d direction)

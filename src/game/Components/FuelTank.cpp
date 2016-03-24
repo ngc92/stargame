@@ -13,7 +13,7 @@ namespace game
 	{
 	}
 
-	void FuelTank::step(float time_sec, IActionListInterface& actionlist)
+	void FuelTank::step(IActionListInterface& actionlist)
 	{
 	}
 
