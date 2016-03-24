@@ -23,8 +23,8 @@ namespace game
 			GameObject(b2Body* body = nullptr, long ID = -1);
 			virtual ~GameObject();
 
-			virtual void step() = 0;
-			virtual void onImpact(GameObject* other, const ImpactInfo& info) = 0;
+			void onStep();
+			void onImpact(GameObject* other, const ImpactInfo& info);
 
 			/// \note implementations in derived classes should manually call
 			/// this base class method.
@@ -64,6 +64,19 @@ namespace game
 
 			void setYOffset( float o ) { mYOffset = o; };
 
+			template<class T>
+			ListenerRef addStepListener(T&& l)
+			{
+				return std::move(mStepListeners.addListener(std::forward<T>(l)));
+			}
+
+			template<class T>
+			ListenerRef addImpactListener(T&& l)
+			{
+				return std::move(mImpactListeners.addListener(std::forward<T>(l)));
+			}
+
+
 		protected:
 
 			b2Body* mBody = nullptr;
@@ -77,6 +90,7 @@ namespace game
 			long mID;
 
 			ListenerList<void> mStepListeners;
+			ListenerList<GameObject*, const ImpactInfo&> mImpactListeners;
 	};
 }
 

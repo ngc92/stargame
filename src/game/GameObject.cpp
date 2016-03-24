@@ -23,6 +23,16 @@ namespace game
 		mIsAlive = false;
 	}
 
+	void GameObject::onStep()
+	{
+		mStepListeners.notify();
+	}
+
+	void GameObject::onImpact(GameObject* other, const ImpactInfo& info)
+	{
+		mImpactListeners.notify(other, info);
+	}
+
 	void GameObject::destroyObject()
 	{
 		assert(!mIsAlive);

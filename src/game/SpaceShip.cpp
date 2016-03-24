@@ -5,14 +5,16 @@
 
 namespace game
 {
+	using namespace std::placeholders;
 	SpaceShip::SpaceShip() : GameObject(),
 							mStructure( make_unique<ShipStructure>() ),
-							mFlightModel( make_unique<FlightModel>() )
+							mFlightModel( make_unique<FlightModel>() ),
+							mStepListener( addStepListener(std::bind(onShipStep, this)) ),
+							mImpactListener( addImpactListener(std::bind(onShipImpact, this, _1, _2)) )
 	{
-
 	}
 
-	void SpaceShip::step()
+	void SpaceShip::onShipStep()
 	{
 		ActionList lst;
 		mStructure->update(lst);
@@ -24,7 +26,7 @@ namespace game
 		mFlightModel->update_movement( *mBody );
 	}
 
-	void SpaceShip::onImpact(GameObject* other, const ImpactInfo& info)
+	void SpaceShip::onShipImpact(GameObject* other, const ImpactInfo& info)
 	{
 		/// \todo sophisticated damage behaviour
 		Damage damage(DamageType::BLUNT, info.impulse * 0.0008);

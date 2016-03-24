@@ -9,12 +9,18 @@
 class ListenerRef final
 {
 public:
+	ListenerRef() : mRegistered( false ) { };
 	ListenerRef( std::function<void()>&& deleter ) :  mRegistered(true),
 													mDeleter( deleter ) {};
 	~ListenerRef() { remove(); };
+	ListenerRef(const ListenerRef&) = delete;
+	ListenerRef& operator=(const ListenerRef& ) = delete;
+
+	ListenerRef(ListenerRef&&) = default;
+
 	void remove()
 	{
-        if(mRegistered)
+		if(mRegistered)
 		{
 			mRegistered = false;
 			mDeleter();
@@ -34,7 +40,8 @@ public:
 	ListenerRef addListener(T&& lst);
 
 	/// notify all listeners in this list.
-	void notify(Args&&... args);
+	template<class... PArgs>
+	void notify(PArgs&&... args);
 private:
 	std::list<std::function<void(Args...)>> mListenerList;
 };
@@ -53,10 +60,11 @@ ListenerRef ListenerList<Args...>::addListener(T&& listener)
 }
 
 template<class... Args>
-void ListenerList<Args...>::notify(Args&&... args)
+template<class... PArgs>
+void ListenerList<Args...>::notify(PArgs&&... args)
 {
 	for(auto& lst : mListenerList)
-		lst(std::forward<Args>(args)...);
+		lst(std::forward<PArgs>(args)...);
 }
 
 
@@ -80,6 +88,7 @@ public:
 	/// notify all listeners in this list.
 	void notify()
 	{
+		/// \todo protect against changes here!
 		for(auto& lst : mListenerList)	lst();
 	}
 private:

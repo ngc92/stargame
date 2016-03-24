@@ -27,7 +27,7 @@ namespace game
 		// update all objects
 		for(auto& obj : mGameObjects)
 		{
-			if(obj->isAlive())	obj->step( );
+			if(obj->isAlive())	obj->onStep( );
 		}
 
 		clear_objects();
