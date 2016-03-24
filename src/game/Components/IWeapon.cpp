@@ -2,8 +2,8 @@
 
 namespace game
 {
-	IWeapon::IWeapon(/*const*/ irr::io::IAttributes& a, SpaceShip* ship):
-				IComponent(a,ship),
+	IWeapon::IWeapon(/*const*/ irr::io::IAttributes& a):
+				IComponent(a),
 				loadingProgress(0),
 				mIsBusy(false),
 				currAmmoCount(0),

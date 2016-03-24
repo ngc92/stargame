@@ -20,7 +20,7 @@ namespace game
 		using stateListener = std::function<void(bool)>;
 		using stateListenerPtr = std::list<stateListener>::iterator;
 
-		IWeapon(/*const*/ irr::io::IAttributes& a, SpaceShip* ship);
+		IWeapon(/*const*/ irr::io::IAttributes& a);
 
 		stateListenerPtr addStateListener(stateListener l);
 		void removeStateListener(stateListenerPtr l_ptr);

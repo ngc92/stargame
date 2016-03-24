@@ -4,7 +4,7 @@
 
 namespace game
 {
-	FuelTank::FuelTank(irr::io::IAttributes& a, SpaceShip* myship) : IComponent( a, myship )
+	FuelTank::FuelTank(irr::io::IAttributes& a) : IComponent( a )
 	{
 
 	}

@@ -15,7 +15,7 @@ namespace game
 	class FuelTank : public IComponent
 	{
 		public:
-			FuelTank(irr::io::IAttributes& a, SpaceShip* myship);
+			FuelTank(irr::io::IAttributes& a );
 			virtual ~FuelTank();
 
 			void step(IActionListInterface& actionlist) override;
