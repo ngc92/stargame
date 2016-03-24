@@ -87,6 +87,8 @@
 		<Unit filename="src/game/Damage.h" />
 		<Unit filename="src/game/FlightModel.cpp" />
 		<Unit filename="src/game/FlightModel.h" />
+		<Unit filename="src/game/Game.cpp" />
+		<Unit filename="src/game/Game.h" />
 		<Unit filename="src/game/GameObject.cpp" />
 		<Unit filename="src/game/GameObject.h" />
 		<Unit filename="src/game/GameWorld.cpp" />
@@ -113,6 +115,7 @@
 		<Unit filename="src/graphic/TrackObjectAnimator.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/util.h" />
+		<Unit filename="src/util/ListenerList.h" />
 		<Unit filename="src/util/convert.h" />
 		<Unit filename="src/util/logging.cpp" />
 		<Unit filename="src/util/logging.h" />
