@@ -13,6 +13,10 @@ namespace game
 		mBody->SetUserData(this);
 	}
 
+	GameObject::~GameObject()
+	{
+	}
+
 	void GameObject::remove()
 	{
 		mIsAlive = false;
@@ -22,6 +26,7 @@ namespace game
 	{
 		assert(!mIsAlive);
 		mBody->GetWorld()->DestroyBody(mBody);
+		mBody = nullptr;
 	}
 
 	// setter

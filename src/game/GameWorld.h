@@ -8,6 +8,7 @@
 namespace game
 {
 	class GameObject;
+	class ContactListener;
 
 	/*! \class GameWorld
 		\brief Main class for the game world.
@@ -17,12 +18,16 @@ namespace game
 	class GameWorld
 	{
 	public:
+		GameWorld();
+		~GameWorld();
+
 		void step( float dt );
 	private:
 		/// remove all game objects that are no longer considered alive from the object list.
 		void clear_objects();
 
 		std::unique_ptr<b2World> mPhysicWorld;
+		std::unique_ptr<ContactListener> mContactListener;
 		std::vector<std::shared_ptr<GameObject>> mGameObjects;
 	};
 }
