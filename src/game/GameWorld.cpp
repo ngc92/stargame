@@ -36,7 +36,7 @@ namespace game
 	void GameWorld::clear_objects()
 	{
 		using namespace std;
-		auto nlast = remove_if(begin(mGameObjects), end(mGameObjects), [](const std::shared_ptr<GameObject>& o){ return o->isAlive(); });
+		auto nlast = remove_if(begin(mGameObjects), end(mGameObjects), [](const std::shared_ptr<GameObject>& o){ return !o->isAlive(); });
 		mGameObjects.resize(distance(begin(mGameObjects), nlast));
 	}
 }

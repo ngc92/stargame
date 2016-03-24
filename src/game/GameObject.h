@@ -55,13 +55,9 @@ namespace game
 
 			bool isAlive() const { return mIsAlive; };
 
-			void setYOffset( float o ) { mYOffset = o; };
-
 		protected:
 
 			b2Body* mBody = nullptr;
-			// corrections
-			float mYOffset = 0;
 
 			// status
 			bool mIsAlive;
