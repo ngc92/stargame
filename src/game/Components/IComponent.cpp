@@ -3,8 +3,7 @@
 
 namespace game
 {
-	IComponent::IComponent(/*const*/ irr::io::IAttributes& a, SpaceShip* ship):
-				mShip(ship),
+	IComponent::IComponent(/*const*/ irr::io::IAttributes& a):
 				mWeight(a.getAttributeAsFloat("weight") ),
 				mMaxHP( a.getAttributeAsFloat("HP")),
 				mMaxRepairHP( a.getAttributeAsFloat("repairHP")),

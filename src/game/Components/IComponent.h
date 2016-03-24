@@ -18,7 +18,7 @@ namespace game
 			using dmgListener = std::function<void(float)>;
 			using dmgListenerPtr = std::list<dmgListener>::iterator;
 
-			IComponent(irr::io::IAttributes& a, SpaceShip* myship );
+			IComponent(irr::io::IAttributes& a);
 			virtual ~IComponent() = default;
 
 			// non-virtual functions
@@ -59,7 +59,6 @@ namespace game
 			float mMaxHP;
 			std::string mType;
 			float mMaxRepairHP;
-			SpaceShip* mShip;
 			std::list<dmgListener> mDmgListenerList;
 			float mCurrHP;
 
