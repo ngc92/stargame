@@ -3,11 +3,11 @@
 
 #include <string>
 
-enum class PropertyTypes
+enum class PropertyType
 {
-    INT,
-    FLOAT,
-    STRING
+	INT,
+	FLOAT,
+	STRING
 };
 
 
@@ -23,12 +23,18 @@ public:
 
 	/// returns the name of the property
 	const std::string& name() const { return mName; };
+	virtual PropertyType type() const = 0;
 
 	/// allows setting the changed state of the property
 	void setChanged(bool changed = true)
 	{
 		mChanged = changed;
 	}
+
+	/// reading
+	virtual int getInt() const = 0;
+	virtual float getFloat() const = 0;
+	virtual const std::string& getString() const = 0;
 
 	// access the saved value
 protected:

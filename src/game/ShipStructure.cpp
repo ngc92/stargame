@@ -3,6 +3,8 @@
 #include <Box2D/Collision/b2Collision.h>
 #include <Box2D/Collision/Shapes/b2EdgeShape.h>
 
+#include "Components/FuelTank.h"
+
 namespace game
 {
 	ShipStructure::ShipStructure()
@@ -23,6 +25,7 @@ namespace game
 	void ShipStructure::update(IActionListInterface& actions)
 	{
 		foreachComponent([](IComponent& c, IActionListInterface& l){ c.step(l); }, std::ref(actions));
+		foreachComponent([](IComponent& c){ c.properties().notifyIfChanged(); });
 	}
 
 	void ShipStructure::hit(Damage damage, vector2d position, vector2d direction)

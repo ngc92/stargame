@@ -8,6 +8,7 @@ namespace game
 {
 	class ShipStructure;
 	class FlightModel;
+	class ActionList;
 
 	class SpaceShip : public ObjectCounter<SpaceShip>, public GameObject
 	{
@@ -16,8 +17,11 @@ namespace game
 		~SpaceShip();
 
 	private:
+		void processActions(ActionList& actions);
 		void onShipStep();
 		void onShipImpact(GameObject* other, const ImpactInfo& info);
+
+		void iterateProperties( std::function<void(const std::string& object, IPropertyObject*)> fn );
 
 		ListenerRef mStepListener;
 		ListenerRef mImpactListener;

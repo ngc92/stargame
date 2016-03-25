@@ -6,12 +6,14 @@ namespace game
 {
 namespace components
 {
-	FuelTank::FuelTank(irr::io::IAttributes& a) : CComponent( a ),
+	FuelTank::FuelTank(): CComponent(50, 100, "FuelTank"),
 		mCapacity("capacity", 100),
 		mMaxPump("maxpump", 1),
 		mFuel("fuel", 100)
 	{
-
+		properties().addProperty(mCapacity)
+					.addProperty(mMaxPump)
+					.addProperty(mFuel);
 	}
 
 	FuelTank::~FuelTank()

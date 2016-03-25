@@ -1,17 +1,20 @@
 #include "CComponent.h"
 #include <cassert>
-#include <irrlicht/IAttributes.h>
 
 namespace game
 {
 namespace components
 {
-	CComponent::CComponent(/*const*/ irr::io::IAttributes& a):
-				mWeight( "weight", a.getAttributeAsFloat("weight") ),
-				mMaxHP( "maxHP", a.getAttributeAsFloat("HP")),
-				mType( "type", a.getAttributeAsString("damage_factor").c_str()),
-				mHP( "HP", mMaxHP )
+	CComponent::CComponent(float weight, float hp, const std::string& name):
+				mWeight( "weight", weight ),
+				mMaxHP( "maxHP", hp ),
+				mName( "name", name ),
+				mHP( "HP", hp )
 	{
+		properties().addProperty(mWeight)
+					.addProperty(mMaxHP)
+					.addProperty(mName)
+					.addProperty(mHP);
 	}
 
 	float CComponent::weight() const
@@ -29,9 +32,19 @@ namespace components
 		return mHP;
 	}
 
-	const std::string& CComponent::type() const
+	const std::string& CComponent::name() const
 	{
-		return mType;
+		return mName;
+	}
+
+	const IPropertyCollection& CComponent::properties() const
+	{
+		return mProperties;
+	}
+
+	CPropertyCollection& CComponent::properties()
+	{
+		return mProperties;
 	}
 
 	bool CComponent::canSupply(const std::string& resource) const

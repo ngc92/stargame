@@ -7,6 +7,8 @@
 #include "StructureCell.h"
 #include "ArmourSegment.h"
 
+class IPropertyObject;
+
 namespace game
 {
 	class IActionListInterface;

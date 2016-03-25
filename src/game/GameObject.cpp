@@ -135,4 +135,9 @@ namespace game
 		return false;
 	}
 
+	void GameObject::addPropertyObject( const std::string& name, IPropertyObject* pob )
+	{
+		auto res = mPropertySubobjects.emplace(name, pob);
+		assert(res.second);
+	}
 }

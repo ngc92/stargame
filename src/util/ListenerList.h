@@ -16,7 +16,11 @@ public:
 	ListenerRef(const ListenerRef&) = delete;
 	ListenerRef& operator=(const ListenerRef& ) = delete;
 
-	ListenerRef(ListenerRef&&) = default;
+	ListenerRef(ListenerRef&& other) : mRegistered(other.mRegistered),
+										mDeleter( std::move(other.mDeleter) )
+	{
+		other.mRegistered = false;
+	};
 
 	void remove()
 	{

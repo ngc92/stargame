@@ -18,7 +18,7 @@ namespace components
 	class FuelTank : public CComponent
 	{
 		public:
-			FuelTank(irr::io::IAttributes& a );
+			FuelTank();
 			virtual ~FuelTank();
 
 			void init(IActionListInterface& actionlist) override;

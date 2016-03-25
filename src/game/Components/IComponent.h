@@ -4,6 +4,7 @@
 #include <string>
 #include "util.h"
 #include "util/ListenerList.h"
+#include "util/IPropertyCollection.h"
 
 namespace game
 {
@@ -33,7 +34,7 @@ namespace game
 					recommended that new component classes be derived from
 					that.
 		*/
-		class IComponent : ObjectCounter<IComponent>
+		class IComponent : ObjectCounter<IComponent>, public IPropertyObject
 		{
 			public:
 				IComponent() = default;
@@ -60,7 +61,8 @@ namespace game
 				virtual float weight() 	const = 0;
 				virtual float maxHP() 	const = 0;
 				virtual float HP() 		const = 0;
-				virtual const std::string& type() const = 0;
+				virtual const std::string& name() const = 0;
+				virtual const IPropertyCollection& properties() const = 0;
 
 				// ----------------------------------------------------------------------
 				// 					component connection interface

@@ -3,6 +3,7 @@
 
 #include "IComponent.h"
 #include "util/Property.h"
+#include "util/CPropertyCollection.h"
 
 namespace game
 {
@@ -13,7 +14,7 @@ namespace components
 	class CComponent : public IComponent
 	{
 		public:
-			CComponent(irr::io::IAttributes& a);
+			CComponent(float weight, float hp, const std::string& name);
 			virtual ~CComponent() = default;
 
 			float onDamage( float dam ) final;
@@ -22,19 +23,24 @@ namespace components
 			float weight() 				const final;
 			float maxHP() 				const final;
 			float HP() 					const final;
-			const std::string& type() 	const final;
+			const std::string& name() 	const final;
+			const IPropertyCollection& properties() const final;
 
 			// supply interface
 			bool canSupply(const std::string& resource) const override;
 			float getSupply(const std::string& resource, float amount) override;
 			void registerSupplier(const std::string& resource, IComponent* component) override;
+		protected:
+			CPropertyCollection& properties();
 		private:
 			DamageListenerList& getDamageListeners() final;
 
 			Property<float> mWeight;
 			Property<float> mMaxHP;
-			Property<std::string> mType;
+			Property<std::string> mName;
 			Property<float> mHP;
+
+			CPropertyCollection mProperties;
 
 			DamageListenerList mDamageListeners;
 	};
