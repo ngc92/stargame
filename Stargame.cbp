@@ -116,6 +116,8 @@
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/util.h" />
 		<Unit filename="src/util/ListenerList.h" />
+		<Unit filename="src/util/WriteLock.cpp" />
+		<Unit filename="src/util/WriteLock.h" />
 		<Unit filename="src/util/convert.h" />
 		<Unit filename="src/util/logging.cpp" />
 		<Unit filename="src/util/logging.h" />

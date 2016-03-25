@@ -6,12 +6,16 @@
 namespace game
 {
 	using namespace std::placeholders;
-	SpaceShip::SpaceShip() : GameObject(),
-							mStructure( make_unique<ShipStructure>() ),
+	SpaceShip::SpaceShip(b2Body* body) : GameObject(body),							mStructure( make_unique<ShipStructure>() ),
 							mFlightModel( make_unique<FlightModel>() ),
 							mStepListener( addStepListener(std::bind(onShipStep, this)) ),
 							mImpactListener( addImpactListener(std::bind(onShipImpact, this, _1, _2)) )
 	{
+	}
+
+	SpaceShip::~SpaceShip()
+	{
+
 	}
 
 	void SpaceShip::onShipStep()

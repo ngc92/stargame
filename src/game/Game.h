@@ -4,7 +4,8 @@
 #include <thread>
 #include <memory>
 #include <atomic>
-#include "util/ListenerList.h"
+#include <functional>
+#include "util/WriteLock.h"
 
 namespace game
 {
@@ -25,19 +26,23 @@ namespace game
 		void run();
 		void pause();
 
-		// register listeners
+		/*! \brief executes code from another thread
+			\details This function allows another thread to register
+					actions for execution, which will be guaranteed
+					to be executed non-interleaved with the game
+					simulation, and thus be able to read game data.
+		*/
+		void executeThreadSaveReader(std::function<void(const GameWorld&)> reader) const;
 
 	private:
 		void gameloop();
-
-		void outgoing_com();
 
 		std::atomic<bool> mRunGame;
 		std::atomic<bool> mQuitGame;
 		std::thread mGameThread;
 		std::unique_ptr<GameWorld> mGameWorld;
 
-		ListenerList<void> mStepListeners;
+		WriteLock mLock;
 	};
 }
 

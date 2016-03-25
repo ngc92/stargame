@@ -12,7 +12,8 @@ namespace game
 	class SpaceShip : public ObjectCounter<SpaceShip>, public GameObject
 	{
 	public:
-		SpaceShip();
+		SpaceShip(b2Body* body);
+		~SpaceShip();
 
 	private:
 		void onShipStep();

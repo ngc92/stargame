@@ -8,7 +8,7 @@ namespace game
 		mRunGame(false),
 		mQuitGame(false),
 		mGameThread( [this](){ gameloop(); } ),
-        mGameWorld( make_unique<GameWorld>() )
+		mGameWorld( make_unique<GameWorld>() )
 	{
 
 	};
@@ -34,18 +34,17 @@ namespace game
 		{
 			if(mRunGame)
 			{
+				auto lock = mLock.lock_write();
 				// update the world
 				mGameWorld->step(1.0/60);
-				// now start communicating to the outside.
-				outgoing_com();
-
 			}
 		}
 	}
 
-	void Game::outgoing_com()
+	void Game::executeThreadSaveReader(std::function<void(const GameWorld&)> reader) const
 	{
-		// listeners, that are called every step
-		mStepListeners.notify();
+		auto lock = mLock.lock_read();
+		reader(*mGameWorld);
 	}
+
 }

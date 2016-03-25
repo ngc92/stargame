@@ -12,6 +12,11 @@ CStateManager::CStateManager(IEngine* engine): mEngine(engine)
 
 }
 
+CStateManager::~CStateManager()
+{
+
+}
+
 bool CStateManager::step()
 {
 	if(mStateStack.empty())
