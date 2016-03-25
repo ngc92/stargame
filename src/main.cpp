@@ -2,6 +2,7 @@
 #include "IStateManager.h"
 #include "Options.h"
 #include "ShipEditor/ShipEditorState.h"
+#include "GameState/GameState.h"
 #include <irrlicht/irrlicht.h>
 #include <iostream>
 using namespace irr;
@@ -19,6 +20,12 @@ std::shared_ptr<IState> createShipEditorState(const irr::io::IAttributes* param)
 {
 	return std::make_shared<ShipEditorState> (getGlobalEngine());
 }
+
+std::shared_ptr<IState> createGameState(const irr::io::IAttributes* param)
+{
+	return std::make_shared<GameState> (getGlobalEngine());
+}
+
 
 
 int main(int argc, char *argv[])
@@ -49,7 +56,8 @@ int main(int argc, char *argv[])
 			return 1;
 
 		engine->getStateManager().addFactory("ShipEditor", createShipEditorState);
-		engine->getStateManager().createState("ShipEditor", nullptr);
+		engine->getStateManager().addFactory("GameState", createGameState);
+		engine->getStateManager().createState("GameState", nullptr);
 
 		// main game loop
 		while(engine->tick())

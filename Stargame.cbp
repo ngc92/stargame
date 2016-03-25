@@ -52,6 +52,10 @@
 		<Unit filename="src/CTimeManager.h" />
 		<Unit filename="src/CUIEventListener.cpp" />
 		<Unit filename="src/CUIEventListener.h" />
+		<Unit filename="src/GameState/GameState.cpp" />
+		<Unit filename="src/GameState/GameState.h" />
+		<Unit filename="src/GameState/TextInterface/TextInterface.cpp" />
+		<Unit filename="src/GameState/TextInterface/TextInterface.h" />
 		<Unit filename="src/IEngine.h" />
 		<Unit filename="src/IInputManager.h" />
 		<Unit filename="src/ISoundManager.h" />
