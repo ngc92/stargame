@@ -1,9 +1,12 @@
 #ifndef FUELTANK_H_INCLUDED
 #define FUELTANK_H_INCLUDED
 
-#include "IComponent.h"
+#include "CComponent.h"
+#include "util/Property.h"
 
 namespace game
+{
+namespace components
 {
 	/*!
 		\todo add the following features to FuelTanks:
@@ -12,7 +15,7 @@ namespace game
 				* set components weight according to amount of
 					fuel
 	*/
-	class FuelTank : public IComponent
+	class FuelTank : public CComponent
 	{
 		public:
 			FuelTank(irr::io::IAttributes& a );
@@ -23,7 +26,6 @@ namespace game
 
 			bool canSupply(const std::string& resource) const override;
 			float getSupply(const std::string& resource, float amount) override;
-			void registerSupplier(const std::string& resource, IComponent* component) override;
 		private:
 			// fuel tank parameters
 			Property<float> mCapacity;
@@ -35,5 +37,6 @@ namespace game
 			// processing variables
 			float mPumpLeft;
 	};
+}
 }
 #endif // FUELTANK_H_INCLUDED

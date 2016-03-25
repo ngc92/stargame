@@ -6,8 +6,6 @@
 
 namespace game
 {
-	class IComponent;
-
 	/*! \class IAction
 		\brief Interface for actions that can be performed by components.
 		\details This interface defines how components can communicate their

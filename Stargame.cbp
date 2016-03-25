@@ -78,13 +78,12 @@
 		<Unit filename="src/game/Components/ActionList.h" />
 		<Unit filename="src/game/Components/Actions.cpp" />
 		<Unit filename="src/game/Components/Actions.h" />
+		<Unit filename="src/game/Components/CComponent.cpp" />
+		<Unit filename="src/game/Components/CComponent.h" />
 		<Unit filename="src/game/Components/FuelTank.cpp" />
 		<Unit filename="src/game/Components/FuelTank.h" />
 		<Unit filename="src/game/Components/IAction.h" />
-		<Unit filename="src/game/Components/IComponent.cpp" />
 		<Unit filename="src/game/Components/IComponent.h" />
-		<Unit filename="src/game/Components/IWeapon.cpp" />
-		<Unit filename="src/game/Components/IWeapon.h" />
 		<Unit filename="src/game/ContactListener.cpp" />
 		<Unit filename="src/game/ContactListener.h" />
 		<Unit filename="src/game/Damage.cpp" />

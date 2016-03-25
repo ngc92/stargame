@@ -4,7 +4,9 @@
 
 namespace game
 {
-	FuelTank::FuelTank(irr::io::IAttributes& a) : IComponent( a ),
+namespace components
+{
+	FuelTank::FuelTank(irr::io::IAttributes& a) : CComponent( a ),
 		mCapacity("capacity", 100),
 		mMaxPump("maxpump", 1),
 		mFuel("fuel", 100)
@@ -41,9 +43,5 @@ namespace game
 		mPumpLeft -= amount;
 		return amount;
 	}
-
-	void FuelTank::registerSupplier(const std::string& resource, IComponent* component)
-	{
-		assert(0);
-	}
+}
 }

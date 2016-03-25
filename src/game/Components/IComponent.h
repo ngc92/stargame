@@ -2,74 +2,102 @@
 #define SHIPCOMPONENT_H_INCLUDED
 
 #include <string>
-#include <list>
-#include <functional>
-#include <irrlicht/IAttributes.h>
 #include "util.h"
-#include "util/Property.h"
+#include "util/ListenerList.h"
 
 namespace game
 {
 	class SpaceShip;
 	class IActionListInterface;
 
-	class IComponent : ObjectCounter<IComponent>
+	/*! \namespace components
+		\brief namespace for all ship components.
+		\details This namespace contains the implementations
+				for the different kind of ship components.
+				It is supposed to be a completely modular unit, i.e.
+				there should never be any need to access internals of
+				this namespace from the outside.
+				The only exported class is the IComponent interface.
+	*/
+	namespace components
 	{
-		public:
-			using dmgListener = std::function<void(float)>;
-			using dmgListenerPtr = std::list<dmgListener>::iterator;
+		/// \todo add a DamageEvent here
+		typedef ListenerList<float> DamageListenerList;
 
-			IComponent(irr::io::IAttributes& a);
-			virtual ~IComponent() = default;
+		/*! \class IComponent
+			\brief Base class for all ship components.
+			\details This class defines the interface for ship components,
+					and is the only way how components can communicate
+					with the outside world. A default implementation of
+					common methods is provided in CComponent, so it is
+					recommended that new component classes be derived from
+					that.
+		*/
+		class IComponent : ObjectCounter<IComponent>
+		{
+			public:
+				IComponent() = default;
+				virtual ~IComponent() = default;
 
-			virtual void init(IActionListInterface& actionlist) = 0;
-			virtual void step(IActionListInterface& actionlist) = 0;
+				virtual void init(IActionListInterface& actionlist) = 0;
+				virtual void step(IActionListInterface& actionlist) = 0;
+				virtual float onDamage(float dam) = 0;
 
-			// non-virtual functions
-			float damage( float dam );
-			void repair( float time_sec );
-			dmgListenerPtr addDmgListener(dmgListener l);
-			void removeDmgListener(dmgListenerPtr l_ptr);
+				// ----------------------------------------------------------------------
+				//					non virtual functions that relay work
+				// ----------------------------------------------------------------------
+				float damage(float dam);
 
-			float weight() const;
-			float maxHP() const;
-			float HP() const;
-			const std::string& type() const;
+				// ----------------------------------------------------------------------
+				//							listeners
+				// ----------------------------------------------------------------------
+				template<class T>
+				ListenerRef addDamageListener(T&& l);
 
-			// virtual functions
-			virtual float getStatus(std::string bez) = 0;
-			virtual void onDamage(float dam) = 0;
-			virtual int actionPerformed(int ctrlbits, float dt) = 0;
+				// ----------------------------------------------------------------------
+				//			default properties every component should implement
+				// ----------------------------------------------------------------------
+				virtual float weight() 	const = 0;
+				virtual float maxHP() 	const = 0;
+				virtual float HP() 		const = 0;
+				virtual const std::string& type() const = 0;
 
-			// ----------------------------------------------------------------------
-			// 					component connection interface
-			// ----------------------------------------------------------------------
-			/// this functions returns whether this component offers
-			/// resource as a supply.
-			virtual bool canSupply(const std::string& resource) const = 0;
+				// ----------------------------------------------------------------------
+				// 					component connection interface
+				// ----------------------------------------------------------------------
+				/// this functions returns whether this component offers
+				/// resource as a supply.
+				virtual bool canSupply(const std::string& resource) const = 0;
 
-			/// this function is called by other components to get resource
-			/// from this component.
-			/// \return how much was actually supplied.
-			virtual float getSupply(const std::string& resource, float amount) = 0;
+				/// this function is called by other components to get resource
+				/// from this component.
+				/// \return how much was actually supplied.
+				virtual float getSupply(const std::string& resource, float amount) = 0;
 
-			/// this function is called to register another component as a supplier
-			/// for a certain resource.
-			virtual void registerSupplier(const std::string& resource, IComponent* component) = 0;
+				/// this function is called to register another component as a supplier
+				/// for a certain resource.
+				virtual void registerSupplier(const std::string& resource, IComponent* component) = 0;
 
-		private:
-			Property<float> mWeight;
-			Property<float> mMaxHP;
-			Property<std::string> mType;
-			Property<float> mHP;
+			private:
+				/// gives a reference to the damage listener list.
+                virtual DamageListenerList& getDamageListeners() = 0;
+		};
 
-			float mMaxRepairHP;
-			std::list<dmgListener> mDmgListenerList;
+		template<class T>
+		ListenerRef IComponent::addDamageListener(T&& l)
+		{
+			return getDamageListeners().addListener(l);
+		}
 
-			void fireDmgChangeEvent(float dmg);
+		inline float IComponent::damage(float dam)
+		{
+			float actual = onDamage(dam);
+			getDamageListeners().notify(actual);
+			return actual;
+		}
+	}
 
-	};
-
+	using components::IComponent;
 }
 
 #endif // SHIPCOMPONENT_H_INCLUDED

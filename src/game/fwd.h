@@ -8,6 +8,12 @@ namespace game
 	class SpaceShip;
 	class FlightModel;
 	class GameObject;
+	namespace components
+	{
+		class IComponent;
+	}
+
+	using components::IComponent;
 }
 
 
