@@ -2,6 +2,7 @@
 #define GAMEOBJECT_H_INCLUDED
 
 #include "util.h"
+#include "util/ListenerList.h"
 
 namespace game
 {
@@ -20,8 +21,8 @@ namespace game
 			GameObject(b2Body* body = nullptr, long ID = -1);
 			virtual ~GameObject();
 
-			virtual void step() = 0;
-			virtual void onImpact(GameObject* other, const ImpactInfo& info) = 0;
+			void onStep();
+			void onImpact(GameObject* other, const ImpactInfo& info);
 
 			void setPosition(const vector2d& pos);
 			void setRotation(float rot);
@@ -55,6 +56,19 @@ namespace game
 
 			bool isAlive() const { return mIsAlive; };
 
+			template<class T>
+			ListenerRef addStepListener(T&& l)
+			{
+				return std::move(mStepListeners.addListener(std::forward<T>(l)));
+			}
+
+			template<class T>
+			ListenerRef addImpactListener(T&& l)
+			{
+				return std::move(mImpactListeners.addListener(std::forward<T>(l)));
+			}
+
+
 		protected:
 
 			b2Body* mBody = nullptr;
@@ -64,6 +78,9 @@ namespace game
 
 			// id
 			long mID;
+
+			ListenerList<void> mStepListeners;
+			ListenerList<GameObject*, const ImpactInfo&> mImpactListeners;
 	};
 }
 

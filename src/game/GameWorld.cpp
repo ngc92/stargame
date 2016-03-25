@@ -27,7 +27,7 @@ namespace game
 		// update all objects
 		for(auto& obj : mGameObjects)
 		{
-			if(obj->isAlive())	obj->step( );
+			if(obj->isAlive())	obj->onStep( );
 		}
 
 		clear_objects();
@@ -38,5 +38,10 @@ namespace game
 		using namespace std;
 		auto nlast = remove_if(begin(mGameObjects), end(mGameObjects), [](const std::shared_ptr<GameObject>& o){ return !o->isAlive(); });
 		mGameObjects.resize(distance(begin(mGameObjects), nlast));
+	}
+
+	void GameWorld::addGameObject(std::shared_ptr<GameObject> object)
+	{
+		mGameObjects.push_back( object );
 	}
 }

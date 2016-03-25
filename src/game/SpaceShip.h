@@ -14,10 +14,13 @@ namespace game
 	public:
 		SpaceShip();
 
-		void step() override;
-		void onImpact(GameObject* other, const ImpactInfo& info) override;
-
 	private:
+		void onShipStep();
+		void onShipImpact(GameObject* other, const ImpactInfo& info);
+
+		ListenerRef mStepListener;
+		ListenerRef mImpactListener;
+
 		std::unique_ptr<ShipStructure> mStructure;
 		std::unique_ptr<FlightModel> mFlightModel;
 	};

@@ -22,6 +22,9 @@ namespace game
 		~GameWorld();
 
 		void step( float dt );
+
+		void addGameObject(std::shared_ptr<GameObject> object);
+
 	private:
 		/// remove all game objects that are no longer considered alive from the object list.
 		void clear_objects();
