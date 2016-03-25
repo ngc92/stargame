@@ -2,8 +2,10 @@
 
 namespace game
 {
+namespace components
+{
 	IWeapon::IWeapon(/*const*/ irr::io::IAttributes& a):
-				IComponent(a),
+				IComponent(),
 				loadingProgress(0),
 				mIsBusy(false),
 				currAmmoCount(0),
@@ -36,4 +38,5 @@ namespace game
 			lst(mIsBusy);
 		}
 	}
+}
 }

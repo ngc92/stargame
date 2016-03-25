@@ -1,46 +1,10 @@
 #ifndef PROPERTY_H_INCLUDED
 #define PROPERTY_H_INCLUDED
 
-#include <string>
-
-enum class PropertyTypes
-{
-    INT,
-    FLOAT,
-    STRING
-};
-
-class IProperty
-{
-public:
-	IProperty(const IProperty&) = delete;
-	IProperty& operator=(const IProperty&) = delete;
-
-	/// returns whether the property was changed since
-	/// change was reset last.
-	bool changed() const { return mChanged; };
-
-	/// returns the name of the property
-	const std::string& name() const { return mName; };
-
-	/// allows setting the changed state of the property
-	void setChanged(bool changed = true)
-	{
-		mChanged = changed;
-	}
-
-	// access the saved value
-protected:
-	IProperty(std::string name) : mName(std::move(name)), mChanged(true)
-	{
-	}
-private:
-	std::string mName;
-	bool mChanged;
-};
+#include "IProperty.h"
 
 template<class T>
-class Property : public IProperty
+class Property final : public IProperty
 {
 public:
 	Property(std::string name, const T& val) : IProperty(name), mValue(val)

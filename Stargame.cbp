@@ -96,7 +96,6 @@
 		<Unit filename="src/game/GameObject.h" />
 		<Unit filename="src/game/GameWorld.cpp" />
 		<Unit filename="src/game/GameWorld.h" />
-		<Unit filename="src/game/ShipData.h" />
 		<Unit filename="src/game/ShipStructure.cpp" />
 		<Unit filename="src/game/ShipStructure.h" />
 		<Unit filename="src/game/SpaceShip.cpp" />
@@ -116,6 +115,10 @@
 		<Unit filename="src/graphic/TrackObjectAnimator.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/util.h" />
+		<Unit filename="src/util/CPropertyObject.cpp" />
+		<Unit filename="src/util/CPropertyObject.h" />
+		<Unit filename="src/util/IProperty.h" />
+		<Unit filename="src/util/IPropertyObject.h" />
 		<Unit filename="src/util/ListenerList.h" />
 		<Unit filename="src/util/Property.h" />
 		<Unit filename="src/util/WriteLock.cpp" />
