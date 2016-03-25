@@ -18,14 +18,22 @@ namespace game
 			FuelTank(irr::io::IAttributes& a );
 			virtual ~FuelTank();
 
+			void init(IActionListInterface& actionlist) override;
 			void step(IActionListInterface& actionlist) override;
 
 			bool canSupply(const std::string& resource) const override;
 			float getSupply(const std::string& resource, float amount) override;
 			void registerSupplier(const std::string& resource, IComponent* component) override;
 		private:
-			float capacity;
-			float mFuel;
+			// fuel tank parameters
+			Property<float> mCapacity;
+			Property<float> mMaxPump;
+
+			// fuel tank status
+			Property<float> mFuel;
+
+			// processing variables
+			float mPumpLeft;
 	};
 }
 #endif // FUELTANK_H_INCLUDED

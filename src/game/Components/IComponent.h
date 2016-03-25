@@ -6,6 +6,7 @@
 #include <functional>
 #include <irrlicht/IAttributes.h>
 #include "util.h"
+#include "util/Property.h"
 
 namespace game
 {
@@ -21,20 +22,22 @@ namespace game
 			IComponent(irr::io::IAttributes& a);
 			virtual ~IComponent() = default;
 
+			virtual void init(IActionListInterface& actionlist) = 0;
+			virtual void step(IActionListInterface& actionlist) = 0;
+
 			// non-virtual functions
 			float damage( float dam );
 			void repair( float time_sec );
 			dmgListenerPtr addDmgListener(dmgListener l);
 			void removeDmgListener(dmgListenerPtr l_ptr);
 
-			float getWeight();
-			int getMaxHP();
-			int getCurrHP();
-			std::string getType();
+			float weight() const;
+			float maxHP() const;
+			float HP() const;
+			const std::string& type() const;
 
 			// virtual functions
 			virtual float getStatus(std::string bez) = 0;
-			virtual void step(IActionListInterface& actionlist) = 0;
 			virtual void onDamage(float dam) = 0;
 			virtual int actionPerformed(int ctrlbits, float dt) = 0;
 
@@ -55,12 +58,13 @@ namespace game
 			virtual void registerSupplier(const std::string& resource, IComponent* component) = 0;
 
 		private:
-			float mWeight;
-			float mMaxHP;
-			std::string mType;
+			Property<float> mWeight;
+			Property<float> mMaxHP;
+			Property<std::string> mType;
+			Property<float> mHP;
+
 			float mMaxRepairHP;
 			std::list<dmgListener> mDmgListenerList;
-			float mCurrHP;
 
 			void fireDmgChangeEvent(float dmg);
 

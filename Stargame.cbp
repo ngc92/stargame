@@ -105,8 +105,6 @@
 		<Unit filename="src/game/StructureCell.cpp" />
 		<Unit filename="src/game/StructureCell.h" />
 		<Unit filename="src/game/fwd.h" />
-		<Unit filename="src/graphic/CDebugDraw.cpp" />
-		<Unit filename="src/graphic/CDebugDraw.h" />
 		<Unit filename="src/graphic/EngineExhaust.cpp" />
 		<Unit filename="src/graphic/EngineExhaust.h" />
 		<Unit filename="src/graphic/ExplosionNode.cpp" />
@@ -120,6 +118,7 @@
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/util.h" />
 		<Unit filename="src/util/ListenerList.h" />
+		<Unit filename="src/util/Property.h" />
 		<Unit filename="src/util/WriteLock.cpp" />
 		<Unit filename="src/util/WriteLock.h" />
 		<Unit filename="src/util/convert.h" />

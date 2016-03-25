@@ -18,7 +18,7 @@ namespace game
 	void StructureCell::addComponent(std::shared_ptr<IComponent> cmp)
 	{
 		// check weight
-		float w = weight() + cmp->getWeight();
+		float w = weight() + cmp->weight();
 		assert( w < mMaxLoad );
 
 		mComponents.push_back( std::move(cmp) );
@@ -28,7 +28,7 @@ namespace game
 	{
 		float w = 0;
 		for(auto& c : components())
-			w += c->getWeight();
+			w += c->weight();
 		return w;
 	}
 

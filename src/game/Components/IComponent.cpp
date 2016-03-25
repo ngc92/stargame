@@ -4,26 +4,30 @@
 namespace game
 {
 	IComponent::IComponent(/*const*/ irr::io::IAttributes& a):
-				mWeight(a.getAttributeAsFloat("weight") ),
-				mMaxHP( a.getAttributeAsFloat("HP")),
+				mWeight( "weight", a.getAttributeAsFloat("weight") ),
+				mMaxHP( "maxHP", a.getAttributeAsFloat("HP")),
 				mMaxRepairHP( a.getAttributeAsFloat("repairHP")),
-				mType( a.getAttributeAsString("damage_factor").c_str())
+				mType( "type", a.getAttributeAsString("damage_factor").c_str()),
+				mHP( "HP", mMaxHP )
 	{
 	}
 
-	float IComponent::getWeight()
+	float IComponent::weight() const
 	{
 		return mWeight;
 	}
-	int IComponent::getMaxHP()
+
+	float IComponent::maxHP() const
 	{
 		return mMaxHP;
 	}
-	int IComponent::getCurrHP()
+
+	float IComponent::HP() const
 	{
-		return mCurrHP;
+		return mHP;
 	}
-	std::string IComponent::getType()
+
+	const std::string& IComponent::type() const
 	{
 		return mType;
 	}
@@ -33,12 +37,12 @@ namespace game
 		// small damage can always be repaired 2 + 0.5%
 		float rep_dmg = 2 + 0.005 * mMaxHP;
 
-		if(dam > mCurrHP)
+		if(dam > mHP)
 		{
-			return damage(mCurrHP);
+			return damage(mHP);
 		}
 		fireDmgChangeEvent(dam);
-		mCurrHP -= dam;
+		mHP = mHP - dam;
 		mMaxRepairHP -= std::max(0.0, dam * 0.5 - rep_dmg);
 		return dam;
 	}
@@ -65,7 +69,7 @@ namespace game
 
 	void IComponent::repair( float time_sec )
 	{
-		mCurrHP = std::min( mMaxRepairHP, mCurrHP + time_sec );
+		mHP = std::min( mMaxRepairHP, mHP + time_sec );
 	}
 }
 
