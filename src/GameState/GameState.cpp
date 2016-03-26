@@ -8,9 +8,10 @@
 
 GameState::GameState(IEngine* engine) :
 	mGUIEnv(engine->getGUIEnvironment()),
-	mGame( make_unique<game::Game>() )
+	mGame( make_unique<game::Game>() ),
+	mInterface( make_unique<TextInterface>() ),
+	mSpawnListener( mGame->addSpawnListener( [this](const game::GameObject& s) { mInterface->onSpawn( s ); } ) )
 {
-
 }
 
 GameState::~GameState(){};

@@ -80,6 +80,8 @@
 		<Unit filename="src/game/Components/Actions.h" />
 		<Unit filename="src/game/Components/CComponent.cpp" />
 		<Unit filename="src/game/Components/CComponent.h" />
+		<Unit filename="src/game/Components/Engine.cpp" />
+		<Unit filename="src/game/Components/Engine.h" />
 		<Unit filename="src/game/Components/FuelTank.cpp" />
 		<Unit filename="src/game/Components/FuelTank.h" />
 		<Unit filename="src/game/Components/IAction.h" />
@@ -115,10 +117,10 @@
 		<Unit filename="src/graphic/TrackObjectAnimator.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/util.h" />
-		<Unit filename="src/util/CPropertyObject.cpp" />
-		<Unit filename="src/util/CPropertyObject.h" />
+		<Unit filename="src/util/CPropertyCollection.cpp" />
+		<Unit filename="src/util/CPropertyCollection.h" />
 		<Unit filename="src/util/IProperty.h" />
-		<Unit filename="src/util/IPropertyObject.h" />
+		<Unit filename="src/util/IPropertyCollection.h" />
 		<Unit filename="src/util/ListenerList.h" />
 		<Unit filename="src/util/Property.h" />
 		<Unit filename="src/util/WriteLock.cpp" />

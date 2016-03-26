@@ -35,6 +35,9 @@ namespace game
 		*/
 		void hit(Damage damage, vector2d position, vector2d direction);
 
+		/// called on initialization
+		void init(IActionListInterface& actions);
+
 		/// called every step
 		void update(IActionListInterface& actions);
 

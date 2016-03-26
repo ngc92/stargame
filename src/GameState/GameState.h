@@ -2,6 +2,7 @@
 #define GAMEEDITORSTATE_H_INCLUDED
 
 #include "IState.h"
+#include "util/ListenerList.h"
 
 class IEngine;
 
@@ -44,6 +45,8 @@ private:
 	IGUIEnvironment* mGUIEnv;
 	std::unique_ptr<game::Game> mGame;
 	std::unique_ptr<TextInterface> mInterface;
+
+	ListenerRef mSpawnListener;
 };
 
 #endif // GAMEEDITORSTATE_H_INCLUDED

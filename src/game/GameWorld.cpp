@@ -43,5 +43,11 @@ namespace game
 	void GameWorld::addGameObject(std::shared_ptr<GameObject> object)
 	{
 		mGameObjects.push_back( object );
+		mSpawnListeners.notify(*object);
+	}
+
+	b2Body* GameWorld::createBody(const b2BodyDef& def)
+	{
+		return mPhysicWorld->CreateBody(&def);
 	}
 }

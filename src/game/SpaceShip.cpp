@@ -15,6 +15,10 @@ namespace game
 	{
 		// init
 		mStructure->foreachComponent([this](IComponent& c){ this->addPropertyObject(c.name(), &c); });
+
+		ActionList lst;
+		mStructure->init(lst);
+		processActions(lst);
 	}
 
 	SpaceShip::~SpaceShip()
