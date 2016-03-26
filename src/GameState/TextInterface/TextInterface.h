@@ -1,17 +1,13 @@
 #ifndef TEXTINTERFACE_H_INCLUDED
 #define TEXTINTERFACE_H_INCLUDED
 
-namespace game
-{
-	class GameWorld;
-	class GameObject;
-}
+#include "../IGameModule.h"
 
-class TextInterface
+class TextInterface : public IGameModule
 {
 public:
-	void update(const game::GameWorld& view);
-	void onSpawn( const game::GameObject& spawned );
+	void onStep(const game::GameWorld& view) override;
+	void onSpawn( const game::GameObject& spawned ) override;
 private:
 	void handleObject( const game::GameObject& view );
 

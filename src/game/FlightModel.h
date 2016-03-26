@@ -8,6 +8,8 @@ namespace game
 	class FlightModel
 	{
 	public:
+		FlightModel();
+
 		void init( b2Body& ship );
 		void update_movement( b2Body& ship );
 

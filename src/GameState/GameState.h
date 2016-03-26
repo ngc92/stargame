@@ -9,9 +9,11 @@ class IEngine;
 namespace game
 {
 	class Game;
+	class GameWorld;
+	class GameObject;
 }
 
-class TextInterface;
+class IGameModule;
 
 class GameState: public IState
 {
@@ -41,10 +43,15 @@ public:
 	IGUIEnvironment* getGUIEnvironment() noexcept override;
 
 	bool onEvent(const irr::SEvent::SGUIEvent& event) override;
+
+	void addGameModule(std::unique_ptr<IGameModule> module);
 private:
+	void onGameStep(const game::GameWorld& world);
+	void onSpawn( const game::GameObject& object);
+
 	IGUIEnvironment* mGUIEnv;
 	std::unique_ptr<game::Game> mGame;
-	std::unique_ptr<TextInterface> mInterface;
+	std::vector<std::unique_ptr<IGameModule>> mModules;
 
 	ListenerRef mSpawnListener;
 };

@@ -3,6 +3,11 @@
 
 namespace game
 {
+	FlightModel::FlightModel() : mOperatingSpeed(1), mDragFactor(0.1)
+	{
+
+	}
+
 	void FlightModel::init( b2Body& ship )
 	{
 		ship.SetLinearDamping( 0.0 );

@@ -64,6 +64,8 @@ namespace game
 
 			bool isAlive() const { return mIsAlive; };
 
+			const input::IInputCollection& getInputs() const;
+
 			template<class T>
 			ListenerRef addStepListener(T&& l)
 			{

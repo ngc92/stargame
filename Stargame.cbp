@@ -54,9 +54,13 @@
 		<Unit filename="src/CUIEventListener.h" />
 		<Unit filename="src/GameState/GameState.cpp" />
 		<Unit filename="src/GameState/GameState.h" />
+		<Unit filename="src/GameState/IGameModule.h" />
+		<Unit filename="src/GameState/InputModule.cpp" />
+		<Unit filename="src/GameState/InputModule.h" />
 		<Unit filename="src/GameState/TextInterface/TextInterface.cpp" />
 		<Unit filename="src/GameState/TextInterface/TextInterface.h" />
 		<Unit filename="src/IEngine.h" />
+		<Unit filename="src/IEventListener.h" />
 		<Unit filename="src/IInputManager.h" />
 		<Unit filename="src/ISoundManager.h" />
 		<Unit filename="src/IState.h" />

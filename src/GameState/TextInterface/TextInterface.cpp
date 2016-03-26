@@ -4,9 +4,8 @@
 #include "game/GameObject.h"
 #include "util/IPropertyCollection.h"
 
-void TextInterface::update(const game::GameWorld& view)
+void TextInterface::onStep(const game::GameWorld& view)
 {
-	std::cout << "UPDATE INTERFACE!\n";
 	view.iterateViews([this](const game::GameObject& o){ this->handleObject(o);} );
 }
 

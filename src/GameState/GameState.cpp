@@ -3,22 +3,38 @@
 #include "IEngine.h"
 #include "util.h"
 #include "TextInterface/TextInterface.h"
+#include "InputModule.h"
 #include <irrlicht/IGUIEnvironment.h>
 #include <iostream>
 
 GameState::GameState(IEngine* engine) :
 	mGUIEnv(engine->getGUIEnvironment()),
 	mGame( make_unique<game::Game>() ),
-	mInterface( make_unique<TextInterface>() ),
-	mSpawnListener( mGame->addSpawnListener( [this](const game::GameObject& s) { mInterface->onSpawn( s ); } ) )
+	mSpawnListener( mGame->addSpawnListener( [this](const game::GameObject& s) { onSpawn( s ); } ) )
 {
+	addGameModule(make_unique<TextInterface>());
+	addGameModule(make_unique<InputModule>(engine, -1));
 }
 
-GameState::~GameState(){};
+GameState::~GameState()
+{
+};
 
 void GameState::update()
 {
-	mGame->executeThreadSaveReader( [this](const game::GameWorld& world){ mInterface->update( world ); } );
+	mGame->executeThreadSaveReader( [this](const game::GameWorld& world){ onGameStep(world); } );
+}
+
+void GameState::onGameStep(const game::GameWorld& world)
+{
+	for(auto& module : mModules)
+		module->onStep(world);
+}
+
+void GameState::onSpawn( const game::GameObject& object)
+{
+	for(auto& module : mModules)
+		module->onSpawn(object);
 }
 
 void GameState::onDraw()
@@ -28,6 +44,7 @@ void GameState::onDraw()
 
 void GameState::onActivate()
 {
+	// register all listeners
 	mGame->run();
 }
 
@@ -49,4 +66,9 @@ IGUIEnvironment* GameState::getGUIEnvironment() noexcept
 bool GameState::onEvent(const irr::SEvent::SGUIEvent& event)
 {
 	return false;
+}
+
+void GameState::addGameModule(std::unique_ptr<IGameModule> module)
+{
+	mModules.push_back( std::move(module) );
 }

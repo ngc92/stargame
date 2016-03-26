@@ -2,6 +2,7 @@
 #include "GameWorld.h"
 #include "GameObject.h"
 #include "util.h"
+#include "CTimeManager.h"
 
 namespace game
 {
@@ -9,8 +10,10 @@ namespace game
 		mRunGame(false),
 		mQuitGame(false),
 		mGameThread( [this](){ gameloop(); } ),
-		mGameWorld( make_unique<GameWorld>() )
+		mGameWorld( make_unique<GameWorld>() ),
+		mTimeManager( make_unique<CTimeManager>() )
 	{
+		mTimeManager->setDesiredFPS(50);
 	};
 	Game::~Game()
 	{
@@ -34,6 +37,7 @@ namespace game
 		{
 			if(mRunGame)
 			{
+				mTimeManager->waitTillNextFrame();
 				auto lock = mLock.lock_write();
 				// update the world
 				mGameWorld->step(1.0/60);
@@ -49,7 +53,7 @@ namespace game
 		void push(std::function<void()> f)
 		{
 			std::lock_guard<std::mutex> lck(mProtection);
-            mTriggered.push_back( std::move(f) );
+			mTriggered.push_back( std::move(f) );
 		}
 
 		void process()

@@ -2,6 +2,7 @@
 #include <cassert>
 #include "Box2D/Box2D.h"
 #include "input/CInputCollection.h"
+#include "input/IInputElement.h"
 
 namespace game
 {
@@ -26,6 +27,9 @@ namespace game
 
 	void GameObject::onStep()
 	{
+		// update all inputs
+		/// \todo is this the right place to do this?
+		mInputs->iterateInputs([](std::weak_ptr<input::IInputElement>& e){ auto p = e.lock(); if(p) p->update(); });
 		mStepListeners.notify();
 	}
 
@@ -141,5 +145,10 @@ namespace game
 	{
 		auto res = mPropertySubobjects.emplace(name, pob);
 		assert(res.second);
+	}
+
+	const input::IInputCollection& GameObject::getInputs() const
+	{
+		return *mInputs;
 	}
 }

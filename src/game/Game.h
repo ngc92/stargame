@@ -9,6 +9,8 @@
 #include "util/WriteLock.h"
 #include "util/ListenerList.h"
 
+class ITimeManager;
+
 namespace game
 {
 	class GameWorld;
@@ -54,6 +56,7 @@ namespace game
 		std::atomic<bool> mQuitGame;
 		std::thread mGameThread;
 		std::unique_ptr<GameWorld> mGameWorld;
+		std::unique_ptr<ITimeManager> mTimeManager;
 
 		struct ListenerQueue;
 		std::unordered_map<std::thread::id, std::unique_ptr<ListenerQueue>> mListenerQueues;
