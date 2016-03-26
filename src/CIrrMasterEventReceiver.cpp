@@ -18,7 +18,8 @@ CIrrMasterEventReceiver::CIrrMasterEventReceiver(IInputManager* ipmgr,
 
 void CIrrMasterEventReceiver::setDevice(irr::IrrlichtDevice* dev)
 {
-    mDevice = dev;
+	mDevice = dev;
+	mDevice->setEventReceiver(this);
 }
 
 bool CIrrMasterEventReceiver::OnEvent(const irr::SEvent& event)

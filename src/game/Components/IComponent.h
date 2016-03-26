@@ -6,6 +6,11 @@
 #include "util/ListenerList.h"
 #include "util/IPropertyCollection.h"
 
+namespace input
+{
+	class IInputCollection;
+}
+
 namespace game
 {
 	class SpaceShip;
@@ -40,7 +45,7 @@ namespace game
 				IComponent() = default;
 				virtual ~IComponent() = default;
 
-				virtual void init(IActionListInterface& actionlist) = 0;
+				virtual void init(IActionListInterface& actionlist, input::IInputCollection& inputs) = 0;
 				virtual void step(IActionListInterface& actionlist) = 0;
 				virtual float onDamage(float dam) = 0;
 

@@ -2,6 +2,7 @@
 #define ENGINE_H_INCLUDED
 
 #include "CComponent.h"
+#include "input/IInputElement.h"
 
 namespace game
 {
@@ -14,7 +15,7 @@ namespace components
 			Engine();
 			virtual ~Engine();
 
-			void init(IActionListInterface& actionlist) override;
+			void init(IActionListInterface& actionlist, input::IInputCollection& inputs) override;
 			void step(IActionListInterface& actionlist) override;
 
 			// supply interface
@@ -22,6 +23,13 @@ namespace components
 
 		private:
 			IComponent* mTank = nullptr;
+
+			// properties
+			Property<float> mThrust;
+			Property<float> mFuelConsumption;
+
+			// controls
+			std::shared_ptr<input::IInputElement> mThrustLevel;
 	};
 }
 }

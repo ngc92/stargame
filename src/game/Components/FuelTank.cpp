@@ -20,7 +20,7 @@ namespace components
 	{
 	}
 
-	void FuelTank::init(IActionListInterface& actionlist)
+	void FuelTank::init(IActionListInterface& actionlist, input::IInputCollection& inputs)
 	{
 	}
 

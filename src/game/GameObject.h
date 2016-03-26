@@ -7,6 +7,11 @@
 
 class IPropertyObject;
 
+namespace input
+{
+	class IInputCollection;
+}
+
 namespace game
 {
 	struct ImpactInfo
@@ -89,6 +94,7 @@ namespace game
 			ListenerList<GameObject*, const ImpactInfo&> mImpactListeners;
 
 			std::unordered_map<std::string, IPropertyObject*> mPropertySubobjects;
+			std::unique_ptr<input::IInputCollection> mInputs;
 	};
 }
 

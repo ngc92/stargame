@@ -21,7 +21,7 @@ namespace components
 			FuelTank();
 			virtual ~FuelTank();
 
-			void init(IActionListInterface& actionlist) override;
+			void init(IActionListInterface& actionlist, input::IInputCollection& inputs) override;
 			void step(IActionListInterface& actionlist) override;
 
 			bool canSupply(const std::string& resource) const override;

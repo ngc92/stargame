@@ -49,7 +49,7 @@ namespace game
 		void push(std::function<void()> f)
 		{
 			std::lock_guard<std::mutex> lck(mProtection);
-			mTriggered.push_back( std::move(f) );
+            mTriggered.push_back( std::move(f) );
 		}
 
 		void process()

@@ -17,7 +17,7 @@ namespace game
 		mStructure->foreachComponent([this](IComponent& c){ this->addPropertyObject(c.name(), &c); });
 
 		ActionList lst;
-		mStructure->init(lst);
+		mStructure->init(lst, *mInputs);
 		processActions(lst);
 	}
 

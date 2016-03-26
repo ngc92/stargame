@@ -1,13 +1,15 @@
 #include "GameObject.h"
 #include <cassert>
 #include "Box2D/Box2D.h"
+#include "input/CInputCollection.h"
 
 namespace game
 {
 	GameObject::GameObject(b2Body* b, long id) :
 		 mBody(b),
 		 mIsAlive(true),
-		 mID(id)
+		 mID(id),
+		 mInputs( make_unique<input::CInputCollection>() )
 	{
 		assert(mBody);
 		mBody->SetUserData(this);

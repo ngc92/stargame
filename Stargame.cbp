@@ -115,6 +115,14 @@
 		<Unit filename="src/graphic/RadarScreen.h" />
 		<Unit filename="src/graphic/TrackObjectAnimator.cpp" />
 		<Unit filename="src/graphic/TrackObjectAnimator.h" />
+		<Unit filename="src/input/CInputCollection.cpp" />
+		<Unit filename="src/input/CInputCollection.h" />
+		<Unit filename="src/input/CInputElement.cpp" />
+		<Unit filename="src/input/CInputElement.h" />
+		<Unit filename="src/input/IInputCollection.h" />
+		<Unit filename="src/input/IInputElement.h" />
+		<Unit filename="src/input/InputElements.cpp" />
+		<Unit filename="src/input/InputElements.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/util.h" />
 		<Unit filename="src/util/CPropertyCollection.cpp" />
