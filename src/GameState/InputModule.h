@@ -9,7 +9,6 @@ class IEngine;
 namespace input
 {
 	class IInputElement;
-	class IInputGauge;
 }
 
 class InputModule : public IGameModule, public IEventListener
@@ -27,7 +26,7 @@ private:
 	void onInput(std::weak_ptr<input::IInputElement>& input);
 
 	long mShipID;
-	std::shared_ptr<input::IInputGauge> mThrustInput;
+	std::shared_ptr<input::IInputElement> mThrustInput;
 };
 
 #endif // INPUTMODULE_H_INCLUDED

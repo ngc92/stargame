@@ -7,17 +7,27 @@ namespace input
 	{
 	}
 
-	void CInputButton::press()
-	{
-		std::lock_guard<std::mutex> lck(mMutex);
-		mPressed = true;
-	}
-
 	float CInputButton::getNewValue()
 	{
 		float val = mPressed ? 1 : 0;
 		mPressed = false;
 		return val;
+	}
+
+	InputType CInputButton::type() const
+	{
+		return InputType::BUTTON;
+	}
+
+	void CInputButton::increase()
+	{
+		std::lock_guard<std::mutex> lck(mMutex);
+		mPressed = true;
+	}
+
+	void CInputButton::decrease()
+	{
+
 	}
 
 	// --------------------------------------------------------
@@ -38,6 +48,21 @@ namespace input
 		return mSwitch ? 1 : 0;
 	}
 
+	InputType CInputSwitch::type() const
+	{
+		return InputType::SWITCH;
+	}
+
+	void CInputSwitch::increase()
+	{
+		setSwitch(true);
+	}
+
+	void CInputSwitch::decrease()
+	{
+		setSwitch(false);
+	}
+
 	// --------------------------------------------------------
 
 	CInputGauge::CInputGauge(std::string name, float value) :
@@ -45,10 +70,10 @@ namespace input
 	{
 	}
 
-	void CInputGauge::setGauge( float f )
+	void CInputGauge::changeGauge( float change )
 	{
 		std::lock_guard<std::mutex> lck(mMutex);
-		mGauge = f;
+		mGauge += change;
 	}
 
 	float CInputGauge::getNewValue()
@@ -56,8 +81,24 @@ namespace input
 		return mGauge;
 	}
 
+	InputType CInputGauge::type() const
+	{
+		return InputType::GAUGE;
+	}
+
+	void CInputGauge::increase()
+	{
+		changeGauge(0.1);
+	}
+
+	void CInputGauge::decrease()
+	{
+		changeGauge(-0.1);
+	}
+
 	// --------------------------------------------------------
-	// factory function
+	// 						factory function
+	// --------------------------------------------------------
 	 std::shared_ptr<IInputElement> createInputElement( std::string name, InputType type, float init )
 	 {
         switch(type)

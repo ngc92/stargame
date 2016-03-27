@@ -21,27 +21,11 @@ namespace input
 		virtual float value() const = 0;
 		virtual void update() = 0;
 		virtual const std::string& name() const = 0;
-	};
+		virtual InputType type() const = 0;
 
-	// derived input types
-	class IInputButton : public virtual IInputElement
-	{
-	public:
-		virtual void press() = 0;
-	};
-
-	class IInputSwitch : public virtual IInputElement
-	{
-	public:
-		virtual void setSwitch( bool state ) = 0;
-		void setOn() { setSwitch(true); };
-		void setOff() { setSwitch(false); };
-	};
-
-	class IInputGauge : public virtual IInputElement
-	{
-	public:
-		virtual void setGauge( float value ) = 0;
+		// set input
+		virtual void increase() = 0;
+		virtual void decrease() = 0;
 	};
 
 	// factory function

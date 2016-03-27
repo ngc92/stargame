@@ -39,7 +39,7 @@ void InputModule::onInput(std::weak_ptr<input::IInputElement>& input)
 
     std::cout << ip->name() << "\n";
     /// now, we would need an InputMapping definition
-    mThrustInput = std::dynamic_pointer_cast<input::IInputGauge>(ip);
+    mThrustInput = ip;
 }
 
 void InputModule::onKeyEvent(irr::EKEY_CODE key, bool press)
@@ -47,9 +47,9 @@ void InputModule::onKeyEvent(irr::EKEY_CODE key, bool press)
 	/// \todo here, we would really need timing information
 	if(key == irr::KEY_UP && press)
 	{
-		mThrustInput->setGauge(1);
+		mThrustInput->increase();
 	} else if(key == irr::KEY_DOWN && press)
 	{
-		mThrustInput->setGauge(0);
+		mThrustInput->decrease();
 	}
 }

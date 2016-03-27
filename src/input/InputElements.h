@@ -6,31 +6,44 @@
 namespace input
 {
 	// these inheritances are fine, because
-	class CInputButton : public CInputElement, public IInputButton
+	class CInputButton final : public CInputElement
 	{
 	public:
 		CInputButton(std::string name, float value = 0);
-		void press() override;
+
+		InputType type() const override;
+		void increase() override;
+		void decrease() override;
 	private:
 		float getNewValue() override;
 		bool mPressed;
 	};
 
-	class CInputSwitch : public CInputElement, public IInputSwitch
+	class CInputSwitch : public CInputElement
 	{
 	public:
 		CInputSwitch(std::string name, float value = 0);
-		void setSwitch( bool state ) override;
+		void setSwitch( bool state );
+
+		InputType type() const override;
+		void increase() override;
+		void decrease() override;
 	private:
 		float getNewValue() override;
 		bool mSwitch;
 	};
 
-	class CInputGauge : public CInputElement, public IInputGauge
+	class CInputGauge : public CInputElement
 	{
 	public:
 		CInputGauge(std::string name, float value = 0);
-		void setGauge( float value ) override;
+
+		void changeGauge( float change );
+
+		InputType type() const override;
+		void increase() override;
+		void decrease() override;
+
 	private:
 		float getNewValue() override;
 		float mGauge;
