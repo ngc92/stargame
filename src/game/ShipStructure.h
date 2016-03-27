@@ -71,7 +71,6 @@ namespace game
 		*/
 		template<class F, class... Args>
 		void foreachShape(const F& func, Args&&... args);
-
 	private:
 		// structure data
 		float mStructurePoints;
@@ -93,6 +92,10 @@ namespace game
 
 		std::vector<PosArmourSegment> mArmour;
 	};
+
+	// --------------------------------------------------
+	// 		template implementations
+	// --------------------------------------------------
 
 	// implementation of template method
 	template<class F, class... Args>

@@ -15,6 +15,7 @@ namespace game
 {
 	class GameWorld;
 	class GameObject;
+	class SpawnManager;
 
 	/*! \class Game
 		\brief Class responsible for a game.
@@ -57,6 +58,7 @@ namespace game
 		std::thread mGameThread;
 		std::unique_ptr<GameWorld> mGameWorld;
 		std::unique_ptr<ITimeManager> mTimeManager;
+		std::unique_ptr<SpawnManager> mSpawnManager;
 
 		struct ListenerQueue;
 		std::unordered_map<std::thread::id, std::unique_ptr<ListenerQueue>> mListenerQueues;

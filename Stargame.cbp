@@ -109,6 +109,8 @@
 		<Unit filename="src/game/ShipStructure.h" />
 		<Unit filename="src/game/SpaceShip.cpp" />
 		<Unit filename="src/game/SpaceShip.h" />
+		<Unit filename="src/game/SpawnManager.cpp" />
+		<Unit filename="src/game/SpawnManager.h" />
 		<Unit filename="src/game/StructureCell.cpp" />
 		<Unit filename="src/game/StructureCell.h" />
 		<Unit filename="src/game/fwd.h" />

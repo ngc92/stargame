@@ -13,7 +13,7 @@ namespace game
 	class SpaceShip : public ObjectCounter<SpaceShip>, public GameObject
 	{
 	public:
-		SpaceShip(b2Body* body);
+		SpaceShip(long id, b2Body* body, std::unique_ptr<ShipStructure> structure);
 		~SpaceShip();
 
 	private:

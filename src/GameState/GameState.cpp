@@ -13,7 +13,7 @@ GameState::GameState(IEngine* engine) :
 	mSpawnListener( mGame->addSpawnListener( [this](const game::GameObject& s) { onSpawn( s ); } ) )
 {
 	addGameModule(make_unique<TextInterface>());
-	addGameModule(make_unique<InputModule>(engine, -1));
+	addGameModule(make_unique<InputModule>(engine, 0));
 }
 
 GameState::~GameState()

@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "ContactListener.h"
 #include "debug/CDebugDraw.h"
+#include <Box2D/Dynamics/b2Body.h>
 #include <algorithm>
 
 namespace game
@@ -52,8 +53,10 @@ namespace game
 		mSpawnListeners.notify(*object);
 	}
 
-	b2Body* GameWorld::createBody(const b2BodyDef& def)
+	b2Body* GameWorld::createBody()
 	{
+		b2BodyDef def;
+		def.type = b2_dynamicBody;
 		return mPhysicWorld->CreateBody(&def);
 	}
 

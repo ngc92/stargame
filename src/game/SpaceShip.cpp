@@ -7,8 +7,9 @@
 namespace game
 {
 	using namespace std::placeholders;
-	SpaceShip::SpaceShip(b2Body* body) : GameObject(body),
-							mStructure( make_unique<ShipStructure>() ),
+	SpaceShip::SpaceShip(long id, b2Body* body, std::unique_ptr<ShipStructure> structure) :
+							GameObject(body, id),
+							mStructure( std::move(structure) ),
 							mFlightModel( make_unique<FlightModel>() ),
 							mStepListener( addStepListener(std::bind(onShipStep, this)) ),
 							mImpactListener( addImpactListener(std::bind(onShipImpact, this, _1, _2)) )

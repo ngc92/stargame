@@ -30,7 +30,7 @@ namespace game
 		void addGameObject(std::shared_ptr<GameObject> object);
 
 		/// \todo we need to figure out where best to put this functionality
-		b2Body* createBody(const b2BodyDef& );
+		b2Body* createBody( );
 
 		const IDebugDraw& getDebugDrawer() const;
 

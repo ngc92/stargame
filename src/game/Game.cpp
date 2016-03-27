@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "util.h"
 #include "CTimeManager.h"
+#include "SpawnManager.h"
 
 namespace game
 {
@@ -11,7 +12,8 @@ namespace game
 		mQuitGame(false),
 		mGameThread( [this](){ gameloop(); } ),
 		mGameWorld( make_unique<GameWorld>() ),
-		mTimeManager( make_unique<CTimeManager>() )
+		mTimeManager( make_unique<CTimeManager>() ),
+		mSpawnManager( make_unique<SpawnManager>([this](){ return mGameWorld->createBody(); }) )
 	{
 		mTimeManager->setDesiredFPS(50);
 	};
@@ -23,6 +25,7 @@ namespace game
 
 	void Game::run()
 	{
+		mGameWorld->addGameObject(mSpawnManager->createSpaceShip("PLAYER", 0));
 		mRunGame = true;
 	}
 
