@@ -28,7 +28,12 @@ void InputModule::onSpawn(const game::GameObject& spawned)
 
 void InputModule::onStep(const game::GameWorld& view)
 {
-
+	for(auto key : mKeysDown)
+	{
+		auto action = mKeyDownActions.find(key);
+		if(action != mKeyDownActions.end())
+			action->second();
+	}
 }
 
 void InputModule::onInput(std::weak_ptr<input::IInputElement>& input)
@@ -39,17 +44,21 @@ void InputModule::onInput(std::weak_ptr<input::IInputElement>& input)
 
     std::cout << ip->name() << "\n";
     /// now, we would need an InputMapping definition
-    mThrustInput = ip;
+    mKeyDownActions[irr::KEY_UP] = [ip](){ ip->increase(); };
+    mKeyDownActions[irr::KEY_DOWN] = [ip](){ ip->decrease(); };
 }
 
 void InputModule::onKeyEvent(irr::EKEY_CODE key, bool press)
 {
 	/// \todo here, we would really need timing information
-	if(key == irr::KEY_UP && press)
+	if(press)
 	{
-		mThrustInput->increase();
-	} else if(key == irr::KEY_DOWN && press)
-	{
-		mThrustInput->decrease();
+		mKeysDown.insert(key);
+		auto action = mKeyPressActions.find(key);
+		if(action != mKeyPressActions.end())	action->second();
+	} else {
+		mKeysDown.erase(key);
+		auto action = mKeyReleaseActions.find(key);
+		if(action != mKeyReleaseActions.end())	action->second();
 	}
 }

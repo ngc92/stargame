@@ -9,8 +9,8 @@ namespace components
 {
 	//! \todo BaseTemperature Parameter
 	Engine::Engine() : CComponent(100, 100, "Engine"),
-		mThrustLevel( input::createInputElement("thrust", input::InputType::GAUGE, 0.f) ),
-		mThrust( "thrust", 1.f ), mFuelConsumption( "consumption", 1.f )
+		mThrust( "thrust", 1.f ), mFuelConsumption( "consumption", 1.f ),
+		mThrustLevel( input::createInputElement("thrust", input::InputType::GAUGE, 0.f) )
 	{
 	}
 
@@ -28,7 +28,7 @@ namespace components
 	{
 		if(!mTank) return;
 
-		float tval = mThrustLevel->value() + 0.001;		// idle consumption 0.1%
+		float tval = std::min(1.f, std::max(0.f, mThrustLevel->value())) + 0.001;		// idle consumption 0.1%
 		float eta  = 2 - tval;							// efficiency factor
 		float fconsum = mFuelConsumption * tval / eta;	// get the amount of fuel we need for
 														// the desired thrust, i.e. we correct

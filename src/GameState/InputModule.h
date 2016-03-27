@@ -4,6 +4,8 @@
 #include "IGameModule.h"
 #include "IEventListener.h"
 #include <memory>
+#include <map>
+#include <set>
 
 class IEngine;
 namespace input
@@ -27,6 +29,13 @@ private:
 
 	long mShipID;
 	std::shared_ptr<input::IInputElement> mThrustInput;
+
+	using key_mapping_t = std::map<irr::EKEY_CODE, std::function<void()>>;
+	key_mapping_t mKeyPressActions;
+	key_mapping_t mKeyReleaseActions;
+	key_mapping_t mKeyDownActions;
+	std::set<irr::EKEY_CODE> mKeysDown;
+
 };
 
 #endif // INPUTMODULE_H_INCLUDED
