@@ -6,6 +6,9 @@
 #include <vector>
 #include "util/ListenerList.h"
 
+class IDebugDraw;
+class CDebugDraw;
+
 namespace game
 {
 	class GameObject;
@@ -29,6 +32,8 @@ namespace game
 		/// \todo we need to figure out where best to put this functionality
 		b2Body* createBody(const b2BodyDef& );
 
+		const IDebugDraw& getDebugDrawer() const;
+
 		template<class T>
 		void iterateViews(T&& f) const;
 
@@ -40,6 +45,7 @@ namespace game
 
 		std::unique_ptr<b2World> mPhysicWorld;
 		std::unique_ptr<ContactListener> mContactListener;
+		std::unique_ptr<CDebugDraw> mDebugDrawer;
 		std::vector<std::shared_ptr<GameObject>> mGameObjects;
 
 		ListenerList<GameObject&> mSpawnListeners;

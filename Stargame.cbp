@@ -72,7 +72,10 @@
 		<Unit filename="src/ShipEditor/ShipEditorState.h" />
 		<Unit filename="src/debug/CDebugConsole.cpp" />
 		<Unit filename="src/debug/CDebugConsole.h" />
+		<Unit filename="src/debug/CDebugDraw.cpp" />
+		<Unit filename="src/debug/CDebugDraw.h" />
 		<Unit filename="src/debug/IDebugConsole.h" />
+		<Unit filename="src/debug/IDebugDraw.h" />
 		<Unit filename="src/debug/IDebugDrawer.h" />
 		<Unit filename="src/debug/ObjectCounter.cpp" />
 		<Unit filename="src/debug/ObjectCounter.h" />

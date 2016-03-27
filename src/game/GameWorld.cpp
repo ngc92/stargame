@@ -1,16 +1,19 @@
 #include "GameWorld.h"
 #include "GameObject.h"
 #include "ContactListener.h"
+#include "debug/CDebugDraw.h"
 #include <algorithm>
 
 namespace game
 {
 	GameWorld::GameWorld() : mPhysicWorld( make_unique<b2World>(b2Vec2(0,0)) ),
-							 mContactListener( make_unique<ContactListener>() )
+							 mContactListener( make_unique<ContactListener>() ),
+							 mDebugDrawer( make_unique<CDebugDraw>() )
 	{
 		mPhysicWorld->SetAutoClearForces( true );
 		mPhysicWorld->SetContactListener( mContactListener.get() );
 		mPhysicWorld->SetContinuousPhysics( true );
+		mPhysicWorld->SetDebugDraw( mDebugDrawer.get() );
 	}
 
 	GameWorld::~GameWorld()
@@ -21,6 +24,9 @@ namespace game
 	{
 		// step the physic world
 		mPhysicWorld->Step(1.0/60, 8, 3);
+		// debug draw
+		mPhysicWorld->DrawDebugData();
+		mDebugDrawer->setFinished();
 		// and trigger corresponding physic events
 		mContactListener->triggerEvents();
 
@@ -50,4 +56,10 @@ namespace game
 	{
 		return mPhysicWorld->CreateBody(&def);
 	}
+
+	const IDebugDraw& GameWorld::getDebugDrawer() const
+	{
+		return *mDebugDrawer;
+	}
+
 }
