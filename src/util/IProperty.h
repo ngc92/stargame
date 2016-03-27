@@ -2,6 +2,7 @@
 #define IPROPERTY_H_INCLUDED
 
 #include <string>
+#include <boost/property_tree/ptree_fwd.hpp>
 
 enum class PropertyType
 {
@@ -36,7 +37,9 @@ public:
 	virtual float getFloat() const = 0;
 	virtual const std::string& getString() const = 0;
 
-	// access the saved value
+	/// generalized reading
+	virtual void put( boost::property_tree::ptree& tree ) const = 0;
+	virtual void get( const boost::property_tree::ptree& tree ) = 0;
 protected:
 	IProperty(std::string name) : mName(std::move(name)), mChanged(true)
 	{

@@ -27,6 +27,7 @@ void HUD::onSpawn(const game::GameObject& spawned)
 
 			auto lst = props.addPropertyChangeListener("HP", [view, &comp](const IProperty* p)
 			{
+				/// \todo this breaks thread safety! fix!
 				view->status = comp.HP() / comp.maxHP();
 			});
 			view->status = comp.HP() / comp.maxHP();

@@ -2,6 +2,7 @@
 #define PROPERTY_H_INCLUDED
 
 #include "IProperty.h"
+#include <boost/property_tree/ptree.hpp>
 
 template<class T>
 struct TypeDispatch;
@@ -62,6 +63,16 @@ public:
 	int getInt() const override 		{ return getter<int>::get(*this); };
 	float getFloat() const override		{ return getter<float>::get(*this); };
 	const std::string& getString() const override { return getter<std::string>::get(*this); };
+
+	void put( boost::property_tree::ptree& tree ) const override
+	{
+        tree.put<T>(name(), mValue);
+	};
+
+	void get( const boost::property_tree::ptree& tree )
+	{
+		mValue = tree.get<T>(name());
+	}
 private:
 	T mValue;
 };
