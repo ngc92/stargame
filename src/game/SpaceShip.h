@@ -16,6 +16,8 @@ namespace game
 		SpaceShip(long id, b2Body* body, std::unique_ptr<ShipStructure> structure);
 		~SpaceShip();
 
+		const ShipStructure& getStructure() const;
+
 	private:
 		void processActions(ActionList& actions);
 		void onShipStep();

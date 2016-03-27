@@ -5,7 +5,6 @@
 #include <memory>
 #include <functional>
 
-
 class ListenerRef final
 {
 public:
@@ -39,6 +38,12 @@ template<class... Args>
 class ListenerList final
 {
 public:
+	ListenerList() = default;
+	ListenerList(const ListenerList&) = delete;
+	ListenerList(ListenerList&&) = default;
+	ListenerList& operator=(const ListenerList&) = delete;
+	ListenerList& operator=(ListenerList&&) = default;
+
 	/// add a new listener to the list.
 	template<class T>
 	ListenerRef addListener(T&& lst);
@@ -46,6 +51,8 @@ public:
 	/// notify all listeners in this list.
 	template<class... PArgs>
 	void notify(PArgs&&... args);
+
+	std::size_t size() const { return mListenerList.size(); };
 private:
 	std::list<std::function<void(Args...)>> mListenerList;
 };

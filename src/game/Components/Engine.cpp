@@ -8,7 +8,7 @@ namespace game
 namespace components
 {
 	//! \todo BaseTemperature Parameter
-	Engine::Engine() : CComponent(100, 100, "engine"),
+	Engine::Engine() : CComponent(100, 100, "Engine"),
 		mThrustLevel( input::createInputElement("thrust", input::InputType::GAUGE, 0.f) ),
 		mThrust( "thrust", 1.f ), mFuelConsumption( "consumption", 1.f )
 	{

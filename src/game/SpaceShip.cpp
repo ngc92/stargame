@@ -50,4 +50,9 @@ namespace game
 		Damage damage(DamageType::BLUNT, info.impulse * 0.0008);
 		mStructure->hit(damage, info.position, -info.normal);
 	}
+
+	const ShipStructure& SpaceShip::getStructure() const
+	{
+		return *mStructure;
+	}
 }

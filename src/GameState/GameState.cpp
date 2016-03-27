@@ -4,6 +4,7 @@
 #include "util.h"
 #include "TextInterface/TextInterface.h"
 #include "InputModule.h"
+#include "HUD.h"
 #include <irrlicht/IGUIEnvironment.h>
 #include <iostream>
 
@@ -14,6 +15,7 @@ GameState::GameState(IEngine* engine) :
 {
 	addGameModule(make_unique<TextInterface>());
 	addGameModule(make_unique<InputModule>(engine, 0));
+	addGameModule(make_unique<HUD>(mGUIEnv, 0));
 }
 
 GameState::~GameState()

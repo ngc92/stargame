@@ -3,6 +3,7 @@
 #include "Box2D/Box2D.h"
 #include "input/CInputCollection.h"
 #include "input/IInputElement.h"
+#include "util/IPropertyCollection.h"
 
 namespace game
 {
@@ -31,6 +32,12 @@ namespace game
 		/// \todo is this the right place to do this?
 		mInputs->iterateInputs([](std::weak_ptr<input::IInputElement>& e){ auto p = e.lock(); if(p) p->update(); });
 		mStepListeners.notify();
+
+		// update property listeners
+		for(auto& p : mPropertySubobjects)
+		{
+			p.second->properties().notifyIfChanged();
+		}
 	}
 
 	void GameObject::onImpact(GameObject* other, const ImpactInfo& info)
