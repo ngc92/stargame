@@ -26,7 +26,7 @@
 1458605525 c:\users\felix\documents\github\stargame\src\iengine.h
 	"util.h"
 
-1458605525 c:\users\felix\documents\github\stargame\src\util.h
+1459603239 c:\users\felix\documents\github\stargame\src\util.h
 	<memory>
 	<Box2D/Common/b2Math.h>
 	<irrlicht/vector2d.h>
@@ -53,7 +53,7 @@
 	<iosfwd>
 	<functional>
 
-1458599744 c:\users\felix\documents\github\stargame\src\cstatemanager.h
+1459603239 c:\users\felix\documents\github\stargame\src\cstatemanager.h
 	"IStateManager.h"
 	<stack>
 	<unordered_map>
@@ -103,7 +103,7 @@
 	<vector>
 	"util.h"
 
-1458605525 c:\users\felix\documents\github\stargame\src\\util.h
+1459603239 c:\users\felix\documents\github\stargame\src\\util.h
 	<memory>
 	<Box2D/Common/b2Math.h>
 	<irrlicht/vector2d.h>
@@ -145,7 +145,7 @@
 	<irrlicht/Keycodes.h>
 	<irrlicht/IEventReceiver.h>
 
-1458599744 source:c:\users\felix\documents\github\stargame\src\cirrmastereventreceiver.cpp
+1459603239 source:c:\users\felix\documents\github\stargame\src\cirrmastereventreceiver.cpp
 	"CIrrMasterEventReceiver.h"
 	"IInputManager.h"
 	"IStateManager.h"
@@ -155,7 +155,7 @@
 	<boost/exception/diagnostic_information.hpp>
 	<iostream>
 
-1458642586 source:c:\users\felix\documents\github\stargame\src\cstatemanager.cpp
+1459603239 source:c:\users\felix\documents\github\stargame\src\cstatemanager.cpp
 	"CStateManager.h"
 	"IState.h"
 	"IEngine.h"
@@ -182,11 +182,12 @@
 	<typeindex>
 	<iostream>
 
-1458599744 source:c:\users\felix\documents\github\stargame\src\main.cpp
+1459605017 source:c:\users\felix\documents\github\stargame\src\main.cpp
 	"CEngine.h"
 	"IStateManager.h"
 	"Options.h"
 	"ShipEditor/ShipEditorState.h"
+	"GameState/GameState.h"
 	<irrlicht/irrlicht.h>
 	<iostream>
 
@@ -620,43 +621,50 @@
 1458742334 c:\users\felix\documents\github\stargame\src\game\armoursegment.h
 	"Damage.h"
 
-1458742334 c:\users\felix\documents\github\stargame\src\game\damage.h
+1459603239 c:\users\felix\documents\github\stargame\src\game\damage.h
 	<array>
 
 1458742334 source:c:\users\felix\documents\github\stargame\src\game\damage.cpp
 	"Damage.h"
 	<numeric>
 
-1458742334 source:c:\users\felix\documents\github\stargame\src\game\flightmodel.cpp
+1459603239 source:c:\users\felix\documents\github\stargame\src\game\flightmodel.cpp
 	"FlightModel.h"
 	<Box2D/Dynamics/b2Body.h>
 
-1458742334 c:\users\felix\documents\github\stargame\src\game\flightmodel.h
+1459603239 c:\users\felix\documents\github\stargame\src\game\flightmodel.h
 	"util.h"
 
-1458742334 source:c:\users\felix\documents\github\stargame\src\game\gameobject.cpp
+1459603239 source:c:\users\felix\documents\github\stargame\src\game\gameobject.cpp
 	"GameObject.h"
 	<cassert>
 	"Box2D/Box2D.h"
+	"input/CInputCollection.h"
+	"input/IInputElement.h"
 
-1458742334 c:\users\felix\documents\github\stargame\src\game\gameobject.h
+1459603239 c:\users\felix\documents\github\stargame\src\game\gameobject.h
 	"util.h"
+	"util/ListenerList.h"
+	"property/IPropertyObject.h"
 
-1458742334 source:c:\users\felix\documents\github\stargame\src\game\shipstructure.cpp
+1459604592 source:c:\users\felix\documents\github\stargame\src\game\shipstructure.cpp
 	"ShipStructure.h"
 	"Components/IComponent.h"
 	<Box2D/Collision/b2Collision.h>
 	<Box2D/Collision/Shapes/b2EdgeShape.h>
+	"Components/FuelTank.h"
+	"Components/Engine.h"
 
-1458742334 c:\users\felix\documents\github\stargame\src\game\shipstructure.h
+1459603239 c:\users\felix\documents\github\stargame\src\game\shipstructure.h
 	"util.h"
 	<vector>
 	"StructureCell.h"
 	"ArmourSegment.h"
 
-1458742334 c:\users\felix\documents\github\stargame\src\game\structurecell.h
+1459603239 c:\users\felix\documents\github\stargame\src\game\structurecell.h
 	<vector>
 	<memory>
+	"fwd.h"
 
 1458753170 c:\users\felix\documents\github\stargame\src\\components\icomponent.h
 	<string>
@@ -665,16 +673,19 @@
 	<irrlicht/IAttributes.h>
 	"util.h"
 
-1458742334 source:c:\users\felix\documents\github\stargame\src\game\spaceship.cpp
+1459603239 source:c:\users\felix\documents\github\stargame\src\game\spaceship.cpp
 	"SpaceShip.h"
 	"ShipStructure.h"
 	"FlightModel.h"
+	"Components/ActionList.h"
+	"Components/IComponent.h"
 
-1458742334 c:\users\felix\documents\github\stargame\src\game\spaceship.h
+1459603239 c:\users\felix\documents\github\stargame\src\game\spaceship.h
 	"util.h"
 	"GameObject.h"
+	"property/CPropertyObject.h"
 
-1458742334 source:c:\users\felix\documents\github\stargame\src\game\structurecell.cpp
+1459603239 source:c:\users\felix\documents\github\stargame\src\game\structurecell.cpp
 	"StructureCell.h"
 	"Components/IComponent.h"
 	<Box2D/Collision/Shapes/b2Shape.h>
@@ -702,4 +713,445 @@
 	<irrlicht/IParticleSystemSceneNode.h>
 	<vector>
 	<Box2D/Common/b2Math.h>
+
+1459602916 source:c:\users\felix\documents\github\stargame\src\graphic\explosionnode.cpp
+	"ExplosionNode.h"
+	<irrlicht/irrlicht.h>
+
+1459602807 c:\users\felix\documents\github\stargame\src\graphic\explosionnode.h
+	<irrlicht/ISceneNode.h>
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\debug\cdebugdraw.cpp
+	"CDebugDraw.h"
+	"util.h"
+	<irrlicht/irrlicht.h>
+
+1459603239 c:\users\felix\documents\github\stargame\src\debug\cdebugdraw.h
+	<vector>
+	<functional>
+	<mutex>
+	<Box2D/Common/b2Draw.h>
+	"util.h"
+	"IDebugDraw.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\debug\idebugdraw.h
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\game\components\actionlist.cpp
+	"ActionList.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\game\components\actionlist.h
+	<deque>
+	<memory>
+	<algorithm>
+	"IAction.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\game\components\iaction.h
+	"util.h"
+	"game/fwd.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\\game\fwd.h
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\game\components\actions.cpp
+	"Actions.h"
+	"../FlightModel.h"
+	"IComponent.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\game\components\actions.h
+	"IAction.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\game\components\icomponent.h
+	<string>
+	"util.h"
+	"util/ListenerList.h"
+	"property/IPropertyObject.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\\util\listenerlist.h
+	<list>
+	<memory>
+	<functional>
+
+1459603239 c:\users\felix\documents\github\stargame\src\\property\ipropertyobject.h
+	"IPropertyObjectView.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\\property\ipropertyobjectview.h
+	<functional>
+	<memory>
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\game\components\ccomponent.cpp
+	"CComponent.h"
+	<cassert>
+
+1459603239 c:\users\felix\documents\github\stargame\src\game\components\ccomponent.h
+	"IComponent.h"
+	"property/CPropertyObject.h"
+	"property/TypedProperty.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\\property\cpropertyobject.h
+	"IPropertyObject.h"
+	"util/ListenerList.h"
+	<unordered_map>
+
+1459603239 c:\users\felix\documents\github\stargame\src\\property\typedproperty.h
+	<memory>
+	"IProperty.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\\property\iproperty.h
+	"IPropertyView.h"
+	"util/ListenerList.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\\property\ipropertyview.h
+	<string>
+	<functional>
+	<boost/variant.hpp>
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\game\components\engine.cpp
+	"Engine.h"
+	"Actions.h"
+	"input/IInputCollection.h"
+	<iostream>
+
+1459603239 c:\users\felix\documents\github\stargame\src\game\components\engine.h
+	"CComponent.h"
+	"input/IInputElement.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\\input\iinputelement.h
+	"util.h"
+	<string>
+
+1459603239 c:\users\felix\documents\github\stargame\src\\input\iinputcollection.h
+	<functional>
+	<memory>
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\game\components\fueltank.cpp
+	"FuelTank.h"
+	<cstdlib>
+	<iostream>
+
+1459603239 c:\users\felix\documents\github\stargame\src\game\components\fueltank.h
+	"CComponent.h"
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\game\contactlistener.cpp
+	"ContactListener.h"
+	"GameObject.h"
+	<Box2D/Box2D.h>
+
+1459603239 c:\users\felix\documents\github\stargame\src\game\contactlistener.h
+	<Box2D/Dynamics/b2WorldCallbacks.h>
+	<vector>
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\game\game.cpp
+	"Game.h"
+	"GameWorld.h"
+	"GameObject.h"
+	"util.h"
+	"CTimeManager.h"
+	"SpawnManager.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\game\game.h
+	<thread>
+	<memory>
+	<atomic>
+	<unordered_map>
+	<functional>
+	"util/WriteLock.h"
+	"util/ListenerList.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\\util\writelock.h
+	<mutex>
+
+1459603239 c:\users\felix\documents\github\stargame\src\game\gameworld.h
+	<Box2D/Dynamics/b2World.h>
+	<memory>
+	<vector>
+	"util/ListenerList.h"
+
+1458575106 c:\users\felix\documents\github\stargame\src\\ctimemanager.h
+	"ITimeManager.h"
+	<chrono>
+
+1458599744 c:\users\felix\documents\github\stargame\src\\itimemanager.h
+	"util.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\game\spawnmanager.h
+	<memory>
+	<string>
+	<functional>
+	<vector>
+	<unordered_map>
+	"fwd.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\game\fwd.h
+
+1459603239 c:\users\felix\documents\github\stargame\src\\input\cinputcollection.h
+	"IInputCollection.h"
+	<vector>
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\game\gameworld.cpp
+	"GameWorld.h"
+	"GameObject.h"
+	"ContactListener.h"
+	"debug/CDebugDraw.h"
+	<Box2D/Dynamics/b2Body.h>
+	<algorithm>
+
+1459603239 c:\users\felix\documents\github\stargame\src\\debug\cdebugdraw.h
+	<vector>
+	<functional>
+	<mutex>
+	<Box2D/Common/b2Draw.h>
+	"util.h"
+	"IDebugDraw.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\\debug\idebugdraw.h
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\game\spawnmanager.cpp
+	"SpawnManager.h"
+	"components/FuelTank.h"
+	"components/Engine.h"
+	"SpaceShip.h"
+	"ShipStructure.h"
+	<Box2D/Box2D.h>
+	<cassert>
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\gamestate\gamestate.cpp
+	"GameState.h"
+	"game/Game.h"
+	"IEngine.h"
+	"util.h"
+	"TextInterface/TextInterface.h"
+	"InputModule.h"
+	"HUD.h"
+	<irrlicht/IGUIEnvironment.h>
+	<iostream>
+
+1459603239 c:\users\felix\documents\github\stargame\src\gamestate\gamestate.h
+	"IState.h"
+	"util/ListenerList.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\\game\game.h
+	<thread>
+	<memory>
+	<atomic>
+	<unordered_map>
+	<functional>
+	"util/WriteLock.h"
+	"util/ListenerList.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\gamestate\textinterface\textinterface.h
+	"../IGameModule.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\gamestate\igamemodule.h
+
+1459603239 c:\users\felix\documents\github\stargame\src\gamestate\inputmodule.h
+	"IGameModule.h"
+	"IEventListener.h"
+	<memory>
+	<map>
+	<set>
+
+1458599744 c:\users\felix\documents\github\stargame\src\\ieventlistener.h
+	"util.h"
+	<irrlicht/Keycodes.h>
+	<irrlicht/IEventReceiver.h>
+
+1459603239 c:\users\felix\documents\github\stargame\src\gamestate\hud.h
+	"IGameModule.h"
+	"util.h"
+	"util/ListenerList.h"
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\gamestate\hud.cpp
+	"HUD.h"
+	"game/SpaceShip.h"
+	"game/ShipStructure.h"
+	"game/components/IComponent.h"
+	"graphic/SubsystemDamageView.h"
+	<irrlicht/irrlicht.h>
+	<iostream>
+	"property/IPropertyView.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\\game\spaceship.h
+	"util.h"
+	"GameObject.h"
+	"property/CPropertyObject.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\\game\gameobject.h
+	"util.h"
+	"util/ListenerList.h"
+	"property/IPropertyObject.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\\game\shipstructure.h
+	"util.h"
+	<vector>
+	"StructureCell.h"
+	"ArmourSegment.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\\game\structurecell.h
+	<vector>
+	<memory>
+	"fwd.h"
+
+1458742334 c:\users\felix\documents\github\stargame\src\\game\armoursegment.h
+	"Damage.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\\game\damage.h
+	<array>
+
+1459603239 c:\users\felix\documents\github\stargame\src\\game\components\icomponent.h
+	<string>
+	"util.h"
+	"util/ListenerList.h"
+	"property/IPropertyObject.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\\graphic\subsystemdamageview.h
+	<irrlicht/IGUIElement.h>
+	<memory>
+	<vector>
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\gamestate\inputmodule.cpp
+	"InputModule.h"
+	"game/GameObject.h"
+	"input/IInputCollection.h"
+	"input/IInputElement.h"
+	"input/CInputConfig.h"
+	"IEngine.h"
+	"IInputManager.h"
+	<iostream>
+	<irrlicht/Keycodes.h>
+
+1459603239 c:\users\felix\documents\github\stargame\src\\input\cinputconfig.h
+	"IInputConfiguration.h"
+	<vector>
+
+1459603239 c:\users\felix\documents\github\stargame\src\\input\iinputconfiguration.h
+	<irrlicht/Keycodes.h>
+	<string>
+
+1458599744 c:\users\felix\documents\github\stargame\src\\iinputmanager.h
+	<memory>
+	<irrlicht/Keycodes.h>
+	<irrlicht/vector2d.h>
+	<irrlicht/IEventReceiver.h>
+	"util.h"
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\gamestate\textinterface\textinterface.cpp
+	"TextInterface.h"
+	<iostream>
+	"game/GameWorld.h"
+	"game/GameObject.h"
+	"property/property.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\\game\gameworld.h
+	<Box2D/Dynamics/b2World.h>
+	<memory>
+	<vector>
+	"util/ListenerList.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\\property\property.h
+	"IPropertyView.h"
+	"IPropertyObjectView.h"
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\graphic\subsystemdamageview.cpp
+	"SubsystemDamageView.h"
+	<irrlicht/IVideoDriver.h>
+	<irrlicht/IGUIEnvironment.h>
+	<irrlicht/IGUIStaticText.h>
+
+1459603239 c:\users\felix\documents\github\stargame\src\graphic\subsystemdamageview.h
+	<irrlicht/IGUIElement.h>
+	<memory>
+	<vector>
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\input\cinputcollection.cpp
+	"CInputCollection.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\input\cinputcollection.h
+	"IInputCollection.h"
+	<vector>
+
+1459603239 c:\users\felix\documents\github\stargame\src\input\iinputcollection.h
+	<functional>
+	<memory>
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\input\cinputconfig.cpp
+	"CInputConfig.h"
+	<regex>
+	<cassert>
+	<boost/property_tree/ptree.hpp>
+	<boost/property_tree/xml_parser.hpp>
+
+1459603239 c:\users\felix\documents\github\stargame\src\input\cinputconfig.h
+	"IInputConfiguration.h"
+	<vector>
+
+1459603239 c:\users\felix\documents\github\stargame\src\input\iinputconfiguration.h
+	<irrlicht/Keycodes.h>
+	<string>
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\input\cinputelement.cpp
+	"CInputElement.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\input\cinputelement.h
+	"IInputElement.h"
+	<mutex>
+	<atomic>
+
+1459603239 c:\users\felix\documents\github\stargame\src\input\iinputelement.h
+	"util.h"
+	<string>
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\input\inputelements.cpp
+	"InputElements.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\input\inputelements.h
+	"CInputElement.h"
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\property\cproperty.cpp
+	"CProperty.h"
+	"IPropertyObject.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\property\cproperty.h
+	"IProperty.h"
+	"debug/ObjectCounter.h"
+	"util/ListenerList.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\property\iproperty.h
+	"IPropertyView.h"
+	"util/ListenerList.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\property\ipropertyview.h
+	<string>
+	<functional>
+	<boost/variant.hpp>
+
+1459603239 c:\users\felix\documents\github\stargame\src\property\ipropertyobject.h
+	"IPropertyObjectView.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\property\ipropertyobjectview.h
+	<functional>
+	<memory>
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\property\cpropertyobject.cpp
+	"CPropertyObject.h"
+	"IPropertyView.h"
+	<algorithm>
+	<cassert>
+
+1459603239 c:\users\felix\documents\github\stargame\src\property\cpropertyobject.h
+	"IPropertyObject.h"
+	"util/ListenerList.h"
+	<unordered_map>
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\property\typedproperty.cpp
+	"TypedProperty.h"
+	"CProperty.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\property\typedproperty.h
+	<memory>
+	"IProperty.h"
+
+1459603239 source:c:\users\felix\documents\github\stargame\src\util\writelock.cpp
+	"WriteLock.h"
+
+1459603239 c:\users\felix\documents\github\stargame\src\util\writelock.h
+	<mutex>
 

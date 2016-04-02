@@ -10,7 +10,7 @@ namespace game
 {
 	ShipStructure::ShipStructure()
 	{
-
+		addStructureCell(StructureCell(0,1000,nullptr));
 	}
 
 	void ShipStructure::addStructureCell(StructureCell cell)

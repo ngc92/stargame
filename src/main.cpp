@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 
 		engine->getStateManager().addFactory("ShipEditor", createShipEditorState);
 		engine->getStateManager().addFactory("GameState", createGameState);
-		engine->getStateManager().createState("GameState", nullptr);
+		engine->getStateManager().createState("ShipEditor", nullptr);
 
 		// main game loop
 		while(engine->tick())
