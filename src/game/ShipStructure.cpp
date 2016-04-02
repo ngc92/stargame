@@ -3,6 +3,9 @@
 #include <Box2D/Collision/b2Collision.h>
 #include <Box2D/Collision/Shapes/b2EdgeShape.h>
 
+#include "Components/FuelTank.h"
+#include "Components/Engine.h"
+
 namespace game
 {
 	ShipStructure::ShipStructure()
@@ -20,9 +23,23 @@ namespace game
 		getCell(cellid).addComponent( std::move(cmp) );
 	}
 
-	void ShipStructure::update(float dt)
+	void ShipStructure::init(property::IPropertyObject& parent, IActionListInterface& actions, input::IInputCollection& inputs)
 	{
-		foreachComponent([](IComponent& c, float dt){ c.step(dt); }, dt);
+		foreachComponent([](IComponent& c,
+							property::IPropertyObject& p,
+							IActionListInterface& l,
+							input::IInputCollection& i)
+							{
+											c.init(l, i);
+											p.addChild(&c);
+							},
+							std::ref(parent), std::ref(actions), std::ref(inputs)
+						);
+	}
+
+	void ShipStructure::update(IActionListInterface& actions)
+	{
+		foreachComponent([](IComponent& c, IActionListInterface& l){ c.step(l); }, std::ref(actions));
 	}
 
 	void ShipStructure::hit(Damage damage, vector2d position, vector2d direction)

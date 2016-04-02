@@ -3,8 +3,8 @@
 
 #include <vector>
 #include <memory>
+#include "fwd.h"
 
-class IComponent;
 class b2Shape;
 
 namespace game

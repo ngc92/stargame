@@ -2,16 +2,34 @@
 #define GAMEOBJECT_H_INCLUDED
 
 #include "util.h"
+#include "util/ListenerList.h"
+#include "property/IPropertyObject.h"
+
+namespace input
+{
+	class IInputCollection;
+}
 
 namespace game
 {
-	class GameObject : ObjectCounter<GameObject>
+	struct ImpactInfo
+	{
+		b2Fixture* 	fixture;
+		b2Vec2 		normal;
+		b2Vec2		position;
+		float		impulse;
+	};
+
+	class GameObject : ObjectCounter<GameObject>, noncopyable,
+					   public std::enable_shared_from_this<GameObject>,
+					   public virtual property::IPropertyObject
 	{
 		public:
 			GameObject(b2Body* body = nullptr, long ID = -1);
-			virtual ~GameObject() = default;
+			virtual ~GameObject();
 
-			virtual bool step(float dt) = 0;
+			void onStep();
+			void onImpact(GameObject* other, const ImpactInfo& info);
 
 			void setPosition(const vector2d& pos);
 			void setRotation(float rot);
@@ -45,19 +63,32 @@ namespace game
 
 			bool isAlive() const { return mIsAlive; };
 
-			void setYOffset( float o ) { mYOffset = o; };
+			const input::IInputCollection& getInputs() const;
 
+			template<class T>
+			ListenerRef addStepListener(T&& l)
+			{
+				return std::move(mStepListeners.addListener(std::forward<T>(l)));
+			}
+
+			template<class T>
+			ListenerRef addImpactListener(T&& l)
+			{
+				return std::move(mImpactListeners.addListener(std::forward<T>(l)));
+			}
 		protected:
-
 			b2Body* mBody = nullptr;
-			// corrections
-			float mYOffset = 0;
 
 			// status
 			bool mIsAlive;
 
 			// id
 			long mID;
+
+			ListenerList<void> mStepListeners;
+			ListenerList<GameObject*, const ImpactInfo&> mImpactListeners;
+
+			std::unique_ptr<input::IInputCollection> mInputs;
 	};
 }
 

@@ -3,20 +3,30 @@
 
 #include "util.h"
 #include "GameObject.h"
+#include "property/CPropertyObject.h"
 
 namespace game
 {
 	class ShipStructure;
 	class FlightModel;
+	class ActionList;
 
-	class SpaceShip : public ObjectCounter<SpaceShip>, public GameObject
+	class SpaceShip : ObjectCounter<SpaceShip>, public GameObject, public property::CPropertyObject
 	{
 	public:
-		SpaceShip();
+		SpaceShip(long id, b2Body* body, std::unique_ptr<ShipStructure> structure);
+		~SpaceShip();
 
-		bool step(float dt) override;
+		const ShipStructure& getStructure() const;
 
 	private:
+		void processActions(ActionList& actions);
+		void onShipStep();
+		void onShipImpact(GameObject* other, const ImpactInfo& info);
+
+		ListenerRef mStepListener;
+		ListenerRef mImpactListener;
+
 		std::unique_ptr<ShipStructure> mStructure;
 		std::unique_ptr<FlightModel> mFlightModel;
 	};

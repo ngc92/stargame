@@ -7,8 +7,20 @@
 #include "StructureCell.h"
 #include "ArmourSegment.h"
 
+namespace input
+{
+	class IInputCollection;
+}
+
+namespace property
+{
+	class IPropertyObject;
+}
+
 namespace game
 {
+	class IActionListInterface;
+
 	/*! \class ShipStructure
 		\brief ShipStructure defines the global structure of the ship, i.e.
 				its separation into cells.
@@ -31,8 +43,11 @@ namespace game
 		*/
 		void hit(Damage damage, vector2d position, vector2d direction);
 
+		/// called on initialization
+		void init(property::IPropertyObject& parent, IActionListInterface& actions, input::IInputCollection& inputs);
+
 		/// called every step
-		void update(float dt);
+		void update(IActionListInterface& actions);
 
 		// hitpoints, weight, etc
 		float getMaxHP() const;
@@ -59,7 +74,6 @@ namespace game
 		*/
 		template<class F, class... Args>
 		void foreachShape(const F& func, Args&&... args);
-
 	private:
 		// structure data
 		float mStructurePoints;
@@ -81,6 +95,10 @@ namespace game
 
 		std::vector<PosArmourSegment> mArmour;
 	};
+
+	// --------------------------------------------------
+	// 		template implementations
+	// --------------------------------------------------
 
 	// implementation of template method
 	template<class F, class... Args>

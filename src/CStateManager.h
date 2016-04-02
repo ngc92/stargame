@@ -11,6 +11,7 @@ class CStateManager : public IStateManager
 {
 	public:
 		CStateManager(IEngine* engine);
+		~CStateManager();
 
 		/// is called every frame and calles the step callback of active states.
 		/// Returns false when no active state exists.

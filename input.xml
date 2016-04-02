@@ -1,0 +1,13 @@
+<rule>
+	<pattern>.*\.thrust</pattern>
+	<key>33</key>
+	<action>hold</action>
+	<increase>true</increase>
+</rule>
+
+<rule>
+	<pattern>.*\.thrust</pattern>
+	<key>34</key>
+	<action>hold</action>
+	<increase>false</increase>
+</rule>

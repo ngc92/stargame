@@ -1,16 +1,23 @@
 #include "GameObject.h"
 #include <cassert>
 #include "Box2D/Box2D.h"
+#include "input/CInputCollection.h"
+#include "input/IInputElement.h"
 
 namespace game
 {
 	GameObject::GameObject(b2Body* b, long id) :
 		 mBody(b),
 		 mIsAlive(true),
-		 mID(id)
+		 mID(id),
+		 mInputs( make_unique<input::CInputCollection>() )
 	{
 		assert(mBody);
 		mBody->SetUserData(this);
+	}
+
+	GameObject::~GameObject()
+	{
 	}
 
 	void GameObject::remove()
@@ -18,10 +25,27 @@ namespace game
 		mIsAlive = false;
 	}
 
+	void GameObject::onStep()
+	{
+		// update all inputs
+		/// \todo is this the right place to do this?
+		mInputs->iterateInputs([](std::weak_ptr<input::IInputElement>& e){ auto p = e.lock(); if(p) p->update(); });
+		mStepListeners.notify();
+
+		// update property listeners
+		notifyAll();
+	}
+
+	void GameObject::onImpact(GameObject* other, const ImpactInfo& info)
+	{
+		mImpactListeners.notify(other, info);
+	}
+
 	void GameObject::destroyObject()
 	{
 		assert(!mIsAlive);
 		mBody->GetWorld()->DestroyBody(mBody);
+		mBody = nullptr;
 	}
 
 	// setter
@@ -120,4 +144,8 @@ namespace game
 		return false;
 	}
 
+	const input::IInputCollection& GameObject::getInputs() const
+	{
+		return *mInputs;
+	}
 }
