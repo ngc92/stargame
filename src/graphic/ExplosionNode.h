@@ -11,14 +11,11 @@ namespace irr
 		class ILightSceneNode;
 		class IParticleEmitter;
 	}
-<<<<<<< HEAD
-=======
 
 	namespace video
 	{
 		class ITexture;
 	}
->>>>>>> refs/remotes/origin/master
 }
 
 namespace gfx
@@ -30,19 +27,7 @@ namespace gfx
 	class ExplosionNode: public ISceneNode
 	{
 		public:
-<<<<<<< HEAD
-			ExplosionNode(ISceneNode* parent, ISceneManager *mgr, s32 id, float intensity);
-			~ExplosionNode();
 
-			void OnRegisterSceneNode();
-			void OnAnimate(u32 timeMs);
-			void render();
-
-			const core::aabbox3d<f32>& getBoundingBox() const {
-				//! \todo BoundingBox festlegen
-			};
-
-=======
 			ExplosionNode(ISceneNode* parent, ISceneManager *mgr, s32 id,
 							f32 intensity, video::ITexture* fire_tex);
 			virtual ~ExplosionNode();
@@ -56,7 +41,6 @@ namespace gfx
 			// data getters
 			f32 getIntensity() const;
 			video::ITexture* getTexture() const;
->>>>>>> refs/remotes/origin/master
 
 		private:
 			IParticleSystemSceneNode* mFire;
@@ -64,14 +48,12 @@ namespace gfx
 			IParticleEmitter* mEmitter;
 			int mGenerationTimer;
 			int mLastTime;
-<<<<<<< HEAD
-			float mIntensity;
-=======
+
 			f32 mIntensity;
 
 			// textures
 			video::ITexture* mFireTexture;
->>>>>>> refs/remotes/origin/master
+
 	};
 }
 

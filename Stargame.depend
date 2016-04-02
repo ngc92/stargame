@@ -9,7 +9,7 @@
 	<functional>
 	<irrlicht/IAttributes.h>
 
-1458601925 source:c:\users\felix\documents\github\stargame\src\cengine.cpp
+1458605525 source:c:\users\felix\documents\github\stargame\src\cengine.cpp
 	"CEngine.h"
 	"CStateManager.h"
 	"CInputManager.h"
@@ -20,13 +20,13 @@
 	"debug/CDebugConsole.h"
 	"IState.h"
 
-1458601925 c:\users\felix\documents\github\stargame\src\cengine.h
+1458605525 c:\users\felix\documents\github\stargame\src\cengine.h
 	"IEngine.h"
 
-1458601925 c:\users\felix\documents\github\stargame\src\iengine.h
+1458605525 c:\users\felix\documents\github\stargame\src\iengine.h
 	"util.h"
 
-1458601925 c:\users\felix\documents\github\stargame\src\util.h
+1458605525 c:\users\felix\documents\github\stargame\src\util.h
 	<memory>
 	<Box2D/Common/b2Math.h>
 	<irrlicht/vector2d.h>
@@ -38,72 +38,72 @@
 	"util/convert.h"
 	"debug/ObjectCounter.h"
 
-1458571506 c:\users\felix\documents\github\stargame\src\util\make_unique.h
+1458575106 c:\users\felix\documents\github\stargame\src\util\make_unique.h
 	<memory>
 	<utility>
 	<cstddef>
 	<type_traits>
 
-1458596144 c:\users\felix\documents\github\stargame\src\util\logging.h
+1458599744 c:\users\felix\documents\github\stargame\src\util\logging.h
 	<string>
 	<boost/lexical_cast.hpp>
 
-1458573132 c:\users\felix\documents\github\stargame\src\debug\objectcounter.h
+1458742335 c:\users\felix\documents\github\stargame\src\debug\objectcounter.h
 	<typeinfo>
 	<iosfwd>
 	<functional>
 
-1458596144 c:\users\felix\documents\github\stargame\src\cstatemanager.h
+1458599744 c:\users\felix\documents\github\stargame\src\cstatemanager.h
 	"IStateManager.h"
 	<stack>
 	<unordered_map>
 
-1458596144 c:\users\felix\documents\github\stargame\src\istatemanager.h
+1458599744 c:\users\felix\documents\github\stargame\src\istatemanager.h
 	<string>
 	<functional>
 	<irrlicht/IEventReceiver.h>
 	"util.h"
 
-1458596144 c:\users\felix\documents\github\stargame\src\cinputmanager.h
+1458599744 c:\users\felix\documents\github\stargame\src\cinputmanager.h
 	"IInputManager.h"
 	<vector>
 	<array>
 
-1458596144 c:\users\felix\documents\github\stargame\src\iinputmanager.h
+1458599744 c:\users\felix\documents\github\stargame\src\iinputmanager.h
 	<memory>
 	<irrlicht/Keycodes.h>
 	<irrlicht/vector2d.h>
 	<irrlicht/IEventReceiver.h>
 	"util.h"
 
-1458596144 c:\users\felix\documents\github\stargame\src\cirrmastereventreceiver.h
+1458599744 c:\users\felix\documents\github\stargame\src\cirrmastereventreceiver.h
 	<irrlicht/IEventReceiver.h>
 	"util.h"
 
-1458571506 c:\users\felix\documents\github\stargame\src\ctimemanager.h
+1458575106 c:\users\felix\documents\github\stargame\src\ctimemanager.h
 	"ITimeManager.h"
 	<chrono>
 
-1458596144 c:\users\felix\documents\github\stargame\src\itimemanager.h
+1458599744 c:\users\felix\documents\github\stargame\src\itimemanager.h
 	"util.h"
 
-1458596144 c:\users\felix\documents\github\stargame\src\options.h
+1458599744 c:\users\felix\documents\github\stargame\src\options.h
 	<irrlicht/irrlicht.h>
 
-1458573132 c:\users\felix\documents\github\stargame\src\debug\cdebugconsole.h
+1458576732 c:\users\felix\documents\github\stargame\src\debug\cdebugconsole.h
 	"IDebugConsole.h"
 	<thread>
 	<mutex>
 	<unordered_map>
 	<queue>
 
-1458573132 c:\users\felix\documents\github\stargame\src\debug\idebugconsole.h
+1458576732 c:\users\felix\documents\github\stargame\src\debug\idebugconsole.h
 	<functional>
 	<string>
 	<vector>
 	"util.h"
 
-1458601925 c:\users\felix\documents\github\stargame\src\\util.h
+1458605525 c:\users\felix\documents\github\stargame\src\\util.h
 	<memory>
 	<Box2D/Common/b2Math.h>
 	<irrlicht/vector2d.h>
@@ -115,37 +115,37 @@
 	"util/convert.h"
 	"debug/ObjectCounter.h"
 
-1458571506 c:\users\felix\documents\github\stargame\src\\util\make_unique.h
+1458575106 c:\users\felix\documents\github\stargame\src\\util\make_unique.h
 	<memory>
 	<utility>
 	<cstddef>
 	<type_traits>
 
-1458596144 c:\users\felix\documents\github\stargame\src\\util\logging.h
+1458599744 c:\users\felix\documents\github\stargame\src\\util\logging.h
 	<string>
 	<boost/lexical_cast.hpp>
 
-1458573132 c:\users\felix\documents\github\stargame\src\\debug\objectcounter.h
+1458742335 c:\users\felix\documents\github\stargame\src\\debug\objectcounter.h
 	<typeinfo>
 	<iosfwd>
 	<functional>
 
-1458638986 c:\users\felix\documents\github\stargame\src\istate.h
+1458642586 c:\users\felix\documents\github\stargame\src\istate.h
 	<string>
 	"util.h"
 	<irrlicht/IEventReceiver.h>
 
-1458596144 source:c:\users\felix\documents\github\stargame\src\cinputmanager.cpp
+1458599744 source:c:\users\felix\documents\github\stargame\src\cinputmanager.cpp
 	"CInputManager.h"
 	"IEventListener.h"
 	<cassert>
 
-1458596144 c:\users\felix\documents\github\stargame\src\ieventlistener.h
+1458599744 c:\users\felix\documents\github\stargame\src\ieventlistener.h
 	"util.h"
 	<irrlicht/Keycodes.h>
 	<irrlicht/IEventReceiver.h>
 
-1458596144 source:c:\users\felix\documents\github\stargame\src\cirrmastereventreceiver.cpp
+1458599744 source:c:\users\felix\documents\github\stargame\src\cirrmastereventreceiver.cpp
 	"CIrrMasterEventReceiver.h"
 	"IInputManager.h"
 	"IStateManager.h"
@@ -155,7 +155,7 @@
 	<boost/exception/diagnostic_information.hpp>
 	<iostream>
 
-1458638986 source:c:\users\felix\documents\github\stargame\src\cstatemanager.cpp
+1458642586 source:c:\users\felix\documents\github\stargame\src\cstatemanager.cpp
 	"CStateManager.h"
 	"IState.h"
 	"IEngine.h"
@@ -164,25 +164,25 @@
 	<boost/exception/diagnostic_information.hpp>
 	<irrlicht/IGUIEnvironment.h>
 
-1458571506 source:c:\users\felix\documents\github\stargame\src\ctimemanager.cpp
+1458575106 source:c:\users\felix\documents\github\stargame\src\ctimemanager.cpp
 	"CTimeManager.h"
 	<thread>
 
-1458596144 source:c:\users\felix\documents\github\stargame\src\debug\cdebugconsole.cpp
+1458599744 source:c:\users\felix\documents\github\stargame\src\debug\cdebugconsole.cpp
 	"CDebugConsole.h"
 	<iostream>
 	<algorithm>
 	<boost/algorithm/string.hpp>
 	<boost/algorithm/string/split.hpp>
 
-1458573132 source:c:\users\felix\documents\github\stargame\src\debug\objectcounter.cpp
+1458742335 source:c:\users\felix\documents\github\stargame\src\debug\objectcounter.cpp
 	"ObjectCounter.h"
 	<string>
 	<unordered_map>
 	<typeindex>
 	<iostream>
 
-1458596144 source:c:\users\felix\documents\github\stargame\src\main.cpp
+1458599744 source:c:\users\felix\documents\github\stargame\src\main.cpp
 	"CEngine.h"
 	"IStateManager.h"
 	"Options.h"
@@ -190,39 +190,39 @@
 	<irrlicht/irrlicht.h>
 	<iostream>
 
-1458638986 c:\users\felix\documents\github\stargame\src\shipeditor\shipeditorstate.h
+1458753382 c:\users\felix\documents\github\stargame\src\shipeditor\shipeditorstate.h
 	"IState.h"
 	"CompEditorData.h"
 	"CompEditorController.h"
 
-1458638986 c:\users\felix\documents\github\stargame\src\\istate.h
+1458642586 c:\users\felix\documents\github\stargame\src\\istate.h
 	<string>
 	"util.h"
 	<irrlicht/IEventReceiver.h>
 
-1458596144 source:c:\users\felix\documents\github\stargame\src\options.cpp
+1458599744 source:c:\users\felix\documents\github\stargame\src\options.cpp
 	"Options.h"
 	<iostream>
 	"SoundOptions.h"
 
-1458639858 source:c:\users\felix\documents\github\stargame\src\shipeditor\shipeditorstate.cpp
+1458753370 source:c:\users\felix\documents\github\stargame\src\shipeditor\shipeditorstate.cpp
 	"ShipEditorState.h"
 	"IEngine.h"
 	<irrlicht/IGUIEnvironment.h>
 	<iostream>
 
-1458601925 c:\users\felix\documents\github\stargame\src\\iengine.h
+1458605525 c:\users\felix\documents\github\stargame\src\\iengine.h
 	"util.h"
 
-1458596144 source:c:\users\felix\documents\github\stargame\src\util\logging.cpp
+1458599744 source:c:\users\felix\documents\github\stargame\src\util\logging.cpp
 	"logging.h"
 	<iostream>
 
-1458599688 source:c:\users\felix\documents\github\stargame\src\components\icomponent.cpp
+1458753170 source:c:\users\felix\documents\github\stargame\src\components\icomponent.cpp
 	"IComponent.h"
 	<irrlicht/IAttributes.h>
 
-1458599945 c:\users\felix\documents\github\stargame\src\components\icomponent.h
+1458753170 c:\users\felix\documents\github\stargame\src\components\icomponent.h
 	<string>
 	<list>
 	<functional>
@@ -503,23 +503,23 @@
 	"logging.h"
 	<iostream>
 
-1458601925 c:\users\felix\documents\github\stargame\src\util\convert.h
+1458605525 c:\users\felix\documents\github\stargame\src\util\convert.h
 	<Box2D/Common/b2Math.h>
 	<irrlicht/vector3d.h>
 
-1458601925 c:\users\felix\documents\github\stargame\src\\util\convert.h
+1458605525 c:\users\felix\documents\github\stargame\src\\util\convert.h
 	<Box2D/Common/b2Math.h>
 	<irrlicht/vector3d.h>
 
-1458601925 c:\users\felix\documents\github\stargame\src\csoundmanager.h
+1458605525 c:\users\felix\documents\github\stargame\src\csoundmanager.h
 	"ISoundManager.h"
 
-1458601925 c:\users\felix\documents\github\stargame\src\isoundmanager.h
+1458605525 c:\users\felix\documents\github\stargame\src\isoundmanager.h
 	<string>
 	<irrlicht/vector3d.h>
 	"util.h"
 
-1458601925 source:c:\users\felix\documents\github\stargame\src\csoundmanager.cpp
+1458605525 source:c:\users\felix\documents\github\stargame\src\csoundmanager.cpp
 	"CSoundManager.h"
 	<map>
 	<iterator>
@@ -527,31 +527,31 @@
 	<irrlicht/irrlicht.h>
 	<irrklang/irrKlang.h>
 
-1458728573 source:c:\users\felix\documents\github\stargame\src\components\iweapon.cpp
+1458753246 source:c:\users\felix\documents\github\stargame\src\components\iweapon.cpp
 	"IWeapon.h"
 
-1458728619 c:\users\felix\documents\github\stargame\src\components\iweapon.h
+1458753217 c:\users\felix\documents\github\stargame\src\components\iweapon.h
 	"IComponent.h"
 
-1458601925 source:c:\users\felix\documents\github\stargame\src\graphic\followobjectanimator.cpp
+1458605525 source:c:\users\felix\documents\github\stargame\src\graphic\followobjectanimator.cpp
 	"FollowObjectAnimator.h"
 	<irrlicht/ISceneNode.h>
 	<iostream>
 
-1458601925 c:\users\felix\documents\github\stargame\src\graphic\followobjectanimator.h
+1458605525 c:\users\felix\documents\github\stargame\src\graphic\followobjectanimator.h
 	<irrlicht/ISceneNodeAnimator.h>
 
-1458601925 source:c:\users\felix\documents\github\stargame\src\graphic\trackobjectanimator.cpp
+1458605525 source:c:\users\felix\documents\github\stargame\src\graphic\trackobjectanimator.cpp
 	"TrackObjectAnimator.h"
 	<irrlicht/ICameraSceneNode.h>
 
-1458601925 c:\users\felix\documents\github\stargame\src\graphic\trackobjectanimator.h
+1458605525 c:\users\felix\documents\github\stargame\src\graphic\trackobjectanimator.h
 	<irrlicht/ISceneNodeAnimator.h>
 
-1458733343 source:c:\users\felix\documents\github\stargame\src\shipeditor\compeditorcontroller.cpp
+1458742329 source:c:\users\felix\documents\github\stargame\src\shipeditor\compeditorcontroller.cpp
 	"CompEditorController.h"
 
-1458731757 c:\users\felix\documents\github\stargame\src\shipeditor\compeditorcontroller.h
+1458742329 c:\users\felix\documents\github\stargame\src\shipeditor\compeditorcontroller.h
 	"CompEditorData.h"
 	"CompEditorView.h"
 	"CUIEventListener.h"
@@ -559,57 +559,147 @@
 	<memory>
 	<irrlicht/IGUIButton.h>
 
-1458638980 c:\users\felix\documents\github\stargame\src\shipeditor\compeditordata.h
+1458742329 c:\users\felix\documents\github\stargame\src\shipeditor\compeditordata.h
 
-1458738186 c:\users\felix\documents\github\stargame\src\shipeditor\compeditorview.h
+1458742329 c:\users\felix\documents\github\stargame\src\shipeditor\compeditorview.h
 	"CompEditorData.h"
 	<irrlicht/IGUIEnvironment.h>
 
-1458638980 source:c:\users\felix\documents\github\stargame\src\shipeditor\compeditordata.cpp
+1458742329 source:c:\users\felix\documents\github\stargame\src\shipeditor\compeditordata.cpp
 	"CompEditorData.h"
 
-1458737653 source:c:\users\felix\documents\github\stargame\src\shipeditor\compeditorview.cpp
+1458742329 source:c:\users\felix\documents\github\stargame\src\shipeditor\compeditorview.cpp
 	"CompEditorView.h"
 	"CompEditorController.h"
 	<irrlicht/coreutil.h>
 	<irrlicht/IGUIButton.h>
 
-1458639265 source:c:\users\felix\documents\github\stargame\src\cuieventlistener.cpp
+1458753277 source:c:\users\felix\documents\github\stargame\src\cuieventlistener.cpp
 	"CUIEventListener.h"
 	<irrlicht/IGUIElement.h>
 	<algorithm>
 
-1458638986 c:\users\felix\documents\github\stargame\src\cuieventlistener.h
+1458642586 c:\users\felix\documents\github\stargame\src\cuieventlistener.h
 	"IUIEventListener.h"
 	<unordered_map>
 
-1458638986 c:\users\felix\documents\github\stargame\src\iuieventlistener.h
+1458642586 c:\users\felix\documents\github\stargame\src\iuieventlistener.h
 	<functional>
 	<list>
 	"util.h"
 	<irrlicht/IEventReceiver.h>
 
-1458638986 c:\users\felix\documents\github\stargame\src\\cuieventlistener.h
+1458642586 c:\users\felix\documents\github\stargame\src\\cuieventlistener.h
 	"IUIEventListener.h"
 	<unordered_map>
 
-1458638986 c:\users\felix\documents\github\stargame\src\\iuieventlistener.h
+1458642586 c:\users\felix\documents\github\stargame\src\\iuieventlistener.h
 	<functional>
 	<list>
 	"util.h"
 	<irrlicht/IEventReceiver.h>
 
-1458729607 source:c:\users\felix\documents\github\stargame\src\components\gunmachine.cpp
+1458742329 source:c:\users\felix\documents\github\stargame\src\components\gunmachine.cpp
 	"GunMachine.h"
 
-1458729532 c:\users\felix\documents\github\stargame\src\components\gunmachine.h
+1458742329 c:\users\felix\documents\github\stargame\src\components\gunmachine.h
 	"IGun.h"
 
-1458729511 c:\users\felix\documents\github\stargame\src\components\igun.h
+1458742329 c:\users\felix\documents\github\stargame\src\components\igun.h
 	"IWeapon.h"
 
-1458728521 source:c:\users\felix\documents\github\stargame\src\components\gunturrent.cpp
+1458742329 source:c:\users\felix\documents\github\stargame\src\components\gunturrent.cpp
 
-1458729374 source:c:\users\felix\documents\github\stargame\src\components\igun.cpp
+1458742329 source:c:\users\felix\documents\github\stargame\src\components\igun.cpp
 	"IGun.h"
+
+1458742334 source:c:\users\felix\documents\github\stargame\src\game\armoursegment.cpp
+	"ArmourSegment.h"
+	"Damage.h"
+
+1458742334 c:\users\felix\documents\github\stargame\src\game\armoursegment.h
+	"Damage.h"
+
+1458742334 c:\users\felix\documents\github\stargame\src\game\damage.h
+	<array>
+
+1458742334 source:c:\users\felix\documents\github\stargame\src\game\damage.cpp
+	"Damage.h"
+	<numeric>
+
+1458742334 source:c:\users\felix\documents\github\stargame\src\game\flightmodel.cpp
+	"FlightModel.h"
+	<Box2D/Dynamics/b2Body.h>
+
+1458742334 c:\users\felix\documents\github\stargame\src\game\flightmodel.h
+	"util.h"
+
+1458742334 source:c:\users\felix\documents\github\stargame\src\game\gameobject.cpp
+	"GameObject.h"
+	<cassert>
+	"Box2D/Box2D.h"
+
+1458742334 c:\users\felix\documents\github\stargame\src\game\gameobject.h
+	"util.h"
+
+1458742334 source:c:\users\felix\documents\github\stargame\src\game\shipstructure.cpp
+	"ShipStructure.h"
+	"Components/IComponent.h"
+	<Box2D/Collision/b2Collision.h>
+	<Box2D/Collision/Shapes/b2EdgeShape.h>
+
+1458742334 c:\users\felix\documents\github\stargame\src\game\shipstructure.h
+	"util.h"
+	<vector>
+	"StructureCell.h"
+	"ArmourSegment.h"
+
+1458742334 c:\users\felix\documents\github\stargame\src\game\structurecell.h
+	<vector>
+	<memory>
+
+1458753170 c:\users\felix\documents\github\stargame\src\\components\icomponent.h
+	<string>
+	<list>
+	<functional>
+	<irrlicht/IAttributes.h>
+	"util.h"
+
+1458742334 source:c:\users\felix\documents\github\stargame\src\game\spaceship.cpp
+	"SpaceShip.h"
+	"ShipStructure.h"
+	"FlightModel.h"
+
+1458742334 c:\users\felix\documents\github\stargame\src\game\spaceship.h
+	"util.h"
+	"GameObject.h"
+
+1458742334 source:c:\users\felix\documents\github\stargame\src\game\structurecell.cpp
+	"StructureCell.h"
+	"Components/IComponent.h"
+	<Box2D/Collision/Shapes/b2Shape.h>
+
+1458742334 source:c:\users\felix\documents\github\stargame\src\graphic\radarscreen.cpp
+	"RadarScreen.h"
+	<irrlicht/IGUIEnvironment.h>
+	<irrlicht/IVideoDriver.h>
+	<cmath>
+	<iostream>
+
+1458742334 c:\users\felix\documents\github\stargame\src\graphic\radarscreen.h
+	<irrlicht/IGUIElement.h>
+	<vector>
+	<map>
+
+1458755180 source:c:\users\felix\documents\github\stargame\src\graphic\engineexhaust.cpp
+	"EngineExhaust.h"
+	"util.h"
+	<irrlicht/ISceneManager.h>
+	<irrlicht/ILightSceneNode.h>
+
+1458605525 c:\users\felix\documents\github\stargame\src\graphic\engineexhaust.h
+	<irrlicht/ISceneNode.h>
+	<irrlicht/IParticleSystemSceneNode.h>
+	<vector>
+	<Box2D/Common/b2Math.h>
 

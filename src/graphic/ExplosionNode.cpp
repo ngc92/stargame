@@ -1,21 +1,11 @@
 #include "ExplosionNode.h"
 #include <irrlicht/irrlicht.h>
-<<<<<<< HEAD
-#include <iostream>
-=======
 
->>>>>>> refs/remotes/origin/master
 using namespace irr::video;
 
 namespace gfx
 {
-<<<<<<< HEAD
-	ExplosionNode::ExplosionNode(ISceneNode* parent, ISceneManager *mgr, s32 id, float intensity):
-				ISceneNode(parent, mgr, id),
-				mGenerationTimer(100),
-				mLastTime(-1),
-				mIntensity( intensity )
-=======
+
 	ExplosionNode::ExplosionNode(ISceneNode* parent, ISceneManager *mgr, s32 id,
 								float intensity, video::ITexture* fire_tex):
 				ISceneNode(parent, mgr, id),
@@ -23,26 +13,22 @@ namespace gfx
 				mLastTime(-1),
 				mIntensity( intensity ),
 				mFireTexture( fire_tex )
->>>>>>> refs/remotes/origin/master
+
 	{
 		mLight = mgr->addLightSceneNode(this, core::vector3df(0,0,0), SColorf(1.0, 0.7, 0.25), 500);
 		mLight->setLightType( video::ELT_POINT );
 
-<<<<<<< HEAD
-		mFire = SceneManager->addParticleSystemSceneNode(false, this, 0, irr::core::vector3df(0,0, 00));
-=======
+
 		mFire = SceneManager->addParticleSystemSceneNode(false, this, 0, irr::core::vector3df(0,0, 0));
->>>>>>> refs/remotes/origin/master
+
 		mFire->setParticleBehavior( EPB_EMITTER_VECTOR_IGNORE_ROTATION | EPB_EMITTER_FRAME_INTERPOLATION);
 		mFire->setParticlesAreGlobal(true);
 
 		//Emitter
 		mEmitter = mFire->createSphereEmitter(
-<<<<<<< HEAD
-				vector3df(0,0,0), 10, vector3df(1 * mIntensity,0,0), 1000, 2000,
-=======
+
 				vector3df(0,0,0), 10, vector3df(1 * mIntensity, 0, 0), 1000, 2000,
->>>>>>> refs/remotes/origin/master
+
 				SColor(0,255,255,255), SColor(0,255,255,255),
 				200 * mIntensity, 400 * mIntensity, 360,
 				dimension2df(20.0f * mIntensity,20.0f *mIntensity), dimension2df(30.0f * mIntensity, 30.0f * mIntensity));
@@ -62,11 +48,9 @@ namespace gfx
 	    delani->drop();
 
 		mFire->setMaterialFlag(EMF_LIGHTING, false);
-<<<<<<< HEAD
-		mFire->setMaterialTexture(0, SceneManager->getVideoDriver()->getTexture("fire.png"));
-=======
+
 		mFire->setMaterialTexture(0, mFireTexture);
->>>>>>> refs/remotes/origin/master
+
 		mFire->setMaterialType(/*EMT_TRANSPARENT_VERTEX_ALPHA*/EMT_TRANSPARENT_ADD_COLOR);
 	}
 
@@ -89,12 +73,7 @@ namespace gfx
 		{
 			mEmitter->setMaxParticlesPerSecond(0);
 			mEmitter->setMinParticlesPerSecond(0);
-<<<<<<< HEAD
 
-		}
-	}
-
-=======
 		}
 	}
 
@@ -103,7 +82,6 @@ namespace gfx
         return mFire->getBoundingBox();
 	}
 
->>>>>>> refs/remotes/origin/master
 	void ExplosionNode::render()
 	{
 	}
@@ -112,8 +90,7 @@ namespace gfx
 	{
 		ISceneNode::OnRegisterSceneNode();
 	}
-<<<<<<< HEAD
-=======
+
 
 	f32 ExplosionNode::getIntensity() const
 	{
@@ -124,5 +101,4 @@ namespace gfx
 	{
 		return mFireTexture;
 	}
->>>>>>> refs/remotes/origin/master
 }

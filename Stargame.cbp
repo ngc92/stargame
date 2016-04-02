@@ -52,7 +52,6 @@
 		<Unit filename="src/CTimeManager.h" />
 		<Unit filename="src/CUIEventListener.cpp" />
 		<Unit filename="src/CUIEventListener.h" />
-<<<<<<< HEAD
 		<Unit filename="src/Components/GunMachine.cpp" />
 		<Unit filename="src/Components/GunMachine.h" />
 		<Unit filename="src/Components/GunTurrent.cpp" />
@@ -65,18 +64,10 @@
 		<Unit filename="src/Components/IWeapon.h" />
 		<Unit filename="src/IEngine.h" />
 		<Unit filename="src/IEventListener.h" />
-=======
-		<Unit filename="src/Components/IComponent.cpp" />
-		<Unit filename="src/Components/IComponent.h" />
-		<Unit filename="src/Components/IWeapon.cpp" />
-		<Unit filename="src/Components/IWeapon.h" />
-		<Unit filename="src/IEngine.h" />
->>>>>>> refs/remotes/origin/master
 		<Unit filename="src/IInputManager.h" />
 		<Unit filename="src/ISoundManager.h" />
 		<Unit filename="src/IState.h" />
 		<Unit filename="src/IStateManager.h" />
-<<<<<<< HEAD
 		<Unit filename="src/ITimeManager.h" />
 		<Unit filename="src/IUIEventListener.h" />
 		<Unit filename="src/Options.cpp" />
@@ -87,11 +78,6 @@
 		<Unit filename="src/ShipEditor/CompEditorData.h" />
 		<Unit filename="src/ShipEditor/CompEditorView.cpp" />
 		<Unit filename="src/ShipEditor/CompEditorView.h" />
-=======
-		<Unit filename="src/IUIEventListener.h" />
-		<Unit filename="src/Options.cpp" />
-		<Unit filename="src/Options.h" />
->>>>>>> refs/remotes/origin/master
 		<Unit filename="src/ShipEditor/ShipEditorState.cpp" />
 		<Unit filename="src/ShipEditor/ShipEditorState.h" />
 		<Unit filename="src/debug/CDebugConsole.cpp" />
@@ -100,21 +86,6 @@
 		<Unit filename="src/debug/IDebugDrawer.h" />
 		<Unit filename="src/debug/ObjectCounter.cpp" />
 		<Unit filename="src/debug/ObjectCounter.h" />
-<<<<<<< HEAD
-		<Unit filename="src/graphic/CDebugDraw.h" />
-		<Unit filename="src/graphic/EngineExhaust.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-		</Unit>
-		<Unit filename="src/graphic/EngineExhaust.h" />
-		<Unit filename="src/graphic/ExplosionNode.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-		</Unit>
-		<Unit filename="src/graphic/ExplosionNode.h" />
-		<Unit filename="src/graphic/FollowObjectAnimator.cpp" />
-		<Unit filename="src/graphic/FollowObjectAnimator.h" />
-=======
 		<Unit filename="src/game/ArmourSegment.cpp" />
 		<Unit filename="src/game/ArmourSegment.h" />
 		<Unit filename="src/game/Damage.cpp" />
@@ -142,7 +113,6 @@
 		<Unit filename="src/graphic/FollowObjectAnimator.h" />
 		<Unit filename="src/graphic/RadarScreen.cpp" />
 		<Unit filename="src/graphic/RadarScreen.h" />
->>>>>>> refs/remotes/origin/master
 		<Unit filename="src/graphic/TrackObjectAnimator.cpp" />
 		<Unit filename="src/graphic/TrackObjectAnimator.h" />
 		<Unit filename="src/main.cpp" />

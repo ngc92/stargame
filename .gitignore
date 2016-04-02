@@ -1,5 +1,8 @@
+/boost
 /obj
 /bin
 /*.depend
 /*.layout
 /*.dll
+/irrlicht_engine
+Stargame.depend
