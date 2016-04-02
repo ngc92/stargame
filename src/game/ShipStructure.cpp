@@ -23,16 +23,23 @@ namespace game
 		getCell(cellid).addComponent( std::move(cmp) );
 	}
 
-	void ShipStructure::init(IActionListInterface& actions, input::IInputCollection& inputs)
+	void ShipStructure::init(property::IPropertyObject& parent, IActionListInterface& actions, input::IInputCollection& inputs)
 	{
-		foreachComponent([](IComponent& c, IActionListInterface& l, input::IInputCollection& i){
-						c.init(l, i); }, std::ref(actions), std::ref(inputs));
+		foreachComponent([](IComponent& c,
+							property::IPropertyObject& p,
+							IActionListInterface& l,
+							input::IInputCollection& i)
+							{
+											c.init(l, i);
+											p.addChild(&c);
+							},
+							std::ref(parent), std::ref(actions), std::ref(inputs)
+						);
 	}
 
 	void ShipStructure::update(IActionListInterface& actions)
 	{
 		foreachComponent([](IComponent& c, IActionListInterface& l){ c.step(l); }, std::ref(actions));
-		foreachComponent([](IComponent& c){ c.properties().notifyIfChanged(); });
 	}
 
 	void ShipStructure::hit(Damage damage, vector2d position, vector2d direction)
