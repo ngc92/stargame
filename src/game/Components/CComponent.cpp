@@ -6,15 +6,11 @@ namespace game
 namespace components
 {
 	CComponent::CComponent(float weight, float hp, const std::string& name):
-				mWeight( "weight", weight ),
-				mMaxHP( "maxHP", hp ),
-				mName( "name", name ),
-				mHP( "HP", hp )
+				CPropertyObject(std::move(name)),
+				mWeight( "weight", this, weight ),
+				mMaxHP( "maxHP", this, hp ),
+				mHP( "HP", this, hp )
 	{
-		properties().addProperty(mWeight)
-					.addProperty(mMaxHP)
-					.addProperty(mName)
-					.addProperty(mHP);
 	}
 
 	float CComponent::weight() const
@@ -30,21 +26,6 @@ namespace components
 	float CComponent::HP() const
 	{
 		return mHP;
-	}
-
-	const std::string& CComponent::name() const
-	{
-		return mName;
-	}
-
-	const IPropertyCollection& CComponent::properties() const
-	{
-		return mProperties;
-	}
-
-	CPropertyCollection& CComponent::properties()
-	{
-		return mProperties;
 	}
 
 	bool CComponent::canSupply(const std::string& resource) const
@@ -68,7 +49,7 @@ namespace components
 		{
 			return damage(mHP);
 		}
-		mHP = mHP - dam;
+		mHP -= dam;
 		return dam;
 	}
 

@@ -50,7 +50,7 @@ public:
 
 	/// notify all listeners in this list.
 	template<class... PArgs>
-	void notify(PArgs&&... args);
+	void notify(PArgs&&... args) const;
 
 	std::size_t size() const { return mListenerList.size(); };
 private:
@@ -72,7 +72,7 @@ ListenerRef ListenerList<Args...>::addListener(T&& listener)
 
 template<class... Args>
 template<class... PArgs>
-void ListenerList<Args...>::notify(PArgs&&... args)
+void ListenerList<Args...>::notify(PArgs&&... args) const
 {
 	for(auto& lst : mListenerList)
 		lst(std::forward<PArgs>(args)...);

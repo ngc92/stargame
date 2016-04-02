@@ -3,7 +3,6 @@
 #include "Box2D/Box2D.h"
 #include "input/CInputCollection.h"
 #include "input/IInputElement.h"
-#include "util/IPropertyCollection.h"
 
 namespace game
 {
@@ -34,10 +33,7 @@ namespace game
 		mStepListeners.notify();
 
 		// update property listeners
-		for(auto& p : mPropertySubobjects)
-		{
-			p.second->properties().notifyIfChanged();
-		}
+		notifyAll();
 	}
 
 	void GameObject::onImpact(GameObject* other, const ImpactInfo& info)
@@ -146,12 +142,6 @@ namespace game
 				return true;
 
 		return false;
-	}
-
-	void GameObject::addPropertyObject( const std::string& name, IPropertyObject* pob )
-	{
-		auto res = mPropertySubobjects.emplace(name, pob);
-		assert(res.second);
 	}
 
 	const input::IInputCollection& GameObject::getInputs() const

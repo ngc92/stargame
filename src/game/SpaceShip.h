@@ -3,6 +3,7 @@
 
 #include "util.h"
 #include "GameObject.h"
+#include "property/CPropertyObject.h"
 
 namespace game
 {
@@ -10,7 +11,7 @@ namespace game
 	class FlightModel;
 	class ActionList;
 
-	class SpaceShip : public ObjectCounter<SpaceShip>, public GameObject
+	class SpaceShip : ObjectCounter<SpaceShip>, public GameObject, public property::CPropertyObject
 	{
 	public:
 		SpaceShip(long id, b2Body* body, std::unique_ptr<ShipStructure> structure);
@@ -22,8 +23,6 @@ namespace game
 		void processActions(ActionList& actions);
 		void onShipStep();
 		void onShipImpact(GameObject* other, const ImpactInfo& info);
-
-		void iterateProperties( std::function<void(const std::string& object, IPropertyObject*)> fn );
 
 		ListenerRef mStepListener;
 		ListenerRef mImpactListener;

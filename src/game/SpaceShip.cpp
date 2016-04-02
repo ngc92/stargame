@@ -1,3 +1,4 @@
+#define BOOST_BIND_NO_PLACEHOLDERS
 #include "SpaceShip.h"
 #include "ShipStructure.h"
 #include "FlightModel.h"
@@ -8,17 +9,15 @@ namespace game
 {
 	using namespace std::placeholders;
 	SpaceShip::SpaceShip(long id, b2Body* body, std::unique_ptr<ShipStructure> structure) :
-							GameObject(body, id),
+							GameObject(body, id), CPropertyObject("ship"),
 							mStructure( std::move(structure) ),
 							mFlightModel( make_unique<FlightModel>() ),
 							mStepListener( addStepListener(std::bind(onShipStep, this)) ),
 							mImpactListener( addImpactListener(std::bind(onShipImpact, this, _1, _2)) )
 	{
 		// init
-		mStructure->foreachComponent([this](IComponent& c){ this->addPropertyObject(c.name(), &c); });
-
 		ActionList lst;
-		mStructure->init(lst, *mInputs);
+		mStructure->init(*this, lst, *mInputs);
 		processActions(lst);
 	}
 

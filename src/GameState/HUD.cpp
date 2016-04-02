@@ -5,6 +5,7 @@
 #include "graphic/SubsystemDamageView.h"
 #include <irrlicht/irrlicht.h>
 #include <iostream>
+#include "property/IPropertyView.h"
 
 HUD::HUD(irr::gui::IGUIEnvironment* env, long ship): mGUIEnv(env), mShipID(ship)
 {
@@ -23,13 +24,15 @@ void HUD::onSpawn(const game::GameObject& spawned)
 	const_cast<game::ShipStructure&>(structure).foreachComponent([this](const game::IComponent& comp, graphic::SubsystemDamageView* dmgview)
 		{
 			auto view = dmgview->addSubSystem(comp.name());
-			auto& props = const_cast<IPropertyCollection&>(comp.properties());
 
-			auto lst = props.addPropertyChangeListener("HP", [view, &comp](const IProperty* p)
+			auto lst = comp.getProperty("HP").addListener([view, &comp](property::IPropertyView& p)
 			{
 				/// \todo this breaks thread safety! fix!
 				view->status = comp.HP() / comp.maxHP();
 			});
+/*
+			auto lst = comp.addInsertListener("HP", );
+*/
 			view->status = comp.HP() / comp.maxHP();
 
 			mListeners.push_back(std::move(lst));

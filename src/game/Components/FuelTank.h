@@ -2,7 +2,6 @@
 #define FUELTANK_H_INCLUDED
 
 #include "CComponent.h"
-#include "util/Property.h"
 
 namespace game
 {

@@ -3,9 +3,7 @@
 
 #include "util.h"
 #include "util/ListenerList.h"
-#include <unordered_map>
-
-class IPropertyObject;
+#include "property/IPropertyObject.h"
 
 namespace input
 {
@@ -23,7 +21,8 @@ namespace game
 	};
 
 	class GameObject : ObjectCounter<GameObject>, noncopyable,
-					   public std::enable_shared_from_this<GameObject>
+					   public std::enable_shared_from_this<GameObject>,
+					   public virtual property::IPropertyObject
 	{
 		public:
 			GameObject(b2Body* body = nullptr, long ID = -1);
@@ -77,13 +76,7 @@ namespace game
 			{
 				return std::move(mImpactListeners.addListener(std::forward<T>(l)));
 			}
-
-			// iterate over all property subobjects
-			template<class T>
-			void iterateProperties( T&& f  ) const { for(auto& p : mPropertySubobjects) { f(p.first, p.second); } };
 		protected:
-			void addPropertyObject( const std::string& name, IPropertyObject* pob );
-
 			b2Body* mBody = nullptr;
 
 			// status
@@ -95,7 +88,6 @@ namespace game
 			ListenerList<void> mStepListeners;
 			ListenerList<GameObject*, const ImpactInfo&> mImpactListeners;
 
-			std::unordered_map<std::string, IPropertyObject*> mPropertySubobjects;
 			std::unique_ptr<input::IInputCollection> mInputs;
 	};
 }

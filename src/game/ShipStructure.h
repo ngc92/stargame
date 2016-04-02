@@ -7,11 +7,14 @@
 #include "StructureCell.h"
 #include "ArmourSegment.h"
 
-class IPropertyObject;
-
 namespace input
 {
 	class IInputCollection;
+}
+
+namespace property
+{
+	class IPropertyObject;
 }
 
 namespace game
@@ -41,7 +44,7 @@ namespace game
 		void hit(Damage damage, vector2d position, vector2d direction);
 
 		/// called on initialization
-		void init(IActionListInterface& actions, input::IInputCollection& inputs);
+		void init(property::IPropertyObject& parent, IActionListInterface& actions, input::IInputCollection& inputs);
 
 		/// called every step
 		void update(IActionListInterface& actions);

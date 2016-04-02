@@ -2,7 +2,7 @@
 #include <iostream>
 #include "game/GameWorld.h"
 #include "game/GameObject.h"
-#include "util/IPropertyCollection.h"
+#include "property/property.h"
 
 void TextInterface::onStep(const game::GameWorld& view)
 {
@@ -12,29 +12,10 @@ void TextInterface::onStep(const game::GameWorld& view)
 void TextInterface::onSpawn( const game::GameObject& spawned )
 {
 	std::cout << "ON SPAWN\n";
-	spawned.iterateProperties([](const std::string& name, IPropertyObject* pob)
+	spawned.forallProperties([](property::IPropertyView& prop)
 	{
-		std::cout << "PROPERTY SET: " << name << "\n";
-		std::vector<std::string> names;
-		pob->properties().getPropertyNames( std::back_inserter(names) );
-		for(auto& name : names)
-		{
-			std::cout << " " << name << ": ";
-			const IProperty* prob = pob->properties().getProperty( name );
-			switch(prob->type())
-			{
-			case PropertyType::INT:
-				std::cout <<prob->getInt() << ", ";
-				break;
-			case PropertyType::FLOAT:
-				std::cout <<prob->getFloat() << ", ";
-				break;
-			case PropertyType::STRING:
-				std::cout <<prob->getString() << ", ";
-				break;
-			}
-		}
-		std::cout << "\n";
+		std::cout << "PROPERTY: " << prop.path() << " = ";
+		std::cout << prop.value() << "\n";
 	});
 }
 

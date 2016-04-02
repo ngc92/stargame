@@ -7,13 +7,10 @@ namespace game
 namespace components
 {
 	FuelTank::FuelTank(): CComponent(50, 100, "FuelTank"),
-		mCapacity("capacity", 100),
-		mMaxPump("maxpump", 1),
-		mFuel("fuel", 100)
+		mCapacity("capacity", this, 100),
+		mMaxPump("maxpump", this, 1),
+		mFuel("fuel", this, 100)
 	{
-		properties().addProperty(mCapacity)
-					.addProperty(mMaxPump)
-					.addProperty(mFuel);
 	}
 
 	FuelTank::~FuelTank()
@@ -37,7 +34,7 @@ namespace components
 	float FuelTank::getSupply(const std::string& resource, float amount)
 	{
 		assert( resource == "fuel" );
-		float max_supply = std::min(mFuel.value(), mPumpLeft);
+		float max_supply = std::min((float)mFuel, mPumpLeft);
 		if(max_supply < amount )
 			amount = max_supply;
 

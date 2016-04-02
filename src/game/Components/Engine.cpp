@@ -9,7 +9,7 @@ namespace components
 {
 	//! \todo BaseTemperature Parameter
 	Engine::Engine() : CComponent(100, 100, "Engine"),
-		mThrust( "thrust", 1.f ), mFuelConsumption( "consumption", 1.f ),
+		mThrust( "thrust", this, 1.f ), mFuelConsumption( "consumption", this, 1.f ),
 		mThrustLevel( input::createInputElement("Engine.thrust", input::InputType::GAUGE, 0.f) )
 	{
 	}
