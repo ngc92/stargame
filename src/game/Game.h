@@ -4,17 +4,23 @@
 #include <thread>
 #include <memory>
 #include <atomic>
-#include <unordered_map>
 #include <functional>
-#include "util/WriteLock.h"
-#include "util/ListenerList.h"
+#include "listener/listenerlist.h"
 
 class ITimeManager;
 
 namespace game
 {
-	class GameWorld;
-	class GameObject;
+	class IGameWorld;
+	class IGameObject;
+	class IGameViewModule;
+	class SpawnManager;
+	namespace view_thread
+	{
+		class IViewThreadGameWorld;
+	}
+	
+	using WorldView = view_thread::IViewThreadGameWorld;
 
 	/*! \class Game
 		\brief Class responsible for a game.
@@ -30,38 +36,29 @@ namespace game
 
 		void run();
 		void pause();
-
-		/*! \brief executes code from another thread
-			\details This function allows another thread to register
-					actions for execution, which will be guaranteed
-					to be executed non-interleaved with the game
-					simulation, and thus be able to read game data.
-		*/
-		void executeThreadSaveReader(std::function<void(const GameWorld&)> reader) const;
-
-		/*! \brief registeres a spawn listener to the world
-			\details This spawn listener is only executed once the
-					game world is in locked state.
-		*/
-		template<class T>
-		ListenerRef addSpawnListener(T&& f) { return _addSpawnListener( f ); };
+		
+		/// call from view threads
+		void step();
+		
+		WorldView& getWorldView();
+		
+		/// adds a module to the module list in a thread-save manner.
+		void addModule(std::weak_ptr<IGameViewModule> module);
 
 	private:
-
-		ListenerRef _addSpawnListener(std::function<void(const GameObject&)> lst);
-
 		void gameloop();
 
 		std::atomic<bool> mRunGame;
 		std::atomic<bool> mQuitGame;
 		std::thread mGameThread;
-		std::unique_ptr<GameWorld> mGameWorld;
+		std::unique_ptr<IGameWorld> mGameWorld;
 		std::unique_ptr<ITimeManager> mTimeManager;
-
-		struct ListenerQueue;
-		std::unordered_map<std::thread::id, std::unique_ptr<ListenerQueue>> mListenerQueues;
-
-		WriteLock mLock;
+		std::unique_ptr<SpawnManager> mSpawnManager;
+		
+		std::unique_ptr<view_thread::IViewThreadGameWorld> mWorldView;
+		
+		std::mutex mModuleMutex;
+		std::vector<std::weak_ptr<IGameViewModule>> mModules;
 	};
 }
 

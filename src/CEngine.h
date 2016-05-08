@@ -20,7 +20,9 @@ class CEngine : public IEngine
 		const IInputManager& getInputManager() const override;
 
 		IGUIEnvironment* getGUIEnvironment() const override;
+		DeviceType& getIrrlichDevice() const override;
 
+		
 		IStateManager& getStateManager() override;
 		const IStateManager& getStateManager() const override;
 

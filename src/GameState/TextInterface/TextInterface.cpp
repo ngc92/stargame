@@ -1,45 +1,31 @@
 #include "TextInterface.h"
 #include <iostream>
-#include "game/GameWorld.h"
-#include "game/GameObject.h"
-#include "util/IPropertyCollection.h"
+#include "game/IGameWorld.h"
+#include "game/IGameObject.h"
+#include "property/property.h"
 
-void TextInterface::onStep(const game::GameWorld& view)
+void TextInterface::init()
 {
-	view.iterateViews([this](const game::GameObject& o){ this->handleObject(o);} );
+	using std::placeholders::_1;
+	
+	mSpawnLst = world().addSpawnListener(std::bind(TextInterface::onSpawn, this, _1));
 }
 
-void TextInterface::onSpawn( const game::GameObject& spawned )
+void TextInterface::onStep()
+{
+	world().iterateAllObjects([this](const game::IGameObjectView& o){ this->handleObject(o);});
+}
+
+void TextInterface::onSpawn( const game::IGameObjectView& spawned )
 {
 	std::cout << "ON SPAWN\n";
-	spawned.iterateProperties([](const std::string& name, IPropertyObject* pob)
-	{
-		std::cout << "PROPERTY SET: " << name << "\n";
-		std::vector<std::string> names;
-		pob->properties().getPropertyNames( std::back_inserter(names) );
-		for(auto& name : names)
-		{
-			std::cout << " " << name << ": ";
-			const IProperty* prob = pob->properties().getProperty( name );
-			switch(prob->type())
-			{
-			case PropertyType::INT:
-				std::cout <<prob->getInt() << ", ";
-				break;
-			case PropertyType::FLOAT:
-				std::cout <<prob->getFloat() << ", ";
-				break;
-			case PropertyType::STRING:
-				std::cout <<prob->getString() << ", ";
-				break;
-			}
-		}
-		std::cout << "\n";
-	});
+	std::cout << spawned << "\n";
 }
 
-void TextInterface::handleObject( const game::GameObject& view )
+
+void TextInterface::handleObject( const game::IGameObjectView& view )
 {
-	std::cout << "GameObject " << view.getID() << " at position "
-			  << view.getPosition().x << ", " << view.getPosition().y << " angle " << view.getRotation() << "\n";
+	std::cout << "GameObject " << view.id() << " at position "
+			  << view.position().x << ", " << view.position().y << " angle " << view.angle() << "\n";
 }
+

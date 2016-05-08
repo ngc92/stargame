@@ -1,0 +1,37 @@
+<hull>
+	<name>Destroyer</name>
+	<cells>
+	<cell>
+		<ID>0</ID>
+		<max_load>1000</max_load>
+		<shape>
+		<vertex><x>0</x><y>0</y></vertex>
+		<vertex><x>1</x><y>0</y></vertex>
+		<vertex><x>1</x><y>1</y></vertex>
+		<vertex><x>0</x><y>1</y></vertex>
+		</shape>
+	</cell>
+	</cells>
+	<armour>
+		<segment>
+			<start><x>0</x><y>0</y></start>
+			<end><x>1</x><y>0</y></end>
+			<hitpoints>100</hitpoints>
+		</segment>
+		<segment>
+			<start><x>0</x><y>0</y></start>
+			<end><x>0</x><y>1</y></end>
+			<hitpoints>100</hitpoints>
+		</segment>
+		<segment>
+			<start><x>1</x><y>1</y></start>
+			<end><x>1</x><y>0</y></end>
+			<hitpoints>100</hitpoints>
+		</segment>
+		<segment>
+			<start><x>1</x><y>1</y></start>
+			<end><x>0</x><y>1</y></end>
+			<hitpoints>100</hitpoints>
+		</segment>
+	</armour>
+</hull>

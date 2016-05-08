@@ -1,26 +1,16 @@
 #include "CInputElement.h"
+#include "game/view_thread/IViewThreadGO.h"
 
 namespace input
 {
-	CInputElement::CInputElement(std::string name, float value) :
-		mName(name), mValue(value)
+	CInputElement::CInputElement(std::string path, game::view_thread::IViewThreadGameObject* object) :
+		mPropertyPath( std::move(path) ), mObject( object )
 	{
 
 	}
-
-	float CInputElement::value() const
+	
+	void CInputElement::setValue( float value )
 	{
-		return mValue;
-	}
-
-	const std::string& CInputElement::name() const
-	{
-		return mName;
-	}
-
-	void CInputElement::update()
-	{
-		std::lock_guard<std::mutex> lck( mMutex );
-		mValue = getNewValue();
+		mObject->setProperty(  mPropertyPath, value );
 	}
 }

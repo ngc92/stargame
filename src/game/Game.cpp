@@ -1,8 +1,12 @@
 #include "Game.h"
-#include "GameWorld.h"
-#include "GameObject.h"
+#include "CGameWorld.h"
+#include "view_thread/CViewThreadGW.h"
+#include "IGameObject.h"
+#include "IGameViewModule.h"
 #include "util.h"
 #include "CTimeManager.h"
+#include "SpawnManager.h"
+#include <Box2D/Box2D.h>
 
 namespace game
 {
@@ -10,8 +14,12 @@ namespace game
 		mRunGame(false),
 		mQuitGame(false),
 		mGameThread( [this](){ gameloop(); } ),
-		mGameWorld( make_unique<GameWorld>() ),
-		mTimeManager( make_unique<CTimeManager>() )
+		mGameWorld( make_unique<CGameWorld>() ),
+		mTimeManager( make_unique<CTimeManager>() ),
+		mSpawnManager( make_unique<SpawnManager>([this](){ b2BodyDef def;
+															def.type = b2_dynamicBody;
+												return mGameWorld->getWorld()->CreateBody(&def); }) ),
+		mWorldView( make_unique<view_thread::CViewThreadGameWorld>( *mGameWorld ) )
 	{
 		mTimeManager->setDesiredFPS(50);
 	};
@@ -23,12 +31,19 @@ namespace game
 
 	void Game::run()
 	{
+		mGameWorld->addGameObject(mSpawnManager->createSpaceShip("Destroyer", 0));
 		mRunGame = true;
 	}
 
 	void Game::pause()
 	{
 		mRunGame = false;
+	}
+
+	void Game::step()
+	{
+		mWorldView->step();
+		/// \todo should we step modules here?
 	}
 
 	void Game::gameloop()
@@ -38,75 +53,35 @@ namespace game
 			if(mRunGame)
 			{
 				mTimeManager->waitTillNextFrame();
-				auto lock = mLock.lock_write();
 				// update the world
-				mGameWorld->step(1.0/60);
+				mGameWorld->step();
+
+				// update the world references
+				mWorldView->update();
+
+				std::lock_guard<std::mutex> lock(mModuleMutex);
+				// remove old modules
+				/// \todo
 			}
 		}
 	}
 
-	struct Game::ListenerQueue : noncopyable
+	WorldView& Game::getWorldView()
 	{
-		std::mutex mProtection;
-		std::vector<std::function<void()>> mTriggered;
-
-		void push(std::function<void()> f)
-		{
-			std::lock_guard<std::mutex> lck(mProtection);
-			mTriggered.push_back( std::move(f) );
-		}
-
-		void process()
-		{
-			std::vector<std::function<void()>> copy;
-			{
-				std::lock_guard<std::mutex> lck(mProtection);
-				std::swap(copy, mTriggered);
-			}
-			for(auto& f : copy)
-				f();
-		}
-	};
-
-	void Game::executeThreadSaveReader(std::function<void(const GameWorld&)> reader) const
-	{
-		auto lock = mLock.lock_read();
-		// first, process all queued events
-		if(mListenerQueues.count(std::this_thread::get_id()) != 0)
-		{
-			mListenerQueues.at(std::this_thread::get_id())->process();
-		}
-
-		reader(*mGameWorld);
+		return *mWorldView;
 	}
 
-	ListenerRef Game::_addSpawnListener(std::function<void(const GameObject&)> listener)
+	void Game::addModule(std::weak_ptr<IGameViewModule> module)
 	{
-		std::thread::id id = std::this_thread::get_id();
-
-		if(mListenerQueues.count(id) == 0)
+		std::lock_guard<std::mutex> lock(mModuleMutex);
+		auto locked = module.lock();
+		if(locked)
 		{
-			mListenerQueues[id] = make_unique<ListenerQueue>();
+			locked->setStepMutex( &mWorldView->getUpdateMutex() );
+			locked->setWorldView( mWorldView.get() );
+			locked->init();
+			mModules.push_back( std::move(module) );
 		}
-
-		ListenerQueue& queue = *mListenerQueues.at(id);
-
-		/// \todo c++14: use move capture here
-		auto wrapped = [&queue, listener](GameObject& o)
-		{
-			// get a reference to the game object that we can keep until it is time
-			// to process the listener.
-			std::weak_ptr<const GameObject> cache( o.shared_from_this() );
-			queue.push( [cache, listener](){
-						auto ptr = cache.lock();
-						if(ptr)
-							listener(*ptr);
-						}
-					);
-		};
-
-		/// \todo this is currently not a thread save operation
-		return mGameWorld->addSpawnListener( wrapped );
 	}
 
 }

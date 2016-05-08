@@ -2,18 +2,17 @@
 #define GAMEEDITORSTATE_H_INCLUDED
 
 #include "IState.h"
-#include "util/ListenerList.h"
+#include "listener/listenerlist.h"
 
 class IEngine;
 
 namespace game
 {
 	class Game;
-	class GameWorld;
-	class GameObject;
+	class IGameViewModule;
 }
 
-class IGameModule;
+class IDebugDraw;
 
 class GameState: public IState
 {
@@ -44,16 +43,13 @@ public:
 
 	bool onEvent(const irr::SEvent::SGUIEvent& event) override;
 
-	void addGameModule(std::unique_ptr<IGameModule> module);
+	void addGameModule(std::shared_ptr<game::IGameViewModule> module);
 private:
-	void onGameStep(const game::GameWorld& world);
-	void onSpawn( const game::GameObject& object);
 
 	IGUIEnvironment* mGUIEnv;
 	std::unique_ptr<game::Game> mGame;
-	std::vector<std::unique_ptr<IGameModule>> mModules;
-
-	ListenerRef mSpawnListener;
+	std::shared_ptr<IDebugDraw> mDebugDraw;
+	std::vector<std::shared_ptr<game::IGameViewModule>> mModules;
 };
 
 #endif // GAMEEDITORSTATE_H_INCLUDED

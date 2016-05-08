@@ -1,15 +1,20 @@
 #ifndef TEXTINTERFACE_H_INCLUDED
 #define TEXTINTERFACE_H_INCLUDED
 
-#include "../IGameModule.h"
+#include "game/CGameViewModule.h"
+#include "game/fwd.h"
+#include "listener/listener.h"
 
-class TextInterface : public IGameModule
+class TextInterface : public game::CGameViewModule
 {
 public:
-	void onStep(const game::GameWorld& view) override;
-	void onSpawn( const game::GameObject& spawned ) override;
+	void onStep() override;
+	void init() override;
 private:
-	void handleObject( const game::GameObject& view );
+	void onSpawn( const game::IGameObjectView& spawned );
+	void handleObject( const game::IGameObjectView& view );
+	
+	ListenerRef mSpawnLst;
 
 };
 

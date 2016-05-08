@@ -2,27 +2,27 @@
 #define CINPUTELEMENT_H_INCLUDED
 
 #include "IInputElement.h"
-#include <mutex>
-#include <atomic>
+
+namespace game
+{
+	namespace view_thread
+	{
+		class IViewThreadGameObject;
+	}
+}
 
 namespace input
 {
     class CInputElement: public virtual IInputElement
     {
 	public:
-		CInputElement(std::string name, float value);
-
-		float value() const override;
-		const std::string& name() const override;
-		void update() override;
-
+		CInputElement(std::string path, game::view_thread::IViewThreadGameObject* object);
 	protected:
-		virtual float getNewValue() = 0;
-
-		const std::string mName;
-        std::atomic<float> mValue;
-        std::mutex mMutex;
-    };
+		void setValue( float value );
+		
+		std::string mPropertyPath;
+		game::view_thread::IViewThreadGameObject* mObject;
+	};
 }
 
 #endif // CINPUTELEMENT_H_INCLUDED

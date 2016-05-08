@@ -1,33 +1,55 @@
 #ifndef INPUTMODULE_H_INCLUDED
 #define INPUTMODULE_H_INCLUDED
 
-#include "IGameModule.h"
+#include "game/CGameViewModule.h"
 #include "IEventListener.h"
+#include "listener/listener.h"
 #include <memory>
+#include <map>
+#include <set>
+
+namespace property
+{
+	class IPropertyView;
+}
 
 class IEngine;
+
+namespace game
+{
+	class IGameObjectView;
+}
+
 namespace input
 {
 	class IInputElement;
-	class IInputGauge;
+	class IInputConfig;
+	enum class KeyAction : int;
 }
 
-class InputModule : public IGameModule, public IEventListener
+class InputModule : public game::CGameViewModule, public IEventListener
 {
 public:
 	InputModule(IEngine*, long myship);
+	~InputModule();
 
-	void onSpawn(const game::GameObject& spawned) override;
-	void onStep(const game::GameWorld& view) override;
+	void onStep() override;
+	void init() override;
 
 	void registerListener( const IInputManager* mgr) override {}
 	void onKeyEvent(irr::EKEY_CODE key, bool press) override;
 	void onMouseClickEvent(irr::E_MOUSE_BUTTON_STATE_MASK button, bool click, int x, int y) override {};
 private:
-	void onInput(std::weak_ptr<input::IInputElement>& input);
-
+	void onSpawn( const game::IGameObjectView& spawned );
+	void propertyCallback( property::IPropertyView& pview);
 	long mShipID;
-	std::shared_ptr<input::IInputGauge> mThrustInput;
+	std::unique_ptr<input::IInputConfig> mInputConfig;
+	std::vector<std::shared_ptr<input::IInputElement>> mInputElements;
+
+
+	std::set<irr::EKEY_CODE> mKeysDown;
+
+	ListenerRef mSpawnLst;
 };
 
 #endif // INPUTMODULE_H_INCLUDED

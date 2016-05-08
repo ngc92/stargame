@@ -60,9 +60,4 @@ std::string to_string(const T& t)
 	return boost::lexical_cast<std::string>(t);
 }
 
-template<class... Args>
-class ListenerList;
-
-class ListenerRef;
-
 #endif // UTIL_H_INCLUDED

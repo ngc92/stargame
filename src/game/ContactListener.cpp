@@ -1,5 +1,5 @@
 #include "ContactListener.h"
-#include "GameObject.h"
+#include "IGameObject.h"
 #include <Box2D/Box2D.h>
 
 namespace game
@@ -16,8 +16,8 @@ namespace game
 
 	struct ContactListener::Contact
 	{
-		std::weak_ptr<GameObject> A;
-		std::weak_ptr<GameObject> B;
+		std::weak_ptr<IGameObjectView> A;
+		std::weak_ptr<IGameObjectView> B;
 		b2Vec2 position;
 		b2Vec2 normal;
 		float impulse;
@@ -41,8 +41,8 @@ namespace game
 	void ContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse)
 	{
 		// get pointer to GameObjects
-		GameObject* ob1 = (GameObject*)contact->GetFixtureA()->GetBody()->GetUserData();
-		GameObject* ob2 = (GameObject*)contact->GetFixtureB()->GetBody()->GetUserData();
+		IGameObject* ob1 = (IGameObject*)contact->GetFixtureA()->GetBody()->GetUserData();
+		IGameObject* ob2 = (IGameObject*)contact->GetFixtureB()->GetBody()->GetUserData();
 
 		float imp = impulse->normalImpulses[0];
 
@@ -60,8 +60,8 @@ namespace game
 	{
 		for(auto& c : mResponseQueue)
 		{
-			auto A = c.A.lock();
-			auto B = c.A.lock();
+			auto A = std::dynamic_pointer_cast<IGameObject>(c.A.lock());
+			auto B = std::dynamic_pointer_cast<IGameObject>(c.A.lock());
 
 			if(A->isAlive() && B->isAlive())
 			{

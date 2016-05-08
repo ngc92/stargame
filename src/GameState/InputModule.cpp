@@ -1,55 +1,79 @@
 #include "InputModule.h"
-#include "game/GameObject.h"
-#include "input/IInputCollection.h"
+#include "game/IGameObject.h"
 #include "input/IInputElement.h"
+#include "input/CInputConfig.h"
+#include "game/IGameWorldView.h"
+#include "game/view_thread/IViewThreadGO.h"
 #include "IEngine.h"
 #include "IInputManager.h"
 #include <iostream>
 #include <irrlicht/Keycodes.h>
+#include <boost/algorithm/string/predicate.hpp>
+
+using namespace std::placeholders;
 
 InputModule::InputModule(IEngine* engine, long myship) :
-	mShipID(myship)
+	mShipID(myship), mInputConfig( make_unique<input::CInputConfig>() )
 {
 	/// \todo this is suicide, only for testing!
 	engine->getInputManager().addEventListener( std::shared_ptr<InputModule>(this, [](InputModule*){}));
+	mInputConfig->load();
 }
 
-void InputModule::onSpawn(const game::GameObject& spawned)
+InputModule::~InputModule()
+{
+}
+
+void InputModule::init()
+{
+	mSpawnLst = world().addSpawnListener(std::bind(InputModule::onSpawn, this, _1));
+}
+
+void InputModule::onSpawn(const game::IGameObjectView& spawned)
 {
 	std::cout << "INPUT MODULE ON SPAWN\n";
-    if(spawned.getID() != mShipID)
+	if(spawned.id() != mShipID)
 		return;
 
-    // found our ship
-	auto& inputs = spawned.getInputs();
-    inputs.iterateInputs([this](std::weak_ptr<input::IInputElement>& i){ onInput(i);});
+	// found our ship
+
+	spawned.forallProperties(std::bind(InputModule::propertyCallback, this, _1));
+	auto& object = dynamic_cast<const game::view_thread::IViewThreadGameObject&>(spawned);
+	const_cast<game::view_thread::IViewThreadGameObject&>(object).setProperty("structure.Engine.input:thrust", 0.f);
 }
 
 
-void InputModule::onStep(const game::GameWorld& view)
+void InputModule::onStep()
 {
-
+	for(auto& elem : mInputElements)
+		elem->onStep();
 }
 
-void InputModule::onInput(std::weak_ptr<input::IInputElement>& input)
+void InputModule::propertyCallback(property::IPropertyView& property)
 {
-	auto ip = input.lock();
-	if(!ip)
+	auto name = property.name();
+	if(!boost::algorithm::starts_with(name, "input:"))
 		return;
 
-    std::cout << ip->name() << "\n";
-    /// now, we would need an InputMapping definition
-    mThrustInput = std::dynamic_pointer_cast<input::IInputGauge>(ip);
+	std::cout << "INPUT: " << property.path() << "\n";
+	auto input = mInputConfig->getInputElemt(property);
+	if(input)
+	{
+		mInputElements.push_back( std::move(input) );
+	}
 }
 
 void InputModule::onKeyEvent(irr::EKEY_CODE key, bool press)
 {
-	/// \todo here, we would really need timing information
-	if(key == irr::KEY_UP && press)
+	for(auto& elem : mInputElements)
 	{
-		mThrustInput->setGauge(1);
-	} else if(key == irr::KEY_DOWN && press)
+		elem->onKeyEvent(key, press ? input::KeyState::PRESSED : input::KeyState::RELEASED );
+	}
+
+	if(press)
 	{
-		mThrustInput->setGauge(0);
+		mKeysDown.insert(key);
+	} else {
+		mKeysDown.erase(key);
 	}
 }

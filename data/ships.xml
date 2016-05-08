@@ -1,0 +1,14 @@
+<ship>
+	<name>Destroyer</name>
+	<hull>Destroyer</hull>
+	<components>
+		<component>
+			<type>Engine</type>
+			<cell>0</cell>
+		</component>
+		<component>
+			<type>FuelTank</type>
+			<cell>0</cell>
+		</component>
+	</components>
+</ship>
