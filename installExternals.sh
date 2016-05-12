@@ -17,7 +17,7 @@ if [ ! -h external/irrlicht ]; then
 	sed -i -e "s/-O3/-O3 -march=native/g" Makefile
 	make NDEBUG=1 sharedlib -j 5
 	cd ../../..
-	ln -s irrlicht-code-${irrlich_rev}-trunk/ irrlicht
+	ln -s irrlicht-code-${irrlich_rev}-trunk/include irrlicht
 	cd ..
 	echo "Irrlich revision ${irrlich_rev} installed as a shared lib"
 	echo ""
@@ -28,14 +28,14 @@ fi
 
 
 # install irrklang
-if [ ! -h ./external/irrKlang ]; then
+if [ ! -h ./external/irrklang ]; then
 	klang_ver=64bit-1.5.0
 	echo "Getting irrklang ${klang_ver}"
 	cd ./external
 	wget -q http://www.ambiera.at/downloads/irrKlang-${klang_ver}.zip
 	unzip -qq irrKlang-${klang_ver}.zip
 	rm irrKlang-${klang_ver}.zip
-	ln -s irrKlang-${klang_ver} irrKlang
+	ln -s irrKlang-${klang_ver}/include irrklang
 	cd ..
 	echo "IrrKlang ${klang_ver} installed as a shared lib"
 	echo ""
