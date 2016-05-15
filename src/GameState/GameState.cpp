@@ -10,6 +10,7 @@
 #include <irrlicht/IrrlichtDevice.h>
 #include <iostream>
 
+
 GameState::GameState(IEngine* engine) :
 	mGUIEnv(engine->getGUIEnvironment()),
 	mGame( make_unique<game::Game>() ),

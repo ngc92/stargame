@@ -24,7 +24,7 @@ HUD::~HUD()
 void HUD::init()
 {
 	using std::placeholders::_1;
-	mListeners.push_back(world().addSpawnListener(std::bind(HUD::onSpawn, this, _1)));
+	mListeners.push_back(world().addSpawnListener(std::bind(&HUD::onSpawn, this, _1)));
 	mTacCtrl = make_unique<graphic::TacticalMapCtrl>(mTacMap, world());
 }
 
