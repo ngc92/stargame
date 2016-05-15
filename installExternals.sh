@@ -20,6 +20,7 @@ if [ ! -h external/irrlicht ]; then
 	ln -s libIrrlicht.so.${irrlicht_rev} lib/Linux/libIrrlicht.so
 	cd ..
 	ln -s irrlicht-${irrlicht_rev}/include irrlicht
+	ln -s irrlicht-${irrlicht_rev}/lib/linux irrlicht
 	cd ..
 	echo "Irrlich revision ${irrlicht_rev} installed as a shared lib"
 	echo ""
@@ -39,6 +40,7 @@ if [ ! -h ./external/irrklang ]; then
 	unzip -qq irrKlang-${klang_ver}.zip
 	rm irrKlang-${klang_ver}.zip
 	ln -s irrKlang-${klang_ver}/include irrklang
+	ln -s irrKlang-${klang_ver}/bin/linux-gcc-64 irrklang-lib
 	cd ..
 	echo "IrrKlang ${klang_ver} installed as a shared lib"
 	echo ""

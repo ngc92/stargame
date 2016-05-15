@@ -3,12 +3,14 @@
 #include "game/IGameWorld.h"
 #include "game/IGameObject.h"
 #include "property/property.h"
+#include <functional>
+
 
 void TextInterface::init()
 {
-	using std::placeholders::_1;
+	using namespace std::placeholders;
 	
-	mSpawnLst = world().addSpawnListener(std::bind(TextInterface::onSpawn, this, _1));
+	mSpawnLst = world().addSpawnListener(std::bind(&TextInterface::onSpawn, this, _1));
 }
 
 void TextInterface::onStep()
