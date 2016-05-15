@@ -18,7 +18,10 @@ if [ ! -h external/irrlicht ]; then
 	make NDEBUG=1 sharedlib -j 5
 	cd ../../..
 	ln -s irrlicht-code-${irrlich_rev}-trunk/include irrlicht
-	cd ..
+	ln -s irrlicht-code-${irrlich_rev}-trunk/lib/Linux irrlicht-lib
+	cd irrlicht-lib
+	ln -s libIrrlicht.so.1.9.0 libIrrlicht.so
+	cd ../..
 	echo "Irrlich revision ${irrlich_rev} installed as a shared lib"
 	echo ""
 else
@@ -36,6 +39,7 @@ if [ ! -h ./external/irrklang ]; then
 	unzip -qq irrKlang-${klang_ver}.zip
 	rm irrKlang-${klang_ver}.zip
 	ln -s irrKlang-${klang_ver}/include irrklang
+	ln -s irrKlang-${klang_ver}/bin/linux-gcc-64 irrklang-lib
 	cd ..
 	echo "IrrKlang ${klang_ver} installed as a shared lib"
 	echo ""

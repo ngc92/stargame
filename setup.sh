@@ -14,8 +14,8 @@ fi
 sh +x installExternals.sh
 
 export STARGAME_BASE=$PWD
-LD_LIBRARY_PATH_APPEND=$STARGAME_BASE/external/irrlicht/lib/Linux
-LD_LIBRARY_PATH_APPEND=$STARGAME_BASE/external/irrKlang/bin/linux-gcc-64:$LD_LIBRARY_PATH_APPEND
+LD_LIBRARY_PATH_APPEND=$STARGAME_BASE/external/irrlicht-lib
+LD_LIBRARY_PATH_APPEND=$STARGAME_BASE/external/irrKlang-lib:$LD_LIBRARY_PATH_APPEND
 LD_LIBRARY_PATH_APPEND=$STARGAME_BASE/external/Box2D/Box2D/BuildLinux/Box2D:$LD_LIBRARY_PATH_APPEND
 
 if [ "x$LD_LIBRARY_PATH" = "x" ]; then
