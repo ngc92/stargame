@@ -29,8 +29,8 @@ namespace gfx
 			double fak = pow(0.5, smoothness * dt);
 
 			vector3df tpos = target->getPosition();
-			vector3df ltarg = target->getRotation().rotationToDirection(core::vector3df(0, 0, distance));
-			vector3df targetpos = ltarg + tpos + offset;
+			vector3df ltarg = target->getRotation().rotationToDirection(core::vector3df(distance, 0, 0));
+			vector3df targetpos = tpos - ltarg + offset;
 
 			vector3df vel = (fak-1) * node->getPosition() + (1-fak)*targetpos ;
 

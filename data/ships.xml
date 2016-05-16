@@ -10,5 +10,13 @@
 			<type>FuelTank</type>
 			<cell>0</cell>
 		</component>
+		<component>
+			<type>FixedGun</type>
+			<cell>0</cell>
+		</component>
 	</components>
+	
+	<attributes>
+		<class>Destroyer</class>
+	</attributes>
 </ship>

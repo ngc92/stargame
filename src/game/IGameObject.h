@@ -6,6 +6,7 @@
 
 namespace game
 {
+	class IGameWorld;
 	class IGameObjectModule;
 
 	/*! \class IGameObject
@@ -22,11 +23,11 @@ namespace game
 		using module_iter = module_vec::iterator;
 	public:
 		/// called just after the object is constructed and added to the world.
-		virtual void onInit() = 0;
+		virtual void onInit(IGameWorld& world) = 0;
 
 		/// this function will be called every step by the game world, and should trigger
 		/// the onStep listener.
-		virtual void onStep() = 0;
+		virtual void onStep(IGameWorld& world) = 0;
 
 		/// this function is called whenever another game object hits the current one.
 		virtual void onImpact(IGameObject* other, const ImpactInfo& info) = 0;

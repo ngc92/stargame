@@ -32,7 +32,14 @@ namespace spawn
 		auto subs = props.get_child("properties");
 		for(auto& data : subs )
 		{
-			mProperties->addProperty( property::CProperty::create(data.first, mProperties.get(), data.second.get_value<float>() ) );
+			property::data_t value = data.second.get_value<std::string>();
+			try
+			{
+				value = data.second.get_value<float>();
+			} catch (...)
+			{
+			}
+			mProperties->addProperty( property::CProperty::create(data.first, mProperties.get(), value ) );
 		}
 	}
 
@@ -170,9 +177,15 @@ namespace spawn
 		for(auto& comp : comps )
 		{
 			assert(comp.first == "component");
-            std::string type = comp.second.get<std::string>("type");
-            int cell = comp.second.get<int>("cell");
-            mComponents.push_back( {std::move(type), cell} );
+			std::string type = comp.second.get<std::string>("type");
+			int cell = comp.second.get<int>("cell");
+			mComponents.push_back( {std::move(type), cell} );
+		}
+		
+		auto attribs = props.get_child("attributes");
+		for(auto& attr : attribs)
+		{
+			mAttributes.insert( {attr.first, attr.second.get_value<std::string>()} );
 		}
 	}
 
@@ -191,6 +204,44 @@ namespace spawn
 		return mComponents;
 	}
 
+	void Ship::addAttributes( property::IPropertyObject& obj ) const
+	{
+		for(auto& attrib : mAttributes)
+		{
+			obj.addProperty( property::CProperty::create(attrib.first, &obj, attrib.second) );
+		}
+	}
+	
+	
+	// --------------------------------------------------------------
+	Projectile::Projectile(const boost::property_tree::ptree& props):
+		mName( props.get<std::string>("name") ),
+		mPropellantVelocity( props.get<float>("velocity") ),
+		mRadius( props.get<float>("radius") / 1000.f ),
+		mMass( props.get<float>("mass") )
+	{
+
+	}
+
+	const std::string& Projectile::name() const
+	{
+		return mName;
+	}
+
+	float Projectile::propellVelocity() const
+	{
+		return mPropellantVelocity;
+	}
+
+	float Projectile::radius() const
+	{
+		return mRadius;
+	}
+
+	float Projectile::mass() const
+	{
+		return mMass;
+	}
 
 }
 }

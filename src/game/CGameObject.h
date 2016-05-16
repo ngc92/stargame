@@ -18,8 +18,8 @@ namespace game
 			virtual ~CGameObject();
 
 			/// called just after the object is constructed and added to the world.
-			void onInit() override;
-			void onStep() override;
+			void onInit(IGameWorld& world) override;
+			void onStep(IGameWorld& world) override;
 			void onImpact(IGameObject* other, const ImpactInfo& info) override;
 
 			/// gets the current position of the game object

@@ -43,10 +43,10 @@ namespace game
 		void hit(Damage damage, vector2d position, vector2d direction);
 
 		/// called on initialization
-		void onInit( IGameObject& object ) override;
+		void onInit( IGameObject& object, IGameWorld& world ) override;
 
 		/// called every step
-		void onStep( IGameObject& object ) override;
+		void onStep( IGameObject& object, IGameWorld& world ) override;
 
 		// hitpoints, weight, etc
 		float HP() const final;

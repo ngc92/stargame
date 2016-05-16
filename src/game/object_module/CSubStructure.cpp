@@ -44,7 +44,7 @@ namespace game
 		return nullptr;
 	}
 
-	void CSubStructure::onInit(IGameObject& object)
+	void CSubStructure::onInit(IGameObject& object, IGameWorld& world)
 	{
 		// init all components
 		foreachComponent([](IComponent& component, IGameObject& object){component.init(object);}, std::ref(object));
@@ -72,14 +72,14 @@ namespace game
 		}
 
 		// fix global properties of body
-        b2MassData mass;
-        body->GetMassData( &mass );
-        std::cout << "mass: " << mass.mass << "\n";
+		b2MassData mass;
+		body->GetMassData( &mass );
+		std::cout << "mass: " << mass.mass << "\n";
 	}
 
-	void CSubStructure::onStep(IGameObject& object)
+	void CSubStructure::onStep(IGameObject& object, IGameWorld& world)
 	{
-		foreachComponent([](IComponent& c){ c.step();});
+		foreachComponent([](IComponent& c, IGameObject& o, IGameWorld& w){ c.step(o, w);}, std::ref(object), std::ref(world));
 	}
 
 	void CSubStructure::hit(Damage damage, vector2d position, vector2d direction)

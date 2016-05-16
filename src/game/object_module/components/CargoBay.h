@@ -14,7 +14,7 @@ namespace game
 				virtual ~CargoBay();
 
 				void init(IGameObject& object) final;
-				void step() final;
+				void step(IGameObject& object, IGameWorld& world) final;
 
 				bool canSupply(const std::string& resource) const final;
 				float getSupply(const std::string& resource, float amount) final;

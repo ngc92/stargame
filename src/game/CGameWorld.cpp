@@ -30,10 +30,18 @@ namespace game
 		// update all objects
 		for(auto& obj : mGameObjects)
 		{
-			if(obj->isAlive())	obj->onStep( );
+			if(obj->isAlive())	obj->onStep( *this );
 		}
 
 		clear_objects();
+
+		// spawn new objects
+		for(auto& obj : mSpawnQueue)
+		{
+			mGameObjects.push_back( std::move(obj) );
+			mSpawnListeners.notify( *mGameObjects.back() );
+		}
+		mSpawnQueue.clear();
 	}
 
 	void CGameWorld::clear_objects()
@@ -45,8 +53,7 @@ namespace game
 
 	void CGameWorld::addGameObject(std::shared_ptr<IGameObject> object)
 	{
-		mGameObjects.push_back( object );
-		mSpawnListeners.notify(*object);
+		mSpawnQueue.push_back( std::move(object) );
 	}
 
 	const b2World* CGameWorld::world() const

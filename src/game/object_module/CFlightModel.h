@@ -9,11 +9,11 @@ namespace game
 	class CFlightModel : public IFlightModel, public property::CPropertyObject
 	{
 	public:
-		CFlightModel();
+		CFlightModel( float op_speed );
 
 		// Module functions
-		void onStep( IGameObject& object ) override;
-		void onInit( IGameObject& object ) override;
+		void onStep( IGameObject& object, IGameWorld& world ) override;
+		void onInit( IGameObject& object, IGameWorld& world ) override;
 
 
 		void update_movement( b2Body& ship );

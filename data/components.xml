@@ -4,9 +4,9 @@
 	<HP>100</HP>
 	<weight>10</weight>
 	<properties>
-		<max_thrust>1000</max_thrust>
+		<max_thrust>100</max_thrust>
 		<efficiency>5000</efficiency>
-		<torque>0.1</torque>
+		<torque>0.01</torque>
 	</properties>
 </component>
 
@@ -18,5 +18,16 @@
 	<properties>
 		<capacity>1000</capacity>
 		<maxpump>1</maxpump>
+	</properties>
+</component>
+
+<component>
+	<type>FixedGun</type>
+	<name>FixedGun</name>
+	<HP>100</HP>
+	<weight>10</weight>
+	<properties>
+		<rpm>600</rpm>
+		<ammo_type>25mm</ammo_type>
 	</properties>
 </component>

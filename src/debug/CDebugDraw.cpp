@@ -3,10 +3,11 @@
 #include "game/IGameWorld.h"
 #include <Box2D/Dynamics/b2World.h>
 #include <irrlicht/irrlicht.h>
+#include <iostream>
 
 CDebugDraw::CDebugDraw( irr::video::IVideoDriver* driver ) : mDriver(driver)
 {
-	
+	SetFlags(e_shapeBit);
 }
 
 void CDebugDraw::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& col)
@@ -62,7 +63,7 @@ void CDebugDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& 
 
 void CDebugDraw::DrawTransform(const b2Transform& xf)
 {
-    // what to draw here?
+	// what to draw here?
 }
 
 void CDebugDraw::setFinished()
@@ -73,6 +74,11 @@ void CDebugDraw::setFinished()
 
 void CDebugDraw::doDraw() const
 {
+	using namespace irr;
+	video::SMaterial mat;
+	mat.setFlag(video::EMF_LIGHTING, false);
+	mDriver->setMaterial( mat );
+	mDriver->setTransform(video::ETS_WORLD, core::IdentityMatrix);
 	std::lock_guard<std::mutex> lck(mWriteMutex);
 	for(auto& f : mDrawQueue)
 		f(mDriver);
@@ -80,6 +86,11 @@ void CDebugDraw::doDraw() const
 
 void CDebugDraw::onGameStep(const game::IGameWorld& world)
 {
+	{
+		std::lock_guard<std::mutex> lck(mWriteMutex);
+		mWriteQueue.clear();
+	}
 	const_cast<game::IGameWorld&>(world).getWorld()->SetDebugDraw(this);
 	const_cast<game::IGameWorld&>(world).getWorld()->DrawDebugData();
+	setFinished();
 }

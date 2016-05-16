@@ -4,9 +4,12 @@
 #include "spawn/CDataManager.h"
 
 #include "CGameObject.h"
+#include "property/CProperty.h"
+#include "IGameWorld.h"
 #include "object_module/ArmourSegment.h"
 #include "object_module/CSubStructure.h"
 #include "object_module/CFlightModel.h"
+#include "object_module/CAffiliation.h"
 #include <Box2D/Box2D.h>
 #include <cassert>
 
@@ -14,24 +17,44 @@
 
 namespace game
 {
-	SpawnManager::SpawnManager(std::function<b2Body*()> bodysource) :
-		mBodyFactory( std::move(bodysource) ),
+	SpawnManager::SpawnManager() :
 		mDataManager(make_unique<spawn::CDataManager>() )
 	{
 		mDataManager->loadFile("data/components.xml");
 		mDataManager->loadFile("data/hulls.xml");
 		mDataManager->loadFile("data/ships.xml");
+		mDataManager->loadFile("data/projectiles.xml");
+
+		assert( mSingleton == nullptr );
+		mSingleton = this;
 	}
 
 	SpawnManager::~SpawnManager()
 	{
-
+		mSingleton = nullptr;
 	}
 
-	std::shared_ptr<IGameObject> SpawnManager::createSpaceShip( const std::string& type, long id )
+	SpawnManager* SpawnManager::mSingleton = nullptr;
+	SpawnManager& SpawnManager::singleton()
 	{
-		auto ship = std::make_shared<CGameObject>(mBodyFactory(), id);
-		auto& dat = mDataManager->getShipData(type);
+		return *mSingleton;
+	}
+
+	b2Body* init_body(const SpawnInitData& data)
+	{
+		b2BodyDef def;
+		def.angle = data.angle;
+		def.position = data.position;
+		def.linearVelocity = data.velocity;
+		def.angularVelocity = data.angular_velocity;
+		def.type = b2_dynamicBody;
+		return data.world.getWorld()->CreateBody(&def);
+	}
+
+	std::shared_ptr<IGameObject> SpawnManager::createSpaceShip( const SpawnInitData& data, int team, long id )
+	{
+		auto ship = std::make_shared<CGameObject>(init_body(data), id);
+		auto& dat = mDataManager->getShipData(data.type);
 		auto structure = mDataManager->getHullData( dat.hull() ).create();
 
 		for(auto& c : dat.components())
@@ -44,11 +67,46 @@ namespace game
 		}
 
 		ship->addModule( structure );
-		ship->addModule( std::make_shared<CFlightModel>() );
+		ship->addModule( std::make_shared<CFlightModel>( 1.0 ) );
+		ship->addModule( std::make_shared<CAffiliation>( team ) );
+		
+		ship->addProperty( property::CProperty::create("_type_", ship.get(), std::string("ship")) );
+		dat.addAttributes( *ship );
 
-		/// \todo only call this after adding to the world!
-		ship->onInit();
+		// add gfx data
+		ship->onInit(data.world);
+		data.world.addGameObject(ship);
+
 
 		return ship;
+	}
+
+	std::shared_ptr<IGameObject> SpawnManager::createBullet( SpawnInitData data, IGameObject& shooter )
+	{
+		auto& dat = mDataManager->getProjectileData( data.type );
+
+		// transform shot coordinates
+		data.position = shooter.body()->GetWorldVector( data.position ) + shooter.position();
+		data.velocity = shooter.body()->GetWorldVector( data.velocity + b2Vec2(dat.propellVelocity(), 0) ) + shooter.velocity();
+		data.angle += shooter.angle();
+
+		auto bullet = std::make_shared<CGameObject>(init_body(data), -2);
+		bullet->addModule( std::make_shared<CFlightModel>( 100.0 ) );
+		auto shared = shooter.shared_from_this();
+		bullet->addModule( std::make_shared<CAffiliation>( shared ) );
+
+		// add circular fixture
+		b2CircleShape shape;
+		shape.m_radius = dat.radius();
+		/// \todo set density for mass!
+		bullet->getBody()->CreateFixture( &shape, 1.0 );
+		bullet->getBody()->SetBullet(true);
+		
+		bullet->addProperty( property::CProperty::create("_type_", bullet.get(), std::string("bullet")) );
+
+		bullet->onInit(data.world);
+		data.world.addGameObject(bullet);
+
+		return bullet;
 	}
 }

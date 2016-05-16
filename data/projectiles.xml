@@ -1,0 +1,6 @@
+<projectile>
+	<name>25mm</name>
+	<velocity>100</velocity>
+	<radius>250</radius>
+	<mass>100</mass>
+</projectile>

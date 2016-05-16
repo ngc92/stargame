@@ -10,6 +10,7 @@ namespace game
 		class Component;
 		class Hull;
 		class Ship;
+		class Projectile;
 
 		class IDataManager
 		{
@@ -18,6 +19,7 @@ namespace game
 			virtual const Component& getComponentData( const std::string& type ) const = 0;
 			virtual const Hull& getHullData( const std::string& type ) const = 0;
 			virtual const Ship& getShipData( const std::string& type ) const = 0;
+			virtual const Projectile& getProjectileData( const std::string& type ) const = 0;
 
 			virtual void loadFile( const std::string& filename ) = 0;
 		};

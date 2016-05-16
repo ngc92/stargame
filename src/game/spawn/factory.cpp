@@ -4,6 +4,7 @@
 #include "game/object_module/components/FuelTank.h"
 #include "game/object_module/components/Engine.h"
 #include "game/object_module/components/CargoBay.h"
+#include "game/object_module/components/FixedGun.h"
 
 #include "game/object_module/CStructureCell.h"
 #include "game/object_module/CSubStructure.h"
@@ -31,6 +32,10 @@ namespace spawn
 		else if(type == "CargoBay")
 		{
 			return std::make_shared<components::CargoBay>();
+		}
+		else if(type == "FixedGun")
+		{
+			return std::make_shared<components::FixedGun>();
 		}
 		assert(0);
 	}

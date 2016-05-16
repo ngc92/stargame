@@ -28,18 +28,18 @@ namespace game
 		mBody = nullptr;
 	}
 
-	void CGameObject::onInit()
+	void CGameObject::onInit(IGameWorld& world)
 	{
 		for(auto& module : mModules)
-			module->onInit(*this);
+			module->onInit(*this, world);
 	}
 
-	void CGameObject::onStep()
+	void CGameObject::onStep(IGameWorld& world)
 	{
 		mStepListeners.notify();
 
 		for(auto& module : mModules)
-			module->onStep(*this);
+			module->onStep(*this, world);
 
 		// update property listeners
 		notifyAll();

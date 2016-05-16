@@ -28,10 +28,10 @@ namespace property
 		}
 
 		/// conversion to static type
-		const T& convert() const { return boost::get<T>(mProperty->value()); };
+		const T& value() const { return boost::get<T>(mProperty->value()); };
 
 		/// conversion operator
-		operator const T&() const { return convert(); };
+		operator const T&() const { return value(); };
 
 		/// assignment operator, only allows assignment of type T
 		TypedProperty<T>& operator=(const T& value)
