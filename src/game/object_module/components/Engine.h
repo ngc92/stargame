@@ -17,7 +17,7 @@ namespace components
 			virtual ~Engine();
 
 			void init(IGameObject& object) override;
-			void step() override;
+			void step(IGameObject& object, IGameWorld& world) override;
 
 		private:
 			std::weak_ptr<IComponent> mTank;

@@ -55,11 +55,12 @@
 		<Unit filename="src/CUIEventListener.h" />
 		<Unit filename="src/GameState/GameState.cpp" />
 		<Unit filename="src/GameState/GameState.h" />
-		<Unit filename="src/GameState/IGameModule.h" />
+		<Unit filename="src/GameState/GameView/GameView.cpp" />
 		<Unit filename="src/GameState/GameView/GameViewGFX.cpp" />
 		<Unit filename="src/GameState/GameView/GameViewGFX.h" />
 		<Unit filename="src/GameState/HUD.cpp" />
 		<Unit filename="src/GameState/HUD.h" />
+		<Unit filename="src/GameState/IGameModule.h" />
 		<Unit filename="src/GameState/InputModule.cpp" />
 		<Unit filename="src/GameState/InputModule.h" />
 		<Unit filename="src/GameState/TextInterface/TextInterface.cpp" />
