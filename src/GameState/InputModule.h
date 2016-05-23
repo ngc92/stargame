@@ -24,7 +24,6 @@ namespace input
 {
 	class IInputElement;
 	class IInputConfig;
-	enum class KeyAction : int;
 }
 
 class InputModule : public game::CGameViewModule, public IEventListener
@@ -45,10 +44,6 @@ private:
 	long mShipID;
 	std::unique_ptr<input::IInputConfig> mInputConfig;
 	std::vector<std::shared_ptr<input::IInputElement>> mInputElements;
-
-
-	std::set<irr::EKEY_CODE> mKeysDown;
-
 	ListenerRef mSpawnLst;
 };
 

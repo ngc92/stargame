@@ -2,6 +2,7 @@
 #define GAMEVIEWGFX_H_INCLUDED
 
 #include <string>
+#include "listener/listener.h"
 
 namespace game
 {
@@ -11,12 +12,12 @@ namespace game
 namespace irr
 {
 	class IrrlichtDevice;
-	
+
 	namespace video
 	{
 		class IVideoDriver;
 	}
-	
+
 	namespace scene
 	{
 		class ISceneManager;
@@ -26,31 +27,33 @@ namespace irr
 	}
 }
 
-namespace gfx 
+namespace gfx
 {
 	using namespace irr;
-	
+
 	class GameViewGFX
 	{
 	public:
 		GameViewGFX(IrrlichtDevice* device);
-		
+
 		void init();
-		void addShip(const game::IGameObjectView* object, std::string type );
-		
+		/// \note takes object as nonconst reference because it has to add a remove listener.
+		/// \return reference to the deletion listener of the object.
+		ListenerRef addShip(game::IGameObjectView& object, std::string type );
+
 		// let camera follow and track object
-		
+
 		// animators
-		scene::ISceneNodeAnimator* createGameObjectAnimator( const game::IGameObjectView* object ) const;
+		scene::ISceneNodeAnimator* createGameObjectAnimator( const game::IGameObjectView& object ) const;
 		scene::ISceneNodeAnimator* createTrackAnimator( const scene::ISceneNode* target, float smoothness = 1 ) const;
 		scene::ISceneNodeAnimator* createFollowAnimator( const scene::ISceneNode* target, float distance = 10, float smoothness = 1, float maxSpeed = 10 ) const;
-		
+
 	private:
-		
-		
+
+
 		video::IVideoDriver* mDriver = nullptr;
 		scene::ISceneManager* mSceneMgr = nullptr;
-		
+
 		// camera configuration
 		scene::ICameraSceneNode* mCamera = nullptr;
 	};

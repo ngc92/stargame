@@ -20,7 +20,8 @@ namespace game
 			/// called just after the object is constructed and added to the world.
 			void onInit(IGameWorld& world) override;
 			void onStep(IGameWorld& world) override;
-			void onImpact(IGameObject* other, const ImpactInfo& info) override;
+			void onImpact(IGameObject& other, const ImpactInfo& info) override;
+			void dealDamage( const Damage& damage, const b2Vec2& pos, const b2Vec2& dir ) override;
 
 			/// gets the current position of the game object
 			b2Vec2 position() const final;
@@ -33,13 +34,26 @@ namespace game
 			/// gets an ID for object identification.
 			long id() const final;
 
+			/// collision filter data. This is currently very specialised, so maybe a more general
+			/// interface would be nice. However, we need to ensure that this does not cost performance for objects
+			/// that do not require special collision handling.
+			/// Right now, we can set one specific body with which this object shall not collide.
+			const b2Body* ignoreCollisionTarget() const final;
+
+			/// sets the body which shall be ignored upon collision checks
+			void setIgnoreCollisionTarget( const b2Body* ignore ) final;
+
+
+
 			/// adds a module to this game object.
 			void addModule( std::shared_ptr<IGameObjectModule> ) final;
 
 			/// adds a listener that is called every step for this game object.
 			ListenerRef addStepListener( std::function<void()> lst ) final;
 			/// adds a listener that is called when this object is hit by another game object.
-			ListenerRef addImpactListener( std::function<void(IGameObjectView*, const ImpactInfo&)> lst ) final;
+			ListenerRef addImpactListener( std::function<void(IGameObjectView&, const ImpactInfo&)> lst ) final;
+			/// adds a listener that is called when the object is removed
+			ListenerRef addRemoveListener( std::function<void()> lst ) final;
 
 			/// get a pointer to the internal body, if any
 			const b2Body* body() const final;
@@ -56,6 +70,8 @@ namespace game
 		private:
 			b2Body* mBody = nullptr;
 
+			const b2Body* mIgnoreBody = nullptr;
+
 			// status
 			bool mIsAlive;
 
@@ -63,7 +79,8 @@ namespace game
 			long mID;
 
 			ListenerList<> mStepListeners;
-			ListenerList<IGameObject*, const ImpactInfo&> mImpactListeners;
+			ListenerList<> mRemoveListeners;
+			ListenerList<IGameObject&, const ImpactInfo&> mImpactListeners;
 
 			// modules
 			module_vec& getModules() final { return mModules; };

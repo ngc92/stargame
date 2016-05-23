@@ -5,12 +5,17 @@
 
 namespace property
 {
+	std::ostream& operator<<(std::ostream& stream, const IPropertyView& property)
+	{
+		return stream << property.path() << " = " << property.value();
+	}
+	
 	std::ostream& operator<<(std::ostream& stream, const IPropertyObjectView& property)
 	{
 		stream << property.name() << ":\n";
 		property.forallProperties( [&](const IPropertyView& view)
 		{
-			stream << " " << view.path() << " = " << view.value() << "\n";
+			stream << " " << view << "\n";
 		} );
 		return stream;
 	}

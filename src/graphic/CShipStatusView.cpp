@@ -31,7 +31,7 @@ namespace graphic
 
 		mArmourSegments.push_back(ArmourSegment{p1, p2, 1.f});
 
-		return mArmourSegments.size();
+		return mArmourSegments.size()-1;
 	}
 
 	void CShipStatusView::setSegmentStatus(u32 segment, f32 status)

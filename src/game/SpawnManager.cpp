@@ -10,6 +10,8 @@
 #include "object_module/CSubStructure.h"
 #include "object_module/CFlightModel.h"
 #include "object_module/CAffiliation.h"
+#include "object_module/CTimedDeletion.h"
+#include "object_module/CImpactDamageSource.h"
 #include <Box2D/Box2D.h>
 #include <cassert>
 
@@ -69,7 +71,8 @@ namespace game
 		ship->addModule( structure );
 		ship->addModule( std::make_shared<CFlightModel>( 1.0 ) );
 		ship->addModule( std::make_shared<CAffiliation>( team ) );
-		
+		ship->addModule( std::make_shared<CImpactDamageSource>( 0.01, 1.0 ) );
+
 		ship->addProperty( property::CProperty::create("_type_", ship.get(), std::string("ship")) );
 		dat.addAttributes( *ship );
 
@@ -92,16 +95,23 @@ namespace game
 
 		auto bullet = std::make_shared<CGameObject>(init_body(data), -2);
 		bullet->addModule( std::make_shared<CFlightModel>( 100.0 ) );
+		bullet->addModule( std::make_shared<CTimedDeletion>( dat.lifetime() ) );
 		auto shared = shooter.shared_from_this();
 		bullet->addModule( std::make_shared<CAffiliation>( shared ) );
+		bullet->addModule( std::make_shared<CImpactDamageSource>( 0.5, 0.5 ) );
 
 		// add circular fixture
 		b2CircleShape shape;
 		shape.m_radius = dat.radius();
+		b2FixtureDef def;
+		def.density = 1.0;
+		def.restitution = 0.5;
+		def.shape = &shape;
 		/// \todo set density for mass!
-		bullet->getBody()->CreateFixture( &shape, 1.0 );
+		auto fix = bullet->getBody()->CreateFixture( &def );
 		bullet->getBody()->SetBullet(true);
-		
+		bullet->setIgnoreCollisionTarget( shooter.body() );
+
 		bullet->addProperty( property::CProperty::create("_type_", bullet.get(), std::string("bullet")) );
 
 		bullet->onInit(data.world);

@@ -3,4 +3,5 @@
 	<velocity>100</velocity>
 	<radius>250</radius>
 	<mass>100</mass>
+	<lifetime>2</lifetime>
 </projectile>

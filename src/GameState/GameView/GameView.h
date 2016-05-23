@@ -5,7 +5,7 @@
 #include "util.h"
 #include "property/property.h"
 
-namespace gfx 
+namespace gfx
 {
 	class GameViewGFX;
 }
@@ -19,12 +19,11 @@ public:
 	void init() override;
 	void onStep() override {};
 private:
-	void onSpawn(const game::IGameObjectView& spawned);
+	void onSpawn(game::IGameObjectView& spawned);
 
-	// processing
-	void processChild(const property::IPropertyObjectView& child);
 	std::vector<ListenerRef> mListeners;
-	
+	std::vector<ListenerRef> mRemoveListenerDump;
+
 	std::unique_ptr<gfx::GameViewGFX> mGFX;
 };
 

@@ -1,8 +1,10 @@
 #include "GameViewGFX.h"
+#include "game/IGameObjectView.h"
 #include "graphic/GameObjectAnimator.h"
 #include "graphic/TrackObjectAnimator.h"
 #include "graphic/FollowObjectAnimator.h"
 #include <irrlicht/irrlicht.h>
+#include <iostream>
 
 namespace gfx
 {
@@ -55,15 +57,17 @@ namespace gfx
 		light->setLightType( video::ELT_DIRECTIONAL );
 	}
 
-	void GameViewGFX::addShip( const game::IGameObjectView* object, std::string type )
+	ListenerRef GameViewGFX::addShip( game::IGameObjectView& object, std::string type )
 	{
 		/// \todo this is caches, except when we cannot find the model. remember these.
 		auto mesh = mSceneMgr->getMesh( ("gfx/models/" + type + ".3ds").c_str() );
 		if(!mesh)
-			return;
+			return ListenerRef();
 
 		auto node = mSceneMgr->addMeshSceneNode( mesh );
 		node->addAnimator( createGameObjectAnimator(object) );
+
+		auto ref = object.addRemoveListener( [node](){ node->remove(); } );
 
 		static bool f = true;
 		if(f)
@@ -72,9 +76,11 @@ namespace gfx
 			mCamera->addAnimator( createFollowAnimator(node, 15, 0.1, 100) );
 			f = false;
 		}
+
+		return ref;
 	}
 
-	scene::ISceneNodeAnimator* GameViewGFX::createGameObjectAnimator( const game::IGameObjectView* object ) const
+	scene::ISceneNodeAnimator* GameViewGFX::createGameObjectAnimator( const game::IGameObjectView& object ) const
 	{
 		return new gfx::GameObjectAnimator( object );
 	}

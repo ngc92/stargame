@@ -53,8 +53,10 @@ namespace game
 
 		/// adds a listener that is called every step for this game object.
 		virtual ListenerRef addStepListener( std::function<void()> lst ) = 0;
+		/// adds a listener that is called when the object is removed
+		virtual ListenerRef addRemoveListener( std::function<void()> lst ) = 0;
 		/// adds a listener that is called when this object is hit by another game object.
-		virtual ListenerRef addImpactListener( std::function<void(IGameObjectView*, const ImpactInfo&)> lst ) = 0;
+		virtual ListenerRef addImpactListener( std::function<void(IGameObjectView&, const ImpactInfo&)> lst ) = 0;
 	};
 }
 

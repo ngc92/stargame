@@ -56,11 +56,11 @@
 		<Unit filename="src/GameState/GameState.cpp" />
 		<Unit filename="src/GameState/GameState.h" />
 		<Unit filename="src/GameState/GameView/GameView.cpp" />
+		<Unit filename="src/GameState/GameView/GameView.h" />
 		<Unit filename="src/GameState/GameView/GameViewGFX.cpp" />
 		<Unit filename="src/GameState/GameView/GameViewGFX.h" />
 		<Unit filename="src/GameState/HUD.cpp" />
 		<Unit filename="src/GameState/HUD.h" />
-		<Unit filename="src/GameState/IGameModule.h" />
 		<Unit filename="src/GameState/InputModule.cpp" />
 		<Unit filename="src/GameState/InputModule.h" />
 		<Unit filename="src/GameState/TextInterface/TextInterface.cpp" />
@@ -112,14 +112,20 @@
 		<Unit filename="src/game/object_module/CAffiliation.h" />
 		<Unit filename="src/game/object_module/CFlightModel.cpp" />
 		<Unit filename="src/game/object_module/CFlightModel.h" />
+		<Unit filename="src/game/object_module/CImpactDamageSource.cpp" />
+		<Unit filename="src/game/object_module/CImpactDamageSource.h" />
 		<Unit filename="src/game/object_module/CStructureCell.cpp" />
 		<Unit filename="src/game/object_module/CStructureCell.h" />
 		<Unit filename="src/game/object_module/CSubStructure.cpp" />
 		<Unit filename="src/game/object_module/CSubStructure.h" />
+		<Unit filename="src/game/object_module/CTimedDeletion.cpp" />
+		<Unit filename="src/game/object_module/CTimedDeletion.h" />
 		<Unit filename="src/game/object_module/IAffiliation.h" />
+		<Unit filename="src/game/object_module/IDamageSource.h" />
 		<Unit filename="src/game/object_module/IFlightModel.h" />
 		<Unit filename="src/game/object_module/IStructureCell.h" />
 		<Unit filename="src/game/object_module/ISubStructure.h" />
+		<Unit filename="src/game/object_module/ITimedDeletion.h" />
 		<Unit filename="src/game/object_module/common_includes.h" />
 		<Unit filename="src/game/object_module/components/CComponent.cpp" />
 		<Unit filename="src/game/object_module/components/CComponent.h" />
@@ -209,6 +215,8 @@
 		<Unit filename="src/util/logging.cpp" />
 		<Unit filename="src/util/logging.h" />
 		<Unit filename="src/util/make_unique.h" />
+		<Unit filename="src/util/physics.cpp" />
+		<Unit filename="src/util/physics.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

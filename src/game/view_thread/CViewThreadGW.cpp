@@ -38,14 +38,14 @@ namespace view_thread
 	{
 		std::lock_guard<std::mutex> lock(mUpdateMutex);
 
+		// update all thread views
+		for(auto& object : mGameObjects)
+			object->update();
+
 		// remove objects that are no longer alive.
 		using namespace std;
 		auto nlast = remove_if(begin(mGameObjects), end(mGameObjects), [](const std::shared_ptr<IViewThreadGameObject>& o){ return !o->isAlive(); });
 		mGameObjects.resize(distance(begin(mGameObjects), nlast));
-
-		// update all thread views
-		for(auto& object : mGameObjects)
-			object->update();
 	}
 
 	/// function to process the spawn of a new object.
@@ -70,19 +70,28 @@ namespace view_thread
 		return mUpdateMutex;
 	}
 
-	void CViewThreadGameWorld::step()
+	void CViewThreadGameWorld::doStepActions()
 	{
-		{
-			std::lock_guard<std::mutex> lock(mStepActionMutex);
-			for(auto& a : mStepActions)
-				a();
+		std::lock_guard<std::mutex> lock(mStepActionMutex);
+		for(auto& a : mStepActions)
+			a();
 
-			mStepActions.clear();
-		}
+		mStepActions.clear();
+	}
 
+	void CViewThreadGameWorld::doGOStep()
+	{
+		std::lock_guard<std::mutex> lock(mUpdateMutex);
 		// step all game objects
 		for(auto& obj : mGameObjects)
 			obj->onStep();
+	}
+
+	void CViewThreadGameWorld::step()
+	{
+		// keeping this in function calls ensures minimal scope for the mutexes
+		doStepActions();
+		doGOStep();
 	}
 
 }

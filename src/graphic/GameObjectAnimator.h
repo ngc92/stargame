@@ -2,6 +2,7 @@
 #define GAMEOBJECTANIMATOR_H_INCLUDED
 
 #include <irrlicht/ISceneNodeAnimator.h>
+#include <memory>
 
 namespace game
 {
@@ -20,7 +21,8 @@ namespace gfx
 	class GameObjectAnimator : public ISceneNodeAnimator
 	{
 		public:
-			GameObjectAnimator(const game::IGameObjectView* view);
+			GameObjectAnimator(const game::IGameObjectView& view);
+			GameObjectAnimator(const std::weak_ptr<const game::IGameObjectView> view);
 			virtual ~GameObjectAnimator();
 
 			void animateNode(ISceneNode* node, u32 timeMs) override;
@@ -30,7 +32,7 @@ namespace gfx
 			vector3df convert( const b2Vec2& source );
 			vector3df convert_angle( float angle );
 
-			const game::IGameObjectView* mView;
+			const std::weak_ptr<const game::IGameObjectView> mView;
 	};
 
 }

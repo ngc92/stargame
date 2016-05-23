@@ -1,4 +1,5 @@
 # stargame
+yep, that's the name for now!
 
 # playing
-Controle your ship with the arrow keys.
+Control your ship with the arrow keys. Shoot with "C".

@@ -7,6 +7,7 @@
 namespace game
 {
 	class IGameObject;
+	class Damage;
 
 	class IGameObjectModule : public virtual property::IPropertyObject
 	{
@@ -21,7 +22,15 @@ namespace game
 		virtual void onStep( IGameObject& object, IGameWorld& world) = 0;
 
 		/// this function is called whenever another game object hits the current one.
-		virtual void onImpact( IGameObject& object, IGameObject* other, const ImpactInfo& info) {};
+		virtual void onImpact( IGameObject& object, IGameObject& other, const ImpactInfo& info) {};
+
+		/*! this function is called when damage is dealt to the object.
+			\param object The game object that was damaged.
+			\param damage The amount of damage dealt.
+			\param pos world position where the damage occured.
+			\param dir direction in which the damage is to be applied in world coordinates.
+		*/
+		virtual void onDamage( IGameObject& object, const Damage& damage, const b2Vec2& pos, const b2Vec2& dir ) {};
 	};
 }
 

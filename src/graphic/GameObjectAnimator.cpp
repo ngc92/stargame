@@ -5,9 +5,15 @@
 namespace gfx
 {
 
-	GameObjectAnimator::GameObjectAnimator(const game::IGameObjectView* view) :
-		mView( view )
+	GameObjectAnimator::GameObjectAnimator(const game::IGameObjectView& view) :
+		mView( view.shared_from_this() )
 	{
+	}
+
+	GameObjectAnimator::GameObjectAnimator(const std::weak_ptr<const game::IGameObjectView> view) :
+		mView( std::move(view) )
+	{
+
 	}
 
 	GameObjectAnimator::~GameObjectAnimator()
@@ -21,8 +27,15 @@ namespace gfx
 
 	void GameObjectAnimator::animateNode(ISceneNode* node, u32 timeMs)
 	{
-		node->setPosition( convert(mView->position()) );
-		node->setRotation( convert_angle( mView->angle() ) );
+		auto view = mView.lock();
+		if(!view)
+		{
+
+			node->removeAnimator( this );
+			return;
+		}
+		node->setPosition( convert(view->position()) );
+		node->setRotation( convert_angle( view->angle() ) );
 	}
 
 	ISceneNodeAnimator* GameObjectAnimator::createClone(ISceneNode* node, ISceneManager* newManager)

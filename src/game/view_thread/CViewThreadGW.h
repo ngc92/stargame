@@ -33,22 +33,25 @@ namespace game
 					outside the game loop.
 			*/
 			void update() final;
-			
-			
+
+
 			/// call this function from the client thread to trigger all delayed callbacks.
 			void step() final;
-			
+
 			/// gets the mutex that protects the update step.
 			std::mutex& getUpdateMutex() const final;
 
 		private:
 			IGameWorldView* mOriginal;
 
+			// helper functions
+			/// performs all cached step actions and clears cache
+			void doStepActions();
+			/// steps all game objects
+			void doGOStep();
+
 			//! list of all game object thread views for the original game objects.
 			std::vector<std::shared_ptr<IViewThreadGameObject>> mGameObjects;
-
-			//! mapping of GameObjects to ThreadGameObjects
-//			std::unordered_map<IGameObjectView*, IViewThreadGameObject*> 0;
 
 			using delayed_fun = std::function<void()>;
 			//! function cached from within the game thread to be
@@ -62,10 +65,10 @@ namespace game
 
 			/// function to process the spawn of a new object.
 			void onSpawn(IGameObjectView& object);
-			
+
 			/// mutex for the update process
 			mutable std::mutex mUpdateMutex;
-			
+
 			/// mutex for delayed callback
 			mutable std::mutex mStepActionMutex;
 		};
