@@ -38,7 +38,7 @@ namespace components
 			mReloadTimer = 60 / mRPM;
 			mAmmoAmount -= 1;
 			SpawnInitData data(world, mAmmoType.value());
-			SpawnManager::singleton().createBullet(data, object);
+			ISpawnManager::singleton().createBullet(data, object);
 		}
 	}
 }

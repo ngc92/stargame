@@ -14,12 +14,12 @@ namespace game
 	class IGameWorld;
 	class IGameObject;
 	class IGameViewModule;
-	class SpawnManager;
+	class ISpawnManager;
 	namespace view_thread
 	{
 		class IViewThreadGameWorld;
 	}
-	
+
 	using WorldView = view_thread::IViewThreadGameWorld;
 
 	/*! \class Game
@@ -36,12 +36,12 @@ namespace game
 
 		void run();
 		void pause();
-		
+
 		/// call from view threads
 		void step();
-		
+
 		WorldView& getWorldView();
-		
+
 		/// adds a module to the module list in a thread-save manner.
 		void addModule(std::weak_ptr<IGameViewModule> module);
 
@@ -53,10 +53,10 @@ namespace game
 		std::thread mGameThread;
 		std::unique_ptr<IGameWorld> mGameWorld;
 		std::unique_ptr<ITimeManager> mTimeManager;
-		std::unique_ptr<SpawnManager> mSpawnManager;
-		
+		std::unique_ptr<ISpawnManager> mSpawnManager;
+
 		std::unique_ptr<view_thread::IViewThreadGameWorld> mWorldView;
-		
+
 		std::mutex mModuleMutex;
 		std::vector<std::weak_ptr<IGameViewModule>> mModules;
 	};

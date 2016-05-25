@@ -1,4 +1,4 @@
-#include "SpawnManager.h"
+#include "CSpawnManager.h"
 
 #include "spawn/factory.h"
 #include "spawn/CDataManager.h"
@@ -19,28 +19,18 @@
 
 namespace game
 {
-	SpawnManager::SpawnManager() :
+	CSpawnManager::CSpawnManager() :
 		mDataManager(make_unique<spawn::CDataManager>() )
 	{
 		mDataManager->loadFile("data/components.xml");
 		mDataManager->loadFile("data/hulls.xml");
 		mDataManager->loadFile("data/ships.xml");
 		mDataManager->loadFile("data/projectiles.xml");
-
-		assert( mSingleton == nullptr );
-		mSingleton = this;
 	}
 
-	SpawnManager::~SpawnManager()
-	{
-		mSingleton = nullptr;
-	}
+	CSpawnManager::~CSpawnManager(){}
 
-	SpawnManager* SpawnManager::mSingleton = nullptr;
-	SpawnManager& SpawnManager::singleton()
-	{
-		return *mSingleton;
-	}
+	ISpawnManager* ISpawnManager::mSingleton = nullptr;
 
 	b2Body* init_body(const SpawnInitData& data)
 	{
@@ -53,7 +43,7 @@ namespace game
 		return data.world.getWorld()->CreateBody(&def);
 	}
 
-	std::shared_ptr<IGameObject> SpawnManager::createSpaceShip( const SpawnInitData& data, int team, long id )
+	std::shared_ptr<IGameObject> CSpawnManager::createSpaceShip( const SpawnInitData& data, int team, long id )
 	{
 		auto ship = std::make_shared<CGameObject>(init_body(data), id);
 		auto& dat = mDataManager->getShipData(data.type);
@@ -84,7 +74,7 @@ namespace game
 		return ship;
 	}
 
-	std::shared_ptr<IGameObject> SpawnManager::createBullet( SpawnInitData data, IGameObject& shooter )
+	std::shared_ptr<IGameObject> CSpawnManager::createBullet( SpawnInitData data, IGameObject& shooter )
 	{
 		auto& dat = mDataManager->getProjectileData( data.type );
 

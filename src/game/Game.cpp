@@ -5,7 +5,7 @@
 #include "IGameViewModule.h"
 #include "util.h"
 #include "CTimeManager.h"
-#include "SpawnManager.h"
+#include "CSpawnManager.h"
 #include <Box2D/Box2D.h>
 
 namespace game
@@ -16,7 +16,7 @@ namespace game
 		mGameThread( [this](){ gameloop(); } ),
 		mGameWorld( make_unique<CGameWorld>() ),
 		mTimeManager( make_unique<CTimeManager>() ),
-		mSpawnManager( make_unique<SpawnManager>( ) ),
+		mSpawnManager( make_unique<CSpawnManager>( ) ),
 		mWorldView( make_unique<view_thread::CViewThreadGameWorld>( *mGameWorld ) )
 	{
 		mTimeManager->setDesiredFPS(50);
