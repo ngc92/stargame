@@ -63,7 +63,12 @@ void CDebugDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& 
 
 void CDebugDraw::DrawTransform(const b2Transform& xf)
 {
-	// what to draw here?
+	/// \todo what to draw here?
+}
+
+void CDebugDraw::DrawPoint(const b2Vec2& p, float32 size, const b2Color& color)
+{
+	/// \todo add something here
 }
 
 void CDebugDraw::setFinished()
