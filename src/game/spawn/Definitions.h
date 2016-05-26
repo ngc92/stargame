@@ -17,27 +17,6 @@ namespace game
 namespace spawn
 {
 	using vertex_cache_t = std::unordered_map<std::string, b2Vec2>;
-	
-	/// component definition.
-	class Component
-	{
-	public:
-		Component( const boost::property_tree::ptree& props );
-
-		// data getters
-		const std::string& type() const;
-		float HP() const;
-		float weight() const;
-
-		const property::IPropertyObject& getProperties() const;
-
-		std::shared_ptr<IComponent> create() const;
-	private:
-		std::string mType;
-		float mHitPoints;
-		float mWeight;
-		std::shared_ptr<property::IPropertyObject> mProperties;
-	};
 
 	/// structure cell definition.
 	class StructureCell

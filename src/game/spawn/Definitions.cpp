@@ -7,6 +7,7 @@
 
 #include "consts.h"
 #include "factory.h"
+#include "spawn_util.h"
 #include "game/object_module/IStructureCell.h"
 #include "game/object_module/ISubStructure.h"
 #include "game/object_module/ArmourSegment.h"
@@ -16,88 +17,6 @@ namespace game
 {
 namespace spawn
 {
-	// helpers
-
-	b2Vec2 read_position( const boost::property_tree::ptree& tree )
-	{
-		return b2Vec2{tree.get<float>("x") * METERS_TO_BOX, tree.get<float>("y") * METERS_TO_BOX };
-	}
-
-	b2Vec2 read_position( const boost::property_tree::ptree& tree, const vertex_cache_t& vcache  )
-	{
-		auto vname = tree.get_value<std::string>();
-		if( vname != "" )
-		{
-			return vcache.at(vname);
-		}
-		else
-		{
-			return read_position(tree);
-		}
-	}
-
-	// ------------------------------------------------------------
-
-	Component::Component(const boost::property_tree::ptree& props) :
-		mType( props.get<std::string>("type") ),
-		mHitPoints( props.get<float>("HP") ),
-		mWeight( props.get<float>("weight")),
-		mProperties( std::make_shared<property::CPropertyObject>( "data" ) )
-	{
-		auto subs = props.get_child("properties");
-		for(auto& data : subs )
-		{
-			const std::string& s = data.second.get_value<std::string>();
-			property::data_t value = s;
-			// check if number
-			if(std::regex_match(s, std::regex("-?[0-9]+([.][0-9]+)?")))
-			{
-				value = data.second.get_value<float>();
-			}
-
-			mProperties->addProperty( property::CProperty::create(data.first, mProperties.get(), value ) );
-		}
-	}
-
-	const std::string& Component::type() const
-	{
-		return mType;
-	}
-
-	float Component::HP() const
-	{
-		return mHitPoints;
-	}
-
-	float Component::weight() const
-	{
-		return mWeight;
-	}
-
-	const property::IPropertyObject& Component::getProperties() const
-	{
-		return *mProperties;
-	}
-
-	std::shared_ptr<IComponent> Component::create() const
-	{
-		std::shared_ptr<components::IComponent> component = constructComponent(type());
-
-		// set hitpoints, maxHP and weight
-		component->setHitPoints( HP(), HP() );
-		component->setWeight( weight() );
-
-		// set other attributes
-		mProperties->forallProperties(
-			[&component](property::IPropertyView& prop)
-			{
-				*component->getPropertyPtr(prop.name()) = prop.value();
-			}
-		);
-
-		return component;
-	}
-
 	// ------------------------------------------------------------------------------------------------
 
 	StructureCell::StructureCell(const boost::property_tree::ptree& props,

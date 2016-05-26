@@ -1,12 +1,9 @@
 **Bullets: Second kind of game object that can be created, does not posses substructure but FlightModel**
-* deletion after timeout									DONE
 * impact handling
-* deactivate impact test between shot and shooter			DONE
 * Damage model:
   * damage submodule to determine damage dealt				
   * improve Damage.h class and split into damage and modifiers
   * more details for armour specs			
-  * destruction of objects									DONE
 
 **Physics**
 * introduce mass handling for ships
@@ -14,7 +11,6 @@
  
 **GFX**
 * default game view
-* object deletion fix										DONE
 * engine effect
 * subsystem status views:
   * propulsion system panel (engine, tank)
@@ -32,7 +28,7 @@
 * ISpawnManager
 * unit conversions
 * manage data types when loading properties from file.
-* vertex cache in hull file									DONE
+* composition vs inheritance
 	
 **Permagoals:**
 * improve error handling and logging
