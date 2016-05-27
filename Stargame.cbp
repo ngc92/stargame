@@ -33,6 +33,7 @@
 			<Add option="-std=c++11" />
 			<Add option="-ftemplate-backtrace-limit=0" />
 			<Add directory="./src/" />
+			<Add directory="external/Box2D/Box2D" />
 		</Compiler>
 		<Linker>
 			<Add library="irrlicht" />

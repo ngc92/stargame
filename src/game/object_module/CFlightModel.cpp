@@ -34,10 +34,10 @@ namespace game
 		float f = -v.LengthSquared() * mDragFactor;
 		v.Normalize();
 		v *= f * ship.GetMass();
-		ship.ApplyForceToCenter( ship.GetWorldVector(v) );
+		ship.ApplyForceToCenter( ship.GetWorldVector(v), true );
 
-		ship.ApplyLinearImpulse( ship.GetWorldVector( mTotalThrust ) , ship.GetWorldCenter() );
-		ship.ApplyAngularImpulse( mTotalAngImp * ship.GetInertia() );
+		ship.ApplyLinearImpulse( ship.GetWorldVector( mTotalThrust ) , ship.GetWorldCenter(), true );
+		ship.ApplyAngularImpulse( mTotalAngImp * ship.GetInertia(), true );
 
 		mTotalThrust = b2Vec2_zero;
 		mTotalAngImp = 0;
