@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "consts.h"
-#include "game/SpawnManager.h"
+#include "game/ISpawnManager.h"
 #include "game/IGameObject.h"
 #include <Box2D/Dynamics/b2Body.h>
 

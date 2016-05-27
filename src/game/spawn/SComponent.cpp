@@ -2,15 +2,10 @@
 #include "spawn_util.h"
 
 #include "property/CProperty.h"
-#include <boost/property_tree/ptree.hpp>
-#include <regex>
 #include <iostream>
 
 #include "consts.h"
 #include "factory.h"
-#include "game/object_module/IStructureCell.h"
-#include "game/object_module/ISubStructure.h"
-#include "game/object_module/ArmourSegment.h"
 #include "game/object_module/components/IComponent.h"
 
 namespace game

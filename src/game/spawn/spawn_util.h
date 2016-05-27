@@ -2,7 +2,7 @@
 #define SPAWN_UTIL_H_INCLUDED
 
 #include <unordered_map>
-#include <boost/property_tree/ptree_fwd.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include "game/fwd.h"
 #include "property/property.h"
 

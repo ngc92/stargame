@@ -14,19 +14,19 @@ namespace spawn
 		return mData.at<SComponent>(type);
 	}
 
-	const Hull& CDataManager::getHullData( const std::string& type ) const
+	const SHull& CDataManager::getHullData( const std::string& type ) const
 	{
-		return mData.at<Hull>(type);
+		return mData.at<SHull>(type);
 	}
 
-	const Ship& CDataManager::getShipData( const std::string& type ) const
+	const SShip& CDataManager::getShipData( const std::string& type ) const
 	{
-		return mData.at<Ship>(type);
+		return mData.at<SShip>(type);
 	}
 
-	const Projectile& CDataManager::getProjectileData( const std::string& type ) const
+	const SProjectile& CDataManager::getProjectileData( const std::string& type ) const
 	{
-		return mData.at<Projectile>(type);
+		return mData.at<SProjectile>(type);
 	}
 
 	// ------------------------------------------------------------
@@ -50,9 +50,9 @@ namespace spawn
 		{
 			/// \todo can we automate this code further?
 			if(data.first == "component") addData<SComponent>(data.second, mData);
-			else if (data.first == "hull") addData<Hull>(data.second, mData);
-			else if (data.first == "ship") addData<Ship>(data.second, mData);
-			else if (data.first == "projectile") addData<Projectile>(data.second, mData);
+			else if (data.first == "hull") addData<SHull>(data.second, mData);
+			else if (data.first == "ship") addData<SShip>(data.second, mData);
+			else if (data.first == "projectile") addData<SProjectile>(data.second, mData);
 		}
 	}
 

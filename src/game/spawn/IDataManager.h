@@ -8,9 +8,9 @@ namespace game
 	namespace spawn
 	{
 		class SComponent;
-		class Hull;
-		class Ship;
-		class Projectile;
+		class SHull;
+		class SShip;
+		class SProjectile;
 
 		/*! \class IDataManager
 			\brief This class is responsible for containing all the data on all game objects.
@@ -23,9 +23,9 @@ namespace game
 		public:
 			virtual ~IDataManager() = default;
 			virtual const SComponent& getComponentData( const std::string& type ) const = 0;
-			virtual const Hull& getHullData( const std::string& type ) const = 0;
-			virtual const Ship& getShipData( const std::string& type ) const = 0;
-			virtual const Projectile& getProjectileData( const std::string& type ) const = 0;
+			virtual const SHull& getHullData( const std::string& type ) const = 0;
+			virtual const SShip& getShipData( const std::string& type ) const = 0;
+			virtual const SProjectile& getProjectileData( const std::string& type ) const = 0;
 
 			virtual void loadFile( const std::string& filename ) = 0;
 		};
