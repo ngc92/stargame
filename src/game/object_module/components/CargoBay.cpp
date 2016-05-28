@@ -44,5 +44,8 @@ namespace game
 			dynamic_cast<property::IProperty&>(prop).changable_value() = present;
 			return mx;
 		}
+		
+		
+		REG_COMP_MACRO(CargoBay);
 	}
 }

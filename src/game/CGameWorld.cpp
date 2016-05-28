@@ -1,7 +1,7 @@
 #include "CGameWorld.h"
 #include "IGameObject.h"
 #include "WorldAction.h"
-#include "ISpawnManager.h"
+#include "spawn/ISpawnManager.h"
 #include "ContactListener.h"
 #include <Box2D/Dynamics/b2Body.h>
 #include <Box2D/Dynamics/b2World.h>
@@ -23,7 +23,7 @@ namespace game
 	{
 	}
 
-	void CGameWorld::step()
+	void CGameWorld::step(const spawn::ISpawnManager& spawner)
 	{
 		// do actually 2 physic steps per loop step.
 		// this makes it possible for bodies to move faster.
@@ -46,7 +46,7 @@ namespace game
 		}
 		
 		for(auto& a : action_queue)
-			a(*this, ISpawnManager::singleton());
+			a(*this, spawner);
 
 		clear_objects();
 

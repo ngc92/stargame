@@ -1,4 +1,5 @@
 #include "SpawnData.h"
+#include "ISpawnManager.h"
 #include "game/IGameObject.h"
 #include <Box2D/Dynamics/b2Body.h>
 
@@ -29,6 +30,15 @@ namespace spawn
 		data.velocity = parent.body()->GetWorldVector( data.velocity ) + parent.body()->GetLinearVelocityFromLocalPoint( data.position );
 		data.position = parent.body()->GetWorldPoint( data.position );		
 		data.angle += parent.body()->GetAngle();
+		return data;
+	}
+	
+	std::function<void(IGameWorld&, const ISpawnManager&)> make_spawner( SpawnData data )
+	{
+		return [data](IGameWorld& world, const ISpawnManager& spawner)
+			{
+				spawner.spawn( world, data );
+			};
 	}
 }
 }

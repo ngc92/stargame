@@ -2,7 +2,6 @@
 #include <iostream>
 
 #include "consts.h"
-#include "game/ISpawnManager.h"
 #include "game/IGameObject.h"
 #include "game/spawn/SpawnData.h"
 #include "game/WorldAction.h"
@@ -42,12 +41,10 @@ namespace components
 			spawn::SpawnData data(spawn::SpawnType::BULLET, mAmmoType.value(), b2Vec2(0,0));
 			data.origin = &object;
 			subordinate(data, object);
-			auto spawning = [data](IGameWorld& world, const ISpawnManager& spawner)
-			{
-				spawner.spawn( world, data );
-			};
-			push_action( spawning );
+			push_action( spawn::make_spawner(data) );
 		}
 	}
+	
+	REG_COMP_MACRO(FixedGun);
 }
 }

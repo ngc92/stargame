@@ -1,7 +1,7 @@
 #ifndef SPAWNMANAGER_H_INCLUDED
 #define SPAWNMANAGER_H_INCLUDED
 
-#include "game/ISpawnManager.h"
+#include "ISpawnManager.h"
 
 #include <memory>
 #include <string>

@@ -43,5 +43,7 @@ namespace components
 		mPumpLeft -= amount;
 		return amount;
 	}
+	
+	REG_COMP_MACRO(FuelTank);
 }
 }

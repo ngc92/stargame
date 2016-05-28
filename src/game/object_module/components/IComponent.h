@@ -2,6 +2,7 @@
 #define SHIPCOMPONENT_H_INCLUDED
 
 #include <string>
+#include <functional>
 #include "util.h"
 #include "listener/listenerlist.h"
 #include "property/IPropertyObject.h"
@@ -89,16 +90,28 @@ namespace game
 		{
 			return getDamageListeners().addListener(l);
 		}
-
-		inline float IComponent::damage(float dam)
-		{
-			float actual = onDamage(dam);
-			getDamageListeners().notify(actual);
-			return actual;
-		}
 	}
 
 	using components::IComponent;
+	
+	// ----------------------------------------------------------------------------------------
+	// 		use this to register component types to the component factory
+	// ----------------------------------------------------------------------------------------
+	namespace components
+	{
+		namespace detail
+		{
+			void registerComponentConstructor( std::string name, std::function<std::shared_ptr<IComponent>()> ctor_fn );
+		}
+		
+		template<class T>
+		void registerComponentConstructor(std::string name)
+		{
+			detail::registerComponentConstructor( move(name), [](){ return std::make_shared<T>(); } );
+		}
+		
+		std::shared_ptr<IComponent> construct(const std::string& type);
+	}
 }
 
 #endif // SHIPCOMPONENT_H_INCLUDED

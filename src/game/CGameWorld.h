@@ -25,7 +25,7 @@ namespace game
 		ListenerRef addSpawnListener(std::function<void(IGameObjectView&)> f) final;
 
 		/// perform a single step in the game simulation.
-		void step( ) final;
+		void step( const spawn::ISpawnManager& spawner ) final;
 
 		/// adds a game object to the game world.
 		void addGameObject(std::shared_ptr<IGameObject> object) final;

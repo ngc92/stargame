@@ -3,15 +3,19 @@
 
 #include <Box2D/Common/b2Math.h>
 #include <string>
+#include <functional>
 
 class b2BodyDef;
 
 namespace game
 {
 	class IGameObject;
+	class IGameWorld;
 	
 	namespace spawn
 	{
+		class ISpawnManager;
+		
 		//! the different categories of things we can spawn
 		enum class SpawnType
 		{
@@ -49,6 +53,8 @@ namespace game
 		b2BodyDef body_def( const SpawnData& );
 		
 		SpawnData& subordinate( SpawnData& data, const IGameObject& parent );
+		
+		std::function<void(IGameWorld&, const ISpawnManager&)> make_spawner( SpawnData data );
 	}
 }
 

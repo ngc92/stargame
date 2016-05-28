@@ -54,5 +54,8 @@ namespace components
 		mFlightModel->rotate((float)mTurnControl * mTorque);
 	}
 
+	
+	// register engine's constructor
+	REG_COMP_MACRO(Engine);
 }
 }

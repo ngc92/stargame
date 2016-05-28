@@ -1,9 +1,9 @@
 #include "SHull.h"
 #include "spawn_util.h"
-#include "factory.h"
 
-#include "game/object_module/ISubStructure.h"
 #include "game/object_module/ArmourSegment.h"
+#include "game/object_module/CSubStructure.h"
+#include "game/object_module/CStructureCell.h"
 
 
 namespace game
@@ -59,7 +59,7 @@ namespace spawn
 
 	std::shared_ptr<ISubStructure> SHull::create() const
 	{
-		std::shared_ptr<ISubStructure> ss = createSubStructure();
+		std::shared_ptr<ISubStructure> ss = std::make_shared<CSubStructure>();
 		for(const auto& c : mCells)
 		{
 			ss->addStructureCell( c.create() );
@@ -111,7 +111,7 @@ namespace spawn
 
 	std::unique_ptr<IStructureCell> SStructureCell::create() const
 	{
-		return createStructureCell(mID, mMaxLoad, make_unique<b2PolygonShape>(mShape));
+		return make_unique<CStructureCell>(mID, mMaxLoad, make_unique<b2PolygonShape>(mShape));
 	}
 }
 }

@@ -1,6 +1,5 @@
 #include "CSpawnManager.h"
 
-#include "factory.h"
 #include "CDataManager.h"
 #include "SpawnData.h"
 
@@ -20,7 +19,6 @@
 
 namespace game
 {
-ISpawnManager* ISpawnManager::mSingleton = nullptr;
 namespace spawn
 {
 	CSpawnManager::CSpawnManager() :

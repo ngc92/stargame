@@ -55,7 +55,7 @@ namespace game
 			{
 				mTimeManager->waitTillNextFrame();
 				// update the world
-				mGameWorld->step();
+				mGameWorld->step( *mSpawnManager );
 
 				// update the world references
 				mWorldView->update();

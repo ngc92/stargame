@@ -7,13 +7,16 @@
 namespace game
 {
 	class IGameWorld;
-	class ISpawnManager;
+	namespace spawn
+	{
+		class ISpawnManager;
+	}
 	
 	/// this class allows pushing new actions into the action queue
 	class WorldActionQueue
 	{
 	public:
-		using action_fn = std::function<void(IGameWorld&, const ISpawnManager&)>;
+		using action_fn = std::function<void(IGameWorld&, const spawn::ISpawnManager&)>;
 		using action_fn_w = std::function<void(IGameWorld&)>;
 
 		template<class Container>
@@ -31,7 +34,7 @@ namespace game
 		{
 			/// \todo move action into the lambda
 			/// double indirection here! function -> lambda -> function. does this matter for efficiency?
-			mInsertFunction([action](IGameWorld& w, const ISpawnManager& s){ action(w); }); 
+			mInsertFunction([action](IGameWorld& w, const spawn::ISpawnManager& s){ action(w); }); 
 		}
 		
 	private:

@@ -5,7 +5,6 @@
 #include <iostream>
 
 #include "consts.h"
-#include "factory.h"
 #include "game/object_module/components/IComponent.h"
 
 namespace game
@@ -50,7 +49,7 @@ namespace spawn
 
 	std::shared_ptr<IComponent> SComponent::create() const
 	{
-		std::shared_ptr<components::IComponent> component = constructComponent(type());
+		std::shared_ptr<components::IComponent> component = components::construct(type());
 
 		// set hitpoints, maxHP and weight
 		component->setHitPoints( HP(), HP() );

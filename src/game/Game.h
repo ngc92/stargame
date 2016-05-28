@@ -14,7 +14,11 @@ namespace game
 	class IGameWorld;
 	class IGameObject;
 	class IGameViewModule;
-	class ISpawnManager;
+	namespace spawn 
+	{
+		class ISpawnManager;
+	}
+	
 	namespace view_thread
 	{
 		class IViewThreadGameWorld;
@@ -53,7 +57,7 @@ namespace game
 		std::thread mGameThread;
 		std::unique_ptr<IGameWorld> mGameWorld;
 		std::unique_ptr<ITimeManager> mTimeManager;
-		std::unique_ptr<ISpawnManager> mSpawnManager;
+		std::unique_ptr<spawn::ISpawnManager> mSpawnManager;
 
 		std::unique_ptr<view_thread::IViewThreadGameWorld> mWorldView;
 
