@@ -47,6 +47,8 @@ namespace game
 		//		some useful functions to work with spawn data
 		// -------------------------------------------------------------------
 		b2BodyDef body_def( const SpawnData& );
+		
+		SpawnData& subordinate( SpawnData& data, const IGameObject& parent );
 	}
 }
 

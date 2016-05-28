@@ -84,9 +84,10 @@ namespace game
 		std::cout << "mass: " << mass.mass << "\n";
 	}
 
-	void CSubStructure::onStep(IGameObject& object, IGameWorld& world)
+	void CSubStructure::onStep(IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action)
 	{
-		foreachComponent([](IComponent& c, IGameObject& o, IGameWorld& w){ c.step(o, w);}, std::ref(object), std::ref(world));
+		foreachComponent([](IComponent& c, IGameObject& o, const IGameWorld& w, WorldActionQueue& p){ c.step(o, w, p);}, 
+		std::ref(object), std::ref(world), std::ref(push_action));
 		if(mStructurePoints <= 0)
 		{
 			object.remove();

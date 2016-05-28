@@ -24,7 +24,7 @@ namespace game
 
 		// mandatory function that do nothing here
 		void onInit( IGameObject& object, IGameWorld& world ) final {};
-		void onStep( IGameObject& object, IGameWorld& world ) final {};
+		void onStep( IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action) final {};
 
 	private:
 		Property<int> mTeam;

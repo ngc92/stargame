@@ -92,8 +92,6 @@
 		<Unit filename="src/game/CGameViewModule.h" />
 		<Unit filename="src/game/CGameWorld.cpp" />
 		<Unit filename="src/game/CGameWorld.h" />
-		<Unit filename="src/game/CSpawnManager.cpp" />
-		<Unit filename="src/game/CSpawnManager.h" />
 		<Unit filename="src/game/ContactListener.cpp" />
 		<Unit filename="src/game/ContactListener.h" />
 		<Unit filename="src/game/Damage.cpp" />
@@ -107,6 +105,7 @@
 		<Unit filename="src/game/IGameWorld.h" />
 		<Unit filename="src/game/IGameWorldView.h" />
 		<Unit filename="src/game/ISpawnManager.h" />
+		<Unit filename="src/game/WorldAction.h" />
 		<Unit filename="src/game/fwd.h" />
 		<Unit filename="src/game/object_module/ArmourSegment.cpp" />
 		<Unit filename="src/game/object_module/ArmourSegment.h" />
@@ -142,6 +141,8 @@
 		<Unit filename="src/game/object_module/components/IComponent.h" />
 		<Unit filename="src/game/spawn/CDataManager.cpp" />
 		<Unit filename="src/game/spawn/CDataManager.h" />
+		<Unit filename="src/game/spawn/CSpawnManager.cpp" />
+		<Unit filename="src/game/spawn/CSpawnManager.h" />
 		<Unit filename="src/game/spawn/Definitions.h" />
 		<Unit filename="src/game/spawn/IDataManager.h" />
 		<Unit filename="src/game/spawn/SComponent.cpp" />
@@ -152,6 +153,8 @@
 		<Unit filename="src/game/spawn/SProjectile.h" />
 		<Unit filename="src/game/spawn/SShip.cpp" />
 		<Unit filename="src/game/spawn/SShip.h" />
+		<Unit filename="src/game/spawn/SpawnData.cpp" />
+		<Unit filename="src/game/spawn/SpawnData.h" />
 		<Unit filename="src/game/spawn/factory.cpp" />
 		<Unit filename="src/game/spawn/factory.h" />
 		<Unit filename="src/game/spawn/spawn_util.cpp" />

@@ -34,7 +34,7 @@ namespace spawn
 
 	CSpawnManager::~CSpawnManager(){}
 	
-	std::shared_ptr<IGameObject> CSpawnManager::spawn( IGameWorld& world, const SpawnData& data )
+	std::shared_ptr<IGameObject> CSpawnManager::spawn( IGameWorld& world, const SpawnData& data ) const 
 	{
 		// create the body to be used
 		b2BodyDef def = body_def(data);
@@ -44,13 +44,15 @@ namespace spawn
 		
 		if(data.category == SpawnType::SPACESHIP)
 			makeSpaceShip(data.type, *game_object, 1);
+		else if( data.category == SpawnType::BULLET )
+			makeBullet(data.type, *game_object, *data.origin);
 		
 		game_object->onInit(world);
 		world.addGameObject( game_object );
 		return game_object;
 	}
 	
-	void CSpawnManager::makeSpaceShip( const std::string& type, IGameObject& object,  int team )
+	void CSpawnManager::makeSpaceShip( const std::string& type, IGameObject& object,  int team ) const 
 	{
 		auto& dat = mDataManager->getShipData(type);
 		auto structure = mDataManager->getHullData( dat.hull() ).create();
@@ -73,7 +75,7 @@ namespace spawn
 		dat.addAttributes( object );
 	}
 
-	void CSpawnManager::makeBullet( const std::string& type, IGameObject& object, const IGameObject& shooter )
+	void CSpawnManager::makeBullet( const std::string& type, IGameObject& object, const IGameObject& shooter ) const
 	{
 		auto& dat = mDataManager->getProjectileData( type );
 		
@@ -93,6 +95,7 @@ namespace spawn
 		/// \todo set density for mass!
 		auto fix = object.getBody()->CreateFixture( &def );
 		object.getBody()->SetBullet(true);
+		object.getBody()->SetLinearVelocity( object.getBody()->GetWorldVector(b2Vec2( dat.propellVelocity() , 0)) );
 		object.setIgnoreCollisionTarget( shooter.body() );
 
 		object.addProperty( property::CProperty::create("_type_", &object, std::string("bullet")) );

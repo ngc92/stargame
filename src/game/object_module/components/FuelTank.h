@@ -21,7 +21,7 @@ namespace components
 			virtual ~FuelTank();
 
 			void init(IGameObject& object) override;
-			void step(IGameObject& object, IGameWorld& world) override;
+			void step(IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action) override;
 
 			bool canSupply(const std::string& resource) const override;
 			float getSupply(const std::string& resource, float amount) override;

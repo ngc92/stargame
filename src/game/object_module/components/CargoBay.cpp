@@ -22,7 +22,7 @@ namespace game
 
 		}
 
-		void CargoBay::step(IGameObject& object, IGameWorld& world)
+		void CargoBay::step(IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action)
 		{
 
 		}

@@ -25,11 +25,11 @@ namespace game
 		void setTotalLifetime( int dur ) final;
 
 		/// initialise the module with the object.
-		void onInit( IGameObject& object, IGameWorld& world );
+		void onInit( IGameObject& object, IGameWorld& world ) override;
 
 		/// this function will be called every step by the game world, and should trigger
 		/// the onStep listener.
-		void onStep( IGameObject& object, IGameWorld& world);
+		void onStep( IGameObject& object, const IGameWorld& world , WorldActionQueue& p) override;
 
 	private:
 		Property<int> mElapsedLifetime;

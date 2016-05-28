@@ -4,6 +4,8 @@
 #include "consts.h"
 #include "game/ISpawnManager.h"
 #include "game/IGameObject.h"
+#include "game/spawn/SpawnData.h"
+#include "game/WorldAction.h"
 #include <Box2D/Dynamics/b2Body.h>
 
 namespace game
@@ -26,7 +28,7 @@ namespace components
 	{
 	}
 
-	void FixedGun::step(IGameObject& object, IGameWorld& world)
+	void FixedGun::step(IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action)
 	{
 		mReloadTimer -= STEP_TIME;
 
@@ -37,8 +39,14 @@ namespace components
 		{
 			mReloadTimer = 60 / mRPM;
 			mAmmoAmount -= 1;
-			SpawnInitData data(world, mAmmoType.value());
-			ISpawnManager::singleton().createBullet(data, object);
+			spawn::SpawnData data(spawn::SpawnType::BULLET, mAmmoType.value(), b2Vec2(0,0));
+			data.origin = &object;
+			subordinate(data, object);
+			auto spawning = [data](IGameWorld& world, const ISpawnManager& spawner)
+			{
+				spawner.spawn( world, data );
+			};
+			push_action( spawning );
 		}
 	}
 }

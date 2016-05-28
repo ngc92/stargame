@@ -1,4 +1,5 @@
 #include "SpawnData.h"
+#include "game/IGameObject.h"
 #include <Box2D/Dynamics/b2Body.h>
 
 namespace game
@@ -21,6 +22,13 @@ namespace spawn
 		def.linearVelocity = data.velocity;
 		def.angularVelocity = data.angular_velocity;
 		return def;
+	}
+	
+	SpawnData& subordinate( SpawnData& data, const IGameObject& parent )
+	{
+		data.velocity = parent.body()->GetWorldVector( data.velocity ) + parent.body()->GetLinearVelocityFromLocalPoint( data.position );
+		data.position = parent.body()->GetWorldPoint( data.position );		
+		data.angle += parent.body()->GetAngle();
 	}
 }
 }

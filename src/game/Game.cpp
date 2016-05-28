@@ -5,7 +5,8 @@
 #include "IGameViewModule.h"
 #include "util.h"
 #include "CTimeManager.h"
-#include "CSpawnManager.h"
+#include "spawn/CSpawnManager.h"
+#include "spawn/SpawnData.h"
 #include <Box2D/Box2D.h>
 
 namespace game
@@ -16,7 +17,7 @@ namespace game
 		mGameThread( [this](){ gameloop(); } ),
 		mGameWorld( make_unique<CGameWorld>() ),
 		mTimeManager( make_unique<CTimeManager>() ),
-		mSpawnManager( make_unique<CSpawnManager>( ) ),
+		mSpawnManager( make_unique<spawn::CSpawnManager>( ) ),
 		mWorldView( make_unique<view_thread::CViewThreadGameWorld>( *mGameWorld ) )
 	{
 		mTimeManager->setDesiredFPS(50);
@@ -30,8 +31,8 @@ namespace game
 	void Game::run()
 	{
 		auto world = mGameWorld.get();
-		mSpawnManager->createSpaceShip(SpawnInitData(*world, "Destroyer"), 0, 0);
-		mSpawnManager->createSpaceShip(SpawnInitData(*world, "Destroyer", b2Vec2(50, 50), b2Vec2(0,0)), 1, 1);
+		mSpawnManager->spawn(*world, spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(0,0)).set_id(0));
+//		mSpawnManager->createSpaceShip(SpawnInitData(*world, "Destroyer", b2Vec2(50, 50), b2Vec2(0,0)), 1, 1);
 		mRunGame = true;
 	}
 

@@ -1,5 +1,7 @@
 #include "CGameWorld.h"
 #include "IGameObject.h"
+#include "WorldAction.h"
+#include "ISpawnManager.h"
 #include "ContactListener.h"
 #include <Box2D/Dynamics/b2Body.h>
 #include <Box2D/Dynamics/b2World.h>
@@ -34,11 +36,17 @@ namespace game
 			mContactListener->triggerEvents();
 		}
 
+		std::vector<WorldActionQueue::action_fn> action_queue;
+		WorldActionQueue push_action(action_queue);
+		
 		// update all objects
 		for(auto& obj : mGameObjects)
 		{
-			if(obj->isAlive())	obj->onStep( *this );
+			if(obj->isAlive())	obj->onStep( *this, push_action );
 		}
+		
+		for(auto& a : action_queue)
+			a(*this, ISpawnManager::singleton());
 
 		clear_objects();
 

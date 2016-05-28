@@ -24,10 +24,10 @@ namespace spawn
 		CSpawnManager();
 		~CSpawnManager();
 		
-		std::shared_ptr<IGameObject> spawn( IGameWorld& world, const SpawnData& data ) override;
+		std::shared_ptr<IGameObject> spawn( IGameWorld& world, const SpawnData& data ) const override;
 
-		void makeSpaceShip( const std::string& type, IGameObject& object, int team );
-		void makeBullet( const std::string& type, IGameObject& object, const IGameObject& shooter );
+		void makeSpaceShip( const std::string& type, IGameObject& object, int team ) const;
+		void makeBullet( const std::string& type, IGameObject& object, const IGameObject& shooter ) const;
 	private:
 		std::unique_ptr<IDataManager> mDataManager;
 	};

@@ -12,7 +12,7 @@ namespace game
 		CFlightModel( float op_speed );
 
 		// Module functions
-		void onStep( IGameObject& object, IGameWorld& world ) override;
+		void onStep( IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action) override;
 		void onInit( IGameObject& object, IGameWorld& world ) override;
 
 

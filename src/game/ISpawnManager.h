@@ -31,7 +31,7 @@ namespace game
 
 		static ISpawnManager& singleton() { return *mSingleton; }
 		
-		virtual std::shared_ptr<IGameObject> spawn( IGameWorld& world, const spawn::SpawnData& data ) = 0;
+		virtual std::shared_ptr<IGameObject> spawn( IGameWorld& world, const spawn::SpawnData& data ) const = 0;
 	private:
 
 		static ISpawnManager* mSingleton;

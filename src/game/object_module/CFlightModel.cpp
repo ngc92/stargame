@@ -43,7 +43,7 @@ namespace game
 		mTotalAngImp = 0;
 	}
 
-	void CFlightModel::onStep( IGameObject& object, IGameWorld& world )
+	void CFlightModel::onStep( IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action)
 	{
 		auto body = object.getBody();
 		if(!body)
