@@ -32,7 +32,7 @@ namespace game
 	{
 		auto world = mGameWorld.get();
 		mSpawnManager->spawn(*world, spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(0,0)).set_id(0));
-//		mSpawnManager->createSpaceShip(SpawnInitData(*world, "Destroyer", b2Vec2(50, 50), b2Vec2(0,0)), 1, 1);
+		mSpawnManager->spawn(*world, spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(50,50)).set_id(1));
 		mRunGame = true;
 	}
 

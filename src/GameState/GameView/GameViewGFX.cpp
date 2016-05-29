@@ -3,6 +3,7 @@
 #include "graphic/GameObjectAnimator.h"
 #include "graphic/TrackObjectAnimator.h"
 #include "graphic/FollowObjectAnimator.h"
+#include "graphic/EngineExhaust.h"
 #include <irrlicht/irrlicht.h>
 #include <iostream>
 
@@ -66,6 +67,10 @@ namespace gfx
 
 		auto node = mSceneMgr->addMeshSceneNode( mesh );
 		node->addAnimator( createGameObjectAnimator(object) );
+		
+		// add the engine effect
+		auto exhaust = new gfx::EngineExhaustNode(node, node->getSceneManager(), -1, 1, 1, true);
+		exhaust->addNozzle(core::vector3df(0,0,0));
 
 		auto ref = object.addRemoveListener( [node](){ node->remove(); } );
 

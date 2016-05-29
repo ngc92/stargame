@@ -12,7 +12,7 @@ namespace gfx
 	EngineExhaustNode::EngineExhaustNode(ISceneNode* parent, ISceneManager *mgr, s32 id,
 										float radius, float psize, bool light):
 				ISceneNode(parent, mgr, id),
-				mIntensity(0),
+				mIntensity(1),
 				mDamageFactor(1),
 				mBaseVelocity(0,0),
 				mRadius(radius),
@@ -37,7 +37,8 @@ namespace gfx
 
 		// texture loading
 		mFireTexture = SceneManager->getVideoDriver()->getTexture("fire.png");
-		mFireTexture->grab();
+		if(mFireTexture)
+			mFireTexture->grab();
 
 		setName("engine");
 	}

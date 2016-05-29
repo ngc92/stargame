@@ -17,7 +17,7 @@ namespace gfx
 		public:
 			EngineExhaustNode(ISceneNode* parent, ISceneManager *mgr, s32 id,
 								float radius, float psize, bool light = false);
-			~EngineExhaustNode();
+			virtual ~EngineExhaustNode();
 
 			void OnRegisterSceneNode();
 			void OnAnimate(u32 timeMs);
