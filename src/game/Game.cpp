@@ -15,10 +15,10 @@ namespace game
 		mRunGame(false),
 		mQuitGame(false),
 		mGameThread( [this](){ gameloop(); } ),
-		mGameWorld( make_unique<CGameWorld>() ),
-		mTimeManager( make_unique<CTimeManager>() ),
-		mSpawnManager( make_unique<spawn::CSpawnManager>( ) ),
-		mWorldView( make_unique<view_thread::CViewThreadGameWorld>( *mGameWorld ) )
+		mGameWorld( std::make_unique<CGameWorld>() ),
+		mTimeManager( std::make_unique<CTimeManager>() ),
+		mSpawnManager( std::make_unique<spawn::CSpawnManager>( ) ),
+		mWorldView( std::make_unique<view_thread::CViewThreadGameWorld>( *mGameWorld ) )
 	{
 		mTimeManager->setDesiredFPS(50);
 	};

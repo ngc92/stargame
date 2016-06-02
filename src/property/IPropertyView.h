@@ -44,8 +44,8 @@ namespace property
 		virtual ListenerRef addListener( listener_t listener ) = 0;
 
 		// c'tor/d'tor
-		IPropertyView() = default;
-		IPropertyView(IPropertyView&&) = default;
+		IPropertyView() noexcept = default;
+		IPropertyView(IPropertyView&&) noexcept = default;
 		virtual ~IPropertyView() noexcept = default;
 	};
 }

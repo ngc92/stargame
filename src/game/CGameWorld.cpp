@@ -10,8 +10,8 @@
 
 namespace game
 {
-	CGameWorld::CGameWorld() : mPhysicWorld( make_unique<b2World>(b2Vec2(0,0)) ),
-							 mContactListener( make_unique<ContactListener>() )
+	CGameWorld::CGameWorld() : mPhysicWorld( std::make_unique<b2World>(b2Vec2(0,0)) ),
+							 mContactListener( std::make_unique<ContactListener>() )
 	{
 		mPhysicWorld->SetAutoClearForces( true );
 		mPhysicWorld->SetContactListener( mContactListener.get() );
@@ -38,13 +38,13 @@ namespace game
 
 		std::vector<WorldActionQueue::action_fn> action_queue;
 		WorldActionQueue push_action(action_queue);
-		
+
 		// update all objects
 		for(auto& obj : mGameObjects)
 		{
 			if(obj->isAlive())	obj->onStep( *this, push_action );
 		}
-		
+
 		for(auto& a : action_queue)
 			a(*this, spawner);
 

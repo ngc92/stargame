@@ -25,7 +25,7 @@ void HUD::init()
 {
 	using std::placeholders::_1;
 	mListeners.push_back(world().addSpawnListener(std::bind(HUD::onSpawn, this, _1)));
-	mTacCtrl = make_unique<graphic::TacticalMapCtrl>(mTacMap, world());
+	mTacCtrl = std::make_unique<graphic::TacticalMapCtrl>(mTacMap, world());
 }
 
 void HUD::onSpawn(const game::IGameObjectView& spawned)
@@ -34,7 +34,7 @@ void HUD::onSpawn(const game::IGameObjectView& spawned)
 		return;
 
 	// found our ship.
-	mStatCtrl = make_unique<graphic::ShipStatusControl>(mStaView, spawned);
+	mStatCtrl = std::make_unique<graphic::ShipStatusControl>(mStaView, spawned);
 	spawned.getChild("structure").forallChildren([this](const property::IPropertyObjectView& view){ processChild(view); });
 }
 

@@ -15,7 +15,7 @@
 GameState::GameState(IEngine* engine) :
 	mGUIEnv(engine->getGUIEnvironment()),
 	mSceneMgr( engine->getIrrlichDevice().getSceneManager() ),
-	mGame( make_unique<game::Game>() ),
+	mGame( std::make_unique<game::Game>() ),
 	mDebugDraw( std::make_shared<CDebugDraw>( engine->getIrrlichDevice().getVideoDriver() ) )
 {
 	addGameModule(std::make_shared<GameView>( &engine->getIrrlichDevice() ));

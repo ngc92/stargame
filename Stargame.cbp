@@ -30,8 +30,8 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-std=c++11" />
 			<Add option="-ftemplate-backtrace-limit=0" />
+			<Add option="-std=c++1y" />
 			<Add directory="./src/" />
 			<Add directory="external/Box2D/Box2D" />
 		</Compiler>
@@ -138,6 +138,7 @@
 		<Unit filename="src/game/object_module/components/FixedGun.h" />
 		<Unit filename="src/game/object_module/components/FuelTank.cpp" />
 		<Unit filename="src/game/object_module/components/FuelTank.h" />
+		<Unit filename="src/game/object_module/components/IComponent.cpp" />
 		<Unit filename="src/game/object_module/components/IComponent.h" />
 		<Unit filename="src/game/spawn/CDataManager.cpp" />
 		<Unit filename="src/game/spawn/CDataManager.h" />
@@ -155,7 +156,6 @@
 		<Unit filename="src/game/spawn/SShip.h" />
 		<Unit filename="src/game/spawn/SpawnData.cpp" />
 		<Unit filename="src/game/spawn/SpawnData.h" />
-		<Unit filename="src/game/spawn/factory.cpp" />
 		<Unit filename="src/game/spawn/factory.h" />
 		<Unit filename="src/game/spawn/spawn_util.cpp" />
 		<Unit filename="src/game/spawn/spawn_util.h" />
@@ -228,7 +228,6 @@
 		<Unit filename="src/util/io.h" />
 		<Unit filename="src/util/logging.cpp" />
 		<Unit filename="src/util/logging.h" />
-		<Unit filename="src/util/make_unique.h" />
 		<Unit filename="src/util/multi_type_map.h" />
 		<Unit filename="src/util/physics.cpp" />
 		<Unit filename="src/util/physics.h" />

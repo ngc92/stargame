@@ -22,7 +22,7 @@ namespace game
 namespace spawn
 {
 	CSpawnManager::CSpawnManager() :
-		mDataManager(make_unique<spawn::CDataManager>() )
+		mDataManager(std::make_unique<spawn::CDataManager>() )
 	{
 		mDataManager->loadFile("data/components.xml");
 		mDataManager->loadFile("data/hulls.xml");
@@ -31,26 +31,26 @@ namespace spawn
 	}
 
 	CSpawnManager::~CSpawnManager(){}
-	
-	std::shared_ptr<IGameObject> CSpawnManager::spawn( IGameWorld& world, const SpawnData& data ) const 
+
+	std::shared_ptr<IGameObject> CSpawnManager::spawn( IGameWorld& world, const SpawnData& data ) const
 	{
 		// create the body to be used
 		b2BodyDef def = body_def(data);
 		def.type = b2_dynamicBody;
 		auto body = world.getWorld()->CreateBody(&def);
 		auto game_object = std::make_shared<CGameObject>(body, data.id);
-		
+
 		if(data.category == SpawnType::SPACESHIP)
 			makeSpaceShip(data.type, *game_object, 1);
 		else if( data.category == SpawnType::BULLET )
 			makeBullet(data.type, *game_object, *data.origin);
-		
+
 		game_object->onInit(world);
 		world.addGameObject( game_object );
 		return game_object;
 	}
-	
-	void CSpawnManager::makeSpaceShip( const std::string& type, IGameObject& object,  int team ) const 
+
+	void CSpawnManager::makeSpaceShip( const std::string& type, IGameObject& object,  int team ) const
 	{
 		auto& dat = mDataManager->getShipData(type);
 		auto structure = mDataManager->getHullData( dat.hull() ).create();
@@ -76,7 +76,7 @@ namespace spawn
 	void CSpawnManager::makeBullet( const std::string& type, IGameObject& object, const IGameObject& shooter ) const
 	{
 		auto& dat = mDataManager->getProjectileData( type );
-		
+
 		object.addModule( std::make_shared<CFlightModel>( 100.0 ) );
 		object.addModule( std::make_shared<CTimedDeletion>( dat.lifetime() ) );
 		auto shared = std::const_pointer_cast<IGameObjectView>(shooter.shared_from_this());

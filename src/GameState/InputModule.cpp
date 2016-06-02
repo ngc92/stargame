@@ -13,7 +13,7 @@
 using namespace std::placeholders;
 
 InputModule::InputModule(IEngine* engine, long myship) :
-	mShipID(myship), mInputConfig( make_unique<input::CInputConfig>() )
+	mShipID(myship), mInputConfig( std::make_unique<input::CInputConfig>() )
 {
 	/// \todo this is suicide, only for testing!
 	engine->getInputManager().addEventListener( std::shared_ptr<InputModule>(this, [](InputModule*){}));

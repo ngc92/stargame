@@ -30,7 +30,7 @@ namespace property
 
 		/// gets the value in a way that allows modification.
 		/// calling this function sets the modification flag.
-		virtual data_t& changable_value() = 0;
+		virtual data_t& changable_value() noexcept = 0;
 
 		/// assign a value and sets the changed flag.
 		template<class T>
