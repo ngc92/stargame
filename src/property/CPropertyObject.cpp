@@ -93,6 +93,12 @@ namespace property
 
 		string subobj(path.begin(), delim);
 		string rest(delim+1, path.end());
+		
+		// check if correct child present
+		if(mChildren.count(subobj) == 0)
+			return false;
+		
+		// if yes, continue search
 		return getChild(subobj).hasProperty( move(rest) );
 	}
 
