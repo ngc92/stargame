@@ -118,9 +118,7 @@
 		<Unit filename="src/game/object_module/CStructureCell.h" />
 		<Unit filename="src/game/object_module/CSubStructure.cpp" />
 		<Unit filename="src/game/object_module/CSubStructure.h" />
-		<Unit filename="src/game/object_module/CTimedDeletion.cpp">
-			<Option virtualFolder="src/game/" />
-		</Unit>
+		<Unit filename="src/game/object_module/CTimedDeletion.cpp" />
 		<Unit filename="src/game/object_module/CTimedDeletion.h" />
 		<Unit filename="src/game/object_module/IAffiliation.h" />
 		<Unit filename="src/game/object_module/IDamageSource.h" />
