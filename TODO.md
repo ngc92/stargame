@@ -8,10 +8,11 @@
 **Physics**
 * introduce mass handling for ships
 * scaling of units! 1unit = 1m seems to small
+
+**Event system**
+
  
 **GFX**
-* default game view
-* engine effect
 * subsystem status views:
   * propulsion system panel (engine, tank)
   * weapons panel
@@ -25,7 +26,6 @@
 
 **Refactoring:**
 * use boost::range when applicable (boost::any_range!)
-* ISpawnManager
 * unit conversions
 * manage data types when loading properties from file.
 * composition vs inheritance

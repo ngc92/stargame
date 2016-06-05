@@ -10,11 +10,11 @@ namespace game
 namespace components
 {
 	//! \todo Möglichkeit Einbauen, evtl. einen zweiten Tank zu nutzen usw
-	class Engine : public CComponent
+	class ManeuverEngine : public CComponent
 	{
 		public:
-			Engine();
-			virtual ~Engine();
+			ManeuverEngine();
+			virtual ~ManeuverEngine();
 
 			void init(IGameObject& object) override;
 			void step(IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action) override;
@@ -30,9 +30,9 @@ namespace components
 			/// \todo do we want engine overheating?
 
 			// controls
-			Property<float> mThrustLevel;
+			Property<float> mLateralControl;
+			Property<float> mLongitudinalControl;
 			Property<float> mTurnControl;
-			Property<float> mAfterburner;
 	};
 }
 }

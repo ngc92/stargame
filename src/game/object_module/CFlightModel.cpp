@@ -7,7 +7,7 @@ namespace game
 {
 	CFlightModel::CFlightModel( float op_speed ) : CPropertyObject("flight_model"),
 								 mOperatingSpeed( op_speed ),
-								 mDragFactor(0.01),
+								 mDragFactor( 0.01 ),
 								 mTotalThrust( b2Vec2_zero ),
 								 mTotalAngImp( 0 )
 	{
@@ -60,4 +60,17 @@ namespace game
 	{
 		mTotalAngImp += turn_impulse;
 	}
+/*	
+	void CFlightModel::pilot( const IGameObject& ship, const SFlightState& target_state )
+	{
+		auto cur_pos = ship.position();
+		auto cur_vel = ship.velocity();
+		auto cur_ang = ship.angle();
+		
+		auto position_distance = target_state.position.get_value_or( cur_pos ) - cur_pos;
+		/// \todo for now, this is the most simple implementation that only works for position constraints
+		
+		//auto velocity_distance = target_state.velocity.get_value_or( cur_vel ) - cur_vel;
+	}
+*/
 }

@@ -73,7 +73,7 @@ namespace gfx
 		auto exhaust = new gfx::EngineExhaustNode(node, node->getSceneManager(), -1, 1, 1, true);
 		exhaust->addNozzle(core::vector3df(0,0,0));
 		EngineExhaustAnimatorConfig config;
-		config.mIntensitySource = "structure.Engine.input:thrust";
+		config.mIntensitySource = "structure.MainPropulsionSystem.input:thrust";
 		exhaust->addAnimator( new EngineExhaustAnimator(object, std::move(config)) );
 
 		auto ref = object.addRemoveListener( [node](){ node->remove(); } );
