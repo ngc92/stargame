@@ -27,8 +27,8 @@ namespace spawn
 	
 	SpawnData& subordinate( SpawnData& data, const IGameObject& parent )
 	{
-		data.velocity = parent.body()->GetWorldVector( data.velocity ) + parent.body()->GetLinearVelocityFromLocalPoint( data.position );
-		data.position = parent.body()->GetWorldPoint( data.position );		
+		data.velocity = parent.body()->GetLinearVelocityFromLocalPoint( data.position );
+		data.position = parent.body()->GetWorldPoint( data.position );
 		data.angle += parent.body()->GetAngle();
 		return data;
 	}
