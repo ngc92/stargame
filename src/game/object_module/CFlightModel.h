@@ -18,8 +18,10 @@ namespace game
 
 		void update_movement( b2Body& ship );
 
-		void thrust( b2Vec2 thrust_vector );
-		void rotate( float turn_impulse );
+		void thrust( b2Vec2 thrust_vector ) override;
+		void rotate( float turn_impulse ) override;
+		
+//		void pilot( const IGameObject& ship, const SFlightState& target_state ) override;
 	private:
 		// flight model properties
 		float mOperatingSpeed;

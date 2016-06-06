@@ -3,7 +3,11 @@
 	<hull>Destroyer</hull>
 	<components>
 		<component>
-			<type>Engine</type>
+			<type>ManeuverEngine</type>
+			<cell>0</cell>
+		</component>
+		<component>
+			<type>MainPropulsionSystem</type>
 			<cell>0</cell>
 		</component>
 		<component>
