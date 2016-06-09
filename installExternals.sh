@@ -48,3 +48,13 @@ else
 	echo "IrrKlang installed"
 	echo ""
 fi
+
+
+# compile Box2D
+cd $STARGAME_BASE
+if [ ! -h ./external/Box2D/Box2D/BuildLinux]; then
+	mkdir BuildLinux
+	cd BuildLinux
+	cmake -D BOX2D_BUILD_SHARED=ON -D BOX2D_BUILD_STATIC=OFF -D BOX2D_BUILD_EXAMPLES=OFF -D CMAKE_CXX_FLAGS="-O2 -march=native -std=c++11" ..
+	make -j 5
+fi
