@@ -4,4 +4,4 @@
 /*.layout
 /*.dll
 /doxygen/html
-/external/
+/external/irr*
