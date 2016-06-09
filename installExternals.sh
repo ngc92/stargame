@@ -48,22 +48,3 @@ else
 	echo "IrrKlang installed"
 	echo ""
 fi
-
-
-# install box2d
-cd $STARGAME_BASE
-if [ ! -d external/Box2D ]; then
-	echo "Getting box2d"
-	cd ./external
-	git clone -q https://github.com/erincatto/Box2D.git
-	cd Box2D/Box2D
-	mkdir BuildLinux
-	cd BuildLinux
-	cmake -D BOX2D_BUILD_SHARED=ON -D BOX2D_BUILD_STATIC=OFF -D BOX2D_BUILD_EXAMPLES=OFF -D CMAKE_CXX_FLAGS="-O3 -march=native -std=c++11" ..
-	make -j 5
-	cd ../../../..
-	echo $PWD
-else
-	echo "Box2d installed"
-	echo ""
-fi
