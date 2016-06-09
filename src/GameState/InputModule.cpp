@@ -36,7 +36,7 @@ void InputModule::onSpawn(const game::IGameObjectView& spawned)
 		return;
 
 	// found our ship
-	spawned.forallProperties(std::bind(InputModule::propertyCallback, this, _1));
+	spawned.forallProperties(std::bind(&InputModule::propertyCallback, this, _1));
 
 	// no longer need the spawn listener.
 	mSpawnLst = ListenerRef();

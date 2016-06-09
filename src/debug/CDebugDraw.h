@@ -52,8 +52,6 @@ class CDebugDraw : public b2Draw, public IDebugDraw, public game::CGameViewModul
 		/// \attention Do not access variables of the module thread unprotected.
 		void onGameStep(const game::IGameWorld& world) final;
 
-		void DrawPoint(const b2Vec2& p, float32 size, const b2Color& color) {;}
-
 	private:
 		void drawLine(const b2Vec2& p1, const b2Vec2& p2, const color_type& color);
 
