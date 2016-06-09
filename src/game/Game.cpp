@@ -16,9 +16,7 @@ namespace game
 		mGameThread( [this](){ gameloop(); } ),
 		mGameWorld( make_unique<CGameWorld>() ),
 		mTimeManager( make_unique<CTimeManager>() ),
-		mSpawnManager( make_unique<SpawnManager>([this](){ b2BodyDef def;
-															def.type = b2_dynamicBody;
-												return mGameWorld->getWorld()->CreateBody(&def); }) ),
+		mSpawnManager( make_unique<SpawnManager>( ) ),
 		mWorldView( make_unique<view_thread::CViewThreadGameWorld>( *mGameWorld ) )
 	{
 		mTimeManager->setDesiredFPS(50);
@@ -31,7 +29,9 @@ namespace game
 
 	void Game::run()
 	{
-		mGameWorld->addGameObject(mSpawnManager->createSpaceShip("Destroyer", 0));
+		auto world = mGameWorld.get();
+		mSpawnManager->createSpaceShip(SpawnInitData(*world, "Destroyer"), 0, 0);
+		mSpawnManager->createSpaceShip(SpawnInitData(*world, "Destroyer", b2Vec2(50, 50), b2Vec2(0,0)), 1, 1);
 		mRunGame = true;
 	}
 
@@ -58,6 +58,14 @@ namespace game
 
 				// update the world references
 				mWorldView->update();
+
+				// update modules
+				for(auto& mod : mModules)
+				{
+					auto locked = mod.lock();
+					if(locked)
+						locked->onGameStep(*mGameWorld);
+				}
 
 				std::lock_guard<std::mutex> lock(mModuleMutex);
 				// remove old modules

@@ -36,10 +36,10 @@ void InputModule::onSpawn(const game::IGameObjectView& spawned)
 		return;
 
 	// found our ship
+	spawned.forallProperties(std::bind(InputModule::propertyCallback, this, _1));
 
-	spawned.forallProperties(std::bind(&InputModule::propertyCallback, this, _1));
-	auto& object = dynamic_cast<const game::view_thread::IViewThreadGameObject&>(spawned);
-	const_cast<game::view_thread::IViewThreadGameObject&>(object).setProperty("structure.Engine.input:thrust", 0.f);
+	// no longer need the spawn listener.
+	mSpawnLst = ListenerRef();
 }
 
 
@@ -68,12 +68,5 @@ void InputModule::onKeyEvent(irr::EKEY_CODE key, bool press)
 	for(auto& elem : mInputElements)
 	{
 		elem->onKeyEvent(key, press ? input::KeyState::PRESSED : input::KeyState::RELEASED );
-	}
-
-	if(press)
-	{
-		mKeysDown.insert(key);
-	} else {
-		mKeysDown.erase(key);
 	}
 }

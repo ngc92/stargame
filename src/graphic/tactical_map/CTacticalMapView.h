@@ -5,13 +5,14 @@
 
 #include <vector>
 #include <memory>
+#include <unordered_map>
 
 namespace graphic
 {
 namespace detail
 {
 	using namespace irr;
-	using irr::video::SColor;
+	using video::SColor;
 
 	class CTacticalMapView : public ITacticalMapView
 	{
@@ -27,18 +28,24 @@ namespace detail
 		std::shared_ptr<ITacticalMapIcon> addObject( b2Vec2 pos, float angle, int team, std::string type ) override;
 
 
+		//! called if an event happened.
+		bool OnEvent( const SEvent &event ) override;
+
 		//! Writes attributes of the element.
 		void serializeAttributes(io::IAttributes* out, io::SAttributeReadWriteOptions* options) const override;
 
 		//! Reads attributes of the element
 		void deserializeAttributes(io::IAttributes* in, io::SAttributeReadWriteOptions* options) override;
 	private:
+		std::shared_ptr<ITacticalMapIcon> pickElement( s32 x, s32 y );
+
 		// view position on the tactical map
 		b2Vec2 mScroll;
-		float mZoom = 1;
+		float mZoom = 0.1;
 
 		// gfx config
-
+		std::unordered_map<std::string, video::ITexture*> mIconSymbols;
+		std::unordered_map<int, SColor> mTeamColors;
 
 		// object list
 		std::vector<std::weak_ptr<ITacticalMapIcon>> mObjects;

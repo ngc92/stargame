@@ -2,8 +2,10 @@
 #include "property/CPropertyObject.h"
 #include "property/CProperty.h"
 #include <boost/property_tree/ptree.hpp>
+#include <regex>
 #include <iostream>
 
+#include "consts.h"
 #include "factory.h"
 #include "game/object_module/IStructureCell.h"
 #include "game/object_module/ISubStructure.h"
@@ -18,7 +20,20 @@ namespace spawn
 
 	b2Vec2 read_position( const boost::property_tree::ptree& tree )
 	{
-		return b2Vec2{tree.get<float>("x"), tree.get<float>("y")};
+		return b2Vec2{tree.get<float>("x") * METERS_TO_BOX, tree.get<float>("y") * METERS_TO_BOX };
+	}
+
+	b2Vec2 read_position( const boost::property_tree::ptree& tree, const vertex_cache_t& vcache  )
+	{
+		auto vname = tree.get_value<std::string>();
+		if( vname != "" )
+		{
+			return vcache.at(vname);
+		}
+		else
+		{
+			return read_position(tree);
+		}
 	}
 
 	// ------------------------------------------------------------
@@ -27,12 +42,20 @@ namespace spawn
 		mType( props.get<std::string>("type") ),
 		mHitPoints( props.get<float>("HP") ),
 		mWeight( props.get<float>("weight")),
-		mProperties( std::make_shared<property::CPropertyObject>( "data") )
+		mProperties( std::make_shared<property::CPropertyObject>( "data" ) )
 	{
 		auto subs = props.get_child("properties");
 		for(auto& data : subs )
 		{
-			mProperties->addProperty( property::CProperty::create(data.first, mProperties.get(), data.second.get_value<float>() ) );
+			const std::string& s = data.second.get_value<std::string>();
+			property::data_t value = s;
+			// check if number
+			if(std::regex_match(s, std::regex("-?[0-9]+([.][0-9]+)?")))
+			{
+				value = data.second.get_value<float>();
+			}
+
+			mProperties->addProperty( property::CProperty::create(data.first, mProperties.get(), value ) );
 		}
 	}
 
@@ -77,7 +100,8 @@ namespace spawn
 
 	// ------------------------------------------------------------------------------------------------
 
-	StructureCell::StructureCell(const boost::property_tree::ptree& props):
+	StructureCell::StructureCell(const boost::property_tree::ptree& props,
+					  const vertex_cache_t& vertex_cache):
 		mID( props.get<int>("ID") ),
 		mMaxLoad( props.get<float>("max_load") )
 	{
@@ -86,7 +110,7 @@ namespace spawn
 		for(auto& prop : shape)
 		{
 			assert(prop.first == "vertex");
-			vertices.push_back( read_position(prop.second) );
+			vertices.push_back( read_position(prop.second, vertex_cache) );
 		}
 
         mShape.Set(vertices.data(), vertices.size());
@@ -116,19 +140,34 @@ namespace spawn
 	// ----------------------------------------------------------------
 	Hull::Hull(const boost::property_tree::ptree& props)
 	{
+		std::unordered_map<std::string, b2Vec2> vertex_cache;
+		// get vertex cache, if any
+		auto vcache_o = props.get_child_optional("vertices");
+		if( vcache_o )
+		{
+			auto vcache = vcache_o.get();
+
+			for(auto& prop : vcache)
+			{
+				assert(prop.first == "vertex");
+				auto name = prop.second.get<std::string>("name");
+				std::cout << "add vertex " << name << "\n";
+				vertex_cache[name] = read_position(prop.second);
+			}
+		}
 		auto cells = props.get_child("cells");
 		for(auto& prop : cells)
 		{
 			assert(prop.first == "cell");
-			mCells.push_back( StructureCell(prop.second) );
+			mCells.push_back( StructureCell(prop.second, vertex_cache) );
 		}
 
 		auto armour = props.get_child("armour");
 		for(auto& segment : armour)
 		{
 			assert(segment.first == "segment");
-			auto start = read_position(segment.second.get_child("start"));
-			auto end = read_position(segment.second.get_child("end"));
+			auto start = read_position(segment.second.get_child("start"), vertex_cache);
+			auto end = read_position(segment.second.get_child("end"), vertex_cache);
 			float hp = segment.second.get<float>("hitpoints");
 			mArmour.push_back( {start, end, hp} );
 		}
@@ -170,9 +209,15 @@ namespace spawn
 		for(auto& comp : comps )
 		{
 			assert(comp.first == "component");
-            std::string type = comp.second.get<std::string>("type");
-            int cell = comp.second.get<int>("cell");
-            mComponents.push_back( {std::move(type), cell} );
+			std::string type = comp.second.get<std::string>("type");
+			int cell = comp.second.get<int>("cell");
+			mComponents.push_back( {std::move(type), cell} );
+		}
+
+		auto attribs = props.get_child("attributes");
+		for(auto& attr : attribs)
+		{
+			mAttributes.insert( {attr.first, attr.second.get_value<std::string>()} );
 		}
 	}
 
@@ -191,6 +236,50 @@ namespace spawn
 		return mComponents;
 	}
 
+	void Ship::addAttributes( property::IPropertyObject& obj ) const
+	{
+		for(auto& attrib : mAttributes)
+		{
+			obj.addProperty( property::CProperty::create(attrib.first, &obj, attrib.second) );
+		}
+	}
+
+
+	// --------------------------------------------------------------
+	Projectile::Projectile(const boost::property_tree::ptree& props):
+		mName( props.get<std::string>("name") ),
+		mPropellantVelocity( props.get<float>("velocity") ),
+		mRadius( props.get<float>("radius") / 1000.f ),
+		mMass( props.get<float>("mass") ),
+		mLifetime( int(props.get<float>("lifetime") * STEPS_PER_SECOND) )
+	{
+
+	}
+
+	const std::string& Projectile::name() const
+	{
+		return mName;
+	}
+
+	float Projectile::propellVelocity() const
+	{
+		return mPropellantVelocity;
+	}
+
+	float Projectile::radius() const
+	{
+		return mRadius;
+	}
+
+	float Projectile::mass() const
+	{
+		return mMass;
+	}
+
+	int Projectile::lifetime() const
+	{
+		return mLifetime;
+	}
 
 }
 }

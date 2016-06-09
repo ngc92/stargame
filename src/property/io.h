@@ -8,19 +8,11 @@ namespace property
 	class IProperty;
 	class IPropertyObject;
 	
+	class IPropertyObjectView;
+	class IPropertyView;
+	
 	std::ostream& operator<<(std::ostream& stream, const IPropertyObjectView& property);
+	std::ostream& operator<<(std::ostream& stream, const IPropertyView& property);
 }
-
-namespace boost
-{
-	namespace serialization
-	{
-		template<class Archive>
-		void serialize(Archive & ar, property::IPropertyObject & t, const unsigned int file_version)
-		{
-		}
-	}
-}
-
 
 #endif // IO_H_INCLUDED

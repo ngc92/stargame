@@ -6,7 +6,9 @@
 
 namespace game
 {
+	class IGameWorld;
 	class IGameObjectModule;
+	class Damage;
 
 	/*! \class IGameObject
 		\brief Base class for GameObjects.
@@ -22,14 +24,17 @@ namespace game
 		using module_iter = module_vec::iterator;
 	public:
 		/// called just after the object is constructed and added to the world.
-		virtual void onInit() = 0;
+		virtual void onInit(IGameWorld& world) = 0;
 
 		/// this function will be called every step by the game world, and should trigger
 		/// the onStep listener.
-		virtual void onStep() = 0;
+		virtual void onStep(IGameWorld& world) = 0;
 
 		/// this function is called whenever another game object hits the current one.
-		virtual void onImpact(IGameObject* other, const ImpactInfo& info) = 0;
+		virtual void onImpact(IGameObject& other, const ImpactInfo& info) = 0;
+
+		/// call this function to deal damage to this game object.
+		virtual void dealDamage( const Damage& damage, const b2Vec2& pos, const b2Vec2& dir ) = 0;
 
 		/// get a pointer to the internal body, if any
 		virtual const b2Body* body() const = 0;
@@ -39,6 +44,15 @@ namespace game
 
 		/// marks this body for deletion.
 		virtual void remove() = 0;
+
+		/// collision filter data. This is currently very specialised, so maybe a more general
+		/// interface would be nice. However, we need to ensure that this does not cost performance for objects
+		/// that do not require special collision handling.
+		/// Right now, we can set one specific body with which this object shall not collide.
+		virtual const b2Body* ignoreCollisionTarget() const = 0;
+
+		/// sets the body which shall be ignored upon collision checks
+		virtual void setIgnoreCollisionTarget( const b2Body* ignore ) = 0;
 
 		// modules
 		/// adds a module to this game object.

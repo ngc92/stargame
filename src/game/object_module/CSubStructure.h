@@ -40,13 +40,18 @@ namespace game
 			\param position Position of hit in local coordinate system.
 			\param direction Direction of hit in local coordinate system.
 		*/
-		void hit(Damage damage, vector2d position, vector2d direction);
+		void hit(const b2Transform& trafo, Damage damage, vector2d position, vector2d direction);
 
 		/// called on initialization
-		void onInit( IGameObject& object ) override;
+		void onInit( IGameObject& object, IGameWorld& world ) override;
 
 		/// called every step
-		void onStep( IGameObject& object ) override;
+		void onStep( IGameObject& object, IGameWorld& world ) override;
+
+		/// this function is called whenever another game object hits the current one.
+		void onImpact( IGameObject& object, IGameObject& other, const ImpactInfo& info) override;
+
+		void onDamage( IGameObject& object, const Damage& damage, const b2Vec2& pos, const b2Vec2& dir ) override;
 
 		// hitpoints, weight, etc
 		float HP() const final;

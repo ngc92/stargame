@@ -3,20 +3,23 @@
 #include "IEngine.h"
 #include "util.h"
 #include "TextInterface/TextInterface.h"
+#include "GameView/GameView.h"
 #include "InputModule.h"
 #include "HUD.h"
 #include "debug/CDebugDraw.h"
 #include <irrlicht/IGUIEnvironment.h>
+#include <irrlicht/ISceneManager.h>
 #include <irrlicht/IrrlichtDevice.h>
 #include <iostream>
 
 
 GameState::GameState(IEngine* engine) :
 	mGUIEnv(engine->getGUIEnvironment()),
+	mSceneMgr( engine->getIrrlichDevice().getSceneManager() ),
 	mGame( make_unique<game::Game>() ),
 	mDebugDraw( std::make_shared<CDebugDraw>( engine->getIrrlichDevice().getVideoDriver() ) )
 {
-	//addGameModule(std::make_shared<TextInterface>());
+	addGameModule(std::make_shared<GameView>( &engine->getIrrlichDevice() ));
 	addGameModule(std::make_shared<InputModule>(engine, 0));
 	addGameModule(std::make_shared<HUD>(mGUIEnv, 0));
 	addGameModule(mDebugDraw);
@@ -35,6 +38,7 @@ void GameState::update()
 
 void GameState::onDraw()
 {
+	mSceneMgr->drawAll();
 	mGUIEnv->drawAll();
 	mDebugDraw->doDraw();
 }

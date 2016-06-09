@@ -13,6 +13,14 @@ namespace game
 	class IGameViewModule;
 }
 
+namespace irr
+{
+	namespace scene
+	{
+		class ISceneManager;
+	}
+}
+
 class IDebugDraw;
 
 class GameState: public IState
@@ -48,6 +56,7 @@ public:
 private:
 
 	IGUIEnvironment* mGUIEnv;
+	irr::scene::ISceneManager* mSceneMgr;
 	std::unique_ptr<game::Game> mGame;
 	std::shared_ptr<IDebugDraw> mDebugDraw;
 	std::vector<std::shared_ptr<game::IGameViewModule>> mModules;

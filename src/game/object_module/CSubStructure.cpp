@@ -1,8 +1,12 @@
 #include "CSubStructure.h"
+#include "util/physics.h"
+#include "util/io.h"
 #include "components/IComponent.h"
+#include "IDamageSource.h"
 #include <Box2D/Collision/b2Collision.h>
 #include <Box2D/Collision/Shapes/b2EdgeShape.h>
 #include <Box2D/Dynamics/b2Body.h>
+#include <Box2D/Dynamics/b2Fixture.h>
 #include <boost/iterator/indirect_iterator.hpp>
 
 #include "property/CProperty.h"
@@ -44,7 +48,7 @@ namespace game
 		return nullptr;
 	}
 
-	void CSubStructure::onInit(IGameObject& object)
+	void CSubStructure::onInit(IGameObject& object, IGameWorld& world)
 	{
 		// init all components
 		foreachComponent([](IComponent& component, IGameObject& object){component.init(object);}, std::ref(object));
@@ -54,10 +58,13 @@ namespace game
 		b2Body* body = object.getBody();
 		for(auto& cell : mCells)
 		{
-			body->CreateFixture( &cell->shape(), 1.f );
+			auto fixture = body->CreateFixture( &cell->shape(), 10.f );
+			fixture->SetRestitution(0.1);
+			fixture->SetFriction(0.5);
 			for(std::size_t i = 0; i < cell->component_count(); ++i)
 			{
 				addChild(cell->getComponent(i));
+				addMassToFixture(*fixture, cell->getComponent(i)->weight());
 			}
 		}
 
@@ -72,17 +79,31 @@ namespace game
 		}
 
 		// fix global properties of body
-        b2MassData mass;
-        body->GetMassData( &mass );
-        std::cout << "mass: " << mass.mass << "\n";
+		b2MassData mass;
+		body->GetMassData( &mass );
+		std::cout << "mass: " << mass.mass << "\n";
 	}
 
-	void CSubStructure::onStep(IGameObject& object)
+	void CSubStructure::onStep(IGameObject& object, IGameWorld& world)
 	{
-		foreachComponent([](IComponent& c){ c.step();});
+		foreachComponent([](IComponent& c, IGameObject& o, IGameWorld& w){ c.step(o, w);}, std::ref(object), std::ref(world));
+		if(mStructurePoints <= 0)
+		{
+			object.remove();
+		}
 	}
 
-	void CSubStructure::hit(Damage damage, vector2d position, vector2d direction)
+	/// this function is called whenever another game object hits the current one.
+	void CSubStructure::onImpact( IGameObject& object, IGameObject& other, const ImpactInfo& info)
+	{
+	}
+
+	void CSubStructure::onDamage( IGameObject& object, const Damage& damage, const b2Vec2& pos, const b2Vec2& dir )
+	{
+		hit(object.body()->GetTransform(), damage, pos, dir);
+	}
+
+	void CSubStructure::hit(const b2Transform& trafo, Damage damage, vector2d position, vector2d direction)
 	{
 		// check that position is not inside the ship, otherwise move!
 
@@ -90,8 +111,6 @@ namespace game
 		// first, raytrace against armour to find hit segment
 		b2RayCastInput rcin{position, position + direction, 1000};
 		b2RayCastOutput rcout;
-		b2Transform trafo;
-		trafo.SetIdentity();
 		ArmourSegment* armour_hit{};
 		for(auto& seg : mArmour)
 		{

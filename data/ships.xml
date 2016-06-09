@@ -8,7 +8,15 @@
 		</component>
 		<component>
 			<type>FuelTank</type>
-			<cell>0</cell>
+			<cell>1</cell>
+		</component>
+		<component>
+			<type>FixedGun</type>
+			<cell>4</cell>
 		</component>
 	</components>
+	
+	<attributes>
+		<class>Destroyer</class>
+	</attributes>
 </ship>
