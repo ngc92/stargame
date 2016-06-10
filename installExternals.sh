@@ -18,6 +18,7 @@ if [ ! -h external/irrlicht ]; then
 	make NDEBUG=1 sharedlib -j 5
 	cd ../../
 	ln -s libIrrlicht.so.${irrlicht_rev} lib/Linux/libIrrlicht.so
+	ln -s libIrrlicht.so.${irrlicht_rev} lib/Linux/libIrrlicht.so.1.9
 	cd ..
 	ln -s irrlicht-${irrlicht_rev}/include irrlicht
 	ln -s irrlicht-${irrlicht_rev}/lib/linux irrlicht
@@ -52,9 +53,13 @@ fi
 
 # compile Box2D
 cd $STARGAME_BASE
-if [ ! -h ./external/Box2D/Box2D/BuildLinux]; then
+if [ ! -d ./external/Box2D/Box2D/BuildLinux ]; then
+	cd external/Box2D/Box2D/
 	mkdir BuildLinux
 	cd BuildLinux
 	cmake -D BOX2D_BUILD_SHARED=ON -D BOX2D_BUILD_STATIC=OFF -D BOX2D_BUILD_EXAMPLES=OFF -D CMAKE_CXX_FLAGS="-O2 -march=native -std=c++11" ..
 	make -j 5
+else
+	echo "Box2D installed"
+	echo ""
 fi
