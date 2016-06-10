@@ -2,6 +2,8 @@
 #include "property/CProperty.h"
 #include "property/CPropertyObject.h"
 #include <boost/algorithm/string/predicate.hpp>
+#include <iostream>
+#include "property/io.h"
 
 namespace
 {
@@ -10,16 +12,17 @@ namespace
 	using listener_factory = std::function<clistener(IProperty& target)>;
 
 	// helper function to copy properties
-	void copyProperties(CPropertyObject& target, const IPropertyObjectView& source,
+	std::vector<ListenerRef> copyProperties(CPropertyObject& target, const IPropertyObjectView& source,
 						const listener_factory& lfac)
 	{
+		std::vector<ListenerRef> listeners;
 		/// \todo add listeners for adding and removing properties, and child objects.
 		source.forallProperties([&](IPropertyView& view) mutable
 		{
 			auto newprop = CProperty::create( view.name(), &target, view.value() );
 			// set a change listener for the original property
 			/// \todo not like this! not thread-save!
-			view.addListener( lfac(*newprop) );
+			listeners.push_back(view.addListener( lfac(*newprop) ));
 		}, false);
 
 		// copy all children
@@ -27,8 +30,12 @@ namespace
 		{
 			auto child = std::make_shared<CPropertyObject>( view.name() );
 			target.addChild( child );
-			copyProperties(*child, view, lfac);
+			auto result = copyProperties(*child, view, lfac);
+			using iter_t = decltype(begin(result));
+			listeners.insert( end(listeners), std::move_iterator<iter_t>(begin(result)), std::move_iterator<iter_t>(end(result)) );
 		});
+
+		return listeners;
 	}
 }
 
@@ -49,13 +56,15 @@ namespace view_thread
 		{
 			return [&](const property::IPropertyView& source)
 			{
-				auto update = [&](IGameObjectView&) { target = source.value(); };
+				// copy the value to ensure thread safety
+				auto copy_value = source.value();
+				auto update = [copy_value, &target](IGameObjectView&) { target = copy_value; };
 				addDelayedAction( update );
 			};
 		};
 
 		// copy all properties from original into here
-		copyProperties(*this, object, factory);
+		mUpdateListerers = copyProperties(*this, object, factory);
 	}
 
 	CViewThreadGameObject::~CViewThreadGameObject()
@@ -95,7 +104,12 @@ namespace view_thread
 		return mStepListeners.addListener( lst );
 	}
 
-	ListenerRef CViewThreadGameObject::addImpactListener(std::function<void(IGameObjectView*, const ImpactInfo&)>lst)
+	ListenerRef CViewThreadGameObject::addRemoveListener( std::function<void()> lst )
+	{
+		return mRemoveListeners.addListener( std::move(lst) );
+	}
+
+	ListenerRef CViewThreadGameObject::addImpactListener(std::function<void(IGameObjectView&, const ImpactInfo&)>lst)
 	{
 		// construct the promise into a shared_ptr, as we cannot move into lambda in c++11
 		using promise_t = std::promise<std::shared_ptr<listener::ListenerBase>>;
@@ -122,25 +136,50 @@ namespace view_thread
 	*/
 	void CViewThreadGameObject::update()
 	{
+		/// \todo take a look at the remove code again!
+		// don't do anything for "dead" objects
+		if(!mIsAlive)
+			return;
+
 		auto locked = mOriginal.lock();
 		if(!locked)
+		{
+			// if we lost the original, definitely no longer alive
+			mIsAlive = false;
+			mRemoveListeners.notify();
 			return;
+		}
 
 		auto& object = *locked;
 
-        // update local variables
-        mPosition = object.position();
-        mVelocity = object.velocity();
-        mAngle = object.angle();
-        mAngularVelocity = object.angular_velocity();
-
-        // do all delayed stuff
-        for(auto& action : mDelayedActions)
+		// has the original died?
+		if(!object.isAlive())
 		{
-			action(object);
+			mIsAlive = false;
+			mRemoveListeners.notify();
+			return;
+		}
+
+		// update local variables
+		mPosition = object.position();
+		mVelocity = object.velocity();
+		mAngle = object.angle();
+		mAngularVelocity = object.angular_velocity();
+
+		// do all delayed stuff
+		{
+			// protection mutex
+			/// \todo make a copy (move) and the loop without mutex
+			std::lock_guard<std::mutex> lock(mDelayActionMutex);
+			for(auto& action : mDelayedActions)
+			{
+				action(object);
+			}
 		}
 
 		mDelayedActions.clear();
+
+		notifyAll();
 	}
 
 	/*! called inside the view thread to do the update
@@ -158,13 +197,26 @@ namespace view_thread
 	/// checks whether the referenced object is still alive.
 	bool CViewThreadGameObject::isAlive() const
 	{
-		return !mOriginal.expired();
+		return !mOriginal.expired() && mIsAlive;
 	}
 
 	void CViewThreadGameObject::addDelayedAction( delayed_fun f )
 	{
+		std::lock_guard<std::mutex> lock(mDelayActionMutex);
 		mDelayedActions.push_back( std::move(f) );
 	}
+
+	// property updates
+	struct UpdateHelper
+	{
+		std::string path;
+		data_t value;
+		void operator()(IGameObjectView& object) const
+		{
+			auto& property = object.getProperty(path);
+			dynamic_cast<property::IProperty&>(property).assign(value);
+		}
+	};
 
 	/*! \brief Allows setting properties from view thread.
 		\details This function caches assignments to properties
@@ -173,15 +225,7 @@ namespace view_thread
 	*/
 	void CViewThreadGameObject::setProperty( const std::string& path, const property::data_t& value)
 	{
-		mDelayedActions.push_back( [value, path](IGameObjectView& o){ updateProperty(o, path, value); } );
-	}
-
-	/// updates a property of the original game object
-	void CViewThreadGameObject::updateProperty(IGameObjectView& object, const std::string& path, const property::data_t& value)
-	{
-		auto& property = object.getProperty(path);
-		dynamic_cast<property::IProperty&>(property).assign(value);
-
+		addDelayedAction( UpdateHelper{path, value} );
 	}
 }
 }

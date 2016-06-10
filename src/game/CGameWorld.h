@@ -43,6 +43,7 @@ namespace game
 		std::unique_ptr<ContactListener> mContactListener;	//!< The contact listener for Box2D
 
 		std::vector<std::shared_ptr<IGameObject>> mGameObjects;	//!< Vector of all IGameObject in this world.
+		std::vector<std::shared_ptr<IGameObject>> mSpawnQueue;	//!< Vector of all IGameObject that have to be spawned at the end of the step.
 
 		ListenerList<IGameObject&> mSpawnListeners;				//! List of spawn listeners
 

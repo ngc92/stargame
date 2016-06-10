@@ -1,6 +1,9 @@
 #ifndef SHIPSTATUSCTRL_H_INCLUDED
 #define SHIPSTATUSCTRL_H_INCLUDED
 
+#include <vector>
+#include "listener/listener.h"
+
 namespace game
 {
 	class IGameObjectView;
@@ -16,6 +19,7 @@ namespace graphic
 		ShipStatusControl(IShipStatusView* view, const game::IGameObjectView& ship);
 	private:
 		IShipStatusView* mView;
+		std::vector<ListenerRef> mListeners;
 	};
 }
 

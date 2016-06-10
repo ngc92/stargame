@@ -5,15 +5,15 @@
 
 namespace game
 {
-	CFlightModel::CFlightModel() : CPropertyObject("flight_model"),
-								 mOperatingSpeed(1),
-								 mDragFactor(0.1),
+	CFlightModel::CFlightModel( float op_speed ) : CPropertyObject("flight_model"),
+								 mOperatingSpeed( op_speed ),
+								 mDragFactor(0.01),
 								 mTotalThrust( b2Vec2_zero ),
 								 mTotalAngImp( 0 )
 	{
 	}
 
-	void CFlightModel::onInit( IGameObject& object )
+	void CFlightModel::onInit( IGameObject& object, IGameWorld& world )
 	{
 		auto ship = object.getBody();
 		if(!ship)
@@ -27,8 +27,8 @@ namespace game
 		/// \todo this is copied from the old flight model.
 		/// need sth new here.
 		b2Vec2 v = ship.GetLocalVector( ship.GetLinearVelocity() );
-		if( v.y < 0 )
-			v.y = std::min(0.f, v.y + mOperatingSpeed);
+		v.x = std::max(0.f, v.x - mOperatingSpeed);
+
 
 		// decompose
 		float f = -v.LengthSquared() * mDragFactor;
@@ -37,15 +37,13 @@ namespace game
 		ship.ApplyForceToCenter( ship.GetWorldVector(v), true );
 
 		ship.ApplyLinearImpulse( ship.GetWorldVector( mTotalThrust ) , ship.GetWorldCenter(), true );
-		ship.ApplyAngularImpulse( mTotalAngImp * ship.GetInertia(), true);
+		ship.ApplyAngularImpulse( mTotalAngImp * ship.GetInertia(), true );
 
 		mTotalThrust = b2Vec2_zero;
 		mTotalAngImp = 0;
-
-		std::cout <<ship.GetAngle() << "\n";
 	}
 
-	void CFlightModel::onStep( IGameObject& object )
+	void CFlightModel::onStep( IGameObject& object, IGameWorld& world )
 	{
 		auto body = object.getBody();
 		if(!body)

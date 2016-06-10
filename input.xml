@@ -27,3 +27,14 @@
 	<increase>65</increase>
 	<decrease>66</decrease>
 </rule>
+
+
+<rule>
+	<pattern>object.structure.FixedGun.input:fire</pattern>
+	<type>button</type>
+	<state>
+		<key>67</key>
+		<value>1</value>
+	</state>
+	<default>0</default>
+</rule>

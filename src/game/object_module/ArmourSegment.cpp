@@ -1,5 +1,6 @@
 #include "ArmourSegment.h"
 #include "property/CPropertyObject.h"
+#include <iostream>
 
 namespace game
 {
@@ -53,8 +54,11 @@ namespace game
 		float realDmg = std::min((float)mHP, maxDmg);
 		float newHP = std::max(0.f, mHP - maxDmg);
 		mHP = newHP;
+		// prevent division by zero
+		if(maxDmg == 0)
+			maxDmg = 1;
 
-		return transmit_dmg + transmit_dmg*(1 - realDmg/maxDmg);
+		return transmit_dmg + armour_dmg*(1 - realDmg/maxDmg);
 	}
 
 	const std::shared_ptr<property::IPropertyObject>& ArmourSegment::getSharedPropertyObject()

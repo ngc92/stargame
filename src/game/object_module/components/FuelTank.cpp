@@ -22,7 +22,7 @@ namespace components
 		mFuel = std::max((float)mCapacity, (float)mFuel);
 	}
 
-	void FuelTank::step()
+	void FuelTank::step(IGameObject& object, IGameWorld& world)
 	{
 		mPumpLeft = mMaxPump;
 	}

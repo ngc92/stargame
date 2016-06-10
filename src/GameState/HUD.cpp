@@ -12,7 +12,7 @@
 
 HUD::HUD(irr::gui::IGUIEnvironment* env, long ship): mShipID(ship), mGUIEnv(env)
 {
-	mDmgView = new graphic::SubsystemDamageView(env, env->getRootGUIElement(), 0, irr::core::recti(0,0, 100, 400));
+	mDmgView = new graphic::SubsystemDamageView(env, env->getRootGUIElement(), 0, irr::core::recti(0,0, 100, 200));
 	mStaView = new graphic::CShipStatusView(env, env->getRootGUIElement(), 0, irr::core::recti(690, 10, 790, 110));
 	mTacMap = new graphic::detail::CTacticalMapView(env, env->getRootGUIElement(), 0, irr::core::recti(10, 490, 110, 590));
 }

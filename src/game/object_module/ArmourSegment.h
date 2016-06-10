@@ -47,9 +47,9 @@ namespace game
 		Property<float> mMaxHP;
 
 		// damage absorption
-		Damage mAbsorbtion;
-		Damage mTransmission;
-		Damage mDestruction;
+		Damage mAbsorbtion;		//!< absolute value of damage that is absorbed effectless by the armour
+		Damage mTransmission = Damage(0.5);	//!< relative amount of damage that is transmitted by the armour to the underlying ship
+		Damage mDestruction = Damage(0.5);	//!< relative amount of damage that is absorbed by the armour, but requires HP
 	};
 }
 

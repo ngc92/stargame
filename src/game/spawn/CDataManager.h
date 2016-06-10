@@ -15,16 +15,20 @@ namespace game
 			const Component& getComponentData( const std::string& type ) const final;
 			const Hull& getHullData( const std::string& type ) const final;
 			const Ship& getShipData( const std::string& type ) const final;
+			const Projectile& getProjectileData( const std::string& type ) const final;
 
 			void loadFile( const std::string& filename ) final;
 		private:
 			void add( std::string name, Component data );
 			void add( std::string name, Hull data );
 			void add( std::string name, Ship data );
+			void add( std::string name, Projectile data );
 
 			std::unordered_map<std::string, Component> mComponentData;
 			std::unordered_map<std::string, Hull> mHullData;
 			std::unordered_map<std::string, Ship> mShipData;
+
+			std::unordered_map<std::string, Projectile> mProjectileData;
 		};
 	}
 }

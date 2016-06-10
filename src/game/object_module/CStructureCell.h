@@ -44,7 +44,7 @@ namespace game
 			const long mID;						//! ID of the cell, cannot be changed after creation.
 			float mMaxLoad; 					//!< maximum total weight all installed components here can have.
 			comp_vec_t mComponents;				//!< components inside this cell.
-			std::unique_ptr<b2Shape> mShape;	//!< the shape of this cell
+			std::unique_ptr<b2Shape> mShape;	//!< the shape of this cell.
 	};
 
 }

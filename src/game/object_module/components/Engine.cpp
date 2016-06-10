@@ -29,7 +29,7 @@ namespace components
 		assert(mFlightModel);
 	}
 
-	void Engine::step()
+	void Engine::step(IGameObject& object, IGameWorld& world)
 	{
 		auto tank = mTank.lock();
 		if(!tank || !mFlightModel ) return;

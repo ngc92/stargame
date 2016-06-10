@@ -13,6 +13,7 @@ namespace game
 	{
 		mPhysicWorld->SetAutoClearForces( true );
 		mPhysicWorld->SetContactListener( mContactListener.get() );
+		mPhysicWorld->SetContactFilter( mContactListener.get() );
 		mPhysicWorld->SetContinuousPhysics( true );
 	}
 
@@ -22,18 +23,32 @@ namespace game
 
 	void CGameWorld::step()
 	{
+		// do actually 2 physic steps per loop step.
+		// this makes it possible for bodies to move faster.
+		constexpr const int SUB_STEPS = 2;
 		// step the physic world
-		mPhysicWorld->Step(1.0/60, 8, 3);
-		// and trigger corresponding physic events
-		mContactListener->triggerEvents();
+		for(int i = 0; i < SUB_STEPS; ++i)
+		{
+			mPhysicWorld->Step(1.0/60 / SUB_STEPS, 8, 3);
+			// and trigger corresponding physic events
+			mContactListener->triggerEvents();
+		}
 
 		// update all objects
 		for(auto& obj : mGameObjects)
 		{
-			if(obj->isAlive())	obj->onStep( );
+			if(obj->isAlive())	obj->onStep( *this );
 		}
 
 		clear_objects();
+
+		// spawn new objects
+		for(auto& obj : mSpawnQueue)
+		{
+			mGameObjects.push_back( std::move(obj) );
+			mSpawnListeners.notify( *mGameObjects.back() );
+		}
+		mSpawnQueue.clear();
 	}
 
 	void CGameWorld::clear_objects()
@@ -45,8 +60,7 @@ namespace game
 
 	void CGameWorld::addGameObject(std::shared_ptr<IGameObject> object)
 	{
-		mGameObjects.push_back( object );
-		mSpawnListeners.notify(*object);
+		mSpawnQueue.push_back( std::move(object) );
 	}
 
 	const b2World* CGameWorld::world() const

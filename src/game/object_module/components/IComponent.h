@@ -9,6 +9,7 @@
 namespace game
 {
 	class IGameObject;
+	class IGameWorld;
 
 	/*! \namespace components
 		\brief namespace for all ship components.
@@ -40,7 +41,7 @@ namespace game
 				virtual ~IComponent() = default;
 
 				virtual void init(IGameObject& object) = 0;
-				virtual void step() = 0;
+				virtual void step(IGameObject& object, IGameWorld& world) = 0;
 				virtual float onDamage(float dam) = 0;
 
 				// ----------------------------------------------------------------------
@@ -60,7 +61,7 @@ namespace game
 				virtual float weight() 	const = 0;
 				virtual float maxHP() 	const = 0;
 				virtual float HP() 		const = 0;
-				
+
 				// setters
 				virtual void setWeight( float weight ) = 0;
 				virtual void setHitPoints( float current, float max = -1 ) = 0;

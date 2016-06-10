@@ -40,12 +40,16 @@ namespace view_thread
 		long id() const final;
 
 		/// adds a listener that is called every step for this game object.
+		/// \note this listener is executed whenever the view thread steps, not when the game thread steps.
 		ListenerRef addStepListener( std::function<void()> lst ) final;
 
 		/// adds a listener that is called when this object is hit by another game object.
 		/// \warning The impact listener is executed within the game thread! It thus cannot
 		///			safely access data from the view thread.
-		ListenerRef addImpactListener( std::function<void(IGameObjectView*, const ImpactInfo&)> lst ) final;
+		ListenerRef addImpactListener( std::function<void(IGameObjectView&, const ImpactInfo&)> lst ) final;
+
+		/// adds a listener that is called when the object is removed.
+		ListenerRef addRemoveListener( std::function<void()> lst ) final;
 
 
 		/*! update the thread view with the original data.
@@ -83,20 +87,20 @@ namespace view_thread
 		float mAngularVelocity;	//!< angular velocity at last update.
 
 		std::weak_ptr<IGameObjectView> mOriginal;	//!< reference to the original game object.
+		bool mIsAlive = true;						//!< is this object still considered alive?
 
 		// threading stuff
 		using delayed_fun = std::function<void(IGameObjectView&)>;
 		std::vector<delayed_fun> mDelayedActions;
+		std::mutex mDelayActionMutex;
 
 		/// adds a delayed action to the update queue.
-		/// \warning this function is not mutex protected and as such should only be called
-		/// from the game simulation thread.
 		void addDelayedAction( delayed_fun f );
 
 		ListenerList<> mStepListeners;
+		ListenerList<> mRemoveListeners;
 
-		/// updates a property of the original game object
-		static void updateProperty(IGameObjectView& object, const std::string& path, const property::data_t& value);
+		std::vector<ListenerRef> mUpdateListerers;
 	};
 }
 }

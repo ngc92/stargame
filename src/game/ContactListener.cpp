@@ -56,14 +56,27 @@ namespace game
 		}
 	}
 
+	bool ContactListener::ShouldCollide(b2Fixture* fixtureA, b2Fixture* fixtureB)
+	{
+		b2Body* bodyA = fixtureA->GetBody();
+		b2Body* bodyB = fixtureB->GetBody();
+		const IGameObject* ob1 = (IGameObject*)bodyA->GetUserData();
+		const IGameObject* ob2 = (IGameObject*)bodyB->GetUserData();
+
+		if(ob1->ignoreCollisionTarget() == bodyB || ob2->ignoreCollisionTarget() == bodyA)
+			return false;
+
+		return true;
+	}
+
 	void ContactListener::triggerEvents()
 	{
 		for(auto& c : mResponseQueue)
 		{
 			auto A = std::dynamic_pointer_cast<IGameObject>(c.A.lock());
-			auto B = std::dynamic_pointer_cast<IGameObject>(c.A.lock());
+			auto B = std::dynamic_pointer_cast<IGameObject>(c.B.lock());
 
-			if(A->isAlive() && B->isAlive())
+			if(A && B && A->isAlive() && B->isAlive())
 			{
 				ImpactInfo info;
 				info.position = c.position;
@@ -72,14 +85,15 @@ namespace game
 				info.normal = c.normal;
 				info.fixture = c.fixA;
 
-				A->onImpact(B.get(), info);
+				A->onImpact(*B, info);
 
 				info.normal = -c.normal;
 				info.fixture = c.fixB;
-				B->onImpact(A.get(), info);
+				B->onImpact(*A, info);
 			}
-
 		}
+
+		mResponseQueue.clear();
 	}
 
 }
