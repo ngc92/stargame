@@ -2,6 +2,7 @@
 #define WEAPON_H_INCLUDED
 
 #include "IComponent.h"
+#include "CComponent.h"
 
 namespace game
 {

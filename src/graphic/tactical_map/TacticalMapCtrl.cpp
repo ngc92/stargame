@@ -4,13 +4,14 @@
 #include "game/IGameWorldView.h"
 #include "game/IGameObjectView.h"
 #include <iostream>
+#include <functional>
 
 namespace graphic
 {
 	TacticalMapCtrl::TacticalMapCtrl(ITacticalMapView* view, game::IGameWorldView& world) : mView(view)
 	{
-		using std::placeholders::_1;
-		mSpawnListener = world.addSpawnListener(std::bind(addObject, this, _1));
+		using namespace std::placeholders;
+		mSpawnListener = world.addSpawnListener(std::bind(&TacticalMapCtrl::addObject, this, _1));
 		world.iterateAllObjects(std::bind(&TacticalMapCtrl::addObject, this, _1));
 	}
 

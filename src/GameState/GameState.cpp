@@ -12,6 +12,7 @@
 #include <irrlicht/IrrlichtDevice.h>
 #include <iostream>
 
+
 GameState::GameState(IEngine* engine) :
 	mGUIEnv(engine->getGUIEnvironment()),
 	mSceneMgr( engine->getIrrlichDevice().getSceneManager() ),
