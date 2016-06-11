@@ -1,35 +1,48 @@
-files=$(shell find src/ -name \*cpp)
-objs=$(addsuffix .o,$(basename $(files)))
+sources := $(shell find src/ -name \*cpp)
+objs    := $(addsuffix .o,$(basename $(sources)))
 
-CXXFLAGS=-Wall -std=c++11 -pipe -fomit-frame-pointer \
-	 -ftemplate-backtrace-limit=0 \
-	 -Iexternal/Box2D/Box2D/ \
+
+CXXFLAGS=-Wall -std=c++11 -pipe -fstack-protector-strong \
+	 -ftemplate-backtrace-limit=0 --param=ssp-buffer-size=4 -fPIC -pthread
+INCLUDE= -Iexternal/Box2D/Box2D/ \
 	 -Iexternal/ \
-	 -Isrc/
-LFLAGS=
+	 -Isrc/ \
+	 -Isrc/game
+LFLAGS+=-L"/usr/lib" \
+	external/irrlicht-lib/libIrrlicht.so \
+	external/irrklang-lib/libIrrKlang.so \
+	external/Box2D/Box2D/BuildLinux/Box2D/libBox2D.so
+
 
 target=Stargame
+
 
 ifeq ($(DEBUG),1)
 	CXXFLAGS+=-g -ggdb
 	OBJDIR=obj/Debug
 	BINDIR=bin/Debug
 else
+	CXXFLAGS+=-O2
 	OBJDIR=obj/Release
 	BINDIR=bin/Release
 endif
 
+
+out_objs=$(addprefix $(OBJDIR)/, $(subst src/,,$(objs)))
+
 garbage=$(wildcard bin/ obj/)
 
-.cpp.o:
-	@mkdir -p $(OBJDIR)
-	$(CXX) $(CXXFLAGS) -c $^ -o $(OBJDIR)/$(notdir $@)
+
+$(OBJDIR)/%.o: src/%.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $^ -o $@
+
 
 all: $(target)
 
-$(target): $(objs)
+$(target): $(out_objs)
 	@mkdir -p $(BINDIR)
-	$(CXX) $(objs) $(LFLAGS) -o $(BINDIR)/$(target)
+	$(CXX) $(CXXFLAGS) $(out_objs) -o $(BINDIR)/$(target) $(LFLAGS)
 
 clean:
 	rm -r $(garbage)

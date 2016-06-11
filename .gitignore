@@ -4,4 +4,5 @@
 /*.layout
 /*.dll
 /doxygen/html
-/external/
+/external/irr*
+external/Box2D/Box2D/BuildLinux/

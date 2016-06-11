@@ -10,7 +10,7 @@ namespace graphic
 {
 	TacticalMapCtrl::TacticalMapCtrl(ITacticalMapView* view, game::IGameWorldView& world) : mView(view)
 	{
-		using std::placeholders::_1;
+		using namespace std::placeholders;
 		mSpawnListener = world.addSpawnListener(std::bind(&TacticalMapCtrl::addObject, this, _1));
 		world.iterateAllObjects(std::bind(&TacticalMapCtrl::addObject, this, _1));
 	}
@@ -21,7 +21,7 @@ namespace graphic
 
 	void TacticalMapCtrl::addObject( game::IGameObjectView& object )
 	{
-	/// \todo determine, whether to show this object on the tactical map.
+		/// \todo determine, whether to show this object on the tactical map.
 		/// for now, show all!
 		auto type = boost::get<std::string>(object.getProperty("_type_").value());
 		auto team = boost::get<int>(object.getProperty("affiliation.team").value());

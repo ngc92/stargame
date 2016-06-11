@@ -18,7 +18,7 @@ GameView::~GameView()
 void GameView::init()
 {
 	using std::placeholders::_1;
-	mListeners.push_back(world().addSpawnListener(std::bind(GameView::onSpawn, this, _1)));
+	mListeners.push_back(world().addSpawnListener(std::bind(&GameView::onSpawn, this, _1)));
 
 	mGFX->init();
 }
