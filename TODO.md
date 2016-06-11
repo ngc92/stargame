@@ -1,5 +1,14 @@
+## General
+- [ ] Set version in README.md, Doxyfile, git tag
+- [ ] create a logo and add it to the README.md and Doxyfile
+- [ ] add a license
+- [ ] write a nice readme
+- [ ] add a roadmap
+- [ ] add a nice documentation
+- [ ] add a coding style, also covering documentation style.
+
 ## Interface
-- [ ] Fix selection mode buggy text
+- [ ] Set default mode: 1280x800 windowed
 
 ## Bullets: Second kind of game object that can be created, does not posses substructure but FlightModel
 - [x] deletion after timeout
