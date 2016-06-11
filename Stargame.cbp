@@ -123,6 +123,7 @@
 		<Unit filename="src/game/object_module/IAffiliation.h" />
 		<Unit filename="src/game/object_module/IDamageSource.h" />
 		<Unit filename="src/game/object_module/IFlightModel.h" />
+		<Unit filename="src/game/object_module/IPropulsionSystem.h" />
 		<Unit filename="src/game/object_module/IStructureCell.h" />
 		<Unit filename="src/game/object_module/ISubStructure.h" />
 		<Unit filename="src/game/object_module/ITimedDeletion.h" />

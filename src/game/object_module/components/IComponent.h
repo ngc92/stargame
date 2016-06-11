@@ -13,8 +13,7 @@ namespace game
 	class IGameWorld;
 	class WorldActionQueue;
 
-	/*! \namespace components
-		\brief namespace for all ship components.
+	/*! \brief namespace for all ship components.
 		\details This namespace contains the implementations
 				for the different kind of ship components.
 				It is supposed to be a completely modular unit, i.e.
@@ -93,7 +92,7 @@ namespace game
 	}
 
 	using components::IComponent;
-	
+
 	// ----------------------------------------------------------------------------------------
 	// 		use this to register component types to the component factory
 	// ----------------------------------------------------------------------------------------
@@ -103,13 +102,13 @@ namespace game
 		{
 			void registerComponentConstructor( std::string name, std::function<std::shared_ptr<IComponent>()> ctor_fn );
 		}
-		
+
 		template<class T>
 		void registerComponentConstructor(std::string name)
 		{
 			detail::registerComponentConstructor( move(name), [](){ return std::make_shared<T>(); } );
 		}
-		
+
 		std::shared_ptr<IComponent> construct(const std::string& type);
 	}
 }

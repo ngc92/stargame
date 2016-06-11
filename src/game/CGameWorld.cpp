@@ -13,7 +13,7 @@ namespace game
 	CGameWorld::CGameWorld() : mPhysicWorld( std::make_unique<b2World>(b2Vec2(0,0)) ),
 							 mContactListener( std::make_unique<ContactListener>() )
 	{
-		mPhysicWorld->SetAutoClearForces( true );
+		mPhysicWorld->SetAutoClearForces( false );
 		mPhysicWorld->SetContactListener( mContactListener.get() );
 		mPhysicWorld->SetContactFilter( mContactListener.get() );
 		mPhysicWorld->SetContinuousPhysics( true );
@@ -35,6 +35,7 @@ namespace game
 			// and trigger corresponding physic events
 			mContactListener->triggerEvents();
 		}
+		mPhysicWorld->ClearForces();
 
 		std::vector<WorldActionQueue::action_fn> action_queue;
 		WorldActionQueue push_action(action_queue);

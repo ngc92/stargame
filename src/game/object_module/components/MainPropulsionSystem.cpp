@@ -24,6 +24,7 @@ namespace components
 	{
 		mTank = getSupplier(object, "fuel");
 		mFlightModel = object.getModuleAsType<IFlightModel>();
+		mFlightRegistration = IFlightModel::registerPropulsionSystem(mFlightModel, *this);
 		assert(mFlightModel);
 	}
 
@@ -51,7 +52,29 @@ namespace components
 		mFlightModel->thrust(b2Vec2(thrust, 0));
 	}
 
-	
+	float MainPropulsionSystem::getMaxTorque() const
+	{
+		return 0; // main engine cannot rotate ship.
+	}
+
+	float MainPropulsionSystem::getMaxThrust() const
+	{
+		return mThrust;
+	}
+
+	// action functions
+	void MainPropulsionSystem::rotate(float rot)
+	{
+		// no rotation possible
+	}
+
+	void MainPropulsionSystem::thrust(const b2Vec2& thr)
+	{
+		float thrust_fwd = std::max(0.f, thr.x) / mThrust;
+		mThrustLevel = std::min(thrust_fwd, 1.f);
+		std::cout << thr.x << " " << thr.y << " " << mThrustLevel << "\n";
+	}
+
 	// register engine's constructor
 	REG_COMP_MACRO(MainPropulsionSystem);
 }
