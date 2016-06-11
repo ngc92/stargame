@@ -31,10 +31,10 @@ namespace game
 		b2Vec2 v = ship.GetLocalVector( ship.GetLinearVelocity() );
 		v.x = std::max(0.f, v.x - mOperatingSpeed);
 
-
 		// decompose
 		float f = -v.LengthSquared() * mDragFactor;
-		v.Normalize();
+		if( f > 0 )
+			v.Normalize();
 		v *= f;
 
 		ship.ApplyLinearImpulse( ship.GetWorldVector( mTotalThrust + v ) , ship.GetWorldCenter(), true );
@@ -50,9 +50,9 @@ namespace game
 		if(!body)
 			BOOST_THROW_EXCEPTION( std::runtime_error("flight model module applied to bodyless game object!") );
 		// pilot to target
-        SFlightState test_target;
-        test_target.position = b2Vec2(200, 200);
-        pilot(object, test_target);
+		SFlightState test_target;
+		test_target.position = b2Vec2(200, 200);
+		//pilot(object, test_target);
 
 		update_movement( *body );
 	}
@@ -87,6 +87,7 @@ namespace game
 
 	void CFlightModel::pilot( const IGameObject& ship, const SFlightState& target_state )
 	{
+		///! \note this code is not finished!
 		auto cur_pos = ship.position();
 		auto cur_vel = ship.velocity();
 		auto cur_ang = ship.angle();

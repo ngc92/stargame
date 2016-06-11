@@ -77,7 +77,7 @@ namespace spawn
 	{
 		auto& dat = mDataManager->getProjectileData( type );
 
-		object.addModule( std::make_shared<CFlightModel>( 100.0, 0.01 ) );
+		object.addModule( std::make_shared<CFlightModel>( 100.0, 0.f ) );
 		object.addModule( std::make_shared<CTimedDeletion>( dat.lifetime() ) );
 		auto shared = std::const_pointer_cast<IGameObjectView>(shooter.shared_from_this());
 		object.addModule( std::make_shared<CAffiliation>( shared ) );
@@ -93,7 +93,7 @@ namespace spawn
 		/// \todo set density for mass!
 		auto fix = object.getBody()->CreateFixture( &def );
 		object.getBody()->SetBullet(true);
-		object.getBody()->ApplyLinearImpulseToCenter( object.getBody()->GetWorldVector(b2Vec2( dat.propellVelocity() , 0)), true );
+		object.getBody()->ApplyLinearImpulseToCenter( object.getBody()->GetWorldVector(b2Vec2( dat.propellVelocity() * object.getBody()->GetMass() , 0)), true );
 		object.setIgnoreCollisionTarget( shooter.body() );
 
 		object.addProperty( property::CProperty::create("_type_", &object, std::string("bullet")) );
