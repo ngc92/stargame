@@ -11,6 +11,10 @@ if [ "x$STARGAME_BASE" != "x" ]; then
 fi
 
 export STARGAME_BASE=$PWD
+
+# install external libraries
+sh +x installExternals.sh
+
 LD_LIBRARY_PATH_APPEND=$STARGAME_BASE/external/irrlicht-lib:$STARGAME_BASE
 LD_LIBRARY_PATH_APPEND=$STARGAME_BASE/external/irrklang-lib:$LD_LIBRARY_PATH_APPEND
 LD_LIBRARY_PATH_APPEND=$STARGAME_BASE/external/Box2D/Box2D/BuildLinux/Box2D:$LD_LIBRARY_PATH_APPEND
@@ -20,6 +24,3 @@ if [ "x$LD_LIBRARY_PATH" = "x" ]; then
 else
 	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH_APPEND:$LD_LIBRARY_PATH
 fi
-
-# install external libraries
-sh +x installExternals.sh
