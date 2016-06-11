@@ -36,7 +36,7 @@ namespace game
 
 	/// this function will be called every step by the game world, and should trigger
 	/// the onStep listener.
-	void CTimedDeletion::onStep( IGameObject& object, IGameWorld& world)
+	void CTimedDeletion::onStep( IGameObject& object, const IGameWorld& world, WorldActionQueue& p)
 	{
 		mElapsedLifetime = mElapsedLifetime + 1;
 		if( mElapsedLifetime > mTotalLifetime )

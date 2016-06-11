@@ -30,17 +30,17 @@ namespace input
 		{
 			assert(rule.first == "rule");
 			std::string pattern = rule.second.get<std::string>("pattern");
-			mMappingRules[pattern] = make_unique<ptree>( rule.second );
+			mMappingRules[pattern] = std::make_unique<ptree>( rule.second );
 		}
 	}
 
 	std::shared_ptr<IInputElement> CInputConfig::getInputElemt( const property::IPropertyView& property )
 	{
 		std::string input = property.path();
-        for( const auto& rule : mMappingRules )
+		for( const auto& rule : mMappingRules )
 		{
 			const std::string& pattern = rule.first;
-            if( std::regex_match(input, std::regex(pattern)))
+			if( std::regex_match(input, std::regex(pattern)))
 			{
 				return createInputElement( *rule.second, property );
 			}

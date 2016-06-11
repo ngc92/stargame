@@ -36,7 +36,7 @@ namespace game
 			module->onInit(*this, world);
 	}
 
-	void CGameObject::onStep(IGameWorld& world)
+	void CGameObject::onStep(const IGameWorld& world, WorldActionQueue& push_action)
 	{
 		mStepListeners.notify();
 
@@ -46,7 +46,7 @@ namespace game
 			// in case one of the modules decides to kill the object
 			// in this step.
 			if(isAlive())
-				module->onStep(*this, world);
+				module->onStep(*this, world, push_action);
 		}
 
 		// update property listeners

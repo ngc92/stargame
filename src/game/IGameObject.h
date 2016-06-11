@@ -8,6 +8,7 @@ namespace game
 {
 	class IGameWorld;
 	class IGameObjectModule;
+	class WorldActionQueue;
 	class Damage;
 
 	/*! \class IGameObject
@@ -28,7 +29,7 @@ namespace game
 
 		/// this function will be called every step by the game world, and should trigger
 		/// the onStep listener.
-		virtual void onStep(IGameWorld& world) = 0;
+		virtual void onStep(const IGameWorld& world, WorldActionQueue& push_action) = 0;
 
 		/// this function is called whenever another game object hits the current one.
 		virtual void onImpact(IGameObject& other, const ImpactInfo& info) = 0;

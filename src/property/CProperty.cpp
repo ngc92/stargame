@@ -55,7 +55,7 @@ namespace property
 
 	/// gets the value in a way that allows modification.
 	/// calling this function sets the modification flag.
-	auto CProperty::changable_value() -> data_t&
+	auto CProperty::changable_value() noexcept -> data_t&
 	{
 		mChanged = true;
 		return mData;
@@ -67,7 +67,7 @@ namespace property
 		mData( std::move(value) )
 	{
 	}
-	
+
 	std::shared_ptr<CProperty> CProperty::create(std::string name, IPropertyObject* owner, data_t value)
 	{
 		auto shared = std::make_shared<CProperty>( access_ctor{}, std::move(name), owner, std::move(value) );
@@ -75,7 +75,7 @@ namespace property
 		{
 			owner->addProperty( shared );
 		}
-		
+
 		return shared;
 	}
 

@@ -5,7 +5,8 @@
 #include "IGameViewModule.h"
 #include "util.h"
 #include "CTimeManager.h"
-#include "SpawnManager.h"
+#include "spawn/CSpawnManager.h"
+#include "spawn/SpawnData.h"
 #include <Box2D/Box2D.h>
 
 namespace game
@@ -14,10 +15,10 @@ namespace game
 		mRunGame(false),
 		mQuitGame(false),
 		mGameThread( [this](){ gameloop(); } ),
-		mGameWorld( make_unique<CGameWorld>() ),
-		mTimeManager( make_unique<CTimeManager>() ),
-		mSpawnManager( make_unique<SpawnManager>( ) ),
-		mWorldView( make_unique<view_thread::CViewThreadGameWorld>( *mGameWorld ) )
+		mGameWorld( std::make_unique<CGameWorld>() ),
+		mTimeManager( std::make_unique<CTimeManager>() ),
+		mSpawnManager( std::make_unique<spawn::CSpawnManager>( ) ),
+		mWorldView( std::make_unique<view_thread::CViewThreadGameWorld>( *mGameWorld ) )
 	{
 		mTimeManager->setDesiredFPS(50);
 	};
@@ -30,8 +31,8 @@ namespace game
 	void Game::run()
 	{
 		auto world = mGameWorld.get();
-		mSpawnManager->createSpaceShip(SpawnInitData(*world, "Destroyer"), 0, 0);
-		mSpawnManager->createSpaceShip(SpawnInitData(*world, "Destroyer", b2Vec2(50, 50), b2Vec2(0,0)), 1, 1);
+		mSpawnManager->spawn(*world, spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(0,0)).set_id(0));
+		mSpawnManager->spawn(*world, spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(50,50)).set_id(1));
 		mRunGame = true;
 	}
 
@@ -54,7 +55,7 @@ namespace game
 			{
 				mTimeManager->waitTillNextFrame();
 				// update the world
-				mGameWorld->step();
+				mGameWorld->step( *mSpawnManager );
 
 				// update the world references
 				mWorldView->update();

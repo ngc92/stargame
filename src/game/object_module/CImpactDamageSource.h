@@ -12,7 +12,7 @@ namespace game
 		CImpactDamageSource( float damage_factor = 0.5, float blunt_factor = 0.5 );
 
 		void onInit( IGameObject& object, IGameWorld& world ) override {};
-		void onStep( IGameObject& object, IGameWorld& world)  override {};
+		void onStep( IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action)  override {};
 
 		/// this function is called whenever another game object hits the current one.
 		void onImpact( IGameObject& object, IGameObject& other, const ImpactInfo& info) override;

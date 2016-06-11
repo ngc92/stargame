@@ -10,7 +10,6 @@
 #include <boost/noncopyable.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include "util/make_unique.h"
 #include "util/logging.h"
 #include "util/convert.h"
 #include "debug/ObjectCounter.h"

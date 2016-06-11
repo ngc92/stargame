@@ -5,7 +5,7 @@
 #include "GameViewGFX.h"
 #include <iostream>
 
-GameView::GameView(irr::IrrlichtDevice* device) : mGFX( make_unique<gfx::GameViewGFX>( device ) )
+GameView::GameView(irr::IrrlichtDevice* device) : mGFX( std::make_unique<gfx::GameViewGFX>( device ) )
 {
 
 }

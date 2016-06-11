@@ -13,7 +13,7 @@ namespace components
 	public:
 		FixedGun();
 		void init(IGameObject& object) override;
-		void step(IGameObject& object, IGameWorld& world) override;
+		void step(IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action) override;
 
 	private:
 		Property<std::string> mAmmoType;

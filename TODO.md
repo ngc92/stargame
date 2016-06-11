@@ -23,6 +23,9 @@
 ## Physics
 - [ ] introduce mass handling for ships
 - [ ] scaling of units! 1unit = 1m seems to small
+
+**Event system**
+
  
 ## GFX
 - [ ] default game view

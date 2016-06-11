@@ -1,50 +1,44 @@
 #include "CDataManager.h"
 #include <boost/property_tree/xml_parser.hpp>
-#include <algorithm>
 #include <iostream>
 
 namespace game
 {
 namespace spawn
 {
-	const Component& CDataManager::getComponentData( const std::string& type) const
+	// ---------------------------------------------------------------------------
+	//		get functions - trivial implementation
+	// ---------------------------------------------------------------------------
+	const SComponent& CDataManager::getComponentData( const std::string& type) const
 	{
-		return mComponentData.at(type);
+		return mData.at<SComponent>(type);
 	}
 
-	const Hull& CDataManager::getHullData( const std::string& type ) const
+	const SHull& CDataManager::getHullData( const std::string& type ) const
 	{
-		return mHullData.at(type);
+		return mData.at<SHull>(type);
 	}
 
-	const Ship& CDataManager::getShipData( const std::string& type ) const
+	const SShip& CDataManager::getShipData( const std::string& type ) const
 	{
-		return mShipData.at(type);
+		return mData.at<SShip>(type);
 	}
 
-	const Projectile& CDataManager::getProjectileData( const std::string& type ) const
+	const SProjectile& CDataManager::getProjectileData( const std::string& type ) const
 	{
-		return mProjectileData.at(type);
+		return mData.at<SProjectile>(type);
 	}
 
-	void CDataManager::add( std::string name, Component data )
-	{
-		mComponentData.insert({std::move(name), std::move(data)});
-	}
+	// ------------------------------------------------------------
+	//			load function
+	// ------------------------------------------------------------
 
-	void CDataManager::add( std::string name, Hull data )
+	// helper function that constructs an object from a ptree and
+	// adds it to the Map \p map.
+	template<class Read, class Map>
+	void addData(const boost::property_tree::ptree& data, Map& map)
 	{
-		mHullData.insert( {std::move(name), std::move(data)} );
-	}
-
-	void CDataManager::add( std::string name, Ship data )
-	{
-		mShipData.insert( {std::move(name), std::move(data)} );
-	}
-
-	void CDataManager::add( std::string name, Projectile data )
-	{
-		mProjectileData.insert( {std::move(name), std::move(data)} );
+		map.insert(data.template get<std::string>("name"), Read(data));
 	}
 
 	void CDataManager::loadFile( const std::string& filename )
@@ -54,25 +48,11 @@ namespace spawn
 		read_xml(filename, tree);
 		for(auto& data : tree)
 		{
-			if(data.first == "component")
-			{
-				std::string name = data.second.get<std::string>("name");
-				add(std::move(name), Component(data.second));
-			}
-			else if (data.first == "hull")
-			{
-				std::string name = data.second.get<std::string>("name");
-				add(std::move(name), Hull(data.second));
-			}
-			else if (data.first == "ship")
-			{
-				std::string name = data.second.get<std::string>("name");
-				add(std::move(name), Ship(data.second));
-			}else if (data.first == "projectile")
-			{
-				std::string name = data.second.get<std::string>("name");
-				add(std::move(name), Projectile(data.second));
-			}
+			/// \todo can we automate this code further?
+			if(data.first == "component") addData<SComponent>(data.second, mData);
+			else if (data.first == "hull") addData<SHull>(data.second, mData);
+			else if (data.first == "ship") addData<SShip>(data.second, mData);
+			else if (data.first == "projectile") addData<SProjectile>(data.second, mData);
 		}
 	}
 

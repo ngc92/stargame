@@ -5,6 +5,11 @@
 
 namespace game
 {
+	namespace spawn
+	{
+		class ISpawnManager;
+	}
+	
 	/*! \class IGameWorld
 		\brief Game World, manages Game Objects and physics.
 	*/
@@ -12,7 +17,7 @@ namespace game
 	{
 	public:
 		/// perform a single step in the game simulation.
-		virtual void step( ) = 0;
+		virtual void step( const spawn::ISpawnManager& spawner ) = 0;
 
 		/// adds a game object to the game world.
 		virtual void addGameObject(std::shared_ptr<IGameObject> object) = 0;

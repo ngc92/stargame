@@ -30,8 +30,8 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-std=c++11" />
 			<Add option="-ftemplate-backtrace-limit=0" />
+			<Add option="-std=c++1y" />
 			<Add directory="./src/" />
 			<Add directory="external/Box2D/Box2D" />
 		</Compiler>
@@ -104,8 +104,7 @@
 		<Unit filename="src/game/IGameViewModule.h" />
 		<Unit filename="src/game/IGameWorld.h" />
 		<Unit filename="src/game/IGameWorldView.h" />
-		<Unit filename="src/game/SpawnManager.cpp" />
-		<Unit filename="src/game/SpawnManager.h" />
+		<Unit filename="src/game/WorldAction.h" />
 		<Unit filename="src/game/fwd.h" />
 		<Unit filename="src/game/object_module/ArmourSegment.cpp" />
 		<Unit filename="src/game/object_module/ArmourSegment.h" />
@@ -124,6 +123,7 @@
 		<Unit filename="src/game/object_module/IAffiliation.h" />
 		<Unit filename="src/game/object_module/IDamageSource.h" />
 		<Unit filename="src/game/object_module/IFlightModel.h" />
+		<Unit filename="src/game/object_module/IPropulsionSystem.h" />
 		<Unit filename="src/game/object_module/IStructureCell.h" />
 		<Unit filename="src/game/object_module/ISubStructure.h" />
 		<Unit filename="src/game/object_module/ITimedDeletion.h" />
@@ -132,20 +132,35 @@
 		<Unit filename="src/game/object_module/components/CComponent.h" />
 		<Unit filename="src/game/object_module/components/CargoBay.cpp" />
 		<Unit filename="src/game/object_module/components/CargoBay.h" />
-		<Unit filename="src/game/object_module/components/Engine.cpp" />
-		<Unit filename="src/game/object_module/components/Engine.h" />
 		<Unit filename="src/game/object_module/components/FixedGun.cpp" />
 		<Unit filename="src/game/object_module/components/FixedGun.h" />
 		<Unit filename="src/game/object_module/components/FuelTank.cpp" />
 		<Unit filename="src/game/object_module/components/FuelTank.h" />
+		<Unit filename="src/game/object_module/components/IComponent.cpp" />
 		<Unit filename="src/game/object_module/components/IComponent.h" />
+		<Unit filename="src/game/object_module/components/MainPropulsionSystem.cpp" />
+		<Unit filename="src/game/object_module/components/MainPropulsionSystem.h" />
+		<Unit filename="src/game/object_module/components/ManeuverEngine.cpp" />
+		<Unit filename="src/game/object_module/components/ManeuverEngine.h" />
 		<Unit filename="src/game/spawn/CDataManager.cpp" />
 		<Unit filename="src/game/spawn/CDataManager.h" />
-		<Unit filename="src/game/spawn/Definitions.cpp" />
+		<Unit filename="src/game/spawn/CSpawnManager.cpp" />
+		<Unit filename="src/game/spawn/CSpawnManager.h" />
 		<Unit filename="src/game/spawn/Definitions.h" />
 		<Unit filename="src/game/spawn/IDataManager.h" />
-		<Unit filename="src/game/spawn/factory.cpp" />
-		<Unit filename="src/game/spawn/factory.h" />
+		<Unit filename="src/game/spawn/ISpawnManager.h" />
+		<Unit filename="src/game/spawn/SComponent.cpp" />
+		<Unit filename="src/game/spawn/SComponent.h" />
+		<Unit filename="src/game/spawn/SHull.cpp" />
+		<Unit filename="src/game/spawn/SHull.h" />
+		<Unit filename="src/game/spawn/SProjectile.cpp" />
+		<Unit filename="src/game/spawn/SProjectile.h" />
+		<Unit filename="src/game/spawn/SShip.cpp" />
+		<Unit filename="src/game/spawn/SShip.h" />
+		<Unit filename="src/game/spawn/SpawnData.cpp" />
+		<Unit filename="src/game/spawn/SpawnData.h" />
+		<Unit filename="src/game/spawn/spawn_util.cpp" />
+		<Unit filename="src/game/spawn/spawn_util.h" />
 		<Unit filename="src/game/view_thread/CViewThreadGO.cpp" />
 		<Unit filename="src/game/view_thread/CViewThreadGO.h" />
 		<Unit filename="src/game/view_thread/CViewThreadGW.cpp" />
@@ -156,6 +171,8 @@
 		<Unit filename="src/graphic/CShipStatusView.h" />
 		<Unit filename="src/graphic/EngineExhaust.cpp" />
 		<Unit filename="src/graphic/EngineExhaust.h" />
+		<Unit filename="src/graphic/EngineExhaustAnimator.cpp" />
+		<Unit filename="src/graphic/EngineExhaustAnimator.h" />
 		<Unit filename="src/graphic/ExplosionNode.cpp" />
 		<Unit filename="src/graphic/ExplosionNode.h" />
 		<Unit filename="src/graphic/FollowObjectAnimator.cpp" />
@@ -215,7 +232,7 @@
 		<Unit filename="src/util/io.h" />
 		<Unit filename="src/util/logging.cpp" />
 		<Unit filename="src/util/logging.h" />
-		<Unit filename="src/util/make_unique.h" />
+		<Unit filename="src/util/multi_type_map.h" />
 		<Unit filename="src/util/physics.cpp" />
 		<Unit filename="src/util/physics.h" />
 		<Extensions>

@@ -11,11 +11,11 @@
 using namespace irr;
 
 CEngine::CEngine() :	mIrrlichtDevice( nullptr ),
-						mDebugConsole( make_unique<CDebugConsole>() ),
-						mInputManager( make_unique<CInputManager>() ),
-						mStateManager ( make_unique<CStateManager>(this) ),
-						mSoundManager( make_unique<CSoundManager>() ),
-						mMasterEventReceiver(make_unique<CIrrMasterEventReceiver>(mInputManager.get(), mStateManager.get()))
+						mDebugConsole( std::make_unique<CDebugConsole>() ),
+						mInputManager( std::make_unique<CInputManager>() ),
+						mStateManager ( std::make_unique<CStateManager>(this) ),
+						mSoundManager( std::make_unique<CSoundManager>() ),
+						mMasterEventReceiver(std::make_unique<CIrrMasterEventReceiver>(mInputManager.get(), mStateManager.get()))
 {
 }
 
@@ -31,7 +31,7 @@ bool CEngine::init(const Options& options)
 	// create things depending on irrlicht
 	mIrrlichtDevice = options.startDevice();
 	mMasterEventReceiver->setDevice(mIrrlichtDevice);
-	mTimeManager = make_unique<CTimeManager>( );
+	mTimeManager = std::make_unique<CTimeManager>( );
 
 	return mIrrlichtDevice;
 }
@@ -49,7 +49,7 @@ bool CEngine::tick()
 		if(mTimeManager->waitTillNextFrame() || true)
 		{
 			mIrrlichtDevice->getVideoDriver()->beginScene(true, true, video::SColor(0,0,0,0));
-			
+
 			// called after engine drawing is finished
 			mStateManager->getCurrentState()->onDraw();
 

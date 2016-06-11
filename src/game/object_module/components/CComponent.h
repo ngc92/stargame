@@ -50,6 +50,21 @@ namespace components
 	/// tries to find a supplier for \p resource within the components of \p object.
 	/// This requires \p object to have a ISubStructure module.
 	std::weak_ptr<IComponent> getSupplier( IGameObject& object, const std::string& resource );
+	
+	
+	// helper to register a component type
+	template<class T>
+	struct RegisterComponentCreation
+	{
+		RegisterComponentCreation(std::string name)
+		{
+			registerComponentConstructor<T>( std::move(name) );
+		}
+	};
+	
+	/// use this macro to register a component for creation
+	#define REG_COMP_MACRO(T) 	\
+	namespace {	auto T##_registrator = RegisterComponentCreation<T>(#T); }
 }
 }
 

@@ -17,8 +17,8 @@ namespace listener
 		ListenerListBase& operator=(ListenerListBase&&) = default;
 
 		/// gets the number of listeners currently active. (i.e. does not count the queue)
-		std::size_t size() const;
-		
+		std::size_t size() const noexcept;
+
 		/// update the listener list. add from queue and remove expired ones.
 		void update() const;
 

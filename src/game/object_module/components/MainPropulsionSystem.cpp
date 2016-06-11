@@ -1,4 +1,4 @@
-#include "Engine.h"
+#include "MainPropulsionSystem.h"
 #include "game/IGameObject.h"
 #include "game/object_module/IFlightModel.h"
 #include <iostream>
@@ -8,28 +8,27 @@ namespace game
 namespace components
 {
 	//! \todo BaseTemperature Parameter
-	Engine::Engine() : CComponent(100, 100, "Engine"),
+	MainPropulsionSystem::MainPropulsionSystem() : CComponent(100, 100, "MainPropulsionSystem"),
 		mThrust( "max_thrust", this, 1000.f ),
 		mFuelEfficiency( "efficiency", this, 5000 ),
-		mTorque( "torque", this, 0.1f ),
 		mThrustLevel( "input:thrust", this, 0.f ),
-		mTurnControl( "input:turn", this, 0.f ),
 		mAfterburner( "input:afterburner", this, 0 )
 	{
 	}
 
-	Engine::~Engine()
+	MainPropulsionSystem::~MainPropulsionSystem()
 	{
 	}
 
-	void Engine::init(IGameObject& object)
+	void MainPropulsionSystem::init(IGameObject& object)
 	{
 		mTank = getSupplier(object, "fuel");
 		mFlightModel = object.getModuleAsType<IFlightModel>();
+		mFlightRegistration = IFlightModel::registerPropulsionSystem(mFlightModel, *this);
 		assert(mFlightModel);
 	}
 
-	void Engine::step(IGameObject& object, IGameWorld& world)
+	void MainPropulsionSystem::step(IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action)
 	{
 		auto tank = mTank.lock();
 		if(!tank || !mFlightModel ) return;
@@ -51,8 +50,32 @@ namespace components
 		float fuel = tank->getSupply("fuel", fconsum);
 		float thrust = mThrust * fuel / fconsum * tval;
 		mFlightModel->thrust(b2Vec2(thrust, 0));
-		mFlightModel->rotate((float)mTurnControl * mTorque);
 	}
 
+	float MainPropulsionSystem::getMaxTorque() const
+	{
+		return 0; // main engine cannot rotate ship.
+	}
+
+	float MainPropulsionSystem::getMaxThrust() const
+	{
+		return mThrust;
+	}
+
+	// action functions
+	void MainPropulsionSystem::rotate(float rot)
+	{
+		// no rotation possible
+	}
+
+	void MainPropulsionSystem::thrust(const b2Vec2& thr)
+	{
+		float thrust_fwd = std::max(0.f, thr.x) / mThrust;
+		mThrustLevel = std::min(thrust_fwd, 1.f);
+		std::cout << thr.x << " " << thr.y << " " << mThrustLevel << "\n";
+	}
+
+	// register engine's constructor
+	REG_COMP_MACRO(MainPropulsionSystem);
 }
 }
