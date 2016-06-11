@@ -33,3 +33,14 @@ or the debug version:
 ### On Windows
 
 ???
+
+
+## Documentation
+
+It uses Doxygen for it.
+
+Make the doc target in Makefile:
+
+    make doc
+
+html output in docs/html

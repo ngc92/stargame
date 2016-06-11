@@ -44,5 +44,9 @@ $(target): $(out_objs)
 	@mkdir -p $(BINDIR)
 	$(CXX) $(CXXFLAGS) $(out_objs) -o $(BINDIR)/$(target) $(LFLAGS)
 
+doc:
+	@doxygen >> /dev/null
+	doxygen
+
 clean:
 	rm -r $(garbage)
