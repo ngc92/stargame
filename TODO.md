@@ -24,8 +24,7 @@
 - [ ] introduce mass handling for ships
 - [ ] scaling of units! 1unit = 1m seems to small
 
-**Event system**
-
+## Event system
  
 ## GFX
 - [ ] default game view
@@ -48,6 +47,8 @@
 - [ ] unit conversions
 - [ ] manage data types when loading properties from file.
 - [x] vertex cache in hull file
+- [ ] get rid of dynamic_cast in src/graphic/EngineExhaustAnimator.cpp to use
+      irrlicht without changing default compilation flags.
 
 ## Permagoals:
 - [ ] improve error handling and logging
