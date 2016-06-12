@@ -2,7 +2,7 @@ sources := $(shell find src/ -name \*cpp)
 objs    := $(addsuffix .o,$(basename $(sources)))
 
 
-CXXFLAGS=-Wall -std=c++11 -pipe -fstack-protector-strong \
+CXXFLAGS=-Wall -std=c++14 -pipe -fstack-protector-strong \
 	 -ftemplate-backtrace-limit=0 --param=ssp-buffer-size=4 -fPIC -pthread
 INCLUDE= -Iexternal/Box2D/Box2D/ \
 	 -Iexternal/ \

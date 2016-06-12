@@ -7,21 +7,21 @@ fi
 
 # install irrlich
 if [ ! -h external/irrlicht ]; then
-	irrlicht_rev=1.8.3
-	echo "Getting and extracting Irrlicht ${irrlicht_rev}"
+	irrlicht_rev=1.9.0
+	echo "Getting and extracting Irrlicht from svn trunk"
 	cd ./external/
-	wget http://kent.dl.sourceforge.net/project/irrlicht/Irrlicht%20SDK/${irrlicht_rev:0:3}/${irrlicht_rev}/irrlicht-${irrlicht_rev}.zip
-	unzip -qq irrlicht-${irrlicht_rev}.zip
-	rm irrlicht-${irrlicht_rev}.zip
-	cd irrlicht-${irrlicht_rev}/source/Irrlicht
+	svn checkout http://svn.code.sf.net/p/irrlicht/code/trunk irrlicht-code
+	cd irrlicht-code/source/Irrlicht
 	sed -i -e "s/-O3/-O3 -march=native/g" Makefile
 	make NDEBUG=1 sharedlib -j 5
 	cd ../../
-	ln -s libIrrlicht.so.${irrlicht_rev} lib/Linux/libIrrlicht.so
-	ln -s libIrrlicht.so.${irrlicht_rev} lib/Linux/libIrrlicht.so.1.9
+	cd lib/Linux
+	ln -s libIrrlicht.so.${irrlicht_rev} libIrrlicht.so
+	ln -s libIrrlicht.so.${irrlicht_rev} libIrrlicht.so.1.9
+	cd ../../
 	cd ..
-	ln -s irrlicht-${irrlicht_rev}/include irrlicht
-	ln -s irrlicht-${irrlicht_rev}/lib/linux irrlicht
+	ln -s irrlicht-code/include irrlicht
+	ln -s irrlicht-code/lib/Linux irrlicht-lib
 	cd ..
 	echo "Irrlich revision ${irrlicht_rev} installed as a shared lib"
 	echo ""
