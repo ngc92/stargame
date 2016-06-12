@@ -8,3 +8,4 @@
 external/Box2D/Box2D/BuildLinux/
 *.log
 docs/html
+config.xml

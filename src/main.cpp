@@ -48,6 +48,15 @@ int main(int argc, char *argv[])
 		reader->drop();
 	} else {
 		cmd_getsettings(opt);
+
+		irr::io::IAttributes* att= device->getFileSystem()->createEmptyAttributes();
+		irr::io::IXMLWriter* writer= device->getFileSystem()->createXMLWriter("config.xml");
+		opt.serializeAttributes(att);
+
+		att->write(writer, true);
+
+		att->drop();
+		writer->drop();
 	}
 	// basic setup
 	try {
