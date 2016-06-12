@@ -1,8 +1,10 @@
-/boost
 /obj
 /bin
 /*.depend
 /*.layout
 /*.dll
-/irrlicht_engine
-Stargame.depend
+/doxygen/html
+/external/irr*
+external/Box2D/Box2D/BuildLinux/
+*.log
+docs/html

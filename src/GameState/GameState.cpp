@@ -3,19 +3,26 @@
 #include "IEngine.h"
 #include "util.h"
 #include "TextInterface/TextInterface.h"
+#include "GameView/GameView.h"
 #include "InputModule.h"
 #include "HUD.h"
+#include "debug/CDebugDraw.h"
 #include <irrlicht/IGUIEnvironment.h>
+#include <irrlicht/ISceneManager.h>
+#include <irrlicht/IrrlichtDevice.h>
 #include <iostream>
+
 
 GameState::GameState(IEngine* engine) :
 	mGUIEnv(engine->getGUIEnvironment()),
-	mGame( make_unique<game::Game>() ),
-	mSpawnListener( mGame->addSpawnListener( [this](const game::GameObject& s) { onSpawn( s ); } ) )
+	mSceneMgr( engine->getIrrlichDevice().getSceneManager() ),
+	mGame( std::make_unique<game::Game>() ),
+	mDebugDraw( std::make_shared<CDebugDraw>( engine->getIrrlichDevice().getVideoDriver() ) )
 {
-	addGameModule(make_unique<TextInterface>());
-	addGameModule(make_unique<InputModule>(engine, 0));
-	addGameModule(make_unique<HUD>(mGUIEnv, 0));
+	addGameModule(std::make_shared<GameView>( &engine->getIrrlichDevice() ));
+	addGameModule(std::make_shared<InputModule>(engine, 0));
+	addGameModule(std::make_shared<HUD>(mGUIEnv, 0));
+	addGameModule(mDebugDraw);
 }
 
 GameState::~GameState()
@@ -24,24 +31,16 @@ GameState::~GameState()
 
 void GameState::update()
 {
-	mGame->executeThreadSaveReader( [this](const game::GameWorld& world){ onGameStep(world); } );
-}
-
-void GameState::onGameStep(const game::GameWorld& world)
-{
+	mGame->step();
 	for(auto& module : mModules)
-		module->onStep(world);
-}
-
-void GameState::onSpawn( const game::GameObject& object)
-{
-	for(auto& module : mModules)
-		module->onSpawn(object);
+		module->step();
 }
 
 void GameState::onDraw()
 {
+	mSceneMgr->drawAll();
 	mGUIEnv->drawAll();
+	mDebugDraw->doDraw();
 }
 
 void GameState::onActivate()
@@ -70,7 +69,8 @@ bool GameState::onEvent(const irr::SEvent::SGUIEvent& event)
 	return false;
 }
 
-void GameState::addGameModule(std::unique_ptr<IGameModule> module)
+void GameState::addGameModule(std::shared_ptr<game::IGameViewModule> module)
 {
+	mGame->addModule( module );
 	mModules.push_back( std::move(module) );
 }

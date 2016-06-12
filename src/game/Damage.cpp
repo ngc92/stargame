@@ -1,11 +1,12 @@
 #include "Damage.h"
 #include <numeric>
+#include <ostream>
 
 namespace game
 {
-	Damage::Damage()
+	Damage::Damage( float f )
 	{
-		mDamages.fill(0);
+		mDamages.fill( f );
 	}
 
 	Damage::Damage(DamageType type, float value)
@@ -16,7 +17,7 @@ namespace game
 
 	float Damage::getDamage( DamageType t ) const
 	{
-        return mDamages.at((unsigned)t);
+		return mDamages.at((unsigned)t);
 	}
 
 	void Damage::setDamage( DamageType t, float value)
@@ -77,4 +78,9 @@ namespace game
 		copy *= f;
 		return copy;
 	}
+}
+
+std::ostream& operator<<(std::ostream& out, const game::Damage& damage)
+{
+	return out << damage.getTotalDamage();
 }

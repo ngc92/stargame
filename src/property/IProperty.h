@@ -2,7 +2,7 @@
 #define IPROPERTY_H_INCLUDED
 
 #include "IPropertyView.h"
-#include "util/ListenerList.h"
+#include "listener/listenerlist.h"
 
 namespace property
 {
@@ -11,7 +11,7 @@ namespace property
 		\details This class provides the full interface of a property, that
 				is it extends the IPropertyView method by a notify
 	*/
-	class IProperty : public IPropertyView
+	class IProperty : public virtual IPropertyView
 	{
 	public:
 		/*! \brief notifies all change listeners and resets changed() status.
@@ -30,11 +30,15 @@ namespace property
 
 		/// gets the value in a way that allows modification.
 		/// calling this function sets the modification flag.
-		virtual data_t& changable_value() = 0;
+		virtual data_t& changable_value() noexcept = 0;
 
 		/// assign a value and sets the changed flag.
 		template<class T>
-		IProperty& operator=(const T& value);
+		IProperty& assign(const T& value);
+
+		/// assign a value and sets the changed flag.
+		template<class T>
+		IProperty& operator=(const T& value) { return assign(value); };
 	};
 
 	// implementations
@@ -50,7 +54,7 @@ namespace property
 	}
 
 	template<class T>
-	IProperty& IProperty::operator=(const T& value)
+	IProperty& IProperty::assign(const T& value)
 	{
 		changable_value() = value;
 		return *this;

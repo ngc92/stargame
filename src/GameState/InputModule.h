@@ -1,47 +1,50 @@
 #ifndef INPUTMODULE_H_INCLUDED
 #define INPUTMODULE_H_INCLUDED
 
-#include "IGameModule.h"
+#include "game/CGameViewModule.h"
 #include "IEventListener.h"
+#include "listener/listener.h"
 #include <memory>
 #include <map>
 #include <set>
 
+namespace property
+{
+	class IPropertyView;
+}
+
 class IEngine;
+
+namespace game
+{
+	class IGameObjectView;
+}
+
 namespace input
 {
 	class IInputElement;
 	class IInputConfig;
-	enum class KeyAction : int;
 }
 
-class InputModule : public IGameModule, public IEventListener
+class InputModule : public game::CGameViewModule, public IEventListener
 {
 public:
 	InputModule(IEngine*, long myship);
 	~InputModule();
 
-	void onSpawn(const game::GameObject& spawned) override;
-	void onStep(const game::GameWorld& view) override;
+	void onStep() override;
+	void init() override;
 
 	void registerListener( const IInputManager* mgr) override {}
 	void onKeyEvent(irr::EKEY_CODE key, bool press) override;
 	void onMouseClickEvent(irr::E_MOUSE_BUTTON_STATE_MASK button, bool click, int x, int y) override {};
 private:
-	void onInput(std::weak_ptr<input::IInputElement>& input);
+	void onSpawn( const game::IGameObjectView& spawned );
+	void propertyCallback( property::IPropertyView& pview);
 	long mShipID;
 	std::unique_ptr<input::IInputConfig> mInputConfig;
-
-	using key_mapping_t = std::map<irr::EKEY_CODE, std::function<void()>>;
-	key_mapping_t mKeyPressActions;
-	key_mapping_t mKeyReleaseActions;
-	key_mapping_t mKeyDownActions;
-
-	key_mapping_t& getKeyMap(input::KeyAction action);
-
-
-	std::set<irr::EKEY_CODE> mKeysDown;
-
+	std::vector<std::shared_ptr<input::IInputElement>> mInputElements;
+	ListenerRef mSpawnLst;
 };
 
 #endif // INPUTMODULE_H_INCLUDED

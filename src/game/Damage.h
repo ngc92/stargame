@@ -2,6 +2,7 @@
 #define DAMAGE_H_INCLUDED
 
 #include <array>
+#include <iosfwd>
 
 namespace game
 {
@@ -16,11 +17,11 @@ namespace game
 	class Damage
 	{
 	public:
-		/// default constructor, initializes all damages to 0
-		Damage();
+		/// default constructor (and const c'tor), initializes all damages to \p f ( = 0)
+		Damage( float f = 0 );
 
-		/// convenience constructor for single damage type
 		Damage(DamageType type, float value);
+		/// convenience constructor for single damage type
 
 		// get/set damage
 		/// get type specific damage
@@ -52,9 +53,9 @@ namespace game
 	Damage operator*(const Damage& d, const Damage& o);
 	Damage operator+(const Damage& d, const Damage& o);
 	Damage operator*(const Damage& d, float f);
-
-
 }
+
+std::ostream& operator<<(std::ostream& out, const game::Damage& damage);
 
 
 #endif // DAMAGE_H_INCLUDED

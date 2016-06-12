@@ -3,8 +3,9 @@
 
 #include <functional>
 #include <memory>
-
-class ListenerRef;
+#include <string>
+#include "property.h"
+#include "listener/listener.h"
 
 namespace property
 {
@@ -23,9 +24,10 @@ namespace property
 				which are automatically also registered to all child
 				objects.
 	*/
-    class IPropertyObjectView
-    {
+	class IPropertyObjectView
+	{
 	public:
+		/// type for a listener function that gets passed a property view.
 		using listener_t = std::function<void(IPropertyView&)>;
 
 		/// virtual d'tor
@@ -45,11 +47,13 @@ namespace property
 		/// is the root of the tree.
 		virtual const IPropertyObjectView* parent() const noexcept = 0;
 
-		/// gets the name of this node
+		/// gets the root node, or this if no parent()
+		const IPropertyObjectView* root() const noexcept;
+
+		/// gets the name of this node.
 		virtual const std::string& name() const noexcept = 0;
 
 		/// gets the path (fully qualified name) of the property object.
-		/// implementation is found in CPropertyObject.cpp
 		std::string path() const;
 
 		// listeners
@@ -62,26 +66,39 @@ namespace property
 
 		/// \todo change listeners for children?
 
-		// IPropertyView interface
+		// properties
 		/// gets the property that is referred to by path (i.e. this can
 		/// also access properties of child objects).
-		virtual IPropertyView& getProperty(std::string path) const = 0;
-		// iterator interface
-		/*/// get the property view iterator that points to
-		/// the first property of this object.
-		virtual objectview_iter begin() const = 0;
-		/// iterator that points behind the last property of the last subobject.
-		virtual objectview_iter end() const = 0;
+		virtual IPropertyView& getProperty(const std::string& path) const = 0;
 
-		/// iterator to the first property of this node.
-		/// This iterator will not iterate over other nodes.
-		virtual objectview_iter node_begin() const = 0;
-		/// end iterator corresponding to node_begin
-		virtual objectview_iter node_end() const = 0;
-		*/
+		/// check if the property that is referred to by path (i.e. this can
+		/// also access properties of child objects) exists.
+		virtual bool hasProperty(const std::string& path) const = 0;
+
 		/// \todo figure out a nice way to do the iterators here. until then, use the forallProperties function
-		virtual void forallProperties(const std::function<void(IPropertyView&)>& f) const = 0;
+		/// \param f Function to apply
+		/// \param recurse apply to all properties of subobjects as well?
+		virtual void forallProperties(const std::function<void(IPropertyView&)>& f, bool recurse = true) const = 0;
+
+		// single level iteration
+		/// applies \p f to all immediate children of this property.
+		virtual void forallChildren( const std::function<void(const IPropertyObjectView&)>& f ) const = 0;
 	};
+
+	inline std::string IPropertyObjectView::path() const
+	{
+		if(!parent())
+			return name();
+
+		return parent()->path() + "." + name();
+	}
+
+	inline const IPropertyObjectView* IPropertyObjectView::root() const noexcept
+	{
+		if(!parent())
+			return this;
+		return parent()->root();
+	}
 }
 
 

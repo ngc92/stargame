@@ -45,7 +45,7 @@ bool CIrrMasterEventReceiver::dispenseEvent(const irr::SEvent& event)
 			{
 			mInputManager->onKeyEvent(event.KeyInput.Key, event.KeyInput.PressedDown);
 			}
-			return true;
+			return false;
 		}
 		break;
 		case irr::EET_MOUSE_INPUT_EVENT:
@@ -80,7 +80,7 @@ bool CIrrMasterEventReceiver::dispenseEvent(const irr::SEvent& event)
 			};
 			}
 
-			return true;
+			return false;
 		}
 		break;
 		case irr::EET_LOG_TEXT_EVENT:

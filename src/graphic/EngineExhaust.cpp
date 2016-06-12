@@ -5,18 +5,14 @@
 
 using namespace irr::video;
 
-const int PARTICLE_LIFETIME = 800;
-
 namespace gfx
 {
 	EngineExhaustNode::EngineExhaustNode(ISceneNode* parent, ISceneManager *mgr, s32 id,
 										float radius, float psize, bool light):
 				ISceneNode(parent, mgr, id),
-				mIntensity(0),
-				mDamageFactor(1),
-				mBaseVelocity(0,0),
 				mRadius(radius),
-				mParticleSize(psize)
+				mParticleSize(psize),
+				mExhaustVelocity(-0.02, 0, 0)
 	{
 
 		// engine light
@@ -30,22 +26,23 @@ namespace gfx
 
 		/// \todo fix this
 		auto fire = SceneManager->addParticleSystemSceneNode(false, 0, 0);
-		fire->setParticleBehavior( scene::EPB_EMITTER_VECTOR_IGNORE_ROTATION | scene::EPB_EMITTER_FRAME_INTERPOLATION);
 		//Emitter
-		mFadeOutAffector = fire->createFadeOutParticleAffector(SColor(0,0,0,0), PARTICLE_LIFETIME - 100);
+		mFadeOutAffector = fire->createFadeOutParticleAffector(SColor(0,0,0,0), mParticleLifetime );
 		mScaleAffector = fire->createScaleParticleAffector(dimension2df(4.0 * psize , 4.0 * psize ));
 		fire->remove();
 
 		// texture loading
-		mFireTexture = SceneManager->getVideoDriver()->getTexture("fire.png");
-		mFireTexture->grab();
+		mFireTexture = SceneManager->getVideoDriver()->getTexture("gfx/fire.png");
+		if(mFireTexture)
+			mFireTexture->grab();
 
 		setName("engine");
 	}
 
 	EngineExhaustNode::~EngineExhaustNode()
 	{
-		mFireTexture->drop();
+		if(mFireTexture)
+			mFireTexture->drop();
 		mFadeOutAffector->drop();
 		mScaleAffector->drop();
 	}
@@ -61,7 +58,7 @@ namespace gfx
 		auto emitter = fire->createSphereEmitter(
 				offset, mRadius, vector3df(0,0,-1), 20, 20,
 				SColor(255,255,255,255), SColor(255,255,255,255),
-				PARTICLE_LIFETIME-100, PARTICLE_LIFETIME, 5, dimension2df(mParticleSize, mParticleSize), dimension2df( mParticleSize * 1.5, mParticleSize * 1.5));
+				mParticleLifetime - 100, mParticleLifetime, 5, dimension2df(mParticleSize, mParticleSize), dimension2df( mParticleSize * 1.5, mParticleSize * 1.5));
 
 		fire->setEmitter(emitter);
 
@@ -80,58 +77,51 @@ namespace gfx
 	{
 		ISceneNode::OnAnimate(timeMs);
 
-		const float PARAMETER = 1.75;
-
-		double pcount = PARAMETER*mIntensity / mFireEmitters.size();
-
+		auto vec = mExhaustVelocity;
+		getAbsoluteTransformation().rotateVect(vec);
+		
 		for(auto fire : mFireEmitters )
 		{
-			fire->getEmitter()->setDirection( b2i(PARAMETER*mThrustVector + mBaseVelocity) );
-			fire->getEmitter()->setMaxParticlesPerSecond( int(pcount * 180.0f) );
-			fire->getEmitter()->setMinParticlesPerSecond( int(pcount * 150.0f) );
+			fire->getEmitter()->setDirection( vec + mShipVelocity );
 		}
 	}
 
 	void EngineExhaustNode::render()
 	{
 	}
-
-	void EngineExhaustNode::setIntensity( float cs )
+	
+	const core::aabbox3d<f32>& EngineExhaustNode::getBoundingBox() const
 	{
-		mIntensity = cs;
+		return mFireEmitters[0]->getBoundingBox();
+	}
+	
+	// configuration options
+	void EngineExhaustNode::setParticleSize( f32 size )
+	{
+		mParticleSize = size;
+		/// \todo change size of emitters and animators
+	}
+	
+	void EngineExhaustNode::setParticleLifetime( u32 lifetime )
+	{
+		mParticleLifetime = lifetime;
+		mFadeOutAffector->setFadeOutTime( lifetime );
+	}
+	
+	void EngineExhaustNode::setParticleCount( u32 max_particles )
+	{
+		mMaxParticles = max_particles;
 	}
 
-	void EngineExhaustNode::setThrustVector( b2Vec2 thrust )
+	void EngineExhaustNode::setIntensity( float intensity )
 	{
-		mThrustVector = 0.001 * thrust;
-		// velocity muss durch 1000 geteilt werden, da pro millisekunde
-	}
+		double pcount = mMaxParticles * (0.75*intensity+0.25) / mFireEmitters.size();
 
-	void EngineExhaustNode::setBaseVelocity( b2Vec2 bvel )
-	{
-		mBaseVelocity = 0.001 * bvel;
-	}
-
-	void EngineExhaustNode::setDamage( float damage )
-	{
-		/// \todo optimize this code!
 		for(auto fire : mFireEmitters )
 		{
-			if( damage < 0.25 )
-			{
-				fire->setMaterialTexture(0, SceneManager->getVideoDriver()->getTexture("smoke.png"));
-				fire->setMaterialType( EMT_TRANSPARENT_ALPHA_CHANNEL );
-			}
-
-			// if repaired, reset particle system
-			if( damage > 0.25 && mDamageFactor < 0.25)
-			{
-				fire->setMaterialTexture(0, mFireTexture);
-				fire->setMaterialType(/*EMT_TRANSPARENT_VERTEX_ALPHA*/EMT_TRANSPARENT_ADD_COLOR);
-			}
+			fire->getEmitter()->setMaxParticlesPerSecond( int( pcount ) );
+			fire->getEmitter()->setMinParticlesPerSecond( int( pcount * 0.75 ) );
 		}
-
-		mDamageFactor = damage;
 	}
 
 	void EngineExhaustNode::setOverrideTexture( video::ITexture* texture, video::E_MATERIAL_TYPE material )
@@ -147,6 +137,18 @@ namespace gfx
 			fire->setMaterialTexture(0, mFireTexture);
 			fire->setMaterialType( material );
 		}
+	}
+	
+	void EngineExhaustNode::setExhaustVelocity( core::vector3df velocity )
+	{
+		// convert to per millisecond and set
+		mExhaustVelocity = 0.001 * velocity;
+	}
+	
+	void EngineExhaustNode::setShipVelocity( core::vector3df velocity )
+	{
+		// convert to per millisecond and set
+		mShipVelocity = 0.001 * velocity;
 	}
 
 	void EngineExhaustNode::OnRegisterSceneNode()

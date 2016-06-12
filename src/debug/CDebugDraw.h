@@ -7,13 +7,22 @@
 #include <Box2D/Common/b2Draw.h>
 #include "util.h"
 #include "IDebugDraw.h"
+#include "game/CGameViewModule.h"
+
+namespace irr
+{
+	namespace video
+	{
+		class IVideoDriver;
+	}
+}
 
 struct b2AABB;
 
-class CDebugDraw : public b2Draw, public IDebugDraw
+class CDebugDraw : public b2Draw, public IDebugDraw, public game::CGameViewModule
 {
 	public:
-		CDebugDraw(  ) = default;
+		CDebugDraw( irr::video::IVideoDriver* driver );
 
 		virtual ~CDebugDraw() = default;
 
@@ -29,17 +38,31 @@ class CDebugDraw : public b2Draw, public IDebugDraw
 
 		void DrawTransform(const b2Transform& xf) override;
 
+		void DrawPoint(const b2Vec2& p, float32 size, const b2Color& color) override;
+
 		// control functions
 		void setFinished();
-		void doDraw(irr::video::IVideoDriver* driver) const override;
+		void doDraw() const override;
+
+		// game view module implementation
+		void init() final{};
+		void onStep() final{};
+
+		/// this function is called inside the game thread step function
+		/// \attention Do not access variables of the module thread unprotected.
+		void onGameStep(const game::IGameWorld& world) final;
 
 	private:
 		void drawLine(const b2Vec2& p1, const b2Vec2& p2, const color_type& color);
 
 		// double buffered draw list
-		std::mutex mWriteMutex;
+		mutable std::mutex mWriteMutex;
 		std::vector<std::function<void(irr::video::IVideoDriver*)>> mWriteQueue;
 		std::vector<std::function<void(irr::video::IVideoDriver*)>> mDrawQueue;
+
+		irr::video::IVideoDriver* mDriver;
 };
+
+//extern CDebugDraw d;
 
 #endif // CDEBUGDRAW_H_INCLUDED

@@ -3,15 +3,16 @@
 
 #include "IProperty.h"
 #include "debug/ObjectCounter.h"
-#include "util/ListenerList.h"
+#include "listener/listenerlist.h"
 
 namespace property
 {
-    class CProperty: public IProperty, ObjectCounter<CProperty>
-    {
+	class CProperty: public IProperty, ObjectCounter<CProperty>
+	{
+	private: struct access_ctor{};
 	public:
-        // property view:
-        /// returns the name of the property
+		// property view:
+		/// returns the name of the property
 		const std::string& name() const noexcept final;
 		/// returns the property object that owns this property, or nullptr
 		const IPropertyObject* owner() const noexcept final;
@@ -35,12 +36,29 @@ namespace property
 
 		/// gets the value in a way that allows modification.
 		/// calling this function sets the modification flag.
-		data_t& changable_value() final;
+		data_t& changable_value() noexcept final;
 
-		/// constructor, takes a pre-generated variant and the future owner of the
-		/// property. The property is automatically added to the owner.
-		CProperty(std::string name, IPropertyObject* owner, data_t value);
+		/// factory function, creates a shared_ptr for the CProperty and registers it at the corresponding
+		/// owner.
+		static std::shared_ptr<CProperty> create(std::string name, IPropertyObject* owner, data_t value);
+
+		/// public constructor that allows make_shared to work from within create, but cannot be used from outisde this class
+		template<class... Args>
+		CProperty( access_ctor access, Args&&... args ) : CProperty( std::forward<Args>(args)... )
+		{
+		}
+
+		/// assign a value and sets the changed flag.
+		template<class T>
+		IProperty& operator=(const T& value)
+		{
+			return IProperty::operator=(value);
+		}
 	private:
+		/// constructor, takes a pre-generated variant and the future owner of the
+		/// property.
+		CProperty(std::string name, const IPropertyObject* owner, data_t value);
+
 		/// name of this property, cannot be changed later on
 		const std::string mName;
 		/// owner of this property, cannot be changed
@@ -51,7 +69,7 @@ namespace property
 		ListenerList<IPropertyView&> mListeners;
 		/// tracks whether data was changed since last listener call
 		bool mChanged = false;
-    };
+	};
 }
 
 #endif // CPROPERTY_H_INCLUDED

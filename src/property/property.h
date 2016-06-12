@@ -1,6 +1,7 @@
 #ifndef PROPERTY_H_INCLUDED
 #define PROPERTY_H_INCLUDED
 
+#include <iosfwd>
 #include "IPropertyView.h"
 #include "IPropertyObjectView.h"
 
@@ -17,8 +18,12 @@
 */
 namespace property
 {
+	class IPropertyObjectView;
+	class IPropertyView;
 	class IPropertyObject;
 	class IProperty;
+	
+	std::ostream& operator<<(std::ostream& stream, const IPropertyObjectView& property);
 }
 
 

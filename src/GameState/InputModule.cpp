@@ -1,15 +1,19 @@
 #include "InputModule.h"
-#include "game/GameObject.h"
-#include "input/IInputCollection.h"
+#include "game/IGameObject.h"
 #include "input/IInputElement.h"
 #include "input/CInputConfig.h"
+#include "game/IGameWorldView.h"
+#include "game/view_thread/IViewThreadGO.h"
 #include "IEngine.h"
 #include "IInputManager.h"
 #include <iostream>
 #include <irrlicht/Keycodes.h>
+#include <boost/algorithm/string/predicate.hpp>
+
+using namespace std::placeholders;
 
 InputModule::InputModule(IEngine* engine, long myship) :
-	mShipID(myship), mInputConfig( make_unique<input::CInputConfig>() )
+	mShipID(myship), mInputConfig( std::make_unique<input::CInputConfig>() )
 {
 	/// \todo this is suicide, only for testing!
 	engine->getInputManager().addEventListener( std::shared_ptr<InputModule>(this, [](InputModule*){}));
@@ -18,68 +22,51 @@ InputModule::InputModule(IEngine* engine, long myship) :
 
 InputModule::~InputModule()
 {
-
 }
 
-void InputModule::onSpawn(const game::GameObject& spawned)
+void InputModule::init()
+{
+	mSpawnLst = world().addSpawnListener(std::bind(&InputModule::onSpawn, this, _1));
+}
+
+void InputModule::onSpawn(const game::IGameObjectView& spawned)
 {
 	std::cout << "INPUT MODULE ON SPAWN\n";
-    if(spawned.getID() != mShipID)
+	if(spawned.id() != mShipID)
 		return;
 
-    // found our ship
-	auto& inputs = spawned.getInputs();
-    inputs.iterateInputs([this](std::weak_ptr<input::IInputElement>& i){ onInput(i);});
+	// found our ship
+	spawned.forallProperties(std::bind(&InputModule::propertyCallback, this, _1));
+
+	// no longer need the spawn listener.
+	mSpawnLst = ListenerRef();
 }
 
 
-void InputModule::onStep(const game::GameWorld& view)
+void InputModule::onStep()
 {
-	for(auto key : mKeysDown)
+	for(auto& elem : mInputElements)
+		elem->onStep();
+}
+
+void InputModule::propertyCallback(property::IPropertyView& property)
+{
+	auto name = property.name();
+	if(!boost::algorithm::starts_with(name, "input:"))
+		return;
+
+	std::cout << "INPUT: " << property.path() << "\n";
+	auto input = mInputConfig->getInputElemt(property);
+	if(input)
 	{
-		auto action = mKeyDownActions.find(key);
-		if(action != mKeyDownActions.end())
-			action->second();
+		mInputElements.push_back( std::move(input) );
 	}
-}
-
-void InputModule::onInput(std::weak_ptr<input::IInputElement>& input)
-{
-	auto ip = input.lock();
-	if(!ip)
-		return;
-
-    std::cout << ip->name() << "\n";
-    auto inc = mInputConfig->findMatch(ip->name(), true);
-    getKeyMap(inc.action)[inc.key] = [ip](){ ip->increase(); };
-	auto dec = mInputConfig->findMatch(ip->name(), false);
-    getKeyMap(dec.action)[dec.key] = [ip](){ ip->decrease(); };;
 }
 
 void InputModule::onKeyEvent(irr::EKEY_CODE key, bool press)
 {
-	/// \todo here, we would really need timing information to determine increase/decrease speed
-	if(press)
+	for(auto& elem : mInputElements)
 	{
-		mKeysDown.insert(key);
-		auto action = mKeyPressActions.find(key);
-		if(action != mKeyPressActions.end())	action->second();
-	} else {
-		mKeysDown.erase(key);
-		auto action = mKeyReleaseActions.find(key);
-		if(action != mKeyReleaseActions.end())	action->second();
-	}
-}
-
-auto InputModule::getKeyMap(input::KeyAction action) -> key_mapping_t&
-{
-	switch(action)
-	{
-	case input::KeyAction::PRESS:
-		return mKeyPressActions;
-	case input::KeyAction::RELEASE:
-		return mKeyReleaseActions;
-	case input::KeyAction::HOLD:
-		return mKeyDownActions;
+		elem->onKeyEvent(key, press ? input::KeyState::PRESSED : input::KeyState::RELEASED );
 	}
 }

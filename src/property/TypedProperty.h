@@ -7,7 +7,7 @@
 namespace property
 {
 	/// helper function that creates a property object.
-	std::shared_ptr<IProperty> make_property_default(std::string name, IPropertyObject* owner, IProperty::data_t data);
+	std::shared_ptr<IProperty> make_property_default(std::string name, IPropertyObject* owner, data_t data);
 
 	/*! \class TypedProperty
 		\brief Type that mimics another type, but saves the value in a property.
@@ -17,7 +17,6 @@ namespace property
 	template<class T>
 	class TypedProperty final
 	{
-		using data_t = IProperty::data_t;
 	public:
 		/// constructor, takes an existing property
 		TypedProperty(std::shared_ptr<IProperty> prop) : mProperty(std::move(prop)) {};
@@ -29,13 +28,13 @@ namespace property
 		}
 
 		/// conversion to static type
-		const T& convert() const { return boost::get<T>(mProperty->value()); };
+		const T& value() const { return boost::get<T>(mProperty->value()); };
 
 		/// conversion operator
-		operator const T&() const { return convert(); };
+		operator const T&() const { return value(); };
 
 		/// assignment operator, only allows assignment of type T
-		TypedProperty<T>& operator=(T&& value)
+		TypedProperty<T>& operator=(const T& value)
 		{
 			*mProperty = value;
 			return *this;

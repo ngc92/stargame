@@ -11,11 +11,11 @@
 using namespace irr;
 
 CEngine::CEngine() :	mIrrlichtDevice( nullptr ),
-						mDebugConsole( make_unique<CDebugConsole>() ),
-						mInputManager( make_unique<CInputManager>() ),
-						mStateManager ( make_unique<CStateManager>(this) ),
-						mSoundManager( make_unique<CSoundManager>() ),
-						mMasterEventReceiver(make_unique<CIrrMasterEventReceiver>(mInputManager.get(), mStateManager.get()))
+						mDebugConsole( std::make_unique<CDebugConsole>() ),
+						mInputManager( std::make_unique<CInputManager>() ),
+						mStateManager ( std::make_unique<CStateManager>(this) ),
+						mSoundManager( std::make_unique<CSoundManager>() ),
+						mMasterEventReceiver(std::make_unique<CIrrMasterEventReceiver>(mInputManager.get(), mStateManager.get()))
 {
 }
 
@@ -31,22 +31,8 @@ bool CEngine::init(const Options& options)
 	// create things depending on irrlicht
 	mIrrlichtDevice = options.startDevice();
 	mMasterEventReceiver->setDevice(mIrrlichtDevice);
-	mTimeManager = make_unique<CTimeManager>( );
+	mTimeManager = std::make_unique<CTimeManager>( );
 
-//	mDebugDrawer = make_unique<CDebugDraw> ( mGraphixManager.get() );
-//
-//	// init debug drawing
-//	uint32 flags = 0;
-//	if(dbdraw)
-//	{
-//		flags |= b2Draw::e_shapeBit;
-//		flags |= b2Draw::e_jointBit;
-//		//flags |= b2Draw::e_aabbBit;
-//		flags |= b2Draw::e_pairBit;
-//		flags |= b2Draw::e_centerOfMassBit;
-//	}
-//	mDebugDrawer->SetFlags(flags);
-//
 	return mIrrlichtDevice;
 }
 
@@ -63,10 +49,6 @@ bool CEngine::tick()
 		if(mTimeManager->waitTillNextFrame() || true)
 		{
 			mIrrlichtDevice->getVideoDriver()->beginScene(true, true, video::SColor(0,0,0,0));
-			//! TODO
-			// irrlicht draw?
-			// debug draw?
-//			mDebugDrawer->drawQueue();
 
 			// called after engine drawing is finished
 			mStateManager->getCurrentState()->onDraw();
@@ -86,6 +68,11 @@ bool CEngine::tick()
 IGUIEnvironment* CEngine::getGUIEnvironment() const
 {
 	return mIrrlichtDevice->getGUIEnvironment();
+}
+
+DeviceType& CEngine::getIrrlichDevice() const
+{
+	return *mIrrlichtDevice;
 }
 
 //! this macro generates the getter function for the different managers in CEngine

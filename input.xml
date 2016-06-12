@@ -1,13 +1,70 @@
 <rule>
-	<pattern>.*\.thrust</pattern>
-	<key>33</key>
-	<action>hold</action>
-	<increase>true</increase>
+	<pattern>object.structure.ManeuverEngine.input:lateral_thrust</pattern>
+	<type>button</type>
+	<state>
+		<key>65</key>
+		<value>1</value>
+	</state>
+	<state>
+		<key>68</key>
+		<value>-1</value>
+	</state>
+	<default>0</default>
 </rule>
 
 <rule>
-	<pattern>.*\.thrust</pattern>
-	<key>34</key>
-	<action>hold</action>
-	<increase>false</increase>
+	<pattern>object.structure.ManeuverEngine.input:longitudinal_thrust</pattern>
+	<type>button</type>
+	<state>
+		<key>87</key>
+		<value>1</value>
+	</state>
+	<state>
+		<key>83</key>
+		<value>-1</value>
+	</state>
+	<default>0</default>
 </rule>
+
+<rule>
+	<pattern>object.structure.MainPropulsionSystem.input:thrust</pattern>
+	<type>gauge</type>
+	<increase>38</increase>
+	<decrease>40</decrease>
+	<minimum>0</minimum>
+	<maximum>1</maximum>
+</rule>
+
+
+<rule>
+	<pattern>object.structure.ManeuverEngine.input:turn</pattern>
+	<type>button</type>
+	<state>
+		<key>37</key>
+		<value>1</value>
+	</state>
+	<state>
+		<key>39</key>
+		<value>-1</value>
+	</state>
+	<default>0</default>
+</rule>
+
+<rule>
+	<pattern>object.structure.MainPropulsionSystem.input:afterburner</pattern>
+	<type>gauge</type>
+	<increase>66</increase>
+	<decrease>70</decrease>
+</rule>
+
+
+<rule>
+	<pattern>object.structure.FixedGun.input:fire</pattern>
+	<type>button</type>
+	<state>
+		<key>67</key>
+		<value>1</value>
+	</state>
+	<default>0</default>
+</rule>
+

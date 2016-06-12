@@ -3,9 +3,17 @@
 
 #include <irrlicht/Keycodes.h>
 #include <string>
+#include <memory>
+
+namespace property
+{
+	class IPropertyView;
+}
 
 namespace input
 {
+	class IInputElement;
+
 	enum class KeyAction : int
 	{
 		PRESS, RELEASE, HOLD
@@ -22,8 +30,10 @@ namespace input
 	public:
 		virtual ~IInputConfig() = default;
 		virtual void load() = 0;
-		/// \param increase: get increase or decrease match?
-		virtual InputAction findMatch( const std::string& input, bool increase ) = 0;
+
+		/// creates an input element that manipulates \p property, if specified.
+		/// \return pointer to the newly created input element, or nullptr if none could be created.
+		virtual std::shared_ptr<IInputElement> getInputElemt( const property::IPropertyView& property ) = 0;
 	};
 }
 

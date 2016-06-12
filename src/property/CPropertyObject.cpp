@@ -1,19 +1,10 @@
 #include "CPropertyObject.h"
-#include "IPropertyView.h"
+#include "IProperty.h"
 #include <algorithm>
 #include <cassert>
 
 namespace property
 {
-	std::string IPropertyObjectView::path() const
-	{
-		if(!parent())
-			return name();
-
-		return parent()->path() + "." + name();
-	}
-
-
 	CPropertyObject::CPropertyObject( std::string name ) : mName( std::move(name) )
 	{
 
@@ -21,12 +12,8 @@ namespace property
 
 	CPropertyObject::~CPropertyObject() noexcept
 	{
-		// make sure we unregister from parent!
-		if(parent())
-		{
-			/// \todo check if this could throw!
-			const_cast<IPropertyObject*>(mParent)->removeChild(this);
-		}
+		// CProperty objects are owned by their parent objects, so at this
+		// point it should be unregistered.
 	}
 
 	const std::string& CPropertyObject::name() const noexcept
@@ -52,7 +39,7 @@ namespace property
 	/// is the root of the tree.
 	const IPropertyObjectView* CPropertyObject::parent() const noexcept
 	{
-        return mParent;
+		return mParent;
 	}
 
 	/// adds a listener that is called whenever a new property is added.
@@ -69,31 +56,70 @@ namespace property
 
 	/// gets the property that is referred to by path (i.e. this can
 	/// also access properties of child objects).
-	IPropertyView& CPropertyObject::getProperty(std::string path) const
+	IPropertyView& CPropertyObject::getProperty(const std::string& path) const
+	{
+		return *getPropertyPtr(path);
+	}
+	
+	/// gets the property that is referred to by path (i.e. this can
+	/// also access properties of child objects).
+	/// this version of the function returns the internal shared_ptr.
+	const std::shared_ptr<IProperty>& CPropertyObject::getPropertyPtr(const std::string& path) const
 	{
 		using namespace std;
 		auto delim = find(path.begin(), path.end(), '.');
 		if( delim == path.end())
 		{
-			auto& prop = mProperties.at(path);
-			/// \todo what do we do when the property does not exist anymore?
-			return *prop;
+			return mProperties.at(path);
 		}
 
 
-        string subobj(path.begin(), delim);
-        string rest(delim+1, path.end());
-        return getChild(subobj).getProperty( move(rest) );
+		string subobj(path.begin(), delim);
+		string rest(delim+1, path.end());
+		return mChildren.at(subobj)->getPropertyPtr( move(rest) );
+	}
+	
+	/// check if the property that is referred to by path (i.e. this can
+	/// also access properties of child objects) exists.
+	bool CPropertyObject::hasProperty(const std::string& path) const
+	{
+		using namespace std;
+		auto delim = find(path.begin(), path.end(), '.');
+		if( delim == path.end())
+		{
+			return mProperties.count(path) > 0;
+		}
+
+
+		string subobj(path.begin(), delim);
+		string rest(delim+1, path.end());
+		
+		// check if correct child present
+		if(mChildren.count(subobj) == 0)
+			return false;
+		
+		// if yes, continue search
+		return getChild(subobj).hasProperty( move(rest) );
 	}
 
 	/// iterates over all properties and calls f for them.
-	void CPropertyObject::forallProperties(const std::function<void(IPropertyView&)>& f) const
+	void CPropertyObject::forallProperties(const std::function<void(IPropertyView&)>& f, bool recurse) const
 	{
 		for(auto& prop : mProperties)
 			f(*prop.second);
 
+		if(recurse)
+		{
+			for(auto& child : mChildren)
+				child.second->forallProperties(f);
+		}
+	}
+	
+	/// applies \p f to all immediate children of this property.
+	void CPropertyObject::forallChildren( const std::function<void(const IPropertyObjectView&)>& f ) const
+	{
 		for(auto& child : mChildren)
-			child.second->forallProperties(f);
+			f(*child.second);
 	}
 
 	void CPropertyObject::setParent(const IPropertyObject* parent) noexcept
@@ -103,10 +129,10 @@ namespace property
 
 	/// adds a property to this property objects.
 	/// \pre property.owner() == this
-	void CPropertyObject::addProperty(IPropertyView& property)
+	void CPropertyObject::addProperty(std::shared_ptr<IProperty> property)
 	{
-		assert( property.owner() == this );
-		mProperties.insert({property.name(), &property});
+		assert( property->owner() == this );
+		auto result = mProperties.insert({property->name(), std::move(property)});
 		/// \todo check that we do not create duplicates!
 	}
 
@@ -116,31 +142,31 @@ namespace property
 	void CPropertyObject::removeProperty(const IPropertyView& property)
 	{
 		assert( property.owner() == this );
-        mProperties.erase(property.name());
+		mProperties.erase(property.name());
 	}
 
 	// add/remove children
 	/// adds a child property object. Sets the parent of \p child.
 	/// \pre child->parent() == nullptr.
 	/// \post child()->parent() == this.
-	void CPropertyObject::addChild( IPropertyObject* child )
+	void CPropertyObject::addChild( std::shared_ptr<IPropertyObject> child )
 	{
 		assert( child->parent() == nullptr );
-		mChildren.insert({child->name(), child});
-		child->setParent(this);
-		child->forallProperties([this](IPropertyView& view){ mInsertListeners.notify(view);});
+		auto inserted = mChildren.insert({child->name(), std::move(child)});
+		inserted.first->second->setParent(this);
+		inserted.first->second->forallProperties([this](IPropertyView& view){ mInsertListeners.notify(view);});
 	}
 
 	/// remove a child object that is registered here.
 	/// \pre child()->parent() == this.
 	/// \post child->parent() == nullptr.
-	void CPropertyObject::removeChild( IPropertyObject* child )
+	void CPropertyObject::removeChild( const IPropertyObject& child )
 	{
-		assert( child->parent() == this );
-		mChildren.erase( child->name() );
-		child->setParent(nullptr);
+		assert( child.parent() == this );
+		mChildren.erase( child.name() );
+		const_cast<IPropertyObject&>(child).setParent(nullptr);
 	}
-
+	
 	// notification
 	// ---------------------------------------------------------
 	/// \brief calls notifyIfChanged on all properties.
@@ -148,6 +174,10 @@ namespace property
 	///			all registered properties, including those in subobjects.
 	void CPropertyObject::notifyAll()
 	{
+		for(auto& prop : mProperties)
+			prop.second->notifyIfChanged();
 
+		for(auto& child : mChildren)
+			child.second->notifyAll();
 	}
 }

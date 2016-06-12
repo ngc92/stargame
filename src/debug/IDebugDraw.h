@@ -1,19 +1,13 @@
 #ifndef IDEBUGDRAW_H_INCLUDED
 #define IDEBUGDRAW_H_INCLUDED
 
-namespace irr
-{
-	namespace video
-	{
-		class IVideoDriver;
-	}
-}
+#include "game/IGameViewModule.h"
 
-class IDebugDraw
+class IDebugDraw : public virtual game::IGameViewModule
 {
 public:
 	virtual ~IDebugDraw() = default;
-	virtual void doDraw(irr::video::IVideoDriver* driver) const = 0;
+	virtual void doDraw() const = 0;
 };
 
 #endif // IDEBUGDRAW_H_INCLUDED

@@ -4,11 +4,14 @@
 #include <string>
 #include <functional>
 #include <boost/variant.hpp>
-
-class ListenerRef;
+#include "property.h"
+#include "listener/listener.h"
+#include <Box2D/Common/b2Math.h>
 
 namespace property
 {
+	using data_t = boost::variant<float, int, std::string, b2Vec2>;
+
 	// forward decls
 	class IPropertyView;
 	class IProperty;
@@ -24,7 +27,6 @@ namespace property
 	class IPropertyView
 	{
 	public:
-		using data_t = boost::variant<float, int, std::string>;
 		using listener_t = std::function<void(IPropertyView&)>;
 
 		/// returns the name of the property
@@ -42,8 +44,8 @@ namespace property
 		virtual ListenerRef addListener( listener_t listener ) = 0;
 
 		// c'tor/d'tor
-		IPropertyView() = default;
-		IPropertyView(IPropertyView&&) = default;
+		IPropertyView() noexcept = default;
+		IPropertyView(IPropertyView&&) noexcept = default;
 		virtual ~IPropertyView() noexcept = default;
 	};
 }

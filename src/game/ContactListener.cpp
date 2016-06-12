@@ -1,5 +1,5 @@
 #include "ContactListener.h"
-#include "GameObject.h"
+#include "IGameObject.h"
 #include <Box2D/Box2D.h>
 
 namespace game
@@ -16,8 +16,8 @@ namespace game
 
 	struct ContactListener::Contact
 	{
-		std::weak_ptr<GameObject> A;
-		std::weak_ptr<GameObject> B;
+		std::weak_ptr<IGameObjectView> A;
+		std::weak_ptr<IGameObjectView> B;
 		b2Vec2 position;
 		b2Vec2 normal;
 		float impulse;
@@ -41,8 +41,8 @@ namespace game
 	void ContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse)
 	{
 		// get pointer to GameObjects
-		GameObject* ob1 = (GameObject*)contact->GetFixtureA()->GetBody()->GetUserData();
-		GameObject* ob2 = (GameObject*)contact->GetFixtureB()->GetBody()->GetUserData();
+		IGameObject* ob1 = (IGameObject*)contact->GetFixtureA()->GetBody()->GetUserData();
+		IGameObject* ob2 = (IGameObject*)contact->GetFixtureB()->GetBody()->GetUserData();
 
 		float imp = impulse->normalImpulses[0];
 
@@ -56,14 +56,27 @@ namespace game
 		}
 	}
 
+	bool ContactListener::ShouldCollide(b2Fixture* fixtureA, b2Fixture* fixtureB)
+	{
+		b2Body* bodyA = fixtureA->GetBody();
+		b2Body* bodyB = fixtureB->GetBody();
+		const IGameObject* ob1 = (IGameObject*)bodyA->GetUserData();
+		const IGameObject* ob2 = (IGameObject*)bodyB->GetUserData();
+
+		if(ob1->ignoreCollisionTarget() == bodyB || ob2->ignoreCollisionTarget() == bodyA)
+			return false;
+
+		return true;
+	}
+
 	void ContactListener::triggerEvents()
 	{
 		for(auto& c : mResponseQueue)
 		{
-			auto A = c.A.lock();
-			auto B = c.A.lock();
+			auto A = std::dynamic_pointer_cast<IGameObject>(c.A.lock());
+			auto B = std::dynamic_pointer_cast<IGameObject>(c.B.lock());
 
-			if(A->isAlive() && B->isAlive())
+			if(A && B && A->isAlive() && B->isAlive())
 			{
 				ImpactInfo info;
 				info.position = c.position;
@@ -72,14 +85,15 @@ namespace game
 				info.normal = c.normal;
 				info.fixture = c.fixA;
 
-				A->onImpact(B.get(), info);
+				A->onImpact(*B, info);
 
 				info.normal = -c.normal;
 				info.fixture = c.fixB;
-				B->onImpact(A.get(), info);
+				B->onImpact(*A, info);
 			}
-
 		}
+
+		mResponseQueue.clear();
 	}
 
 }

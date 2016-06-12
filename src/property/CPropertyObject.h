@@ -2,7 +2,7 @@
 #define CPROPERTYOBJECT_H_INCLUDED
 
 #include "IPropertyObject.h"
-#include "util/ListenerList.h"
+#include "listener/listenerlist.h"
 #include <unordered_map>
 
 namespace property
@@ -48,31 +48,25 @@ namespace property
 		// IPropertyView interface
 		/// gets the property that is referred to by path (i.e. this can
 		/// also access properties of child objects).
-		IPropertyView& getProperty(std::string path) const final;
-
-		// iterator interface
-		/*
-		/// get the property view iterator that points to
-		/// the first property of this object.
-		objectview_iter begin() const final;
-		/// iterator that points behind the last property of the last subobject.
-		objectview_iter end() const final;
-
-		/// iterator to the first property of this node.
-		/// This iterator will not iterate over other nodes.
-		property_map::iterator node_begin() const final;
-		/// end iterator corresponding to node_begin
-		property_map::iterator node_end() const final;
-		*/
+		IPropertyView& getProperty(const std::string& path) const final;
+		
+		/// check if the property that is referred to by path (i.e. this can
+		/// also access properties of child objects) exists.
+		bool hasProperty(const std::string& path) const final;
 
 		/// iterates over all properties and calls f for them.
-		void forallProperties(const std::function<void(IPropertyView&)>& f) const final;
+		/// \param f Function to apply
+		/// \param recurse apply to all properties of subobjects as well?
+		void forallProperties(const std::function<void(IPropertyView&)>& f, bool recurse=true) const final;
+		
+		/// applies \p f to all immediate children of this property.
+		void forallChildren( const std::function<void(const IPropertyObjectView&)>& f ) const final;
 
 
 		// --------------------------------------------------------
 		/// adds a property to this property objects.
 		/// \pre property.owner() == this
-		void addProperty(IPropertyView& property) final;
+		void addProperty(std::shared_ptr<IProperty> property) final;
 		/// removes a property from this property objects.
 		/// this method does not work for removing properties of
 		/// subobjects. \todo does this make sense?
@@ -82,13 +76,13 @@ namespace property
 		/// adds a child property object. Sets the parent of \p child.
 		/// \pre child->parent() == nullptr.
 		/// \post child()->parent() == this.
-		void addChild( IPropertyObject* child ) final;
+		void addChild( std::shared_ptr<IPropertyObject> child ) final;
 
 		/// remove a child object that is registered here.
-		/// \pre child()->parent() == this.
-		/// \post child->parent() == nullptr.
-		void removeChild( IPropertyObject* child) final;
-
+		/// \pre child.parent() == this.
+		/// \post child.parent() == nullptr.
+		void removeChild( const IPropertyObject& child) final;
+		
 		// notification
 		// ---------------------------------------------------------
 		/// \brief calls notifyIfChanged on all properties.
@@ -96,6 +90,12 @@ namespace property
 		///			all registered properties, including those in subobjects.
 		void notifyAll() final;
 
+	protected:
+		/// gets the property that is referred to by path (i.e. this can
+		/// also access properties of child objects).
+		/// this version of the function returns the internal shared_ptr.
+		const std::shared_ptr<IProperty>& getPropertyPtr(const std::string& path) const final;
+	
 	private:
 
 		void setParent(const IPropertyObject* parent) noexcept final;
@@ -103,8 +103,8 @@ namespace property
 		const std::string mName;
 		const IPropertyObject* mParent = nullptr;
 
-		std::unordered_map<std::string, IPropertyView*> mProperties;
-		std::unordered_map<std::string, IPropertyObject*> mChildren;
+		std::unordered_map<std::string, std::shared_ptr<IProperty>> mProperties;
+		std::unordered_map<std::string, std::shared_ptr<IPropertyObject>> mChildren;
 
 		ListenerList<IPropertyView&> mInsertListeners;
 		ListenerList<IPropertyView&> mRemoveListeners;

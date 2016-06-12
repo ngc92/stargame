@@ -37,8 +37,11 @@ class IEngine : public ObjectCounter<IEngine>, noncopyable
 		/// gets the input manager (const)
 		virtual const IInputManager& getInputManager() const = 0;
 
-		/// creates a gui manager
+		/// gets the ui environment
 		virtual IGUIEnvironment* getGUIEnvironment() const = 0;
+		
+		/// gets the irrlich device
+		virtual DeviceType& getIrrlichDevice() const = 0;
 
 		/// gets state manager
 		virtual IStateManager& getStateManager() = 0;

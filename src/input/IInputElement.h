@@ -3,6 +3,13 @@
 
 #include "util.h"
 #include <string>
+#include <boost/property_tree/ptree_fwd.hpp>
+
+namespace property
+{
+	class IPropertyObjectView;
+	class IPropertyView;
+}
 
 namespace input
 {
@@ -14,22 +21,27 @@ namespace input
 		GAUGE			//!< set to a value in [0,1]
 	};
 
+	enum class KeyState
+	{
+		PRESSED,
+		RELEASED
+	};
+
+	/*! \class IInputElement
+		\brief Base class for something that can receive inputs.
+		\details This class provides an interface that allows the thread-save
+				transfer of inputs from the user into the game thread.
+		\todo check the threading model and write documentation!
+	*/
 	class IInputElement : public noncopyable
 	{
 	public:
 		virtual ~IInputElement() = default;
-		virtual float value() const = 0;
-		virtual void update() = 0;
-		virtual const std::string& name() const = 0;
 		virtual InputType type() const = 0;
 
-		// set input
-		virtual void increase() = 0;
-		virtual void decrease() = 0;
+		virtual void onStep() = 0;
+		virtual void onKeyEvent( int key_code, KeyState state ) = 0;
 	};
-
-	// factory function
-	std::shared_ptr<IInputElement> createInputElement( std::string name, InputType type, float init );
 }
 
 #endif // IINPUTELEMENT_H_INCLUDED

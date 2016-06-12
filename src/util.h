@@ -10,7 +10,6 @@
 #include <boost/noncopyable.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include "util/make_unique.h"
 #include "util/logging.h"
 #include "util/convert.h"
 #include "debug/ObjectCounter.h"
@@ -59,10 +58,5 @@ std::string to_string(const T& t)
 {
 	return boost::lexical_cast<std::string>(t);
 }
-
-template<class... Args>
-class ListenerList;
-
-class ListenerRef;
 
 #endif // UTIL_H_INCLUDED

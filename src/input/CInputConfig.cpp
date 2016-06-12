@@ -1,12 +1,26 @@
 #include "CInputConfig.h"
 #include <regex>
 #include <cassert>
-
-#include <boost/property_tree/ptree.hpp>
+#include <iostream>
 #include <boost/property_tree/xml_parser.hpp>
+
+#include "util.h"
+#include "IInputElement.h"
+#include "property/IProperty.h"
+#include "InputElements.h"
+
 
 namespace input
 {
+	CInputConfig::CInputConfig()
+	{
+
+	}
+	CInputConfig::~CInputConfig()
+	{
+
+	}
+
 	void CInputConfig::load()
 	{
 		using namespace boost::property_tree;
@@ -16,30 +30,22 @@ namespace input
 		{
 			assert(rule.first == "rule");
 			std::string pattern = rule.second.get<std::string>("pattern");
-			std::size_t key = rule.second.get<int>("key");
-			std::string action = rule.second.get<std::string>("action");
-			KeyAction act;
-			if(action == "press")		 { act = KeyAction::PRESS; }
-			else if(action == "release") { act = KeyAction::RELEASE; }
-			else if(action == "hold")	 { act = KeyAction::HOLD; }
-			else {assert(0);}
-			bool inc = rule.second.get<bool>("increase");
-
-			mMappingRules.push_back(KeyInputRule{(irr::EKEY_CODE)key, pattern, act, inc});
+			mMappingRules[pattern] = std::make_unique<ptree>( rule.second );
 		}
 	}
 
-	InputAction CInputConfig::findMatch( const std::string& input, bool increase )
+	std::shared_ptr<IInputElement> CInputConfig::getInputElemt( const property::IPropertyView& property )
 	{
-        for( const auto& rule : mMappingRules )
+		std::string input = property.path();
+		for( const auto& rule : mMappingRules )
 		{
-            if( std::regex_match(input, std::regex(rule.pattern)) && rule.increase == increase )
+			const std::string& pattern = rule.first;
+			if( std::regex_match(input, std::regex(pattern)))
 			{
-				return InputAction{rule.key, rule.action};
+				return createInputElement( *rule.second, property );
 			}
 		}
 
-		///  \todo what do we do in case of mutliple/no matches?
-		assert(0);
+		return nullptr;
 	}
 }

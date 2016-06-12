@@ -1,0 +1,45 @@
+<component>
+	<type>ManeuverEngine</type>
+	<name>ManeuverEngine</name>
+	<HP>100</HP>
+	<weight>10</weight>
+	<properties>
+		<max_thrust>50</max_thrust>
+		<efficiency>5000</efficiency>
+		<torque>40</torque>
+	</properties>
+</component>
+
+<component>
+	<type>MainPropulsionSystem</type>
+	<name>MainPropulsionSystem</name>
+	<HP>100</HP>
+	<weight>10</weight>
+	<properties>
+		<max_thrust>150</max_thrust>
+		<efficiency>5000</efficiency>
+	</properties>
+</component>
+
+
+<component>
+	<type>FuelTank</type>
+	<name>FuelTank</name>
+	<HP>100</HP>
+	<weight>10</weight>
+	<properties>
+		<capacity>1000</capacity>
+		<maxpump>1</maxpump>
+	</properties>
+</component>
+
+<component>
+	<type>FixedGun</type>
+	<name>FixedGun</name>
+	<HP>100</HP>
+	<weight>10</weight>
+	<properties>
+		<rpm>600</rpm>
+		<ammo_type>25mm</ammo_type>
+	</properties>
+</component>

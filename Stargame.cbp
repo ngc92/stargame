@@ -30,8 +30,10 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-std=c++11" />
+			<Add option="-ftemplate-backtrace-limit=0" />
+			<Add option="-std=c++1y" />
 			<Add directory="./src/" />
+			<Add directory="external/Box2D/Box2D" />
 		</Compiler>
 		<Linker>
 			<Add library="irrlicht" />
@@ -54,9 +56,12 @@
 		<Unit filename="src/CUIEventListener.h" />
 		<Unit filename="src/GameState/GameState.cpp" />
 		<Unit filename="src/GameState/GameState.h" />
+		<Unit filename="src/GameState/GameView/GameView.cpp" />
+		<Unit filename="src/GameState/GameView/GameView.h" />
+		<Unit filename="src/GameState/GameView/GameViewGFX.cpp" />
+		<Unit filename="src/GameState/GameView/GameViewGFX.h" />
 		<Unit filename="src/GameState/HUD.cpp" />
 		<Unit filename="src/GameState/HUD.h" />
-		<Unit filename="src/GameState/IGameModule.h" />
 		<Unit filename="src/GameState/InputModule.cpp" />
 		<Unit filename="src/GameState/InputModule.h" />
 		<Unit filename="src/GameState/TextInterface/TextInterface.cpp" />
@@ -70,81 +75,143 @@
 		<Unit filename="src/IUIEventListener.h" />
 		<Unit filename="src/Options.cpp" />
 		<Unit filename="src/Options.h" />
-		<Unit filename="src/ShipEditor/CompEditorController.cpp" />
-		<Unit filename="src/ShipEditor/CompEditorController.h" />
-		<Unit filename="src/ShipEditor/CompEditorData.cpp" />
-		<Unit filename="src/ShipEditor/CompEditorData.h" />
-		<Unit filename="src/ShipEditor/CompEditorView.cpp" />
-		<Unit filename="src/ShipEditor/CompEditorView.h" />
 		<Unit filename="src/ShipEditor/ShipEditorState.cpp" />
 		<Unit filename="src/ShipEditor/ShipEditorState.h" />
+		<Unit filename="src/consts.h" />
 		<Unit filename="src/debug/CDebugConsole.cpp" />
 		<Unit filename="src/debug/CDebugConsole.h" />
 		<Unit filename="src/debug/CDebugDraw.cpp" />
 		<Unit filename="src/debug/CDebugDraw.h" />
 		<Unit filename="src/debug/IDebugConsole.h" />
 		<Unit filename="src/debug/IDebugDraw.h" />
-		<Unit filename="src/debug/IDebugDrawer.h" />
 		<Unit filename="src/debug/ObjectCounter.cpp" />
 		<Unit filename="src/debug/ObjectCounter.h" />
-		<Unit filename="src/game/ArmourSegment.cpp" />
-		<Unit filename="src/game/ArmourSegment.h" />
-		<Unit filename="src/game/Components/ActionList.cpp" />
-		<Unit filename="src/game/Components/ActionList.h" />
-		<Unit filename="src/game/Components/Actions.cpp" />
-		<Unit filename="src/game/Components/Actions.h" />
-		<Unit filename="src/game/Components/CComponent.cpp" />
-		<Unit filename="src/game/Components/CComponent.h" />
-		<Unit filename="src/game/Components/Engine.cpp" />
-		<Unit filename="src/game/Components/Engine.h" />
-		<Unit filename="src/game/Components/FuelTank.cpp" />
-		<Unit filename="src/game/Components/FuelTank.h" />
-		<Unit filename="src/game/Components/IAction.h" />
-		<Unit filename="src/game/Components/IComponent.h" />
+		<Unit filename="src/game/CGameObject.cpp" />
+		<Unit filename="src/game/CGameObject.h" />
+		<Unit filename="src/game/CGameViewModule.cpp" />
+		<Unit filename="src/game/CGameViewModule.h" />
+		<Unit filename="src/game/CGameWorld.cpp" />
+		<Unit filename="src/game/CGameWorld.h" />
 		<Unit filename="src/game/ContactListener.cpp" />
 		<Unit filename="src/game/ContactListener.h" />
 		<Unit filename="src/game/Damage.cpp" />
 		<Unit filename="src/game/Damage.h" />
-		<Unit filename="src/game/FlightModel.cpp" />
-		<Unit filename="src/game/FlightModel.h" />
 		<Unit filename="src/game/Game.cpp" />
 		<Unit filename="src/game/Game.h" />
-		<Unit filename="src/game/GameObject.cpp" />
-		<Unit filename="src/game/GameObject.h" />
-		<Unit filename="src/game/GameWorld.cpp" />
-		<Unit filename="src/game/GameWorld.h" />
-		<Unit filename="src/game/ShipStructure.cpp" />
-		<Unit filename="src/game/ShipStructure.h" />
-		<Unit filename="src/game/SpaceShip.cpp" />
-		<Unit filename="src/game/SpaceShip.h" />
-		<Unit filename="src/game/SpawnManager.cpp" />
-		<Unit filename="src/game/SpawnManager.h" />
-		<Unit filename="src/game/StructureCell.cpp" />
-		<Unit filename="src/game/StructureCell.h" />
+		<Unit filename="src/game/IGameObject.h" />
+		<Unit filename="src/game/IGameObjectModule.h" />
+		<Unit filename="src/game/IGameObjectView.h" />
+		<Unit filename="src/game/IGameViewModule.h" />
+		<Unit filename="src/game/IGameWorld.h" />
+		<Unit filename="src/game/IGameWorldView.h" />
+		<Unit filename="src/game/WorldAction.h" />
 		<Unit filename="src/game/fwd.h" />
+		<Unit filename="src/game/object_module/ArmourSegment.cpp" />
+		<Unit filename="src/game/object_module/ArmourSegment.h" />
+		<Unit filename="src/game/object_module/CAffiliation.cpp" />
+		<Unit filename="src/game/object_module/CAffiliation.h" />
+		<Unit filename="src/game/object_module/CFlightModel.cpp" />
+		<Unit filename="src/game/object_module/CFlightModel.h" />
+		<Unit filename="src/game/object_module/CImpactDamageSource.cpp" />
+		<Unit filename="src/game/object_module/CImpactDamageSource.h" />
+		<Unit filename="src/game/object_module/CStructureCell.cpp" />
+		<Unit filename="src/game/object_module/CStructureCell.h" />
+		<Unit filename="src/game/object_module/CSubStructure.cpp" />
+		<Unit filename="src/game/object_module/CSubStructure.h" />
+		<Unit filename="src/game/object_module/CTimedDeletion.cpp" />
+		<Unit filename="src/game/object_module/CTimedDeletion.h" />
+		<Unit filename="src/game/object_module/IAffiliation.h" />
+		<Unit filename="src/game/object_module/IDamageSource.h" />
+		<Unit filename="src/game/object_module/IFlightModel.h" />
+		<Unit filename="src/game/object_module/IPropulsionSystem.h" />
+		<Unit filename="src/game/object_module/IStructureCell.h" />
+		<Unit filename="src/game/object_module/ISubStructure.h" />
+		<Unit filename="src/game/object_module/ITimedDeletion.h" />
+		<Unit filename="src/game/object_module/common_includes.h" />
+		<Unit filename="src/game/object_module/components/CComponent.cpp" />
+		<Unit filename="src/game/object_module/components/CComponent.h" />
+		<Unit filename="src/game/object_module/components/CargoBay.cpp" />
+		<Unit filename="src/game/object_module/components/CargoBay.h" />
+		<Unit filename="src/game/object_module/components/FixedGun.cpp" />
+		<Unit filename="src/game/object_module/components/FixedGun.h" />
+		<Unit filename="src/game/object_module/components/FuelTank.cpp" />
+		<Unit filename="src/game/object_module/components/FuelTank.h" />
+		<Unit filename="src/game/object_module/components/IComponent.cpp" />
+		<Unit filename="src/game/object_module/components/IComponent.h" />
+		<Unit filename="src/game/object_module/components/MainPropulsionSystem.cpp" />
+		<Unit filename="src/game/object_module/components/MainPropulsionSystem.h" />
+		<Unit filename="src/game/object_module/components/ManeuverEngine.cpp" />
+		<Unit filename="src/game/object_module/components/ManeuverEngine.h" />
+		<Unit filename="src/game/spawn/CDataManager.cpp" />
+		<Unit filename="src/game/spawn/CDataManager.h" />
+		<Unit filename="src/game/spawn/CSpawnManager.cpp" />
+		<Unit filename="src/game/spawn/CSpawnManager.h" />
+		<Unit filename="src/game/spawn/Definitions.h" />
+		<Unit filename="src/game/spawn/IDataManager.h" />
+		<Unit filename="src/game/spawn/ISpawnManager.h" />
+		<Unit filename="src/game/spawn/SComponent.cpp" />
+		<Unit filename="src/game/spawn/SComponent.h" />
+		<Unit filename="src/game/spawn/SHull.cpp" />
+		<Unit filename="src/game/spawn/SHull.h" />
+		<Unit filename="src/game/spawn/SProjectile.cpp" />
+		<Unit filename="src/game/spawn/SProjectile.h" />
+		<Unit filename="src/game/spawn/SShip.cpp" />
+		<Unit filename="src/game/spawn/SShip.h" />
+		<Unit filename="src/game/spawn/SpawnData.cpp" />
+		<Unit filename="src/game/spawn/SpawnData.h" />
+		<Unit filename="src/game/spawn/spawn_util.cpp" />
+		<Unit filename="src/game/spawn/spawn_util.h" />
+		<Unit filename="src/game/view_thread/CViewThreadGO.cpp" />
+		<Unit filename="src/game/view_thread/CViewThreadGO.h" />
+		<Unit filename="src/game/view_thread/CViewThreadGW.cpp" />
+		<Unit filename="src/game/view_thread/CViewThreadGW.h" />
+		<Unit filename="src/game/view_thread/IViewThreadGO.h" />
+		<Unit filename="src/game/view_thread/IViewThreadGW.h" />
+		<Unit filename="src/graphic/CShipStatusView.cpp" />
+		<Unit filename="src/graphic/CShipStatusView.h" />
 		<Unit filename="src/graphic/EngineExhaust.cpp" />
 		<Unit filename="src/graphic/EngineExhaust.h" />
+		<Unit filename="src/graphic/EngineExhaustAnimator.cpp" />
+		<Unit filename="src/graphic/EngineExhaustAnimator.h" />
 		<Unit filename="src/graphic/ExplosionNode.cpp" />
 		<Unit filename="src/graphic/ExplosionNode.h" />
 		<Unit filename="src/graphic/FollowObjectAnimator.cpp" />
 		<Unit filename="src/graphic/FollowObjectAnimator.h" />
+		<Unit filename="src/graphic/GameObjectAnimator.cpp" />
+		<Unit filename="src/graphic/GameObjectAnimator.h" />
+		<Unit filename="src/graphic/IShipStatusView.h" />
 		<Unit filename="src/graphic/RadarScreen.cpp" />
 		<Unit filename="src/graphic/RadarScreen.h" />
+		<Unit filename="src/graphic/ShipStatusCtrl.cpp" />
+		<Unit filename="src/graphic/ShipStatusCtrl.h" />
 		<Unit filename="src/graphic/SubsystemDamageView.cpp" />
 		<Unit filename="src/graphic/SubsystemDamageView.h" />
 		<Unit filename="src/graphic/TrackObjectAnimator.cpp" />
 		<Unit filename="src/graphic/TrackObjectAnimator.h" />
-		<Unit filename="src/input/CInputCollection.cpp" />
-		<Unit filename="src/input/CInputCollection.h" />
+		<Unit filename="src/graphic/tactical_map/CTacticalMapIcon.cpp" />
+		<Unit filename="src/graphic/tactical_map/CTacticalMapIcon.h" />
+		<Unit filename="src/graphic/tactical_map/CTacticalMapView.cpp" />
+		<Unit filename="src/graphic/tactical_map/CTacticalMapView.h" />
+		<Unit filename="src/graphic/tactical_map/ITacticalMapIcon.h" />
+		<Unit filename="src/graphic/tactical_map/ITacticalMapView.h" />
+		<Unit filename="src/graphic/tactical_map/TacticalMapCtrl.cpp" />
+		<Unit filename="src/graphic/tactical_map/TacticalMapCtrl.h" />
+		<Unit filename="src/input/CInputButton.cpp" />
+		<Unit filename="src/input/CInputButton.h" />
 		<Unit filename="src/input/CInputConfig.cpp" />
 		<Unit filename="src/input/CInputConfig.h" />
 		<Unit filename="src/input/CInputElement.cpp" />
 		<Unit filename="src/input/CInputElement.h" />
-		<Unit filename="src/input/IInputCollection.h" />
+		<Unit filename="src/input/CInputGauge.cpp" />
+		<Unit filename="src/input/CInputGauge.h" />
 		<Unit filename="src/input/IInputConfiguration.h" />
 		<Unit filename="src/input/IInputElement.h" />
 		<Unit filename="src/input/InputElements.cpp" />
 		<Unit filename="src/input/InputElements.h" />
+		<Unit filename="src/listener/listener.h" />
+		<Unit filename="src/listener/listenerlist.h" />
+		<Unit filename="src/listener/llist_internal.cpp" />
+		<Unit filename="src/listener/llist_internal.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/property/CProperty.cpp" />
 		<Unit filename="src/property/CProperty.h" />
@@ -156,20 +223,36 @@
 		<Unit filename="src/property/IPropertyView.h" />
 		<Unit filename="src/property/TypedProperty.cpp" />
 		<Unit filename="src/property/TypedProperty.h" />
+		<Unit filename="src/property/io.cpp" />
+		<Unit filename="src/property/io.h" />
 		<Unit filename="src/property/property.h" />
 		<Unit filename="src/util.h" />
-		<Unit filename="src/util/ListenerList.h" />
-		<Unit filename="src/util/WriteLock.cpp" />
-		<Unit filename="src/util/WriteLock.h" />
 		<Unit filename="src/util/convert.h" />
+		<Unit filename="src/util/io.cpp" />
+		<Unit filename="src/util/io.h" />
 		<Unit filename="src/util/logging.cpp" />
 		<Unit filename="src/util/logging.h" />
-		<Unit filename="src/util/make_unique.h" />
+		<Unit filename="src/util/multi_type_map.h" />
+		<Unit filename="src/util/physics.cpp" />
+		<Unit filename="src/util/physics.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
-			<debugger />
+			<debugger>
+				<remote_debugging>
+					<options conn_type="-1" serial_baud="115200" additional_cmds_before="b _assert" />
+				</remote_debugging>
+			</debugger>
 			<lib_finder disable_auto="1" />
+			<DoxyBlocks>
+				<comment_style block="0" line="1" />
+				<doxyfile_project />
+				<doxyfile_build extract_all="1" />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot class_diagrams="1" />
+				<general />
+			</DoxyBlocks>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
