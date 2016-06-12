@@ -13,6 +13,7 @@ if [ ! -h external/irrlicht ]; then
 	svn checkout http://svn.code.sf.net/p/irrlicht/code/trunk irrlicht-code
 	cd irrlicht-code/source/Irrlicht
 	sed -i -e "s/-O3/-O3 -march=native/g" Makefile
+	sed -i -e "s/-fno-rtti //g" Makefile
 	make NDEBUG=1 sharedlib -j 5
 	cd ../../
 	cd lib/Linux

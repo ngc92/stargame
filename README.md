@@ -11,7 +11,8 @@ Control your ship with the arrow keys. Shoot with "C".
 ## Dependencies
 
  * recent compiler that supports C++14
- * [irrlicht](http://irrlicht.sourceforge.net/) 1.9 (currently in SVN trunk)
+ * [irrlicht](http://irrlicht.sourceforge.net/) 1.9 (currently in SVN trunk),
+   compiled without -fno-rtti flag.
  * irrKlang (?)
  * OpenGL stuff
 
