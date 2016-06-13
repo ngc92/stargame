@@ -61,14 +61,15 @@ namespace gfx
 
 	ListenerRef GameViewGFX::addShip( game::IGameObjectView& object, std::string type )
 	{
-		/// \todo this is caches, except when we cannot find the model. remember these.
+		/// \todo this caches, except when we cannot find the model. remember these.
 		auto mesh = mSceneMgr->getMesh( ("gfx/models/" + type + ".3ds").c_str() );
 		if(!mesh)
 			return ListenerRef();
 
 		auto node = mSceneMgr->addMeshSceneNode( mesh );
 		node->addAnimator( createGameObjectAnimator(object) );
-		
+		node->setScale( core::vector3df(2,2,2) );
+
 		// add the engine effect
 		auto exhaust = new gfx::EngineExhaustNode(node, node->getSceneManager(), -1, 1, 1, true);
 		exhaust->addNozzle(core::vector3df(0,0,0));
@@ -82,7 +83,7 @@ namespace gfx
 		if(f)
 		{
 			mCamera->addAnimator( createTrackAnimator(node) );
-			mCamera->addAnimator( createFollowAnimator(node, 15, 0.1, 100) );
+			mCamera->addAnimator( createFollowAnimator(node, 25, 0.1, 100, core::vector3df(0,20,0)) );
 			f = false;
 		}
 
@@ -99,8 +100,9 @@ namespace gfx
 		return new gfx::TrackObjectAnimator(target, smoothness);
 	}
 
-	scene::ISceneNodeAnimator* GameViewGFX::createFollowAnimator( const scene::ISceneNode* target, float distance, float smoothness, float maxSpeed) const
+	scene::ISceneNodeAnimator* GameViewGFX::createFollowAnimator( const scene::ISceneNode* target, float distance,
+																float smoothness, float maxSpeed, const core::vector3df& offset) const
 	{
-		return new gfx::FollowObjectAnimator(target, distance, smoothness, maxSpeed, vector3df(0,10,0));
+		return new gfx::FollowObjectAnimator(target, distance, smoothness, maxSpeed, offset);
 	}
 }

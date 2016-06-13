@@ -3,6 +3,7 @@
 
 #include <string>
 #include "listener/listener.h"
+#include <irrlicht/vector3d.h>
 
 namespace game
 {
@@ -46,10 +47,11 @@ namespace gfx
 		// animators
 		scene::ISceneNodeAnimator* createGameObjectAnimator( const game::IGameObjectView& object ) const;
 		scene::ISceneNodeAnimator* createTrackAnimator( const scene::ISceneNode* target, float smoothness = 1 ) const;
-		scene::ISceneNodeAnimator* createFollowAnimator( const scene::ISceneNode* target, float distance = 10, float smoothness = 1, float maxSpeed = 10 ) const;
+		scene::ISceneNodeAnimator* createFollowAnimator( const scene::ISceneNode* target, float distance = 10,
+														float smoothness = 1, float maxSpeed = 10,
+														const core::vector3df& offset = core::vector3df(0,10,0)) const;
 
 	private:
-
 
 		video::IVideoDriver* mDriver = nullptr;
 		scene::ISceneManager* mSceneMgr = nullptr;

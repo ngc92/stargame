@@ -63,7 +63,7 @@
 - [x] vertex cache in hull file
 - [ ] get rid of dynamic_cast in src/graphic/EngineExhaustAnimator.cpp to use
       irrlicht without changing default compilation flags.
-- [ ] add a thin wrapper layer around Box2D that provides the most used functions
+- [x] add a thin wrapper layer around Box2D that provides the most used functions
       in a variant that automatically converts from SI units to Box units.
 
 ## Permagoals:
