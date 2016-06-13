@@ -4,8 +4,16 @@
 #include "IGameObjectView.h"
 #include <vector>
 
+class b2Body;
+
 namespace game
 {
+	namespace physics
+	{
+		class Body;
+	}
+	using physics::Body;
+
 	class IGameWorld;
 	class IGameObjectModule;
 	class WorldActionQueue;
@@ -38,10 +46,10 @@ namespace game
 		virtual void dealDamage( const Damage& damage, const b2Vec2& pos, const b2Vec2& dir ) = 0;
 
 		/// get a pointer to the internal body, if any
-		virtual const b2Body* body() const = 0;
+		virtual const Body& body() const = 0;
 
 		/// get a pointer to the internal body, if any
-		virtual b2Body* getBody() = 0;
+		virtual Body& getBody() = 0;
 
 		/// marks this body for deletion.
 		virtual void remove() = 0;

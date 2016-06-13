@@ -2,8 +2,7 @@
 #include "IGameObject.h"
 #include "WorldAction.h"
 #include "spawn/ISpawnManager.h"
-#include "ContactListener.h"
-#include <Box2D/Dynamics/b2Body.h>
+#include "physics/ContactListener.h"
 #include <Box2D/Dynamics/b2World.h>
 #include <algorithm>
 #include <iostream>

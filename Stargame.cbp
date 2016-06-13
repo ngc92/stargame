@@ -92,8 +92,6 @@
 		<Unit filename="src/game/CGameViewModule.h" />
 		<Unit filename="src/game/CGameWorld.cpp" />
 		<Unit filename="src/game/CGameWorld.h" />
-		<Unit filename="src/game/ContactListener.cpp" />
-		<Unit filename="src/game/ContactListener.h" />
 		<Unit filename="src/game/Damage.cpp" />
 		<Unit filename="src/game/Damage.h" />
 		<Unit filename="src/game/Game.cpp" />
@@ -142,6 +140,14 @@
 		<Unit filename="src/game/object_module/components/MainPropulsionSystem.h" />
 		<Unit filename="src/game/object_module/components/ManeuverEngine.cpp" />
 		<Unit filename="src/game/object_module/components/ManeuverEngine.h" />
+		<Unit filename="src/game/physics/ContactListener.cpp" />
+		<Unit filename="src/game/physics/ContactListener.h" />
+		<Unit filename="src/game/physics/body.cpp" />
+		<Unit filename="src/game/physics/body.h" />
+		<Unit filename="src/game/physics/convert.cpp" />
+		<Unit filename="src/game/physics/convert.h" />
+		<Unit filename="src/game/physics/fixture.cpp" />
+		<Unit filename="src/game/physics/fixture.h" />
 		<Unit filename="src/game/spawn/CDataManager.cpp" />
 		<Unit filename="src/game/spawn/CDataManager.h" />
 		<Unit filename="src/game/spawn/CSpawnManager.cpp" />
@@ -227,14 +233,11 @@
 		<Unit filename="src/property/io.h" />
 		<Unit filename="src/property/property.h" />
 		<Unit filename="src/util.h" />
-		<Unit filename="src/util/convert.h" />
 		<Unit filename="src/util/io.cpp" />
 		<Unit filename="src/util/io.h" />
 		<Unit filename="src/util/logging.cpp" />
 		<Unit filename="src/util/logging.h" />
 		<Unit filename="src/util/multi_type_map.h" />
-		<Unit filename="src/util/physics.cpp" />
-		<Unit filename="src/util/physics.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

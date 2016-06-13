@@ -5,6 +5,8 @@
 #include "listener/listenerlist.h"
 #include "property/IPropertyObject.h"
 
+class b2Fixture;
+
 namespace game
 {
 	/*! \struct ImpactInfo

@@ -5,7 +5,6 @@
 #include "game/IGameObject.h"
 #include "game/spawn/SpawnData.h"
 #include "game/WorldAction.h"
-#include <Box2D/Dynamics/b2Body.h>
 
 namespace game
 {
@@ -44,7 +43,7 @@ namespace components
 			push_action( spawn::make_spawner(data) );
 		}
 	}
-	
+
 	REG_COMP_MACRO(FixedGun);
 }
 }

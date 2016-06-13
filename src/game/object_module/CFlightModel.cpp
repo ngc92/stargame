@@ -1,6 +1,8 @@
 #include "CFlightModel.h"
 #include "IPropulsionSystem.h"
-#include <Box2D/Dynamics/b2Body.h>
+#include "consts.h"
+#include "game/physics/body.h"
+#include "game/physics/convert.h"
 #include <boost/throw_exception.hpp>
 #include <algorithm>
 #include <iostream>
@@ -17,18 +19,18 @@ namespace game
 
 	void CFlightModel::onInit( IGameObject& object, IGameWorld& world )
 	{
-		auto ship = object.getBody();
+		auto& ship = object.getBody();
 		if(!ship)
 			BOOST_THROW_EXCEPTION( std::runtime_error("flight model module applied to bodyless game object!") );
-		ship->SetLinearDamping( 0.0 );
-		ship->SetAngularDamping( 1 );
+		ship.setLinearDamping( 0.0 );
+		ship.setAngularDamping( 1 );
 	}
 
-	void CFlightModel::update_movement( b2Body& ship )
+	void CFlightModel::update_movement( Body& ship )
 	{
 		/// \todo this is copied from the old flight model.
 		/// need sth new here.
-		b2Vec2 v = ship.GetLocalVector( ship.GetLinearVelocity() );
+		b2Vec2 v = local_vector(ship, ship.velocity() );
 		v.x = std::max(0.f, v.x - mOperatingSpeed);
 
 		// decompose
@@ -37,8 +39,8 @@ namespace game
 			v.Normalize();
 		v *= f;
 
-		ship.ApplyLinearImpulse( ship.GetWorldVector( mTotalThrust + v ) , ship.GetWorldCenter(), true );
-		ship.ApplyAngularImpulse( mTotalAngImp, true );
+		ship.applyForce( world_vector( ship, mTotalThrust + v ) );
+		ship.applyTorque( mTotalAngImp );
 
 		mTotalThrust = b2Vec2_zero;
 		mTotalAngImp = 0;
@@ -46,7 +48,7 @@ namespace game
 
 	void CFlightModel::onStep( IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action)
 	{
-		b2Body* body = object.getBody();
+		Body& body = object.getBody();
 		if(!body)
 			BOOST_THROW_EXCEPTION( std::runtime_error("flight model module applied to bodyless game object!") );
 		// pilot to target
@@ -54,7 +56,7 @@ namespace game
 		test_target.position = b2Vec2(200, 200);
 		//pilot(object, test_target);
 
-		update_movement( *body );
+		update_movement( body );
 	}
 
 	void CFlightModel::thrust( b2Vec2 thrust_vector )
@@ -91,7 +93,7 @@ namespace game
 		auto cur_pos = ship.position();
 		auto cur_vel = ship.velocity();
 		auto cur_ang = ship.angle();
-		const b2Body* body = ship.body();
+ 		auto& body = ship.body();
 
 		if(!target_state.position)
 			return;
@@ -105,7 +107,7 @@ namespace game
 		float max_ang_acc = 0;
 		for(auto& ps : mPropulsionSystems)
 		{
-			max_ang_acc += ps->getMaxTorque() / body->GetInertia();
+			max_ang_acc += ps->getMaxTorque() / body.inertia();
 		}
 
 		auto distance = target_state.position.get_value_or( cur_pos ) - cur_pos;
@@ -118,8 +120,7 @@ namespace game
 
 		for(auto& ps : mPropulsionSystems)
 		{
-			/// \todo fix the scaling here!
-			ps->thrust(ship.body()->GetLocalVector(future_distance));
+			ps->thrust(local_vector(ship.body(), future_distance));
 		}
 
 		float target_angle = target_state.rotation.get_value_or( cur_ang );
@@ -139,7 +140,7 @@ namespace game
 		std::cout << target_rotate << "\n";
 		for(auto& ps : mPropulsionSystems)
 		{
-			ps->rotate(target_rotate * body->GetInertia());
+			ps->rotate(target_rotate * body.inertia());
 		}
 
 

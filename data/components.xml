@@ -2,11 +2,11 @@
 	<type>ManeuverEngine</type>
 	<name>ManeuverEngine</name>
 	<HP>100</HP>
-	<weight>10</weight>
+	<weight>250</weight>
 	<properties>
-		<max_thrust>50</max_thrust>
+		<max_thrust>10000</max_thrust>
 		<efficiency>5000</efficiency>
-		<torque>40</torque>
+		<torque>15000</torque>
 	</properties>
 </component>
 
@@ -14,9 +14,9 @@
 	<type>MainPropulsionSystem</type>
 	<name>MainPropulsionSystem</name>
 	<HP>100</HP>
-	<weight>10</weight>
+	<weight>250</weight>
 	<properties>
-		<max_thrust>150</max_thrust>
+		<max_thrust>30000</max_thrust>
 		<efficiency>5000</efficiency>
 	</properties>
 </component>

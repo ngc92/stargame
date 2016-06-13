@@ -16,7 +16,7 @@ namespace game
 		void onInit( IGameObject& object, IGameWorld& world ) override;
 
 
-		void update_movement( b2Body& ship );
+		void update_movement( Body& ship );
 
 		void thrust( b2Vec2 thrust_vector ) override;
 		void rotate( float turn_impulse ) override;

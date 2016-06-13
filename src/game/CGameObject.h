@@ -3,6 +3,7 @@
 
 #include "IGameObject.h"
 #include "property/CPropertyObject.h"
+#include "physics/body.h"
 
 namespace game
 {
@@ -56,10 +57,10 @@ namespace game
 			ListenerRef addRemoveListener( std::function<void()> lst ) final;
 
 			/// get a pointer to the internal body, if any
-			const b2Body* body() const final;
+			const Body& body() const final;
 
 			/// get a pointer to the internal body, if any
-			b2Body* getBody() final;
+			Body& getBody() final;
 
 			/// marks this body for deletion.
 			void remove() final;
@@ -68,7 +69,7 @@ namespace game
 			bool isAlive() const final;
 
 		private:
-			b2Body* mBody = nullptr;
+			Body mBody;
 
 			const b2Body* mIgnoreBody = nullptr;
 

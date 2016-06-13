@@ -2,6 +2,9 @@
 
 #include "CDataManager.h"
 #include "SpawnData.h"
+#include "game/physics/body.h"
+#include "game/physics/convert.h"
+#include "game/physics/fixture.h"
 
 #include "game/CGameObject.h"
 #include "property/CProperty.h"
@@ -91,10 +94,10 @@ namespace spawn
 		def.restitution = 0.5;
 		def.shape = &shape;
 		/// \todo set density for mass!
-		auto fix = object.getBody()->CreateFixture( &def );
-		object.getBody()->SetBullet(true);
-		object.getBody()->ApplyLinearImpulseToCenter( object.getBody()->GetWorldVector(b2Vec2( dat.propellVelocity() * object.getBody()->GetMass() , 0)), true );
-		object.setIgnoreCollisionTarget( shooter.body() );
+		auto fix = physics::Fixture::create(object.getBody(), def);
+		object.getBody().body()->SetBullet(true);
+		object.getBody().addLinearVelocity( world_vector(object.body(), b2Vec2(dat.propellVelocity(), 0) ) );
+		object.setIgnoreCollisionTarget( shooter.body().body() );
 
 		object.addProperty( property::CProperty::create("_type_", &object, std::string("bullet")) );
 	}

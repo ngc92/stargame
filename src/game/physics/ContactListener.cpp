@@ -1,5 +1,5 @@
 #include "ContactListener.h"
-#include "IGameObject.h"
+#include "game/IGameObject.h"
 #include <Box2D/Box2D.h>
 
 namespace game

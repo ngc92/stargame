@@ -1,6 +1,5 @@
 #include "CGameObject.h"
 #include <cassert>
-#include "Box2D/Box2D.h"
 #include "property/IProperty.h"
 #include "IGameObjectModule.h"
 
@@ -13,19 +12,18 @@ namespace game
 		 mID(id)
 	{
 		assert(mBody);
-		mBody->SetUserData(this);
+		mBody.setUserPointer(this);
 	}
 
 	CGameObject::~CGameObject()
 	{
-		if(mBody) mBody->GetWorld()->DestroyBody(mBody);
+		mBody.destroy();
 	}
 
 	void CGameObject::remove()
 	{
 		mIsAlive = false;
-		mBody->GetWorld()->DestroyBody(mBody);
-		mBody = nullptr;
+		mBody.destroy();
 
 		mRemoveListeners.notify();
 	}
@@ -84,22 +82,22 @@ namespace game
 
 	b2Vec2 CGameObject::position() const
 	{
-		return mBody->GetPosition();
+		return mBody.position();
 	}
 
 	float CGameObject::angle() const
 	{
-		return std::fmod(mBody->GetAngle(), 2 * irr::core::PI);
+		return std::fmod(mBody.angle(), 2 * irr::core::PI);
 	}
 
 	b2Vec2 CGameObject::velocity() const
 	{
-		return mBody->GetLinearVelocity();
+		return mBody.velocity();
 	}
 
 	float CGameObject::angular_velocity() const
 	{
-		return mBody->GetAngularVelocity();
+		return mBody.angular_velocity();
 	}
 
 	ListenerRef CGameObject::addStepListener( std::function<void()> lst )
@@ -123,12 +121,12 @@ namespace game
 		return mID;
 	}
 
-	const b2Body* CGameObject::body() const
+	const Body& CGameObject::body() const
 	{
 		return mBody;
 	}
 
-	b2Body* CGameObject::getBody()
+	Body& CGameObject::getBody()
 	{
 		return mBody;
 	}

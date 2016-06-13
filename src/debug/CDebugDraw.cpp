@@ -1,9 +1,14 @@
 #include "CDebugDraw.h"
-#include "util.h"
+#include "consts.h"
 #include "game/IGameWorld.h"
 #include <Box2D/Dynamics/b2World.h>
 #include <irrlicht/irrlicht.h>
 #include <iostream>
+
+inline irr::core::vector3df b2i(b2Vec2 v)
+{
+	return irr::core::vector3df( BOX_TO_METERS * v.x, 0, BOX_TO_METERS * v.y );
+}
 
 CDebugDraw::CDebugDraw( irr::video::IVideoDriver* driver ) : mDriver(driver)
 {
