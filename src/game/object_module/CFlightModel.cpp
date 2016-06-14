@@ -7,6 +7,9 @@
 #include <algorithm>
 #include <iostream>
 
+#include "game/ai/locomotion_control.h"
+#include "game/ai/locomotion_solvers.h"
+
 namespace game
 {
 	CFlightModel::CFlightModel( float op_speed, float drag_factor ) : CPropertyObject("flight_model"),
@@ -53,8 +56,21 @@ namespace game
 			BOOST_THROW_EXCEPTION( std::runtime_error("flight model module applied to bodyless game object!") );
 		// pilot to target
 		SFlightState test_target;
-		test_target.position = b2Vec2(200, 200);
-		//pilot(object, test_target);
+		test_target.position = b2Vec2(500, 500);
+		pilot(object, test_target);
+
+		// update steering
+		if(mIsSteering)
+		{
+			ai::Control ctrl( mSteerVec, mSteerRot, 0.f );
+			auto steering = ai::steer(mPropulsionSystems, ctrl, body);
+			for(unsigned i = 0; i < steering.size(); ++i )
+			{
+				mPropulsionSystems[i]->thrust( steering[i].steer.get() );
+				mPropulsionSystems[i]->rotate( steering[i].rotate.get() );
+			}
+			mIsSteering = false;
+		}
 
 		update_movement( body );
 	}
@@ -87,6 +103,13 @@ namespace game
 		return std::sqrt(thrust / mDragFactor);
 	}
 
+	void CFlightModel::steer( b2Vec2 desired_linear_accel, float desired_angular_accel )
+	{
+		mIsSteering = true;
+		mSteerVec = desired_linear_accel;
+		mSteerRot = desired_angular_accel;
+	}
+
 	void CFlightModel::pilot( const IGameObject& ship, const SFlightState& target_state )
 	{
 		///! \note this code is not finished!
@@ -110,39 +133,14 @@ namespace game
 			max_ang_acc += ps->getMaxTorque() / body.inertia();
 		}
 
-		auto distance = target_state.position.get_value_or( cur_pos ) - cur_pos;
 		/// \todo for now, this is the most simple implementation that only works for position constraints
 		float max_vel = getTerminalVelocity(max_thrust);
-		float time_to = distance.Length() / max_vel;
-		std::cout << max_vel << " " << cur_vel.Length() << "\n";
-		b2Vec2 future_pos = cur_pos + time_to * cur_vel;
-		auto future_distance = target_state.position.get_value_or( cur_pos ) - future_pos;
+		auto steer_vec = ai::steer_to_position(cur_pos, target_state.position.get(), cur_vel, max_thrust / body.mass(), max_vel).steer.get();
 
-		for(auto& ps : mPropulsionSystems)
-		{
-			ps->thrust(local_vector(ship.body(), future_distance));
-		}
+		float target_angle = std::atan2( steer_vec.y, steer_vec.x );
+		float target_rotate = ai::rotate_to_angle(cur_ang, target_angle, ship.angular_velocity(), max_ang_acc).rotate.get();
 
-		float target_angle = target_state.rotation.get_value_or( cur_ang );
-
-		// if we are free to rotate
-		if(!target_state.rotation)
-			target_angle = std::atan2( future_distance.y, future_distance.x );
-
-		float ang_dif = std::remainder(target_angle - cur_ang, 4*std::acos(0));
-        float time_to_angle = ang_dif / ship.angular_velocity();
-        float time_to_brake = std::abs(ship.angular_velocity() / max_ang_acc);
-        float target_rotate = ang_dif;
-		if(time_to_angle < time_to_brake)
-			target_rotate = -ship.angular_velocity();
-
-        // want velocity = 0 at time_to_angle
-		std::cout << target_rotate << "\n";
-		for(auto& ps : mPropulsionSystems)
-		{
-			ps->rotate(target_rotate * body.inertia());
-		}
-
+		steer( steer_vec, target_rotate );
 
 	}
 }

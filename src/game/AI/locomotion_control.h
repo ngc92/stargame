@@ -23,6 +23,7 @@ namespace ai
 	{
 		Control( float rot_, float time_ ) : rotate(rot_), time(time_) {}
 		Control( b2Vec2 steer_, float time_ ) : steer( std::move(steer_) ), time(time_) {}
+		Control( b2Vec2 steer_, float rot_, float time_ ) : steer( std::move(steer_) ), rotate(rot_), time(time_) {}
 		/// desired acceleration vector.
 		boost::optional<b2Vec2> steer;
 		/// desired angular acceleration.
@@ -31,8 +32,9 @@ namespace ai
 		float time;
 	};
 
-    // here comes a collection of functions that are helpful for locomotion ai
-    /*! \brief rotate to target angle.
+	// here comes a collection of functions that are helpful for locomotion ai
+
+	/*! \brief rotate to target angle.
 		\details calculates control value for rotating from angle \p start to the angle \p target_angle.
 				This is the most basic rotation function, upon which all the other convenience functions are implemented.
 		\param start Starting angle.
@@ -40,7 +42,7 @@ namespace ai
 		\param vel Current angular velocity.
 		\param max_accel Maximum angular acceleration.
 		\return optimal angular acceleration.
-    */
+	*/
 	Control rotate_to_angle( float start, float target, float vel, float max_accel );
 
 
@@ -55,6 +57,23 @@ namespace ai
 		\return The acceleration that is "optimal" to go from start to target.
 	*/
 	Control steer_to_position( const b2Vec2& start, const b2Vec2& target, const b2Vec2& vel, float max_accel, float max_vel );
+
+
+	/*! \brief ensure constant magnitude of velocity.
+		\details calculate the acceleration needed to ensure that the magnitude of the velocity reaches a desired value.
+		\param vel Current velocity.
+		\param target_speed Speed to be achieved.
+		\param max_accel Maximum acceleration, assumed to be applicable in any direction.
+	*/
+	Control cruise_control( const b2Vec2& vel, float target_speed, float max_accel );
+
+	/*! \brief ensure constant velocity.
+		\details calculate the acceleration needed to ensure that the velocity reaches a desired value.
+		\param vel Current velocity.
+		\param target_vel Target velocity.
+		\param max_accel Maximum acceleration, assumed to be applicable in any direction.
+	*/
+	Control cruise_control( const b2Vec2& vel, const b2Vec2& target_vel, float max_accel );
 }
 }
 

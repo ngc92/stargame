@@ -16,6 +16,8 @@ namespace game
 		// info functions
 		virtual float getMaxTorque() const = 0;
 		virtual float getMaxThrust() const = 0;
+		virtual float check_rotate( float rot ) const = 0;
+		virtual b2Vec2 check_thrust( const b2Vec2& thrust ) const = 0;
 
 		// action functions
 		virtual void rotate(float rot) = 0;

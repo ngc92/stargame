@@ -24,6 +24,8 @@ namespace components
 			// info functions
 			float getMaxTorque() const override;
 			float getMaxThrust() const override;
+			float check_rotate( float rot ) const override;
+			b2Vec2 check_thrust( const b2Vec2& thrust ) const override;
 
 			// action functions
 			void rotate(float rot) override;

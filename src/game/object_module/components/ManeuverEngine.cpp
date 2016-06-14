@@ -60,6 +60,24 @@ namespace components
 		return mThrust;
 	}
 
+	float ManeuverEngine::check_rotate( float rot ) const
+	{
+		if( rot > mTorque )
+			return mTorque;
+		else if ( rot < -mTorque )
+			return -mTorque;
+		else
+			return rot;
+	}
+
+	b2Vec2 ManeuverEngine::check_thrust( const b2Vec2& thrust ) const
+	{
+		float L = thrust.Length();
+		return (mThrust / L) * thrust;
+
+	}
+
+	// action functions
 	void ManeuverEngine::rotate(float rot)
 	{
 		rot /= mTorque;

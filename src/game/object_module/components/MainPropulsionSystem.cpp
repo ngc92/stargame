@@ -63,6 +63,17 @@ namespace components
 		return mThrust;
 	}
 
+	float MainPropulsionSystem::check_rotate( float rot ) const
+	{
+		return 0;
+	}
+
+	b2Vec2 MainPropulsionSystem::check_thrust( const b2Vec2& thrust ) const
+	{
+		float thrust_fwd = std::max(0.f, thrust.x);
+		return b2Vec2(std::min(thrust_fwd, (float)mThrust), 0);
+
+	}
 	// action functions
 	void MainPropulsionSystem::rotate(float rot)
 	{
@@ -71,9 +82,8 @@ namespace components
 
 	void MainPropulsionSystem::thrust(const b2Vec2& thr)
 	{
-		float thrust_fwd = std::max(0.f, thr.x) / mThrust;
-		mThrustLevel = std::min(thrust_fwd, 1.f);
-		std::cout << thr.x << " " << thr.y << " " << mThrustLevel << "\n";
+		auto thrust = check_thrust( thr );
+		mThrustLevel = thrust.x / mThrust;
 	}
 
 	// register engine's constructor

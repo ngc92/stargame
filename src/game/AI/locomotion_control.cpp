@@ -1,4 +1,4 @@
-#include "locomotion.h"
+#include "locomotion_control.h"
 #include <Box2D/Common/b2Math.h>
 #include "util/io.h"
 #include <cmath>
@@ -40,10 +40,10 @@ namespace ai
 			return Control(brake_dir, time_to_brake);
 		} else
 		{
-            // here, we have to first rotate to the target and then brake.
-            // just as a crude approximation here, estimate the additional time
-            // by assuming constant acceleration:
-            // future_difference = a/2 t^2
+			// here, we have to first rotate to the target and then brake.
+			// just as a crude approximation here, estimate the additional time
+			// by assuming constant acceleration:
+			// future_difference = a/2 t^2
 			return Control(-brake_dir, time_to_brake + std::sqrt(2 * future_difference / max_accel));
 		}
 	}
@@ -64,6 +64,22 @@ namespace ai
 		// normalize steering vector
 		distance.Normalize();
 		return Control(max_accel * distance, time_to);
+	}
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+	Control cruise_control( const b2Vec2& vel, float target_speed, float max_accel )
+	{
+		float scale = target_speed / vel.Length();
+		b2Vec2 target_vel = scale * vel;
+		return cruise_control(vel, target_vel, max_accel);
+	}
+
+	Control cruise_control( const b2Vec2& vel, const b2Vec2& target_vel, float max_accel )
+	{
+		b2Vec2 dif = target_vel - vel;
+		float L = dif.Length();
+		return Control(max_accel/L * dif, L/max_accel);
 	}
 
 }
