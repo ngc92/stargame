@@ -1,4 +1,4 @@
-# stargame
+# stargame									{#mainpage}
 yep, that's the name for now!
 
 

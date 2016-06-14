@@ -6,11 +6,7 @@
 
 namespace game
 {
-/*! \namespace game::ai
-	\brief namespace for classes and functions related to the artificial intelligence of
-			units and squats.
-	\details
-*/
+
 namespace ai
 {
 	/*! \brief Structure that contains calculated control variables.
@@ -18,6 +14,7 @@ namespace ai
 			when the respective goal will be met.
 			The steering variables are boost::optional, to allow to indicate that
 			not necessarly both are required.
+			Objects of this type are used as output from low level steering methods.
 	*/
 	struct Control
 	{

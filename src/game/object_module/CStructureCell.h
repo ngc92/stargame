@@ -9,7 +9,7 @@ class b2Shape;
 namespace game
 {
 	typedef std::vector<std::shared_ptr<IComponent>> comp_vec_t;
-	/*! \class StructureCell
+	/*! \class CStructureCell
 		\brief A single cell within the space ships structural built.
 		\details A cell is a part of the space ship, which is localized and
 				can hold one or more ship components.

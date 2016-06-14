@@ -46,12 +46,8 @@
   - [ ] sensor component and panel
 - [ ] light manager (we'll need that later for nice effects)
 
-## Autopilot submodule: lowest level of micro-ai within game thread
-- [ ] set desired position, velocity and orientation
-- [ ] find a way to allow communication between engine and autopilot
-- [ ] communicate to autopilot
-
 ## AI
+- [ ] low level micro ai: basic actions. see ai.md for more detailled list of subgoals.
 
 ## Sound
 

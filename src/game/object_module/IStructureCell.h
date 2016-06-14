@@ -9,7 +9,7 @@ class b2Shape;
 
 namespace game
 {
-	/*! \class StructureCell
+	/*! \class IStructureCell
 		\brief A single cell within the space ships structural built.
 		\details A cell is a part of the space ship, which is localized and
 				can hold one or more ship components.
