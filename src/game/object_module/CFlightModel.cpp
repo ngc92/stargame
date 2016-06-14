@@ -66,26 +66,9 @@ namespace game
 		mTotalAngImp += turn_impulse;
 	}
 
-	void CFlightModel::registerPropulsionSystem_( IPropulsionSystem& propsys )
-	{
-		mPropulsionSystems.push_back( &propsys );
-	}
-
-	void CFlightModel::removePropulsionSystem_( IPropulsionSystem& propsys )
-	{
-		auto found = std::find(begin(mPropulsionSystems), end(mPropulsionSystems), &propsys);
-		if(found != end(mPropulsionSystems))
-			mPropulsionSystems.erase( found );
-	}
-
 	float CFlightModel::getTerminalVelocity( float thrust )
 	{
 		/// \todo this currently ignores the operation speed
 		return std::sqrt(thrust / mDragFactor);
-	}
-
-	const std::vector<IPropulsionSystem*>& CFlightModel::getPropulsionSystems() const
-	{
-		return mPropulsionSystems;
 	}
 }

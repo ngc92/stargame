@@ -11,6 +11,16 @@ namespace game
 class IGameObject;
 namespace ai
 {
+	class Control;
+
+	struct ShipInfo
+	{
+		// cached info about our ship
+		float mMaxVelocity = 0;
+		float mMaxThrust = 0;
+		float mMaxTorque = 0;
+	};
+
 	namespace micro_behaviours
 	{
 		//! \brief Move to desired position.
@@ -18,38 +28,12 @@ namespace ai
 		struct Face{ b2Vec2 target; };
 
 		using behaviour_t = boost::variant<MoveTo, Face>;
+
+		Control apply( const behaviour_t& behaviour, const IGameObject& object, const ShipInfo& info  );
 	}
 
-	struct ShipInfo
-	{
-		ShipInfo(IGameObject& ship);
-		// cached info about our ship
-		float mMaxVelocity = 0;
-		float mMaxThrust = 0;
-		float mMaxTorque = 0;
-	};
+	using micro_behaviours::behaviour_t;
 
-	class MicroBehaviour
-	{
-	public:
-		MicroBehaviour( IGameObject& target );
-		~MicroBehaviour() = default;
-
-		// setting the current behaviour
-		void move_to(b2Vec2 pos);
-		void face( b2Vec2 pos );
-
-		/// \todo the current design does not allow us to specifiy that object as such should remain const,
-		///			but its inputs should change. Can we do sth. smart about that?
-		void act( IGameObject& object );
-
-		void updateShipInfo(IGameObject& ship);
-	private:
-
-		micro_behaviours::behaviour_t mCurrentBehaviour;
-
-		ShipInfo mInfo;
-	};
 }
 }
 

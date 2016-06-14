@@ -15,6 +15,7 @@
 #include "game/object_module/CAffiliation.h"
 #include "game/object_module/CTimedDeletion.h"
 #include "game/object_module/CImpactDamageSource.h"
+#include "game/object_module/CAIModule.h"
 #include <Box2D/Box2D.h>
 #include <cassert>
 
@@ -71,6 +72,7 @@ namespace spawn
 		object.addModule( std::make_shared<CFlightModel>( 1.0, 0.2 ) );
 		object.addModule( std::make_shared<CAffiliation>( team ) );
 		object.addModule( std::make_shared<CImpactDamageSource>( 0.01, 1.0 ) );
+		object.addModule( std::make_shared<CAIModule>( ) );
 
 		object.addProperty( property::CProperty::create("_type_", &object, std::string("ship")) );
 		dat.addAttributes( object );

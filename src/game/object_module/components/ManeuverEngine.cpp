@@ -1,6 +1,7 @@
 #include "ManeuverEngine.h"
 #include "game/IGameObject.h"
 #include "game/object_module/IFlightModel.h"
+#include "game/object_module/IAIModule.h"
 #include <iostream>
 
 namespace game
@@ -27,7 +28,9 @@ namespace components
 		mTank = getSupplier(object, "fuel");
 		mFlightModel = object.getModuleAsType<IFlightModel>();
 		assert(mFlightModel);
-		mFlightRegistration = IFlightModel::registerPropulsionSystem(mFlightModel, *this);
+		auto ai = object.getModuleAsType<IAIModule>();
+		if(ai)
+			mFlightRegistration = ai->registerPropulsionSystem(*this);
 	}
 
 	void ManeuverEngine::step(IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action)

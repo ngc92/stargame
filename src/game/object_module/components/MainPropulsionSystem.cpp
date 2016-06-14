@@ -1,6 +1,7 @@
 #include "MainPropulsionSystem.h"
 #include "game/IGameObject.h"
 #include "game/object_module/IFlightModel.h"
+#include "game/object_module/IAIModule.h"
 #include "consts.h"
 #include <iostream>
 
@@ -25,7 +26,9 @@ namespace components
 	{
 		mTank = getSupplier(object, "fuel");
 		mFlightModel = object.getModuleAsType<IFlightModel>();
-		mFlightRegistration = IFlightModel::registerPropulsionSystem(mFlightModel, *this);
+		auto ai = object.getModuleAsType<IAIModule>();
+		if(ai)
+			mFlightRegistration = ai->registerPropulsionSystem(*this);
 		assert(mFlightModel);
 	}
 

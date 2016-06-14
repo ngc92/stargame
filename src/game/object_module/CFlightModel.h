@@ -24,11 +24,7 @@ namespace game
 		// info functions
 		float getTerminalVelocity( float thrust ) override;
 
-		const std::vector<IPropulsionSystem*>& getPropulsionSystems() const override;
 	private:
-		void registerPropulsionSystem_( IPropulsionSystem& propsys ) override;
-		void removePropulsionSystem_( IPropulsionSystem& propsys ) override;
-
 		// flight model properties
 		float mOperatingSpeed;
 		float mDragFactor;
@@ -36,8 +32,6 @@ namespace game
 		// cached commands
 		b2Vec2 mTotalThrust;
 		float mTotalAngImp = 0;
-
-		std::vector<IPropulsionSystem*> mPropulsionSystems;
 	};
 }
 

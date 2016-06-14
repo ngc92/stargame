@@ -49,28 +49,13 @@ namespace ai
 		};
 	}
 
-	MicroBehaviour::MicroBehaviour( IGameObject& target ) : mInfo(target)
+	Control micro_behaviours::apply( const behaviour_t& behaviour, const IGameObject& object, const ShipInfo& info  )
 	{
-
+		micro_behaviours::visitor visitor{object, info};
+		return behaviour.apply_visitor(visitor);
 	}
 
-	ShipInfo::ShipInfo(IGameObject& ship)
-	{
-		IFlightModel& model = *ship.getModuleAsType<IFlightModel>();
-		auto& propulsion = model.getPropulsionSystems();
-		for(auto& s : propulsion)
-		{
-			mMaxThrust += s->getMaxThrust();
-			mMaxTorque += s->getMaxTorque();
-		}
-
-		mMaxVelocity = model.getTerminalVelocity( mMaxThrust );
-	}
-
-	void MicroBehaviour::updateShipInfo(IGameObject& ship)
-	{
-		mInfo = ShipInfo(ship);
-	}
+	/*
 
 	void MicroBehaviour::move_to(b2Vec2 pos)
 	{
@@ -92,5 +77,6 @@ namespace ai
 			propulsion[i]->rotate( steering[i].rotate.get() );
 		}
 	}
+*/
 }
 }
