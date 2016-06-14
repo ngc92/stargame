@@ -86,6 +86,8 @@
 		<Unit filename="src/debug/IDebugDraw.h" />
 		<Unit filename="src/debug/ObjectCounter.cpp" />
 		<Unit filename="src/debug/ObjectCounter.h" />
+		<Unit filename="src/game/AI/locomotion.cpp" />
+		<Unit filename="src/game/AI/locomotion.h" />
 		<Unit filename="src/game/CGameObject.cpp" />
 		<Unit filename="src/game/CGameObject.h" />
 		<Unit filename="src/game/CGameViewModule.cpp" />

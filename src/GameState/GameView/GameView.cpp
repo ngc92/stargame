@@ -28,7 +28,6 @@ void GameView::onSpawn(game::IGameObjectView& spawned)
 {
 	/// \todo load the model based on embedded data
 	auto type = boost::get<std::string>(spawned.getProperty("_type_").value());
-	std::cout << type << "\n";
 	/// \todo find a better way to keep track of those listeners! Remove when they are done!
 	mRemoveListenerDump.push_back(mGFX->addShip(spawned, type));
 }

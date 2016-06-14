@@ -17,8 +17,16 @@ namespace game
 	class IFlightModel : public IGameObjectModule
 	{
 	public:
+		// physics functions
+		/// change the physical state of the object to accelerate with force thrust_vector
 		virtual void thrust( b2Vec2 thrust_vector ) = 0;
-		virtual void rotate( float turn_impulse )   = 0;
+		/// change the physical state of the object to turn with \p torque,
+		virtual void rotate( float torque )   = 0;
+
+		// control functions
+		/// sets the control variables of the registered propulsion systems so as to
+		/// generate the desired (linear and angular) acceleration.
+		virtual void steer( b2Vec2 desired_linear_accel, float desired_angular_accel ) = 0;
 
 		// auto pilot functions
 		static auto registerPropulsionSystem( std::shared_ptr<IFlightModel> model, IPropulsionSystem& propsys );
