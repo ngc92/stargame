@@ -8,6 +8,8 @@
 #include "spawn/CSpawnManager.h"
 #include "spawn/SpawnData.h"
 
+#include "ai/micro_behaviour.h"
+
 namespace game
 {
 	Game::Game() :
@@ -30,8 +32,14 @@ namespace game
 	void Game::run()
 	{
 		auto world = mGameWorld.get();
-		mSpawnManager->spawn(*world, spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(0,0)).set_id(0));
-		mSpawnManager->spawn(*world, spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(50,50)).set_id(1));
+		auto player = mSpawnManager->spawn(*world, spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(0,0)).set_id(0));
+		auto spawned = mSpawnManager->spawn(*world, spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(50,50)).set_id(1));
+		static auto lst = spawned->addStepListener([spawned, mai = ai::MicroBehaviour(*spawned), player]() mutable
+						{
+							if(player->isAlive())
+								mai.move_to( player->position() );
+							mai.act(*spawned);
+						});
 		mRunGame = true;
 	}
 

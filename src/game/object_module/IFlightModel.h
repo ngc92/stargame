@@ -2,17 +2,10 @@
 #define IFLIGHTMODEL_H_INCLUDED
 
 #include "common_includes.h"
-#include <boost/optional.hpp>
 
 namespace game
 {
 	class IPropulsionSystem;
-	struct SFlightState
-	{
-		boost::optional<b2Vec2> position;
-		boost::optional<b2Vec2> velocity;
-		boost::optional<float> rotation;
-	};
 
 	class IFlightModel : public IGameObjectModule
 	{
@@ -23,13 +16,13 @@ namespace game
 		/// change the physical state of the object to turn with \p torque,
 		virtual void rotate( float torque )   = 0;
 
-		// control functions
-		/// sets the control variables of the registered propulsion systems so as to
-		/// generate the desired (linear and angular) acceleration.
-		virtual void steer( b2Vec2 desired_linear_accel, float desired_angular_accel ) = 0;
+		/// returns a vector containing all registered propulsion systems.
+		virtual const std::vector<IPropulsionSystem*>& getPropulsionSystems() const = 0;
 
 		// auto pilot functions
 		static auto registerPropulsionSystem( std::shared_ptr<IFlightModel> model, IPropulsionSystem& propsys );
+
+		virtual float getTerminalVelocity( float thrust ) = 0;
 
 //		virtual void pilot( const IGameObject& ship, const SFlightState& target_state ) = 0;
 	private:

@@ -83,7 +83,7 @@ namespace gfx
 		if(f)
 		{
 			mCamera->addAnimator( createTrackAnimator(node) );
-			mCamera->addAnimator( createFollowAnimator(node, 25, 0.1, 100, core::vector3df(0,20,0)) );
+			mCamera->addAnimator( createFollowAnimator(node, 30, 0.1, 100, core::vector3df(0,20,0)) );
 			f = false;
 		}
 
