@@ -5,6 +5,7 @@
 #include "micro_behaviour.h"
 #include "locomotion_solvers.h"
 #include "locomotion_control.h"
+#include <iostream>
 
 namespace game
 {
@@ -39,15 +40,11 @@ namespace ai
 	void MicroAI::move_to(b2Vec2 pos)
 	{
 		mCurrentBehaviour = micro_behaviours::MoveTo{pos};
-		mActive = true;
 	}
 
 
 	void MicroAI::act( const IGameObject& object )
 	{
-		if(!mActive)
-			return;
-
 		// update info
 		for(const auto& s : mPropulsionSystems)
 		{

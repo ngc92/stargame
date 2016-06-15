@@ -162,6 +162,11 @@ namespace game
 		/// \todo hit event listener, including ship destruction
 	}
 
+	void CSubStructure::registerAtAI( ai::IAIRegistrator& reg )
+	{
+		foreachComponent([](auto& component, auto reg){component.registerAtAI(reg);}, std::ref(reg));
+	}
+
 	float CSubStructure::maxHP() const
 	{
 		return mMaxStructurePoints;
@@ -187,6 +192,4 @@ namespace game
 		using idt = boost::indirect_iterator<decltype(mCells.begin())>;
 		return cell_range_t( idt(begin(mCells)), idt(end(mCells)) );
 	}
-
-	CSubStructure test;
 }

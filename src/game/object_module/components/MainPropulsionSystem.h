@@ -17,6 +17,7 @@ namespace components
 			virtual ~MainPropulsionSystem();
 
 			void init(IGameObject& object) override;
+			void registerAtAI( ai::IAIRegistrator& reg ) override;
 			void step(IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action) override;
 
 			// propulsion system interface

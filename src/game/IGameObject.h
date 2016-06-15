@@ -72,9 +72,7 @@ namespace game
 		template<class T>
 		std::shared_ptr<T> getModuleAsType();
 
-		// iteration functions
-		module_iter module_begin() { return getModules().begin(); }
-		module_iter module_end() { return getModules().end(); }
+		const module_vec& modules() { return getModules(); }
 
 	private:
 		virtual module_vec& getModules() = 0;
@@ -84,7 +82,7 @@ namespace game
 	template<class T>
 	std::shared_ptr<T> IGameObject::getModuleAsType()
 	{
-		for(auto& module : getModules())
+		for(auto& module : modules())
 		{
 			// try to cast to desired type
 			auto ptr = std::dynamic_pointer_cast<T>(module);

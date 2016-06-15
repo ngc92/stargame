@@ -53,6 +53,8 @@ namespace game
 
 		void onDamage( IGameObject& object, const Damage& damage, const b2Vec2& pos, const b2Vec2& dir ) override;
 
+		void registerAtAI( ai::IAIRegistrator& reg ) override;
+
 		// hitpoints, weight, etc
 		float HP() const final;
 		float maxHP() const final;

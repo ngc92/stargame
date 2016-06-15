@@ -22,12 +22,13 @@ namespace components
 			virtual ~CComponent() = default;
 
 			float onDamage( float dam ) final;
+			void registerAtAI( ai::IAIRegistrator& reg ) override { /*! default implementation: do nothing */ }
 
 			// common properties
 			float weight() 	const final;
 			float maxHP() 	const final;
 			float HP() 		const final;
-			
+
 			void setWeight( float weight ) final;
 			void setHitPoints( float current, float max = -1 ) final;
 
@@ -50,8 +51,8 @@ namespace components
 	/// tries to find a supplier for \p resource within the components of \p object.
 	/// This requires \p object to have a ISubStructure module.
 	std::weak_ptr<IComponent> getSupplier( IGameObject& object, const std::string& resource );
-	
-	
+
+
 	// helper to register a component type
 	template<class T>
 	struct RegisterComponentCreation
@@ -61,7 +62,7 @@ namespace components
 			registerComponentConstructor<T>( std::move(name) );
 		}
 	};
-	
+
 	/// use this macro to register a component for creation
 	#define REG_COMP_MACRO(T) 	\
 	namespace {	auto T##_registrator = RegisterComponentCreation<T>(#T); }

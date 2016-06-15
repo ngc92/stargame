@@ -18,6 +18,7 @@ namespace components
 
 			// component interface
 			void init(IGameObject& object) override;
+			void registerAtAI( ai::IAIRegistrator& reg ) override;
 			void step(IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action) override;
 
 			// info functions

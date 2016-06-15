@@ -21,6 +21,7 @@ namespace ai
 	public:
 		MicroAI( );
 		~MicroAI();
+		MicroAI(MicroAI&&) = default;
 
 		void act( const IGameObject& object );
 
@@ -36,7 +37,6 @@ namespace ai
 
 		std::unique_ptr<ShipInfo> mShipInfo;
 
-		bool mActive = false;
 		behaviour_t mCurrentBehaviour;
 
 	};

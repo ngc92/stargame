@@ -12,6 +12,10 @@ namespace game
 	class IGameObject;
 	class IGameWorld;
 	class WorldActionQueue;
+	namespace ai
+	{
+		class IAIRegistrator;
+	}
 
 	/*! \brief namespace for all ship components.
 		\details This namespace contains the implementations
@@ -44,6 +48,7 @@ namespace game
 				virtual void init(IGameObject& object) = 0;
 				virtual void step(IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action) = 0;
 				virtual float onDamage(float dam) = 0;
+				virtual void registerAtAI( ai::IAIRegistrator& reg ) = 0;
 
 				// ----------------------------------------------------------------------
 				//					non virtual functions that relay work

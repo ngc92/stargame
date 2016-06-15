@@ -9,7 +9,7 @@
 #include "spawn/SpawnData.h"
 
 #include "ai/MicroAI.h"
-#include "object_module/IAIModule.h"
+#include "IGameObjectModule.h"
 
 namespace game
 {
@@ -35,13 +35,19 @@ namespace game
 		auto world = mGameWorld.get();
 		auto player = mSpawnManager->spawn(*world, spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(250, 250)).set_id(0));
 		auto spawned = mSpawnManager->spawn(*world, spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(0,0)).set_id(1));
-		static auto lst = spawned->addStepListener([spawned, player]() mutable
+		static ai::MicroAI AI;
+		for(auto& mod : spawned->modules())
+		{
+			mod->registerAtAI(AI);
+		}
+		static auto lst = spawned->addStepListener([spawned, player, &AI]() mutable
+					{
+						if(player->isAlive())
 						{
-							if(player->isAlive())
-							{
-								spawned->getModuleAsType<IAIModule>()->getAI().lock()->move_to( player->position() );
-							}
-						});
+							AI.move_to( player->position() );
+							AI.act(*spawned);
+						}
+					});
 
 		mRunGame = true;
 	}

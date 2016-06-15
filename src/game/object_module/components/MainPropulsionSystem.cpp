@@ -1,7 +1,7 @@
 #include "MainPropulsionSystem.h"
 #include "game/IGameObject.h"
 #include "game/object_module/IFlightModel.h"
-#include "game/object_module/IAIModule.h"
+#include "game/ai/IAIRegistrator.h"
 #include "consts.h"
 #include <iostream>
 
@@ -26,10 +26,12 @@ namespace components
 	{
 		mTank = getSupplier(object, "fuel");
 		mFlightModel = object.getModuleAsType<IFlightModel>();
-		auto ai = object.getModuleAsType<IAIModule>();
-		if(ai)
-			mFlightRegistration = ai->registerPropulsionSystem(*this);
 		assert(mFlightModel);
+	}
+
+	void MainPropulsionSystem::registerAtAI( ai::IAIRegistrator& reg )
+	{
+		mFlightRegistration = reg.registerPropulsionSystem(*this);
 	}
 
 	void MainPropulsionSystem::step(IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action)

@@ -12,9 +12,6 @@ ships, any engine-like component implements this interface and registers itself 
 init function.
 
 ## TODO
-* move communication interface to ai namespace
-* improve comm registration. ideally, the ai object would never be saved inside any IGameObject object. Maybe
-	add a separate ai registrator and a function similar to init for ai.
 * allow move_to steering with moving target.
 * allow move_to steering with desired terminal velocity.
 * improve precision of steering

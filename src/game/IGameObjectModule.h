@@ -10,6 +10,11 @@ namespace game
 	class WorldActionQueue;
 	class Damage;
 
+	namespace ai
+	{
+		class IAIRegistrator;
+	}
+
 	class IGameObjectModule : public virtual property::IPropertyObject
 	{
 	public:
@@ -28,10 +33,16 @@ namespace game
 		/*! this function is called when damage is dealt to the object.
 			\param object The game object that was damaged.
 			\param damage The amount of damage dealt.
-			\param pos world position where the damage occured.
+			\param pos world position where the damage occurred.
 			\param dir direction in which the damage is to be applied in world coordinates.
 		*/
 		virtual void onDamage( IGameObject& object, const Damage& damage, const b2Vec2& pos, const b2Vec2& dir ) {};
+
+		/*! \brief Registers this module with the AI.
+		 * \details Register this module itself, or any substructures,
+		 * 			with the AI.
+		 */
+		virtual void registerAtAI( ai::IAIRegistrator& reg ) { };
 	};
 }
 
