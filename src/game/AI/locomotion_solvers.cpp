@@ -1,6 +1,6 @@
 #include "locomotion_solvers.h"
 #include "locomotion_control.h"
-#include "game/object_module/IPropulsionSystem.h"
+#include "IPropulsionSystem.h"
 #include "game/physics/convert.h"
 #include "game/physics/body.h"
 
@@ -18,14 +18,14 @@ namespace ai
 	namespace
 	{
 		struct AppliedControl
-        {
-        	b2Vec2 steer = b2Vec2(0,0);
-        	float rotate = 0.f;
-        };
+		{
+			b2Vec2 steer = b2Vec2(0,0);
+			float rotate = 0.f;
+		};
 
 		/// transforms the controls into the target system and transforms accelerations into forces
-        AppliedControl to_target_system(const Control& source, const Body& target)
-        {
+		AppliedControl to_target_system(const Control& source, const Body& target)
+		{
 			AppliedControl control;
 			// convert steering variables into a form in which they are useful here
 			// transform to local coordinates
@@ -36,13 +36,13 @@ namespace ai
 			control.rotate = source.rotate.value_or(0.f) * target.inertia();
 
 			return control;
-        }
+		}
 
-        /// converts the controls to actually possible values, and
-        ///	returns their total effect.
-        AppliedControl make_applied(const propulsion_systems& systems, std::vector<AppliedControl>& controls)
-        {
-        	AppliedControl applied;
+		/// converts the controls to actually possible values, and
+		///	returns their total effect.
+		AppliedControl make_applied(const propulsion_systems& systems, std::vector<AppliedControl>& controls)
+		{
+			AppliedControl applied;
 			for(const auto& iter : boost::combine( systems, controls ))
 			{
 				const IPropulsionSystem& system = *iter.get<0>();
@@ -55,14 +55,14 @@ namespace ai
 			}
 
 			return applied;
-        }
+		}
 
-        float iterate(std::vector<AppliedControl>& controls, AppliedControl desired, AppliedControl real, float threshold)
-        {
-        	b2Vec2 steer_difference = (1.f / controls.size()) * (desired.steer - real.steer);
-        	float torque_scale = desired.rotate / real.rotate;
+		float iterate(std::vector<AppliedControl>& controls, AppliedControl desired, AppliedControl real, float threshold)
+		{
+			b2Vec2 steer_difference = (1.f / controls.size()) * (desired.steer - real.steer);
+			float torque_scale = desired.rotate / real.rotate;
 
-        	float rot_error = std::abs(desired.rotate - real.rotate) / (std::abs(desired.rotate) + 1e-5);
+			float rot_error = std::abs(desired.rotate - real.rotate) / (std::abs(desired.rotate) + 1e-5);
 			float steer_error = steer_difference.Length() / (desired.steer.Length() + 1e-5);
 			float error = std::max( rot_error, steer_error );
 			if( error < threshold )
@@ -75,7 +75,7 @@ namespace ai
 			}
 
 			return error;
-        }
+		}
 	}
 
 	std::vector<Control> steer( const propulsion_systems& systems, const Control& control_src, const physics::Body& target )

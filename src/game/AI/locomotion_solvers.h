@@ -5,7 +5,6 @@
 
 namespace game
 {
-class IPropulsionSystem;
 namespace physics
 {
 	class Body;
@@ -14,6 +13,7 @@ namespace physics
 namespace ai
 {
 	class Control;
+	class IPropulsionSystem;
 	/// \todo here we should have const IPropulsionSystem, but there does not seem to be automatic conversion to that.
 	using propulsion_systems = std::vector<IPropulsionSystem*>;
 

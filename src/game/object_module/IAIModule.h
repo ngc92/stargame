@@ -5,17 +5,17 @@
 
 namespace game
 {
-	class IPropulsionSystem;
 	namespace ai
 	{
+		class IPropulsionSystem;
 		class MicroAI;
 	}
 
 	class IAIModule : public IGameObjectModule
 	{
 	public:
-        virtual std::shared_ptr<void> registerPropulsionSystem( IPropulsionSystem& sys ) = 0;
-        virtual std::weak_ptr<ai::MicroAI> getAI() = 0;
+		virtual std::shared_ptr<void> registerPropulsionSystem( ai::IPropulsionSystem& sys ) = 0;
+		virtual std::weak_ptr<ai::MicroAI> getAI() = 0;
 	};
 }
 

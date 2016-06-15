@@ -25,7 +25,7 @@ namespace game
 
 	}
 
-	std::shared_ptr<void> CAIModule::registerPropulsionSystem( IPropulsionSystem& sys )
+	std::shared_ptr<void> CAIModule::registerPropulsionSystem( ai::IPropulsionSystem& sys )
 	{
 		return mAI->registerPropulsionSystem(sys);
 	}

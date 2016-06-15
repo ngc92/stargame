@@ -5,6 +5,8 @@ class b2Vec2;
 
 namespace game
 {
+namespace ai
+{
 	/*! \class IPropulsionSystem
 		\brief Base class for anything that can move a game object around
 	*/
@@ -24,5 +26,5 @@ namespace game
 		virtual void thrust(const b2Vec2& thr) = 0;
 	};
 }
-
+}
 #endif // IPROPULSIONSYSTEM_H_INCLUDED

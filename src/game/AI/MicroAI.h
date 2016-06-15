@@ -5,18 +5,19 @@
 #include <vector>
 
 #include "micro_behaviour.h"
+#include "IAIRegistrator.h"
 
 namespace game
 {
 class IGameObject;
-class IPropulsionSystem;
 namespace ai
 {
+	class IPropulsionSystem;
 	class ShipInfo;
 
-    class MicroAI
-    {
-    	class Registrator;
+	class MicroAI : public IAIRegistrator
+	{
+		class Registrator;
 	public:
 		MicroAI( );
 		~MicroAI();
@@ -24,7 +25,7 @@ namespace ai
 		void act( const IGameObject& object );
 
 		// registration/removal of prop sys
-		std::shared_ptr<void> registerPropulsionSystem( IPropulsionSystem& propsys );
+		std::shared_ptr<void> registerPropulsionSystem( IPropulsionSystem& propsys ) override;
 		void removePropulsionSystem( IPropulsionSystem& propsys );
 
 		void move_to(b2Vec2 pos);
@@ -38,7 +39,7 @@ namespace ai
 		bool mActive = false;
 		behaviour_t mCurrentBehaviour;
 
-    };
+	};
 }
 }
 #endif // MICROAI_H_INCLUDED

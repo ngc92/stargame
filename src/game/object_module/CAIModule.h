@@ -22,7 +22,7 @@ namespace game
 		void onStep( IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action) override;
 		void onInit( IGameObject& object, IGameWorld& world ) override;
 
-		std::shared_ptr<void> registerPropulsionSystem( IPropulsionSystem& sys ) override;
+		std::shared_ptr<void> registerPropulsionSystem( ai::IPropulsionSystem& sys ) override;
 		std::weak_ptr<ai::MicroAI> getAI() override;
 	private:
 		std::shared_ptr<ai::MicroAI> mAI;

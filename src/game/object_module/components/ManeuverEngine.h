@@ -3,15 +3,14 @@
 
 #include "CComponent.h"
 #include "input/IInputElement.h"
-#include "game/object_module/IPropulsionSystem.h"
+#include "game/ai/IPropulsionSystem.h"
 
 namespace game
 {
 	class IFlightModel;
 namespace components
 {
-	//! \todo Möglichkeit Einbauen, evtl. einen zweiten Tank zu nutzen usw
-	class ManeuverEngine : public CComponent, public IPropulsionSystem
+	class ManeuverEngine : public CComponent, public ai::IPropulsionSystem
 	{
 		public:
 			ManeuverEngine();

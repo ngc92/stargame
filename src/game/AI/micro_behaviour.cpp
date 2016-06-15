@@ -1,6 +1,6 @@
 #include "micro_behaviour.h"
 #include "game/object_module/IFlightModel.h"
-#include "game/object_module/IPropulsionSystem.h"
+#include "IPropulsionSystem.h"
 #include "game/physics/body.h"
 
 #include "locomotion_control.h"
@@ -13,8 +13,8 @@ namespace ai
 {
 	namespace micro_behaviours
 	{
-        Control get_steering(const MoveTo& behaviour, const IGameObject& target, const ShipInfo& info)
-        {
+		Control get_steering(const MoveTo& behaviour, const IGameObject& target, const ShipInfo& info)
+		{
 			///! \note this code is not finished!
 			Control steer_fly = steer_to_position(target.position(), behaviour.target, target.velocity(),
 												info.mMaxThrust / target.body().mass(), info.mMaxVelocity);
@@ -25,17 +25,17 @@ namespace ai
 													info.mMaxTorque / target.body().inertia());
 			steer_fly.rotate = target_rotate.rotate;
 			return steer_fly;
-        }
+		}
 
 		Control get_steering(const Face& behaviour, const IGameObject& target, const ShipInfo& info)
-        {
-        	auto steer_vec = behaviour.target - target.position();
-        	float target_angle = std::atan2( steer_vec.y, steer_vec.x );
+		{
+			auto steer_vec = behaviour.target - target.position();
+			float target_angle = std::atan2( steer_vec.y, steer_vec.x );
 			return rotate_to_angle(target.angle(), target_angle, target.angular_velocity(),
 													info.mMaxTorque / target.body().inertia());
-        }
+		}
 
-        struct visitor : boost::static_visitor<Control>
+		struct visitor : boost::static_visitor<Control>
 		{
 			visitor(const IGameObject& o, const ShipInfo& i) : object(o), info(i) {}
 			const IGameObject& object;

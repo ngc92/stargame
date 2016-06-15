@@ -1,7 +1,7 @@
 #include "MicroAI.h"
 #include "game/IGameObject.h"
-#include "game/object_module/IPropulsionSystem.h"
 #include "game/object_module/IFlightModel.h"
+#include "IPropulsionSystem.h"
 #include "micro_behaviour.h"
 #include "locomotion_solvers.h"
 #include "locomotion_control.h"
