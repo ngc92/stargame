@@ -2,12 +2,13 @@
 #define WEAPON_H_INCLUDED
 
 #include "CComponent.h"
+#include "game/ai/IWeaponSystem.h"
 
 namespace game
 {
 namespace components
 {
-	class FixedGun : public CComponent
+	class FixedGun : public CComponent, public ai::IWeaponSystem
 	{
 
 	public:
@@ -15,6 +16,11 @@ namespace components
 		void init(IGameObject& object) override;
 		void step(IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action) override;
 
+		// IWeaponSystem interface
+		void registerAtAI( ai::IAIRegistrator& reg ) override;
+
+		// action functions
+		void fire() override;
 	private:
 		Property<std::string> mAmmoType;
 		Property<int> mAmmoAmount;
@@ -27,6 +33,9 @@ namespace components
 
 		// control
 		Property<float> mFireButton; /// \todo enable bool controls!
+
+		std::shared_ptr<void> mAiReg;; //!< this variable contains just a d'tor to unregister
+
 	};
 }
 }

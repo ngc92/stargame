@@ -86,6 +86,9 @@
 		<Unit filename="src/debug/IDebugDraw.h" />
 		<Unit filename="src/debug/ObjectCounter.cpp" />
 		<Unit filename="src/debug/ObjectCounter.h" />
+		<Unit filename="src/game/AI/CAIManager.cpp" />
+		<Unit filename="src/game/AI/CAIManager.h" />
+		<Unit filename="src/game/AI/IAIManager.h" />
 		<Unit filename="src/game/AI/IAIRegistrator.h" />
 		<Unit filename="src/game/AI/IPropulsionSystem.h" />
 		<Unit filename="src/game/AI/MicroAI.cpp" />

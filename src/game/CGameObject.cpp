@@ -17,7 +17,8 @@ namespace game
 
 	CGameObject::~CGameObject()
 	{
-		mBody.destroy();
+		if(mIsAlive)
+			remove();
 	}
 
 	void CGameObject::remove()

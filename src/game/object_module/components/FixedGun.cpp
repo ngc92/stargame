@@ -5,6 +5,7 @@
 #include "game/IGameObject.h"
 #include "game/spawn/SpawnData.h"
 #include "game/WorldAction.h"
+#include "game/ai/IAIRegistrator.h"
 
 namespace game
 {
@@ -13,7 +14,7 @@ namespace components
 	FixedGun::FixedGun():
 		CComponent(100, 100, "FixedGun"),
 		mAmmoType("ammo_type", this, std::string("AP")),
-		mAmmoAmount("ammo_amount", this, 100),
+		mAmmoAmount("ammo_amount", this, 1000),
 		mPrecision("precision", this, 1),
 		mCaliber("caliber", this, 10),
 		mRPM("rpm", this, 60),
@@ -24,6 +25,11 @@ namespace components
 
 	void FixedGun::init(IGameObject& object)
 	{
+	}
+
+	void FixedGun::registerAtAI( ai::IAIRegistrator& reg )
+	{
+		mAiReg = reg.registerWeaponSystem(*this);
 	}
 
 	void FixedGun::step(IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action)
@@ -42,6 +48,11 @@ namespace components
 			subordinate(data, object);
 			push_action( spawn::make_spawner(data) );
 		}
+	}
+
+	void FixedGun::fire()
+	{
+		mFireButton = 1.f;
 	}
 
 	REG_COMP_MACRO(FixedGun);

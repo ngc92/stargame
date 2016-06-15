@@ -35,8 +35,10 @@ namespace game
 	void Game::run()
 	{
 		auto world = mGameWorld.get();
-		auto player = mSpawnManager->spawn(*world, spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(250, 250)).set_id(0));
-		auto spawned = mSpawnManager->spawn(*world, spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(0,0)).set_id(1));
+		auto player = mSpawnManager->spawn(*world, spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(50, 50)).set_id(0));
+		auto edat = spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(300, 50));
+		edat.angle = 3;
+		auto spawned = mSpawnManager->spawn(*world, edat.set_id(1));
 		auto AI = mAIManager->createAIFor(*spawned);
 		static auto lst = spawned->addStepListener([spawned, player, AI]() mutable
 					{

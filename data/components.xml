@@ -6,7 +6,7 @@
 	<properties>
 		<max_thrust>10000</max_thrust>
 		<efficiency>5000</efficiency>
-		<torque>20000</torque>
+		<torque>25000</torque>
 	</properties>
 </component>
 

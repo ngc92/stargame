@@ -27,17 +27,20 @@ namespace ai
 
 		// registration/removal of prop sys
 		std::shared_ptr<void> registerPropulsionSystem( IPropulsionSystem& propsys ) override;
-		void removePropulsionSystem( IPropulsionSystem& propsys );
+		std::shared_ptr<void> registerWeaponSystem( IWeaponSystem& propsys ) override;
+		void removeSystem( IPropulsionSystem& propsys );
+		void removeSystem( IWeaponSystem& propsys );
 
 		void move_to(b2Vec2 pos);
 
 	private:
 		std::vector<IPropulsionSystem*> mPropulsionSystems;
+		std::vector<IWeaponSystem*> mWeaponSystems;
 		std::shared_ptr<Registrator> mRegistrator;
 
 		std::unique_ptr<ShipInfo> mShipInfo;
 
-		behaviour_t mCurrentBehaviour;
+		std::vector<behaviour_t> mCurrentBehaviours;
 
 	};
 }
