@@ -20,8 +20,12 @@ namespace ai
 		virtual ~IAIManager() = default;
 
 		virtual void step() = 0;
+		/// \todo later on, the MicroAI should not be visible to the end user.
 		virtual std::shared_ptr<MicroAI> createAIFor( IGameObject& target ) = 0;
 	};
+
+	/// this function returns an IAManager object.
+	std::unique_ptr<IAIManager> createDefaultAIManager();
 }
 }
 

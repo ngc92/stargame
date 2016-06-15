@@ -9,7 +9,7 @@
 #include "spawn/SpawnData.h"
 
 #include "ai/MicroAI.h"
-#include "ai/CAIManager.h"
+#include "ai/IAIManager.h"
 #include "IGameObjectModule.h"
 
 namespace game
@@ -21,8 +21,8 @@ namespace game
 		mGameWorld( std::make_unique<CGameWorld>() ),
 		mTimeManager( std::make_unique<CTimeManager>() ),
 		mSpawnManager( std::make_unique<spawn::CSpawnManager>( ) ),
-		mWorldView( std::make_unique<view_thread::CViewThreadGameWorld>( *mGameWorld ) ),
-		mAIManager( std::make_unique<ai::CAIManager>() )
+		mAIManager( ai::createDefaultAIManager() ),
+		mWorldView( std::make_unique<view_thread::CViewThreadGameWorld>( *mGameWorld ) )
 	{
 		mTimeManager->setDesiredFPS(50);
 	};

@@ -31,6 +31,9 @@ namespace ai
 		std::shared_ptr<MicroAI> createAIFor( IGameObject& target ) override;
 	private:
 		std::vector<RegisteredAI> mAIs;
+
+		unsigned mStepCount = 0;
+		unsigned mUpdateInterval = 2;
 	};
 }
 }
