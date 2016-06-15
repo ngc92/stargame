@@ -18,7 +18,7 @@ target=Stargame
 
 
 ifeq ($(DEBUG),1)
-	CXXFLAGS+=-g -ggdb
+	CXXFLAGS+= -Og -g3 -ggdb3
 	OBJDIR=obj/Debug
 	BINDIR=bin/Debug
 else
