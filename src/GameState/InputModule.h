@@ -39,12 +39,16 @@ public:
 	void onKeyEvent(irr::EKEY_CODE key, bool press) override;
 	void onMouseClickEvent(irr::E_MOUSE_BUTTON_STATE_MASK button, bool click, int x, int y) override {};
 private:
-	void onSpawn( const game::IGameObjectView& spawned );
+	void onSpawn( game::IGameObjectView& spawned );
 	void propertyCallback( property::IPropertyView& pview);
+	void reset();
 	long mShipID;
 	std::unique_ptr<input::IInputConfig> mInputConfig;
 	std::vector<std::shared_ptr<input::IInputElement>> mInputElements;
 	ListenerRef mSpawnLst;
+	ListenerRef mRemLst;
+
+	std::shared_ptr<game::IGameObjectView> mControlledObject;
 };
 
 #endif // INPUTMODULE_H_INCLUDED

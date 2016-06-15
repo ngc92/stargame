@@ -29,11 +29,16 @@ void InputModule::init()
 	mSpawnLst = world().addSpawnListener(std::bind(&InputModule::onSpawn, this, _1));
 }
 
-void InputModule::onSpawn(const game::IGameObjectView& spawned)
+void InputModule::onSpawn(game::IGameObjectView& spawned)
 {
 	std::cout << "INPUT MODULE ON SPAWN\n";
 	if(spawned.id() != mShipID)
 		return;
+
+	// save the object into a shared_ptr to ensure that
+	// it does not get destroyed prematurely.
+	mControlledObject = spawned.shared_from_this();
+	mRemLst = spawned.addRemoveListener( std::bind(&InputModule::reset, this ) );
 
 	// found our ship
 	spawned.forallProperties(std::bind(&InputModule::propertyCallback, this, _1));
@@ -47,6 +52,13 @@ void InputModule::onStep()
 {
 	for(auto& elem : mInputElements)
 		elem->onStep();
+}
+
+void InputModule::reset()
+{
+	mInputElements.clear();
+	mControlledObject.reset();
+	mRemLst = ListenerRef();
 }
 
 void InputModule::propertyCallback(property::IPropertyView& property)
