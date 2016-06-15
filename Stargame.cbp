@@ -91,6 +91,7 @@
 		<Unit filename="src/game/AI/IAIManager.h" />
 		<Unit filename="src/game/AI/IAIRegistrator.h" />
 		<Unit filename="src/game/AI/IPropulsionSystem.h" />
+		<Unit filename="src/game/AI/IWeaponSystem.h" />
 		<Unit filename="src/game/AI/MicroAI.cpp" />
 		<Unit filename="src/game/AI/MicroAI.h" />
 		<Unit filename="src/game/AI/locomotion_control.cpp" />
