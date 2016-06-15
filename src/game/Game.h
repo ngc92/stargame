@@ -14,14 +14,19 @@ namespace game
 	class IGameWorld;
 	class IGameObject;
 	class IGameViewModule;
-	namespace spawn 
+	namespace spawn
 	{
 		class ISpawnManager;
 	}
-	
+
 	namespace view_thread
 	{
 		class IViewThreadGameWorld;
+	}
+
+	namespace ai
+	{
+		class IAIManager;
 	}
 
 	using WorldView = view_thread::IViewThreadGameWorld;
@@ -58,6 +63,7 @@ namespace game
 		std::unique_ptr<IGameWorld> mGameWorld;
 		std::unique_ptr<ITimeManager> mTimeManager;
 		std::unique_ptr<spawn::ISpawnManager> mSpawnManager;
+		std::unique_ptr<ai::IAIManager> mAIManager;
 
 		std::unique_ptr<view_thread::IViewThreadGameWorld> mWorldView;
 

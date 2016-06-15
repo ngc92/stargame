@@ -9,6 +9,7 @@
 #include "spawn/SpawnData.h"
 
 #include "ai/MicroAI.h"
+#include "ai/CAIManager.h"
 #include "IGameObjectModule.h"
 
 namespace game
@@ -20,7 +21,8 @@ namespace game
 		mGameWorld( std::make_unique<CGameWorld>() ),
 		mTimeManager( std::make_unique<CTimeManager>() ),
 		mSpawnManager( std::make_unique<spawn::CSpawnManager>( ) ),
-		mWorldView( std::make_unique<view_thread::CViewThreadGameWorld>( *mGameWorld ) )
+		mWorldView( std::make_unique<view_thread::CViewThreadGameWorld>( *mGameWorld ) ),
+		mAIManager( std::make_unique<ai::CAIManager>() )
 	{
 		mTimeManager->setDesiredFPS(50);
 	};
@@ -35,20 +37,14 @@ namespace game
 		auto world = mGameWorld.get();
 		auto player = mSpawnManager->spawn(*world, spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(250, 250)).set_id(0));
 		auto spawned = mSpawnManager->spawn(*world, spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(0,0)).set_id(1));
-		static ai::MicroAI AI;
-		for(auto& mod : spawned->modules())
-		{
-			mod->registerAtAI(AI);
-		}
-		static auto lst = spawned->addStepListener([spawned, player, &AI]() mutable
+		auto AI = mAIManager->createAIFor(*spawned);
+		static auto lst = spawned->addStepListener([spawned, player, AI]() mutable
 					{
 						if(player->isAlive())
 						{
-							AI.move_to( player->position() );
-							AI.act(*spawned);
+							AI->move_to( player->position() );
 						}
 					});
-
 		mRunGame = true;
 	}
 
@@ -72,6 +68,7 @@ namespace game
 				mTimeManager->waitTillNextFrame();
 				// update the world
 				mGameWorld->step( *mSpawnManager );
+				mAIManager->step();
 
 				// update the world references
 				mWorldView->update();
