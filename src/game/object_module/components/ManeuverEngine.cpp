@@ -78,6 +78,8 @@ namespace components
 	b2Vec2 ManeuverEngine::check_thrust( const b2Vec2& thrust ) const
 	{
 		float L = thrust.Length();
+		if(L < mThrust)
+			return thrust;
 		return (mThrust / L) * thrust;
 
 	}
