@@ -23,5 +23,5 @@ TODO:
 * in terms of efficientcy, there is still room for improvement: if we do two simulation steps for one
   view step, we are sending the game object updates twice.
 
-![alt text](threading.svg "Threading schematic")
+![Diagram](threading.svg "Threading schematic")
 
