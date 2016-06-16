@@ -41,11 +41,6 @@ namespace view_thread
 		// update all thread views
 		for(auto& object : mGameObjects)
 			object->update();
-
-		// remove objects that are no longer alive.
-		using namespace std;
-		auto nlast = remove_if(begin(mGameObjects), end(mGameObjects), [](const std::shared_ptr<IViewThreadGameObject>& o){ return !o->isAlive(); });
-		mGameObjects.resize(distance(begin(mGameObjects), nlast));
 	}
 
 	/// function to process the spawn of a new object.
@@ -82,6 +77,13 @@ namespace view_thread
 	void CViewThreadGameWorld::doGOStep()
 	{
 		std::lock_guard<std::mutex> lock(mUpdateMutex);
+
+		// remove objects that are no longer alive.
+		// we need to do this here in the game thread, so that the objects
+		// destructor is called in the game thread.
+		auto nlast = std::remove_if(begin(mGameObjects), end(mGameObjects), [](const auto& o){ return !o->isAlive(); });
+		mGameObjects.resize(std::distance(begin(mGameObjects), nlast));
+
 		// step all game objects
 		for(auto& obj : mGameObjects)
 			obj->onStep();
