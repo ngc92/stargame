@@ -69,7 +69,7 @@ namespace view_thread
 
 	CViewThreadGameObject::~CViewThreadGameObject()
 	{
-
+		mRemoveListeners.notify();
 	}
 
 
@@ -129,10 +129,12 @@ namespace view_thread
 	}
 
 	/*! update the thread view with the original data.
-		\details This function shall only be called
+		\attention This function shall only be called
 			when it is save to access \p object
 			without danger of race conditions, i.e.
 			outside the game loop.
+			This function is called from within the
+			game thread.
 	*/
 	void CViewThreadGameObject::update()
 	{
@@ -146,7 +148,6 @@ namespace view_thread
 		{
 			// if we lost the original, definitely no longer alive
 			mIsAlive = false;
-			mRemoveListeners.notify();
 			return;
 		}
 
@@ -156,7 +157,6 @@ namespace view_thread
 		if(!object.isAlive())
 		{
 			mIsAlive = false;
-			mRemoveListeners.notify();
 			return;
 		}
 
