@@ -1,7 +1,7 @@
 #ifndef INPUTMODULE_H_INCLUDED
 #define INPUTMODULE_H_INCLUDED
 
-#include "game/CGameViewModule.h"
+#include "game/IGameViewModule.h"
 #include "IEventListener.h"
 #include "listener/listener.h"
 #include <memory>
@@ -26,14 +26,14 @@ namespace input
 	class IInputConfig;
 }
 
-class InputModule : public game::CGameViewModule, public IEventListener
+class InputModule : public game::IGameViewModule, public IEventListener
 {
 public:
 	InputModule(IEngine*, long myship);
 	~InputModule();
 
-	void onStep() override;
-	void init() override;
+	void step( game::IGameWorldView& world_view ) override;
+	void init( game::IGameWorldView& world_view ) override;
 
 	void registerListener( const IInputManager* mgr) override {}
 	void onKeyEvent(irr::EKEY_CODE key, bool press) override;

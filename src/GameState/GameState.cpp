@@ -32,8 +32,6 @@ GameState::~GameState()
 void GameState::update()
 {
 	mGame->step();
-	for(auto& module : mModules)
-		module->step();
 }
 
 void GameState::onDraw()

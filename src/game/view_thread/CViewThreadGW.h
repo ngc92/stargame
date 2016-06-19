@@ -3,6 +3,7 @@
 
 #include "IViewThreadGW.h"
 #include <unordered_map>
+#include <thread>					// to debug threading
 #include "listener/listenerlist.h"
 
 namespace game
@@ -66,11 +67,16 @@ namespace game
 			/// function to process the spawn of a new object.
 			void onSpawn(IGameObjectView& object);
 
-			/// mutex for the update process
-			mutable std::mutex mUpdateMutex;
+			/// this mutex protects all access to mGameObjects.
+			mutable std::mutex mGameObjects_mutex;
 
-			/// mutex for delayed callback
-			mutable std::mutex mStepActionMutex;
+			///  this mutex protects all access to mStepAction.
+			mutable std::mutex mStepAction_mutex;
+
+			// debugging
+			std::thread::id mViewThreadId;
+			void CHECK_RAN_IN_VIEW_THREAD() const;
+			void CHECK_RAN_IN_GAME_THREAD() const;
 		};
 	}
 }

@@ -1,6 +1,9 @@
 #include "Game.h"
 #include "CGameWorld.h"
 #include "view_thread/CViewThreadGW.h"
+#include "view_thread/CSimulationThreadWriter.h"
+#include "view_thread/CViewThreadReader.h"
+#include "view_thread/EventStream.h"
 #include "IGameObject.h"
 #include "IGameViewModule.h"
 #include "util.h"
@@ -17,9 +20,13 @@ namespace game
 		mGameWorld( std::make_unique<CGameWorld>() ),
 		mTimeManager( std::make_unique<CTimeManager>() ),
 		mSpawnManager( std::make_unique<spawn::CSpawnManager>( ) ),
-		mWorldView( std::make_unique<view_thread::CViewThreadGameWorld>( *mGameWorld ) )
+		mWorldView( std::make_unique<view_thread::CViewThreadGameWorld>( *mGameWorld ) ),
+		mEventStream( std::make_unique<view_thread::EventStream>()),
+		mExportModule( std::make_shared<view_thread::CSimulationThreadWriter>( *mEventStream ) ),
+		mImportModule( std::make_shared<view_thread::CViewThreadReader>( *mEventStream ) )
 	{
 		mTimeManager->setDesiredFPS(50);
+		mExportModule->init(*mGameWorld);
 	};
 	Game::~Game()
 	{
@@ -43,7 +50,17 @@ namespace game
 	void Game::step()
 	{
 		mWorldView->step();
-		/// \todo should we step modules here?
+		for(auto& mod : mModules)
+		{
+			auto locked = mod.lock();
+			if(locked)
+			{
+				std::lock_guard<std::mutex> lock( mWorldView->getUpdateMutex() );
+				locked->step( *mWorldView );
+			}
+		}
+
+		mImportModule->step(*mWorldView);
 	}
 
 	void Game::gameloop()
@@ -59,14 +76,9 @@ namespace game
 				// update the world references
 				mWorldView->update();
 
-				// update modules
-				for(auto& mod : mModules)
-				{
-					auto locked = mod.lock();
-					if(locked)
-						locked->onGameStep(*mGameWorld);
-				}
+				mExportModule->step(*mGameWorld);
 
+				// update modules
 				std::lock_guard<std::mutex> lock(mModuleMutex);
 				// remove old modules
 				/// \todo
@@ -85,9 +97,7 @@ namespace game
 		auto locked = module.lock();
 		if(locked)
 		{
-			locked->setStepMutex( &mWorldView->getUpdateMutex() );
-			locked->setWorldView( mWorldView.get() );
-			locked->init();
+			locked->init( *mWorldView );
 			mModules.push_back( std::move(module) );
 		}
 	}

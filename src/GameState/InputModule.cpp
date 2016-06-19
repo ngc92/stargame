@@ -24,9 +24,9 @@ InputModule::~InputModule()
 {
 }
 
-void InputModule::init()
+void InputModule::init(game::IGameWorldView& world_view)
 {
-	mSpawnLst = world().addSpawnListener(std::bind(&InputModule::onSpawn, this, _1));
+	mSpawnLst = world_view.addSpawnListener(std::bind(&InputModule::onSpawn, this, _1));
 }
 
 void InputModule::onSpawn(game::IGameObjectView& spawned)
@@ -48,7 +48,7 @@ void InputModule::onSpawn(game::IGameObjectView& spawned)
 }
 
 
-void InputModule::onStep()
+void InputModule::step( game::IGameWorldView& world_view )
 {
 	for(auto& elem : mInputElements)
 		elem->onStep();

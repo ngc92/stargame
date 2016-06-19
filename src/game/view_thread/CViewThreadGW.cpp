@@ -7,7 +7,8 @@ namespace game
 {
 namespace view_thread
 {
-	CViewThreadGameWorld::CViewThreadGameWorld(IGameWorldView& world)
+	CViewThreadGameWorld::CViewThreadGameWorld(IGameWorldView& world) :
+		mViewThreadId( std::this_thread::get_id() ) //world view is created in view thread
 	{
 		mSpawnListener = world.addSpawnListener([this](IGameObjectView& spawned) mutable { onSpawn(spawned); });
 	}
@@ -19,11 +20,14 @@ namespace view_thread
 
 	ListenerRef CViewThreadGameWorld::addSpawnListener(std::function<void(IGameObjectView&)>f)
 	{
+		CHECK_RAN_IN_VIEW_THREAD();
 		return mSpawnListeners.addListener( f );
 	}
 
 	void CViewThreadGameWorld::iterateAllObjects(const std::function<void(IGameObjectView&)>& f) const
 	{
+		CHECK_RAN_IN_VIEW_THREAD();
+		std::lock_guard<std::mutex> lock(mGameObjects_mutex);
 		for(auto& object : mGameObjects)
 			f(*object);
 	}
@@ -36,7 +40,8 @@ namespace view_thread
 	*/
 	void CViewThreadGameWorld::update()
 	{
-		std::lock_guard<std::mutex> lock(mUpdateMutex);
+		CHECK_RAN_IN_GAME_THREAD();
+		std::lock_guard<std::mutex> lock(mGameObjects_mutex);
 
 		// update all thread views
 		for(auto& object : mGameObjects)
@@ -46,13 +51,19 @@ namespace view_thread
 	/// function to process the spawn of a new object.
 	void CViewThreadGameWorld::onSpawn(IGameObjectView& object)
 	{
-		// this will never execute concurrently with update, so we can
-		// do this.
+		CHECK_RAN_IN_GAME_THREAD();
+
+		// create new object ...
 		auto spawned = std::make_shared<CViewThreadGameObject>(object);
-		mGameObjects.push_back( spawned );
+		{
+			// ... and add to mGameObjects.
+			// extra scope to keep the lock as localized as possible
+			std::lock_guard<std::mutex> lock(mGameObjects_mutex);
+			mGameObjects.push_back( spawned );
+		}
 
 
-		std::lock_guard<std::mutex> lock(mStepActionMutex);
+		std::lock_guard<std::mutex> lock(mStepAction_mutex);
 		mStepActions.push_back([spawned, this]()
 		{
 			mSpawnListeners.notify(*spawned);
@@ -62,12 +73,13 @@ namespace view_thread
 	/// gets the mutex that protects the update step.
 	std::mutex& CViewThreadGameWorld::getUpdateMutex() const
 	{
-		return mUpdateMutex;
+		return mGameObjects_mutex;
 	}
 
 	void CViewThreadGameWorld::doStepActions()
 	{
-		std::lock_guard<std::mutex> lock(mStepActionMutex);
+		CHECK_RAN_IN_VIEW_THREAD();
+		std::lock_guard<std::mutex> lock(mStepAction_mutex);
 		for(auto& a : mStepActions)
 			a();
 
@@ -76,7 +88,8 @@ namespace view_thread
 
 	void CViewThreadGameWorld::doGOStep()
 	{
-		std::lock_guard<std::mutex> lock(mUpdateMutex);
+		CHECK_RAN_IN_VIEW_THREAD();
+		std::lock_guard<std::mutex> lock(mGameObjects_mutex);
 
 		// remove objects that are no longer alive.
 		// we need to do this here in the game thread, so that the objects
@@ -91,10 +104,20 @@ namespace view_thread
 
 	void CViewThreadGameWorld::step()
 	{
+		CHECK_RAN_IN_VIEW_THREAD();
 		// keeping this in function calls ensures minimal scope for the mutexes
 		doStepActions();
 		doGOStep();
 	}
 
+	void CViewThreadGameWorld::CHECK_RAN_IN_VIEW_THREAD() const
+	{
+        assert( std::this_thread::get_id() == mViewThreadId );
+	}
+
+	void CViewThreadGameWorld::CHECK_RAN_IN_GAME_THREAD() const
+	{
+        assert( std::this_thread::get_id() != mViewThreadId );
+	}
 }
 }

@@ -93,7 +93,7 @@ void CDebugDraw::doDraw() const
 	for(auto& f : mDrawQueue)
 		f(mDriver);
 }
-
+/*
 void CDebugDraw::onGameStep(const game::IGameWorld& world)
 {
 	{
@@ -104,3 +104,5 @@ void CDebugDraw::onGameStep(const game::IGameWorld& world)
 	const_cast<game::IGameWorld&>(world).getWorld()->DrawDebugData();
 	setFinished();
 }
+*/
+/// \todo rework debug draw
