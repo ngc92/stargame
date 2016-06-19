@@ -42,6 +42,12 @@ namespace game
 			/// gets the mutex that protects the update step.
 			std::mutex& getUpdateMutex() const final;
 
+			/// Adds a module to this worlds module list.
+			/// the module is removed as soon as that weak_ptr
+			/// expires.
+			/// The module is directly initialized.
+			void addModule(std::weak_ptr<IGameViewModule> module) final;
+
 		private:
 			IGameWorldView* mOriginal;
 
@@ -77,6 +83,8 @@ namespace game
 			std::thread::id mViewThreadId;
 			void CHECK_RAN_IN_VIEW_THREAD() const;
 			void CHECK_RAN_IN_GAME_THREAD() const;
+
+			std::vector<std::weak_ptr<IGameViewModule>> mModules;	//! Vector of all registered game view models.
 		};
 	}
 }

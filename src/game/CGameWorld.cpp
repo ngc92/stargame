@@ -1,6 +1,7 @@
 #include "CGameWorld.h"
 #include "IGameObject.h"
 #include "WorldAction.h"
+#include "IGameViewModule.h"
 #include "spawn/ISpawnManager.h"
 #include "physics/ContactListener.h"
 #include <Box2D/Dynamics/b2World.h>
@@ -57,6 +58,19 @@ namespace game
 			mSpawnListeners.notify( *mGameObjects.back() );
 		}
 		mSpawnQueue.clear();
+
+		// finally, update all modules
+		for(auto& mod : mModules)
+		{
+			auto locked = mod.lock();
+			if(locked)
+			{
+				locked->step( *this );
+			}
+		}
+
+		auto nlast = remove_if(begin(mModules), end(mModules), [](const auto& o){ return o.expired(); });
+		mModules.resize(distance(begin(mModules), nlast));
 	}
 
 	void CGameWorld::clear_objects()
@@ -98,6 +112,16 @@ namespace game
 		for(auto& o : mGameObjects)
 		{
 			f(*o);
+		}
+	}
+
+	void CGameWorld::addModule(std::weak_ptr<IGameViewModule> module)
+	{
+		auto locked = module.lock();
+		if(locked)
+		{
+			locked->init( *this );
+			mModules.push_back( std::move(module) );
 		}
 	}
 }

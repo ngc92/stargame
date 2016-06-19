@@ -5,11 +5,13 @@
 
 namespace game
 {
+	class IGameViewModule;
+
 	namespace spawn
 	{
 		class ISpawnManager;
 	}
-	
+
 	/*! \class IGameWorld
 		\brief Game World, manages Game Objects and physics.
 	*/

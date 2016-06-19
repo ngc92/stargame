@@ -64,9 +64,6 @@ namespace game
 		std::unique_ptr<view_thread::EventStream> mEventStream;
 		std::shared_ptr<IGameViewModule> mExportModule;
 		std::shared_ptr<IGameViewModule> mImportModule;
-
-		std::mutex mModuleMutex;
-		std::vector<std::weak_ptr<IGameViewModule>> mModules;
 	};
 }
 

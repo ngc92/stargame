@@ -1,5 +1,6 @@
 #include "CViewThreadGW.h"
 #include "CViewThreadGO.h"
+#include "game/IGameViewModule.h"
 #include <algorithm>
 #include <iostream>
 
@@ -108,6 +109,20 @@ namespace view_thread
 		// keeping this in function calls ensures minimal scope for the mutexes
 		doStepActions();
 		doGOStep();
+
+
+		// finally, update all modules
+		for(auto& mod : mModules)
+		{
+			auto locked = mod.lock();
+			if(locked)
+			{
+				locked->step( *this );
+			}
+		}
+
+		auto nlast = remove_if(begin(mModules), end(mModules), [](const auto& o){ return o.expired(); });
+		mModules.resize(distance(begin(mModules), nlast));
 	}
 
 	void CViewThreadGameWorld::CHECK_RAN_IN_VIEW_THREAD() const
@@ -118,6 +133,16 @@ namespace view_thread
 	void CViewThreadGameWorld::CHECK_RAN_IN_GAME_THREAD() const
 	{
         assert( std::this_thread::get_id() != mViewThreadId );
+	}
+
+	void CViewThreadGameWorld::addModule(std::weak_ptr<IGameViewModule> module)
+	{
+		auto locked = module.lock();
+		if(locked)
+		{
+			locked->init( *this );
+			mModules.push_back( std::move(module) );
+		}
 	}
 }
 }

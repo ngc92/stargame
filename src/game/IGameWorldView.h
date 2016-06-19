@@ -7,6 +7,8 @@
 
 namespace game
 {
+	class IGameViewModule;
+
 	/*! \class IGameWorldView
 		\brief Observer interface to the Game World.
 		\details This class allows to observe the game world, i.e. set listeners
@@ -25,6 +27,12 @@ namespace game
 
 		/// iterates over all game objects \p o inside this world and calls \p f(o).
 		virtual void iterateAllObjects(const std::function<void(IGameObjectView&)>& f) const = 0;
+
+		/// Adds a module to this worlds module list.
+		/// the module is removed as soon as that weak_ptr
+		/// expires.
+		/// The module is directly initialized.
+		virtual void addModule(std::weak_ptr<IGameViewModule> module) = 0;
 
 	};
 }

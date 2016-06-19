@@ -26,7 +26,8 @@ namespace game
 		mImportModule( std::make_shared<view_thread::CViewThreadReader>( *mEventStream ) )
 	{
 		mTimeManager->setDesiredFPS(50);
-		mExportModule->init(*mGameWorld);
+		mGameWorld->addModule( mExportModule );
+		mWorldView->addModule( mImportModule );
 	};
 	Game::~Game()
 	{
@@ -50,17 +51,6 @@ namespace game
 	void Game::step()
 	{
 		mWorldView->step();
-		for(auto& mod : mModules)
-		{
-			auto locked = mod.lock();
-			if(locked)
-			{
-				std::lock_guard<std::mutex> lock( mWorldView->getUpdateMutex() );
-				locked->step( *mWorldView );
-			}
-		}
-
-		mImportModule->step(*mWorldView);
 	}
 
 	void Game::gameloop()
@@ -75,13 +65,6 @@ namespace game
 
 				// update the world references
 				mWorldView->update();
-
-				mExportModule->step(*mGameWorld);
-
-				// update modules
-				std::lock_guard<std::mutex> lock(mModuleMutex);
-				// remove old modules
-				/// \todo
 			}
 		}
 	}
@@ -93,12 +76,11 @@ namespace game
 
 	void Game::addModule(std::weak_ptr<IGameViewModule> module)
 	{
-		std::lock_guard<std::mutex> lock(mModuleMutex);
 		auto locked = module.lock();
 		if(locked)
 		{
 			locked->init( *mWorldView );
-			mModules.push_back( std::move(module) );
+			mWorldView->addModule( std::move(module) );
 		}
 	}
 

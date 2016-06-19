@@ -35,17 +35,25 @@ namespace game
 
 		/// get a pointer to the internal world
 		b2World* getWorld() final;
+
+		/// Adds a module to this worlds module list.
+		/// the module is removed as soon as that weak_ptr
+		/// expires.
+		/// The module is directly initialized.
+		void addModule(std::weak_ptr<IGameViewModule> module) final;
 	private:
 		/// remove all objects marked for deletion.
 		void clear_objects();
 
-		std::unique_ptr<b2World> mPhysicWorld; //!< The Box2D physics world
-		std::unique_ptr<ContactListener> mContactListener;	//!< The contact listener for Box2D
+		std::unique_ptr<b2World> mPhysicWorld; 					//!< The Box2D physics world
+		std::unique_ptr<ContactListener> mContactListener;		//!< The contact listener for Box2D
 
 		std::vector<std::shared_ptr<IGameObject>> mGameObjects;	//!< Vector of all IGameObject in this world.
 		std::vector<std::shared_ptr<IGameObject>> mSpawnQueue;	//!< Vector of all IGameObject that have to be spawned at the end of the step.
 
 		ListenerList<IGameObject&> mSpawnListeners;				//! List of spawn listeners
+
+		std::vector<std::weak_ptr<IGameViewModule>> mModules;	//! Vector of all registered game view models.
 
 	};
 }
