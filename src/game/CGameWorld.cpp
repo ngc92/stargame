@@ -71,6 +71,19 @@ namespace game
 
 		auto nlast = remove_if(begin(mModules), end(mModules), [](const auto& o){ return o.expired(); });
 		mModules.resize(distance(begin(mModules), nlast));
+
+		// fuck, this stuff need refactoring.
+		for(auto& mod : mViewModules)
+		{
+			auto locked = mod.lock();
+			if(locked)
+			{
+				locked->step( *this );
+			}
+		}
+
+		auto nlast2 = remove_if(begin(mViewModules), end(mViewModules), [](const auto& o){ return o.expired(); });
+		mViewModules.resize(distance(begin(mViewModules), nlast2));
 	}
 
 	void CGameWorld::clear_objects()
@@ -115,13 +128,23 @@ namespace game
 		}
 	}
 
-	void CGameWorld::addModule(std::weak_ptr<IGameViewModule> module)
+	void CGameWorld::addModule(std::weak_ptr<IGameModule> module)
 	{
 		auto locked = module.lock();
 		if(locked)
 		{
 			locked->init( *this );
 			mModules.push_back( std::move(module) );
+		}
+	}
+
+	void CGameWorld::addModule(std::weak_ptr<IGameViewModule> module)
+	{
+		auto locked = module.lock();
+		if(locked)
+		{
+			locked->init( *this );
+			mViewModules.push_back( std::move(module) );
 		}
 	}
 }

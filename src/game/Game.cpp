@@ -20,7 +20,7 @@ namespace game
 		mGameWorld( std::make_unique<CGameWorld>() ),
 		mTimeManager( std::make_unique<CTimeManager>() ),
 		mSpawnManager( std::make_unique<spawn::CSpawnManager>( ) ),
-		mWorldView( std::make_unique<view_thread::CViewThreadGameWorld>( *mGameWorld ) ),
+		mWorldView( std::make_unique<CGameWorld>( ) ),
 		mEventStream( std::make_unique<view_thread::EventStream>()),
 		mExportModule( std::make_shared<view_thread::CSimulationThreadWriter>( *mEventStream ) ),
 		mImportModule( std::make_shared<view_thread::CViewThreadReader>( *mEventStream ) )
@@ -50,7 +50,7 @@ namespace game
 
 	void Game::step()
 	{
-		mWorldView->step();
+		mWorldView->step( *mSpawnManager );
 	}
 
 	void Game::gameloop()
@@ -62,16 +62,8 @@ namespace game
 				mTimeManager->waitTillNextFrame();
 				// update the world
 				mGameWorld->step( *mSpawnManager );
-
-				// update the world references
-				mWorldView->update();
 			}
 		}
-	}
-
-	WorldView& Game::getWorldView()
-	{
-		return *mWorldView;
 	}
 
 	void Game::addModule(std::weak_ptr<IGameViewModule> module)

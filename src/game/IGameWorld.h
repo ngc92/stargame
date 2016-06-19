@@ -5,7 +5,7 @@
 
 namespace game
 {
-	class IGameViewModule;
+	class IGameModule;
 
 	namespace spawn
 	{
@@ -29,6 +29,13 @@ namespace game
 
 		/// get a pointer to the internal world
 		virtual b2World* getWorld() = 0;
+
+		/// Adds a module to this worlds module list.
+		/// the module is removed as soon as that weak_ptr
+		/// expires.
+		/// The module is directly initialized.
+		virtual void addModule(std::weak_ptr<IGameModule> module) = 0;
+		using IGameWorldView::addModule;
 	};
 }
 

@@ -41,6 +41,8 @@ namespace game
 		/// expires.
 		/// The module is directly initialized.
 		void addModule(std::weak_ptr<IGameViewModule> module) final;
+
+		void addModule(std::weak_ptr<IGameModule> module) final;
 	private:
 		/// remove all objects marked for deletion.
 		void clear_objects();
@@ -53,7 +55,8 @@ namespace game
 
 		ListenerList<IGameObject&> mSpawnListeners;				//! List of spawn listeners
 
-		std::vector<std::weak_ptr<IGameViewModule>> mModules;	//! Vector of all registered game view models.
+		std::vector<std::weak_ptr<IGameModule>> mModules;			//! Vector of all registered game modules.
+		std::vector<std::weak_ptr<IGameViewModule>> mViewModules;	//! Vector of all registered game view modules.
 
 	};
 }
