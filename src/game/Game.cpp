@@ -1,6 +1,5 @@
 #include "Game.h"
 #include "CGameWorld.h"
-#include "view_thread/CViewThreadGW.h"
 #include "view_thread/CSimulationThreadWriter.h"
 #include "view_thread/CViewThreadReader.h"
 #include "view_thread/EventStream.h"

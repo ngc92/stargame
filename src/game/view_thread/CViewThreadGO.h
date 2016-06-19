@@ -1,7 +1,7 @@
 #ifndef CVIEWTHREADGAMEOBJECTVIEW
 #define CVIEWTHREADGAMEOBJECTVIEW
 
-#include "IViewThreadGO.h"
+#include "game/IGameObject.h"
 #include <functional>
 #include <vector>
 
@@ -20,11 +20,37 @@ namespace view_thread
     /** \class CViewThreadGameObject
 		\brief Game Object view that acts from within another thread.
      */
-	class CViewThreadGameObject : public IViewThreadGameObject, public virtual property::CPropertyObject
+	class CViewThreadGameObject : public IGameObject, public virtual property::CPropertyObject
 	{
 	public:
+		void onInit(IGameWorld& world) { }
 
-		CViewThreadGameObject(IGameObjectView& object);
+		void onStep(const IGameWorld& world, WorldActionQueue& push_action) { }
+
+		void onImpact(IGameObject& other, const ImpactInfo& info) { };
+
+		/// call this function to deal damage to this game object.
+		void dealDamage( const Damage& damage, const b2Vec2& pos, const b2Vec2& dir ) { };
+
+		/// get a pointer to the internal body, if any
+		const Body& body() const  { };
+
+		/// get a pointer to the internal body, if any
+		Body& getBody() { };
+
+		/// marks this body for deletion.
+		virtual void remove() {};
+
+		/// collision filter data. This is currently very specialised, so maybe a more general
+		/// interface would be nice. However, we need to ensure that this does not cost performance for objects
+		/// that do not require special collision handling.
+		/// Right now, we can set one specific body with which this object shall not collide.
+		virtual const b2Body* ignoreCollisionTarget() const {};
+
+		/// sets the body which shall be ignored upon collision checks
+		virtual void setIgnoreCollisionTarget( const b2Body* ignore ) {};
+
+		CViewThreadGameObject( uint64_t id );
 
 		~CViewThreadGameObject();
 
@@ -37,7 +63,7 @@ namespace view_thread
 		/// gets the current angular velocity.
 		float angular_velocity() const final;
 		/// gets an ID for object identification.
-		long id() const final;
+		uint64_t id() const final;
 
 		/// adds a listener that is called every step for this game object.
 		/// \note this listener is executed whenever the view thread steps, not when the game thread steps.
@@ -51,56 +77,26 @@ namespace view_thread
 		/// adds a listener that is called when the object is removed.
 		ListenerRef addRemoveListener( std::function<void()> lst ) final;
 
-
-		/*! update the thread view with the original data.
-			\details This function shall only be called
-				when it is save to access \p object
-				without danger of race conditions, i.e.
-				outside the game loop.
-		*/
-		void update() final;
-
-		/*! called inside the view thread to do the update
-			step of the GameObjectView. From within this
-			function, it is save to manipulate data
-			within the view thread, but not the game thread.
-
-			Calls the step listener.
-		*/
-		void onStep() final;
-
 		/// checks whether the referenced object is still alive.
 		bool isAlive() const final;
 
-		/*! \brief Allows setting properties from view thread.
-			\details This function caches assignments to properties
-					from the view thread, which then are performed
-					inside the game thread.
-		*/
-		void setProperty( const std::string& path, const property::data_t& value) final;
+		// modules
+		/// adds a module to this game object.
+		virtual void addModule( std::shared_ptr<IGameObjectModule> ) {}
+
+		virtual module_vec& getModules() {};
 
 	private:
-		const long mID;			//!< object ID, unchangeable.
+		const uint64_t mID;			//!< object ID, unchangeable.
 		b2Vec2 mPosition;		//!< position at last update.
 		b2Vec2 mVelocity;		//!< velocity at last update.
 		float mAngle;			//!< angle at last update.
 		float mAngularVelocity;	//!< angular velocity at last update.
 
-		std::weak_ptr<IGameObjectView> mOriginal;	//!< reference to the original game object.
 		bool mIsAlive = true;						//!< is this object still considered alive?
-
-		// threading stuff
-		using delayed_fun = std::function<void(IGameObjectView&)>;
-		std::vector<delayed_fun> mDelayedActions;
-		std::mutex mDelayActionMutex;
-
-		/// adds a delayed action to the update queue.
-		void addDelayedAction( delayed_fun f );
 
 		ListenerList<> mStepListeners;
 		ListenerList<> mRemoveListeners;
-
-		std::vector<ListenerRef> mUpdateListerers;
 	};
 }
 }

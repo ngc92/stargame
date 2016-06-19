@@ -12,14 +12,17 @@ namespace game
 namespace view_thread
 {
 	class IEventStreamReader;
-	class CViewThreadReader : public IGameViewModule
+	class CViewThreadReader : public IGameModule
 	{
 	public:
 		CViewThreadReader(IEventStreamReader& stream);
 
-		void step( IGameWorldView& world_view ) override;
+		void step( IGameWorld& world_view ) override;
 
-		void init( IGameWorldView& world_view ) override;
+		void init( IGameWorld& world_view ) override;
+
+		// event handler functions
+		void onSpawn( IGameWorld& world, const SpawnEvent& event );
 
 	private:
 
