@@ -48,7 +48,7 @@ namespace game
 		/// gets the current angular velocity.
 		virtual float angular_velocity() const = 0;
 		/// gets an ID for object identification.
-		virtual long id() const = 0;
+		virtual uint64_t id() const = 0;
 
 		/// return whether the game object is considered to be alive, or marked for deletion.
 		virtual bool isAlive() const = 0;

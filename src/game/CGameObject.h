@@ -33,7 +33,7 @@ namespace game
 			/// gets the current angular velocity.
 			float angular_velocity() const final;
 			/// gets an ID for object identification.
-			long id() const final;
+			uint64_t id() const final;
 
 			/// collision filter data. This is currently very specialised, so maybe a more general
 			/// interface would be nice. However, we need to ensure that this does not cost performance for objects
@@ -77,7 +77,7 @@ namespace game
 			bool mIsAlive;
 
 			// id
-			long mID;
+			uint64_t mID;
 
 			ListenerList<> mStepListeners;
 			ListenerList<> mRemoveListeners;
