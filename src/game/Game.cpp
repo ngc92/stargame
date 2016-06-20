@@ -67,12 +67,7 @@ namespace game
 
 	void Game::addModule(std::weak_ptr<IGameViewModule> module)
 	{
-		auto locked = module.lock();
-		if(locked)
-		{
-			locked->init( *mWorldView );
-			mWorldView->addModule( std::move(module) );
-		}
+		mWorldView->addModule( std::move(module) );
 	}
 
 }
