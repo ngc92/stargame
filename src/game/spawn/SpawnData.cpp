@@ -17,6 +17,18 @@ namespace spawn
 
 	}
 
+	SpawnData::SpawnData( SpawnType category_, std::string type_, const IGameObjectView& source ):
+		category( category_ ),
+		type( std::move(type_) ),
+		position( source.position() ),
+		velocity( source.velocity() ),
+		angle( source.angle() ),
+		id( source.id() ),
+		angular_velocity( source.angular_velocity() )
+	{
+
+	}
+
 	b2BodyDef body_def( const SpawnData& data )
 	{
 		b2BodyDef def;

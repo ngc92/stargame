@@ -10,6 +10,7 @@ class b2BodyDef;
 namespace game
 {
 	class IGameObject;
+	class IGameObjectView;
 	class IGameWorld;
 	
 	namespace spawn
@@ -24,17 +25,20 @@ namespace game
 		};
 		
 		/*! \struct SpawnData
-			\brief This struct collects all necessary information to create a 
+			\brief This struct collects all necessary information to create a
 					new game object in one place.
-			\details It provides setter methods for all members that return 
-					a reference to the object itself, allowing for convenient 
+			\details It provides setter methods for all members that return
+					a reference to the object itself, allowing for convenient
 					chaining.
 		*/
 		struct SpawnData
 		{
 			/// create a spawn data object. needs at least category, type and position.
 			SpawnData( SpawnType category, std::string type, b2Vec2 pos );
-			
+
+			/// create a spawn data object that copies info from existing object.
+			SpawnData( SpawnType category, std::string type, const IGameObjectView& source );
+
 			SpawnType category;								//!< category of the object to be spawned.
 			std::string type;								//!< type identifying the new object.
 			b2Vec2 position;								//!< initial position.
