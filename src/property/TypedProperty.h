@@ -27,6 +27,8 @@ namespace property
 		{
 		}
 
+		TypedProperty(const TypedProperty& other) = delete;
+
 		/// conversion to static type
 		const T& value() const { return boost::get<T>(mProperty->value()); };
 
