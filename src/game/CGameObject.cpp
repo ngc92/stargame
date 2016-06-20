@@ -36,6 +36,8 @@ namespace game
 
 	void CGameObject::onStep(const IGameWorld& world, WorldActionQueue& push_action)
 	{
+		// step listeners and modules
+		/// \todo this should happen after the modules, I think?
 		mStepListeners.notify();
 
 		for(auto& module : mModules)
@@ -116,7 +118,7 @@ namespace game
 	}
 
 
-	long CGameObject::id() const
+	uint64_t CGameObject::id() const
 	{
 		return mID;
 	}
