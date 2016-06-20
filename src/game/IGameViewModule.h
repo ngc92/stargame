@@ -7,6 +7,10 @@
 namespace game
 {
 	class IGameWorld;
+	namespace spawn
+	{
+		class ISpawnManager;
+	}
 
 	class IGameViewModule
 	{
@@ -29,7 +33,7 @@ namespace game
 
 		/// this function should be called from the program main loop to
 		/// let the module perform a step.
-		virtual void step( IGameWorld& world_view ) = 0;
+		virtual void step( IGameWorld& world_view, const spawn::ISpawnManager& spawner ) = 0;
 
 		/// this function is called after mutex and world have been set
 		virtual void init( IGameWorld& world_view ) = 0;

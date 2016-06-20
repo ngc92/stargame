@@ -17,12 +17,12 @@ namespace view_thread
 	public:
 		CViewThreadReader(IEventStreamReader& stream);
 
-		void step( IGameWorld& world_view ) override;
+		void step( IGameWorld& world, const spawn::ISpawnManager& spawner ) override;
 
 		void init( IGameWorld& world_view ) override;
 
 		// event handler functions
-		void onSpawn( IGameWorld& world, const SpawnEvent& event );
+		void onSpawn( IGameWorld& world, const spawn::ISpawnManager& spawner, const SpawnEvent& event );
 
 	private:
 

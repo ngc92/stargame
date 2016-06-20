@@ -65,7 +65,7 @@ namespace game
 			auto locked = mod.lock();
 			if(locked)
 			{
-				locked->step( *this );
+				locked->step( *this, spawner );
 			}
 		}
 
