@@ -3,6 +3,7 @@
 #include "CProperty.h"  /// for the copy algorithm. \todo move that elsewhere.
 #include <algorithm>
 #include <cassert>
+#include <iostream>
 
 namespace property
 {
@@ -24,7 +25,7 @@ namespace property
 
 	/// gets a child property object of name \p name, or throws.
 	/// only works for direct children.
-	IPropertyObjectView& CPropertyObject::getChild(const std::string& name)
+	IPropertyObject& CPropertyObject::getChild(const std::string& name)
 	{
 		return *mChildren.at(name);
 	}
@@ -101,6 +102,13 @@ namespace property
 
 		// if yes, continue search
 		return getChild(subobj).hasProperty( move(rest) );
+	}
+
+	/// check if this property object has \p child as a direct
+	/// child node.
+	bool CPropertyObject::hasChild(const std::string& child) const
+	{
+		return mChildren.count(child) != 0;
 	}
 
 	/// iterates over all properties and calls f for them.
@@ -188,15 +196,26 @@ namespace property
 	{
 		source.forallProperties([&](property::IPropertyView& view) mutable
 		{
-			auto newprop = property::CProperty::create( view.name(), &target, view.value() );
+			if(target.hasProperty(view.name()))
+			{
+				*target.getPropertyPtr(view.name()) = view.value();
+			} else
+			{
+				auto newprop = property::CProperty::create( view.name(), &target, view.value() );
+			}
 		}, false);
 
 		// copy all children
 		source.forallChildren([&](const property::IPropertyObjectView& view) mutable
 		{
-			auto child = std::make_shared<property::CPropertyObject>( view.name() );
-			target.addChild( child );
-			copyProperties(*child, view);
+			if( target.hasChild(view.name()))
+			{
+				copyProperties(target.getChild(view.name()), view);
+			} else {
+				auto child = std::make_shared<property::CPropertyObject>( view.name() );
+				target.addChild( child );
+				copyProperties(*child, view);
+			}
 		});
 	}
 }

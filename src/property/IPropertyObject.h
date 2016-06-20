@@ -27,6 +27,11 @@ namespace property
 		IPropertyObject(IPropertyObject&&) = default;
 		IPropertyObject& operator=(IPropertyObject&&) = default;
 
+		// extended getter interface for mutation
+		/// gets a child property object of name \p name, or throws.
+		/// only works for direct children.
+		virtual IPropertyObject& getChild(const std::string& name) = 0;
+
 		// add/ remove properties
 		// --------------------------------------------------------
 		/// adds a property to this property objects.

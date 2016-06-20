@@ -22,7 +22,7 @@ namespace property
 		// ----------------------------------------------------------------------
 		/// gets a child property object of name \p name, or throws.
 		/// only works for direct children.
-		IPropertyObjectView& getChild(const std::string& name) final;
+		IPropertyObject& getChild(const std::string& name) final;
 
 		/// gets a child property object (const) of name \p name or throws.
 		/// only works for direct children.
@@ -53,6 +53,10 @@ namespace property
 		/// check if the property that is referred to by path (i.e. this can
 		/// also access properties of child objects) exists.
 		bool hasProperty(const std::string& path) const final;
+
+		/// check if this property object has \p child as a direct
+		/// child node.
+		bool hasChild(const std::string& child) const final;
 
 		/// iterates over all properties and calls f for them.
 		/// \param f Function to apply
