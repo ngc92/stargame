@@ -26,6 +26,9 @@ namespace game
 		/*! \struct SpawnData
 			\brief This struct collects all necessary information to create a 
 					new game object in one place.
+			\details It provides setter methods for all members that return 
+					a reference to the object itself, allowing for convenient 
+					chaining.
 		*/
 		struct SpawnData
 		{
@@ -38,13 +41,17 @@ namespace game
 			b2Vec2 velocity           = b2Vec2(0, 0);		//!< initial velocity.
 			float angle               = 0.f;				//!< initial angle.
 			float angular_velocity    = 0.f;				//!< initial angular velocity.
-			long id                   = -1;					//!< object id.
+			uint64_t id               = -1;					//!< object id.
 			
 			const IGameObject* origin = nullptr;			//!< subordinate object of origin
 			
 			// function for setting non-default values
-			SpawnData& set_id( long id_ ) { id = id_; return *this; }
+			SpawnData& set_type( std::string type_ ) { type = std::move(type_); return *this; }
+			SpawnData& set_id( uint64_t id_ ) { id = id_; return *this; }
 			SpawnData& set_angle( float angle_ ) { angle = angle_; return *this; }
+			SpawnData& set_angular_velocity( float angular_velocity_ ) { angular_velocity = angular_velocity_; return *this; }
+			SpawnData& set_position( const b2Vec2& position_ ) { position = position_; return *this; }
+			SpawnData& set_velocity( const b2Vec2& velocity_ ) { velocity = velocity_; return *this; }
 		};
 		
 		// -------------------------------------------------------------------

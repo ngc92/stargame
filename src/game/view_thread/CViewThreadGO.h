@@ -37,7 +37,7 @@ namespace view_thread
 		/// gets the current angular velocity.
 		float angular_velocity() const final;
 		/// gets an ID for object identification.
-		long id() const final;
+		uint64_t id() const final;
 
 		/// adds a listener that is called every step for this game object.
 		/// \note this listener is executed whenever the view thread steps, not when the game thread steps.

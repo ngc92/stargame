@@ -94,7 +94,7 @@ namespace view_thread
 		return mAngularVelocity;
 	}
 
-	long CViewThreadGameObject::id() const
+	uint64_t CViewThreadGameObject::id() const
 	{
 		return mID;
 	}
