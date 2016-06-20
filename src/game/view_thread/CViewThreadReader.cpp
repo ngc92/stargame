@@ -3,7 +3,7 @@
 #include "EventStream.h"
 #include "game/IGameWorldView.h"
 #include "game/IGameObjectView.h"
-#include "CViewThreadGO.h"
+#include "game/CGameObject.h"
 #include "game/IGameWorld.h"
 #include <iostream>
 #include "util/io.h"

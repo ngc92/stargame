@@ -1,5 +1,4 @@
 #include "CInputElement.h"
-#include "game/view_thread/IViewThreadGO.h"
 
 namespace input
 {
@@ -8,9 +7,9 @@ namespace input
 	{
 
 	}
-	
+
 	void CInputElement::setValue( float value )
 	{
-		mObject->setProperty(  mPropertyPath, value );
+//		mObject->setProperty(  mPropertyPath, value );
 	}
 }

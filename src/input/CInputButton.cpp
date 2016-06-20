@@ -1,9 +1,8 @@
 #include "CInputButton.h"
-#include "game/view_thread/IViewThreadGO.h"
 
 namespace input
 {
-	CInputButton::CInputButton(std::string path, game::view_thread::IViewThreadGameObject* obj, 
+	CInputButton::CInputButton(std::string path, game::view_thread::IViewThreadGameObject* obj,
 							float def_value) :
 		CInputElement( std::move(path), obj ), mDefaultValue(def_value)
 	{
@@ -13,7 +12,7 @@ namespace input
 	{
 		return InputType::BUTTON;
 	}
-	
+
 	void CInputButton::addButtonState( int key, float value )
 	{
 		mButtonStates[key] = value;
@@ -36,7 +35,7 @@ namespace input
 			setValue( mButtonStates.at( active ) );
 		}
 	}
-	
+
 	void CInputButton::onKeyEvent( int key_code, KeyState state )
 	{
 		auto key = mButtonStates.find(key_code);
@@ -44,6 +43,6 @@ namespace input
 		{
 			mKeyStates[key->first] = (state == KeyState::PRESSED);
 		}
-		
+
 	}
 }

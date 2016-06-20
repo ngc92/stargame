@@ -167,8 +167,6 @@
 		<Unit filename="src/game/spawn/spawn_util.h" />
 		<Unit filename="src/game/view_thread/CSimulationThreadWriter.cpp" />
 		<Unit filename="src/game/view_thread/CSimulationThreadWriter.h" />
-		<Unit filename="src/game/view_thread/CViewThreadGO.cpp" />
-		<Unit filename="src/game/view_thread/CViewThreadGO.h" />
 		<Unit filename="src/game/view_thread/CViewThreadReader.cpp" />
 		<Unit filename="src/game/view_thread/CViewThreadReader.h" />
 		<Unit filename="src/game/view_thread/EventStream.h" />
@@ -235,7 +233,6 @@
 		<Unit filename="src/property/io.h" />
 		<Unit filename="src/property/property.h" />
 		<Unit filename="src/util.h" />
-		<Unit filename="src/util/buffered_thread_stream.h" />
 		<Unit filename="src/util/io.cpp" />
 		<Unit filename="src/util/io.h" />
 		<Unit filename="src/util/logging.cpp" />

@@ -2,8 +2,6 @@
 #include "CInputGauge.h"
 #include "CInputButton.h"
 
-#include "game/view_thread/IViewThreadGO.h"
-
 #include <boost/property_tree/ptree.hpp>
 
 #include <iostream>
@@ -16,7 +14,7 @@ namespace input
 	std::shared_ptr<IInputElement> createInputElement(  boost::property_tree::ptree& props,
 														const property::IPropertyView& property )
 	{
-		auto cowner = dynamic_cast<const game::view_thread::IViewThreadGameObject*>(property.owner()->root());
+/*		auto cowner = dynamic_cast<const game::view_thread::IViewThreadGameObject*>(property.owner()->root());
 		auto owner = const_cast<game::view_thread::IViewThreadGameObject*>(cowner);
 		std::string type = props.get<std::string>("type");
 		if( type == "gauge" )
@@ -49,7 +47,7 @@ namespace input
 			}
 			return element;
 		}
-
+*/
 		return nullptr;
 	}
 }

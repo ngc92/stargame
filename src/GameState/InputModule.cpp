@@ -3,7 +3,6 @@
 #include "input/IInputElement.h"
 #include "input/CInputConfig.h"
 #include "game/IGameWorldView.h"
-#include "game/view_thread/IViewThreadGO.h"
 #include "IEngine.h"
 #include "IInputManager.h"
 #include <iostream>
