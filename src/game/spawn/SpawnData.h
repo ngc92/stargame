@@ -37,7 +37,7 @@ namespace game
 			SpawnData( SpawnType category, std::string type, b2Vec2 pos );
 
 			/// create a spawn data object that copies info from existing object.
-			SpawnData( SpawnType category, std::string type, const IGameObjectView& source );
+			SpawnData( SpawnType category, const IGameObjectView& source );
 
 			SpawnType category;								//!< category of the object to be spawned.
 			std::string type;								//!< type identifying the new object.

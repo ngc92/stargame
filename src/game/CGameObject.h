@@ -3,6 +3,7 @@
 
 #include "IGameObject.h"
 #include "property/CPropertyObject.h"
+#include "property/TypedProperty.h"
 #include "physics/body.h"
 
 namespace game
@@ -15,7 +16,7 @@ namespace game
 					   ObjectCounter<CGameObject>
 	{
 		public:
-			CGameObject(uint64_t ID, b2Body* body = nullptr, std::string name = "object");
+			CGameObject(uint64_t ID, std::string type, b2Body* body = nullptr, std::string name = "object");
 			virtual ~CGameObject();
 
 			/// called just after the object is constructed and added to the world.
@@ -34,6 +35,9 @@ namespace game
 			float angular_velocity() const final;
 			/// gets an ID for object identification.
 			uint64_t id() const final;
+			/// gets the object type. This is the type that
+			/// was used to get the spawn data for the object.
+			const std::string& type() const final;
 
 			/// collision filter data. This is currently very specialised, so maybe a more general
 			/// interface would be nice. However, we need to ensure that this does not cost performance for objects
@@ -75,9 +79,11 @@ namespace game
 
 			// status
 			bool mIsAlive;
+			bool mInitialized = false;
 
 			// id
 			const uint64_t mID;
+			property::TypedProperty<std::string> mType;
 
 			ListenerList<> mStepListeners;
 			ListenerList<> mRemoveListeners;

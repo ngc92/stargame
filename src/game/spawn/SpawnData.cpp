@@ -17,9 +17,9 @@ namespace spawn
 
 	}
 
-	SpawnData::SpawnData( SpawnType category_, std::string type_, const IGameObjectView& source ):
+	SpawnData::SpawnData( SpawnType category_, const IGameObjectView& source ):
 		category( category_ ),
-		type( std::move(type_) ),
+		type( source.type() ),
 		position( source.position() ),
 		velocity( source.velocity() ),
 		angle( source.angle() ),

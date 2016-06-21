@@ -41,21 +41,21 @@ namespace spawn
 		b2BodyDef def = body_def(data);
 		def.type = b2_dynamicBody;
 		auto body = world.getWorld()->CreateBody(&def);
-		auto game_object = std::make_shared<CGameObject>(data.id, body);
+		auto game_object = std::make_shared<CGameObject>(data.id, data.type, body);
 
 		if(data.category == SpawnType::SPACESHIP)
-			makeSpaceShip(data.type, *game_object, 1);
+			makeSpaceShip(*game_object, 1);
 		else if( data.category == SpawnType::BULLET )
-			makeBullet(data.type, *game_object, *data.origin);
+			makeBullet(*game_object, *data.origin);
 
 		game_object->onInit(world);
 		world.addGameObject( game_object );
 		return game_object;
 	}
 
-	void CSpawnManager::makeSpaceShip( const std::string& type, IGameObject& object,  int team ) const
+	void CSpawnManager::makeSpaceShip( IGameObject& object,  int team ) const
 	{
-		auto& dat = mDataManager->getShipData(type);
+		auto& dat = mDataManager->getShipData( object.type() );
 		auto structure = mDataManager->getHullData( dat.hull() ).create();
 
 		for(auto& c : dat.components())
@@ -76,9 +76,9 @@ namespace spawn
 		dat.addAttributes( object );
 	}
 
-	void CSpawnManager::makeBullet( const std::string& type, IGameObject& object, const IGameObject& shooter ) const
+	void CSpawnManager::makeBullet( IGameObject& object, const IGameObject& shooter ) const
 	{
-		auto& dat = mDataManager->getProjectileData( type );
+		auto& dat = mDataManager->getProjectileData( object.type() );
 
 		object.addModule( std::make_shared<CFlightModel>( 100.0, 0.f ) );
 		object.addModule( std::make_shared<CTimedDeletion>( dat.lifetime() ) );

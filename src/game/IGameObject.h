@@ -64,7 +64,9 @@ namespace game
 		virtual void setIgnoreCollisionTarget( const b2Body* ignore ) = 0;
 
 		// modules
-		/// adds a module to this game object.
+		/// adds a module to this game object. All modules have to be
+		/// added before the call to onInit. Trying to add a module afterwards will
+		/// trigger an assert or an exception.
 		virtual void addModule( std::shared_ptr<IGameObjectModule> ) = 0;
 
 		/// gets a module converted to a certain type.

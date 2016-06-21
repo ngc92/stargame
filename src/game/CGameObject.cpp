@@ -5,11 +5,12 @@
 
 namespace game
 {
-	CGameObject::CGameObject(uint64_t id, b2Body* b, std::string name) :
+	CGameObject::CGameObject(uint64_t id, std::string type, b2Body* b, std::string name) :
 		 CPropertyObject( std::move(name) ),
 		 mBody(b),
 		 mIsAlive(true),
-		 mID(id)
+		 mID(id),
+		 mType( "type", this, std::move(type) )
 	{
 		assert(mBody);
 		mBody.setUserPointer(this);
@@ -32,6 +33,8 @@ namespace game
 	{
 		for(auto& module : mModules)
 			module->onInit(*this, world);
+
+		mInitialized = true;
 	}
 
 	void CGameObject::onStep(const IGameWorld& world, WorldActionQueue& push_action)
@@ -102,6 +105,13 @@ namespace game
 		return mBody.angular_velocity();
 	}
 
+	/// gets the object type. This is the type that
+	/// was used to get the spawn data for the object.
+	const std::string& CGameObject::type() const
+	{
+		return mType;
+	}
+
 	ListenerRef CGameObject::addStepListener( std::function<void()> lst )
 	{
 		return mStepListeners.addListener( std::move(lst) );
@@ -140,6 +150,9 @@ namespace game
 
 	void CGameObject::addModule( std::shared_ptr<IGameObjectModule> module )
 	{
+		// this restriction ensures that after the spawner is finished, no
+		// new modules can be added.
+		assert(!mInitialized);
 		mModules.push_back( std::move(module) );
 		addChild( mModules.back() );
 	}
