@@ -11,7 +11,7 @@
 
 using namespace std::placeholders;
 
-InputModule::InputModule(IEngine* engine, long myship) :
+InputModule::InputModule(IEngine* engine, uint64_t myship) :
 	mShipID(myship), mInputConfig( std::make_unique<input::CInputConfig>() )
 {
 	/// \todo this is suicide, only for testing!

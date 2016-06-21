@@ -29,7 +29,7 @@ namespace input
 class InputModule : public game::IGameViewModule, public IEventListener
 {
 public:
-	InputModule(IEngine*, long myship);
+	InputModule(IEngine*, uint64_t myship);
 	~InputModule();
 
 	void step( game::IGameWorldView& world_view ) override;
@@ -42,7 +42,7 @@ private:
 	void onSpawn( game::IGameObjectView& spawned );
 	void propertyCallback( property::IPropertyView& pview);
 	void reset();
-	long mShipID;
+	uint64_t mShipID;
 	std::unique_ptr<input::IInputConfig> mInputConfig;
 	std::vector<std::shared_ptr<input::IInputElement>> mInputElements;
 	ListenerRef mSpawnLst;

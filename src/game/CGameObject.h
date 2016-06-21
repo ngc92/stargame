@@ -15,7 +15,7 @@ namespace game
 					   ObjectCounter<CGameObject>
 	{
 		public:
-			CGameObject(b2Body* body = nullptr, long ID = -1);
+			CGameObject(uint64_t ID, b2Body* body = nullptr, std::string name = "object");
 			virtual ~CGameObject();
 
 			/// called just after the object is constructed and added to the world.
@@ -77,7 +77,7 @@ namespace game
 			bool mIsAlive;
 
 			// id
-			uint64_t mID;
+			const uint64_t mID;
 
 			ListenerList<> mStepListeners;
 			ListenerList<> mRemoveListeners;

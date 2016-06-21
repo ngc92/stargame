@@ -5,8 +5,8 @@
 
 namespace game
 {
-	CGameObject::CGameObject(b2Body* b, long id) :
-		 CPropertyObject("object"),
+	CGameObject::CGameObject(uint64_t id, b2Body* b, std::string name) :
+		 CPropertyObject( std::move(name) ),
 		 mBody(b),
 		 mIsAlive(true),
 		 mID(id)

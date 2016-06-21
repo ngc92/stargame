@@ -41,7 +41,7 @@ namespace spawn
 		b2BodyDef def = body_def(data);
 		def.type = b2_dynamicBody;
 		auto body = world.getWorld()->CreateBody(&def);
-		auto game_object = std::make_shared<CGameObject>(body, data.id);
+		auto game_object = std::make_shared<CGameObject>(data.id, body);
 
 		if(data.category == SpawnType::SPACESHIP)
 			makeSpaceShip(data.type, *game_object, 1);

@@ -23,8 +23,9 @@ namespace spawn
 		position( source.position() ),
 		velocity( source.velocity() ),
 		angle( source.angle() ),
+		angular_velocity( source.angular_velocity() ),
 		id( source.id() ),
-		angular_velocity( source.angular_velocity() )
+		name( source.name() )
 	{
 
 	}

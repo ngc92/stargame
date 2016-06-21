@@ -12,18 +12,18 @@ namespace game
 	class IGameObject;
 	class IGameObjectView;
 	class IGameWorld;
-	
+
 	namespace spawn
 	{
 		class ISpawnManager;
-		
+
 		//! the different categories of things we can spawn
 		enum class SpawnType
 		{
 			SPACESHIP,
 			BULLET
 		};
-		
+
 		/*! \struct SpawnData
 			\brief This struct collects all necessary information to create a
 					new game object in one place.
@@ -45,10 +45,11 @@ namespace game
 			b2Vec2 velocity           = b2Vec2(0, 0);		//!< initial velocity.
 			float angle               = 0.f;				//!< initial angle.
 			float angular_velocity    = 0.f;				//!< initial angular velocity.
-			uint64_t id               = -1;					//!< object id.
-			
+			uint64_t id               = -1;					//!< object id. immutable after creation.
+			std::string name          = "object";			//!< object name. immutable after creation.
+
 			const IGameObject* origin = nullptr;			//!< subordinate object of origin
-			
+
 			// function for setting non-default values
 			SpawnData& set_type( std::string type_ ) { type = std::move(type_); return *this; }
 			SpawnData& set_id( uint64_t id_ ) { id = id_; return *this; }
@@ -56,15 +57,16 @@ namespace game
 			SpawnData& set_angular_velocity( float angular_velocity_ ) { angular_velocity = angular_velocity_; return *this; }
 			SpawnData& set_position( const b2Vec2& position_ ) { position = position_; return *this; }
 			SpawnData& set_velocity( const b2Vec2& velocity_ ) { velocity = velocity_; return *this; }
+			SpawnData& set_name( std::string name_ ) { name = std::move(name_); return *this; }
 		};
-		
+
 		// -------------------------------------------------------------------
 		//		some useful functions to work with spawn data
 		// -------------------------------------------------------------------
 		b2BodyDef body_def( const SpawnData& );
-		
+
 		SpawnData& subordinate( SpawnData& data, const IGameObject& parent );
-		
+
 		std::function<void(IGameWorld&, const ISpawnManager&)> make_spawner( SpawnData data );
 	}
 }
