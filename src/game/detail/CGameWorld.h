@@ -1,7 +1,7 @@
 #ifndef CGAMEWORLD_H_INCLUDED
 #define CGAMEWORLD_H_INCLUDED
 
-#include "IGameWorld.h"
+#include "../IGameWorld.h"
 #include "listener/listenerlist.h"
 
 namespace game

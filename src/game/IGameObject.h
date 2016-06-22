@@ -92,6 +92,11 @@ namespace game
 		}
 		return nullptr;
 	}
+	
+	
+	// constructor function
+	/// creates an object of IGameObject using the default implementation.
+	std::shared_ptr<IGameObject> createGameObject( b2Body* body, uint64_t id );
 }
 
 #endif // IGAMEOBJECT_H_INCLUDED

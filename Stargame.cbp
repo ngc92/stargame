@@ -86,10 +86,6 @@
 		<Unit filename="src/debug/IDebugDraw.h" />
 		<Unit filename="src/debug/ObjectCounter.cpp" />
 		<Unit filename="src/debug/ObjectCounter.h" />
-		<Unit filename="src/game/CGameObject.cpp" />
-		<Unit filename="src/game/CGameObject.h" />
-		<Unit filename="src/game/CGameWorld.cpp" />
-		<Unit filename="src/game/CGameWorld.h" />
 		<Unit filename="src/game/Damage.cpp" />
 		<Unit filename="src/game/Damage.h" />
 		<Unit filename="src/game/Game.cpp" />
@@ -101,6 +97,10 @@
 		<Unit filename="src/game/IGameWorld.h" />
 		<Unit filename="src/game/IGameWorldView.h" />
 		<Unit filename="src/game/WorldAction.h" />
+		<Unit filename="src/game/detail/CGameObject.cpp" />
+		<Unit filename="src/game/detail/CGameObject.h" />
+		<Unit filename="src/game/detail/CGameWorld.cpp" />
+		<Unit filename="src/game/detail/CGameWorld.h" />
 		<Unit filename="src/game/fwd.h" />
 		<Unit filename="src/game/object_module/ArmourSegment.cpp" />
 		<Unit filename="src/game/object_module/ArmourSegment.h" />

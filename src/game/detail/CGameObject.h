@@ -1,9 +1,9 @@
 #ifndef CGAMEOBJECT_H_INCLUDED
 #define CGAMEOBJECT_H_INCLUDED
 
-#include "IGameObject.h"
+#include "../IGameObject.h"
 #include "property/CPropertyObject.h"
-#include "physics/body.h"
+#include "../physics/body.h"
 
 namespace game
 {

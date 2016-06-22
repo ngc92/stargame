@@ -31,6 +31,9 @@ namespace game
 		/// get a pointer to the internal world
 		virtual b2World* getWorld() = 0;
 	};
+	
+	/// creates an IGameWorld object using the default implementation.
+	std::unique_ptr<IGameWorld> createGameWorld();
 }
 
 #endif // IGAMEWORLD_H_INCLUDED

@@ -1,7 +1,7 @@
 #include "CGameObject.h"
 #include <cassert>
 #include "property/IProperty.h"
-#include "IGameObjectModule.h"
+#include "../IGameObjectModule.h"
 
 namespace game
 {
@@ -142,5 +142,14 @@ namespace game
 	{
 		mModules.push_back( std::move(module) );
 		addChild( mModules.back() );
+	}
+	
+	// -----------------------------------------------------------------------
+	//						constructor function
+	// -----------------------------------------------------------------------
+	
+	std::shared_ptr<IGameObject> createGameObject( b2Body* body, uint64_t id )
+	{
+		return std::make_shared<CGameObject>( body, id );
 	}
 }

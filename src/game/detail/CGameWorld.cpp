@@ -1,8 +1,8 @@
 #include "CGameWorld.h"
-#include "IGameObject.h"
-#include "WorldAction.h"
-#include "spawn/ISpawnManager.h"
-#include "physics/ContactListener.h"
+#include "../IGameObject.h"
+#include "../WorldAction.h"
+#include "../spawn/ISpawnManager.h"
+#include "../physics/ContactListener.h"
 #include <Box2D/Dynamics/b2World.h>
 #include <algorithm>
 #include <iostream>
@@ -116,5 +116,13 @@ namespace game
 		{
 			f(*o);
 		}
+	}
+
+	// -----------------------------------------------------------
+	//			constructor function
+	// -----------------------------------------------------------
+	std::unique_ptr<IGameWorld> createGameWorld()
+	{
+		return std::make_unique<CGameWorld>();
 	}
 }
