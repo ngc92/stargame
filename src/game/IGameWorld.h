@@ -40,6 +40,9 @@ namespace game
 		virtual void addModule(std::weak_ptr<IGameModule> module) = 0;
 		using IGameWorldView::addModule;
 	};
+	
+	/// creates an IGameWorld object using the default implementation.
+	std::unique_ptr<IGameWorld> createGameWorld();
 }
 
 #endif // IGAMEWORLD_H_INCLUDED

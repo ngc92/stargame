@@ -46,7 +46,7 @@ private:
 	// processing
 	void processChild(const property::IPropertyObjectView& child);
 
-	long mShipID;
+	uint64_t mShipID;
 	irr::gui::IGUIEnvironment* mGUIEnv;
 	graphic::SubsystemDamageView* mDmgView;
 	graphic::IShipStatusView* mStaView;

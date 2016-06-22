@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "CGameWorld.h"
+#include "IGameWorld.h"
 #include "view_thread/CSimulationThreadWriter.h"
 #include "view_thread/CViewThreadReader.h"
 #include "view_thread/EventStream.h"
@@ -17,7 +17,7 @@ namespace game
 		mRunGame(false),
 		mQuitGame(false),
 		mGameThread( [this](){ gameloop(); } ),
-		mGameWorld( std::make_unique<CGameWorld>() ),
+		mGameWorld( createGameWorld() ),
 		mTimeManager( std::make_unique<CTimeManager>() ),
 		mSpawnManager( std::make_unique<spawn::CSpawnManager>( ) ),
 		mWorldView( std::make_unique<CGameWorld>( ) ),

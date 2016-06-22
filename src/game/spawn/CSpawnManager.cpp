@@ -6,7 +6,7 @@
 #include "game/physics/convert.h"
 #include "game/physics/fixture.h"
 
-#include "game/CGameObject.h"
+#include "game/IGameObject.h"
 #include "property/CProperty.h"
 #include "game/IGameWorld.h"
 #include "game/object_module/ArmourSegment.h"
@@ -41,7 +41,7 @@ namespace spawn
 		b2BodyDef def = body_def(data);
 		def.type = b2_dynamicBody;
 		auto body = world.getWorld()->CreateBody(&def);
-		auto game_object = std::make_shared<CGameObject>(data.id, data.type, body);
+		auto game_object = createGameObject(data.id, data.type, body);
 
 		if(data.category == SpawnType::SPACESHIP)
 			makeSpaceShip(*game_object, 1);

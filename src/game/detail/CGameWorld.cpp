@@ -1,9 +1,9 @@
 #include "CGameWorld.h"
-#include "IGameObject.h"
-#include "WorldAction.h"
-#include "IGameViewModule.h"
-#include "spawn/ISpawnManager.h"
-#include "physics/ContactListener.h"
+#include "../IGameObject.h"
+#include "../WorldAction.h"
+#include "../spawn/ISpawnManager.h"
+#include "../IGameViewModule.h"
+#include "../physics/ContactListener.h"
 #include <Box2D/Dynamics/b2World.h>
 #include <algorithm>
 #include <iostream>
@@ -163,5 +163,13 @@ namespace game
 			locked->init( *this );
 			mViewModules.push_back( std::move(module) );
 		}
+	}
+
+	// -----------------------------------------------------------
+	//			constructor function
+	// -----------------------------------------------------------
+	std::unique_ptr<IGameWorld> createGameWorld()
+	{
+		return std::make_unique<CGameWorld>();
 	}
 }
