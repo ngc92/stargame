@@ -24,6 +24,9 @@ namespace game
 		/// adds a game object to the game world.
 		virtual void addGameObject(std::shared_ptr<IGameObject> object) = 0;
 
+		/// get a game object with specified id.
+		virtual IGameObject& getObjectByID( uint64_t id ) = 0;
+
 		/// get a pointer to the internal world
 		virtual const b2World* world() const = 0;
 

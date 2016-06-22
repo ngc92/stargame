@@ -30,6 +30,21 @@ namespace physics
 		/// gets the moment of inertia in kg m²
 		float inertia() const;
 
+		// physics state setters
+		/// sets the position.
+		/// \note \p new_pos in world coordinates, in game units.
+		void setPosition( b2Vec2 new_pos );
+
+		/// sets the linear velocity.
+		/// \note \p new_vel in world coordinates, in game units.
+		void setVelocity( b2Vec2 new_vel );
+
+		/// sets the angle (radians)
+		void setAngle( float angle );
+
+		/// sets the angular velocity
+		void setAngularVelocity( float ang_vel );
+
 		// other body properties
 		/// Get the linear damping of the body.
 		float getLinearDamping() const;
