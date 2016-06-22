@@ -23,11 +23,9 @@ namespace view_thread
 
 		// event handler functions
 		void onSpawn( IGameWorld& world, const spawn::ISpawnManager& spawner, const SpawnEvent& event );
+		void onUpdate( IGameWorld& world, const UpdateEvent& event );
 
 	private:
-
-		std::uint64_t mUUID_counter = 0;
-
 		IEventStreamReader& mBuffer;
 	};
 }

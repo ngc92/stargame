@@ -3,6 +3,7 @@
 #include "view_thread/CSimulationThreadWriter.h"
 #include "view_thread/CViewThreadReader.h"
 #include "view_thread/EventStream.h"
+#include "physics/body.h"
 #include "IGameObject.h"
 #include "IGameViewModule.h"
 #include "util.h"
@@ -61,6 +62,11 @@ namespace game
 				mTimeManager->waitTillNextFrame();
 				// update the world
 				mGameWorld->step( *mSpawnManager );
+				static int i = 0;
+				if(i++ == 10)
+				{
+					mGameWorld->getObjectByID(0).getBody().setVelocity( b2Vec2(10, 10) );
+				}
 			}
 		}
 	}

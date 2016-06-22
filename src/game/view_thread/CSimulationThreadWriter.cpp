@@ -57,6 +57,7 @@ namespace view_thread
 	void CSimulationThreadWriter::pushObjectUpdate( const IGameObjectView& object )
 	{
 		UpdateEvent update;
+		update.id = object.id();
 		update.position = object.position();
 		update.velocity = object.velocity();
 		update.angle = object.angle();

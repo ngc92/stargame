@@ -29,8 +29,9 @@ namespace view_thread
 		{
 		}
 
-		void operator()(const UpdateEvent& spev)
+		void operator()(const UpdateEvent& uev)
 		{
+			reader.onUpdate( world, uev );
 		}
 	};
 
@@ -61,6 +62,15 @@ namespace view_thread
 		auto spawned_object = spawner.spawn(world, event.spawn_data());
 		// copy all properties
 		copyProperties(*spawned_object, event.properties());
+	}
+
+	void CViewThreadReader::onUpdate( IGameWorld& world, const UpdateEvent& event )
+	{
+		IGameObject& target = world.getObjectByID( event.id );
+		target.getBody().setAngle( event.angle );
+		target.getBody().setPosition( event.position );
+		target.getBody().setVelocity( event.velocity );
+		target.getBody().setAngularVelocity( event.angular_velocity );
 	}
 }
 }

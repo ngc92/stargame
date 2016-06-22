@@ -10,6 +10,7 @@ namespace view_thread
 {
 	struct UpdateEvent
 	{
+		uint64_t id;
         b2Vec2 position;
         b2Vec2 velocity;
         float angle;
