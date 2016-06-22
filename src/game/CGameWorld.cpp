@@ -68,7 +68,24 @@ namespace game
 
 	void CGameWorld::addGameObject(std::shared_ptr<IGameObject> object)
 	{
+		// check uniqueness
+		assert( std::find_if(begin(mGameObjects), end(mGameObjects), [id=object->id()](auto& o){ return o->id() == id; }) == end(mGameObjects) );
+		assert( std::find_if(begin(mSpawnQueue), end(mSpawnQueue), [id=object->id()](auto& o){ return o->id() == id; }) == end(mSpawnQueue) );
 		mSpawnQueue.push_back( std::move(object) );
+	}
+
+	IGameObject& CGameWorld::getObjectByID( uint64_t id )
+	{
+		auto found = std::find_if(begin(mGameObjects), end(mGameObjects), [id](auto& o){ return o->id() == id; });
+		if( found == end(mGameObjects))
+		{
+			// maybe the object still waits to be added to the world.
+			auto not_spawned_yet = std::find_if(begin(mSpawnQueue), end(mSpawnQueue), [id](auto& o){ return o->id() == id; });
+			if( not_spawned_yet == end(mSpawnQueue))
+				assert(0);
+			return **not_spawned_yet;
+		}
+		return **found;
 	}
 
 	const b2World* CGameWorld::world() const

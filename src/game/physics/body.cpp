@@ -43,6 +43,36 @@ namespace game
 		return mBody->GetAngularVelocity();
 	}
 
+	/// sets the position.
+	/// \note \p new_pos in world coordinates, in game units.
+	void Body::setPosition( b2Vec2 new_pos )
+	{
+		new_pos *= METERS_TO_BOX;
+		mBody->SetTransform(new_pos, mBody->GetAngle() );
+	}
+
+	/// sets the linear velocity.
+	/// \note \p new_vel in world coordinates, in game units.
+	void Body::setVelocity( b2Vec2 new_vel )
+	{
+		new_vel *= METERS_TO_BOX;
+		new_vel -= mBody->GetLinearVelocity();
+		mBody->ApplyLinearImpulseToCenter( mBody->GetMass() * new_vel, true );
+	}
+
+	/// sets the angle
+	void Body::setAngle( float angle )
+	{
+		mBody->SetTransform( mBody->GetPosition(), angle );
+	}
+
+	/// sets the angular velocity
+	void Body::setAngularVelocity( float ang_vel )
+	{
+		ang_vel -= mBody->GetAngularVelocity();
+		mBody->ApplyTorque( mBody->GetInertia() * ang_vel, true );
+	}
+
 	/// Get the linear damping of the body.
 	float Body::getLinearDamping() const
 	{
