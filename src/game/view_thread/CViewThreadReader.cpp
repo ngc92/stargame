@@ -3,9 +3,10 @@
 #include "EventStream.h"
 #include "game/IGameWorldView.h"
 #include "game/IGameObjectView.h"
-#include "game/CGameObject.h"
+#include "game/IGameObject.h"
 #include "game/IGameWorld.h"
 #include "game/spawn/ISpawnManager.h"
+#include "game/physics/body.h"
 #include <iostream>
 #include "util/io.h"
 #include "property/io.h"
@@ -47,12 +48,11 @@ namespace view_thread
 	void CViewThreadReader::step( IGameWorld& world, const spawn::ISpawnManager& spawner )
 	{
 		mBuffer.update();
-		std::cout << "READ " << mBuffer.read().size() << "\n";
+		//std::cout << "READ " << mBuffer.read().size() << "\n";
 
 		EventHandler visit = {*this, world, spawner};
 		for(auto& event : mBuffer.read())
 		{
-			std::cout << "e: " << event.which() << "\n";
 			boost::apply_visitor(visit, event);
 		}
 	}

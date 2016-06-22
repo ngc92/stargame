@@ -18,10 +18,11 @@ namespace view_thread
 
 	void CSimulationThreadWriter::step( IGameWorldView& world_view )
 	{
-		std::cout << "step ";
+//		std::cout << "step ";
 //		std::cout << mBuffer.cache_size() << " -> ";
-		world_view.iterateAllObjects([this](IGameObjectView& object){pushObjectUpdate(object);});
-		std::cout << mBuffer.publish() << "\n";
+		world_view.iterateAllObjects([this](IGameObjectView& object){ pushObjectUpdate(object);} );
+//		std::cout << mBuffer.publish() << "\n";
+		mBuffer.publish();
 
 	}
 

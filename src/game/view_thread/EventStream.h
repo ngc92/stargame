@@ -29,8 +29,11 @@ namespace view_thread
 	class EventStream : public IEventStreamWriter, public IEventStreamReader
 	{
 	public:
+		// writer
 		void push(Event e) override { return mStream.push(std::move(e)); }
 		std::size_t publish() override { return mStream.publish(); }
+		
+		// reader
 		void update() override { return mStream.update(); }
         const std::vector<Event>& read() const override { return mStream.read(); }
 	private:

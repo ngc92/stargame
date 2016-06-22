@@ -2,9 +2,8 @@
 
 namespace input
 {
-	CInputButton::CInputButton(std::string path, game::view_thread::IViewThreadGameObject* obj,
-							float def_value) :
-		CInputElement( std::move(path), obj ), mDefaultValue(def_value)
+	CInputButton::CInputButton(std::string path, float def_value) :
+		CInputElement( std::move(path) ), mDefaultValue(def_value)
 	{
 	}
 
@@ -18,7 +17,7 @@ namespace input
 		mButtonStates[key] = value;
 	}
 
-	void CInputButton::onStep()
+	std::function<void(game::IGameObject&)> CInputButton::onStep()
 	{
 		// count active button states
 		int ctr = 0;
@@ -30,10 +29,12 @@ namespace input
 		}
 		if(ctr != 1)
 		{
-			setValue( mDefaultValue );
+			return setValue( mDefaultValue );
 		} else {
-			setValue( mButtonStates.at( active ) );
+			return setValue( mButtonStates.at( active ) );
 		}
+		
+		return std::function<void(game::IGameObject&)>();
 	}
 
 	void CInputButton::onKeyEvent( int key_code, KeyState state )

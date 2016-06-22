@@ -17,10 +17,11 @@ GameState::GameState(IEngine* engine) :
 	mGUIEnv(engine->getGUIEnvironment()),
 	mSceneMgr( engine->getIrrlichDevice().getSceneManager() ),
 	mGame( std::make_unique<game::Game>() ),
-	mDebugDraw( std::make_shared<CDebugDraw>( engine->getIrrlichDevice().getVideoDriver() ) )
+	mDebugDraw( std::make_shared<CDebugDraw>( engine->getIrrlichDevice().getVideoDriver() ) ),
+	mInputModule(std::make_shared<InputModule>(engine, 0))
 {
 	addGameModule(std::make_shared<GameView>( &engine->getIrrlichDevice() ));
-	addGameModule(std::make_shared<InputModule>(engine, 0));
+	addGameModule(mInputModule);
 	addGameModule(std::make_shared<HUD>(mGUIEnv, 0));
 	addGameModule(mDebugDraw);
 }
@@ -31,6 +32,11 @@ GameState::~GameState()
 
 void GameState::update()
 {
+	for(auto& a : mInputModule->getActions())
+	{
+		mGame->getActionStream().push(a);
+	}
+	mGame->getActionStream().publish();
 	mGame->step();
 }
 

@@ -7,6 +7,7 @@
 #include <memory>
 #include <map>
 #include <set>
+#include "game/view_thread/ActionStream.h"
 
 namespace property
 {
@@ -34,6 +35,7 @@ public:
 
 	void step( game::IGameWorldView& world_view ) override;
 	void init( game::IGameWorldView& world_view ) override;
+	const auto& getActions() const { return mActions; };
 
 	void registerListener( const IInputManager* mgr) override {}
 	void onKeyEvent(irr::EKEY_CODE key, bool press) override;
@@ -49,6 +51,8 @@ private:
 	ListenerRef mRemLst;
 
 	std::shared_ptr<game::IGameObjectView> mControlledObject;
+	
+	std::vector<game::view_thread::Action> mActions;
 };
 
 #endif // INPUTMODULE_H_INCLUDED

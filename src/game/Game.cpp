@@ -3,6 +3,7 @@
 #include "view_thread/CSimulationThreadWriter.h"
 #include "view_thread/CViewThreadReader.h"
 #include "view_thread/EventStream.h"
+#include "view_thread/ActionStream.h"
 #include "physics/body.h"
 #include "IGameObject.h"
 #include "IGameViewModule.h"
@@ -10,6 +11,7 @@
 #include "CTimeManager.h"
 #include "spawn/CSpawnManager.h"
 #include "spawn/SpawnData.h"
+#include <iostream>
 
 namespace game
 {
@@ -20,8 +22,9 @@ namespace game
 		mGameWorld( createGameWorld() ),
 		mTimeManager( std::make_unique<CTimeManager>() ),
 		mSpawnManager( std::make_unique<spawn::CSpawnManager>( ) ),
-		mWorldView( std::make_unique<CGameWorld>( ) ),
+		mWorldView( createGameWorld() ),
 		mEventStream( std::make_unique<view_thread::EventStream>()),
+		mActionStream( std::make_unique<view_thread::ActionStream>()),
 		mExportModule( std::make_shared<view_thread::CSimulationThreadWriter>( *mEventStream ) ),
 		mImportModule( std::make_shared<view_thread::CViewThreadReader>( *mEventStream ) )
 	{
@@ -60,6 +63,14 @@ namespace game
 			if(mRunGame)
 			{
 				mTimeManager->waitTillNextFrame();
+				// perform all queued actions
+				mActionStream->update();
+				for(auto& action : mActionStream->read())
+				{
+					auto& target = mGameWorld->getObjectByID(action.target_id);
+					action.action(target);
+				}
+				
 				// update the world
 				mGameWorld->step( *mSpawnManager );
 				static int i = 0;

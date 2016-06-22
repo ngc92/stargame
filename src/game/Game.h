@@ -23,6 +23,7 @@ namespace game
 	namespace view_thread
 	{
 		class EventStream;
+		class ActionStream;
 	}
 
 
@@ -46,6 +47,8 @@ namespace game
 
 		/// adds a module to the module list in a thread-save manner.
 		void addModule(std::weak_ptr<IGameViewModule> module);
+		
+		view_thread::ActionStream& getActionStream() { return *mActionStream; }
 
 	private:
 		void gameloop();
@@ -59,6 +62,7 @@ namespace game
 
 		std::unique_ptr<IGameWorld> mWorldView;
 		std::unique_ptr<view_thread::EventStream> mEventStream;
+		std::unique_ptr<view_thread::ActionStream> mActionStream;
 		std::shared_ptr<IGameViewModule> mExportModule;
 		std::shared_ptr<IGameModule> mImportModule;
 	};

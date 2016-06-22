@@ -3,25 +3,16 @@
 
 #include "IInputElement.h"
 
-namespace game
-{
-	namespace view_thread
-	{
-		class IViewThreadGameObject;
-	}
-}
-
 namespace input
 {
     class CInputElement: public virtual IInputElement
     {
 	public:
-		CInputElement(std::string path, game::view_thread::IViewThreadGameObject* object);
+		CInputElement(std::string path);
 	protected:
-		void setValue( float value );
+		std::function<void(game::IGameObject&)> setValue( float value );
 		
 		std::string mPropertyPath;
-		game::view_thread::IViewThreadGameObject* mObject;
 	};
 }
 
