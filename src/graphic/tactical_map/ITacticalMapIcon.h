@@ -2,7 +2,7 @@
 #define TACTICALMAPICON_H_INCLUDED
 
 #include <string>
-#include <Box2D/Common/b2Math.h>
+class b2Vec2;
 
 namespace graphic
 {

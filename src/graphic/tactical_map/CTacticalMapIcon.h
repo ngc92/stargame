@@ -2,6 +2,7 @@
 #define CTACTICALMAPICON_H_INCLUDED
 
 #include "ITacticalMapIcon.h"
+#include <Box2D/Common/b2Math.h>
 
 
 namespace graphic

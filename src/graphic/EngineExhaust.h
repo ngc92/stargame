@@ -4,7 +4,6 @@
 #include <irrlicht/ISceneNode.h>
 #include <irrlicht/IParticleSystemSceneNode.h>
 #include <vector>
-#include <Box2D/Common/b2Math.h>
 
 namespace irr
 {

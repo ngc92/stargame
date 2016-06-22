@@ -1,7 +1,6 @@
 #include "CDebugDraw.h"
 #include "consts.h"
 #include "game/IGameWorld.h"
-#include <Box2D/Dynamics/b2World.h>
 #include <irrlicht/irrlicht.h>
 #include <iostream>
 

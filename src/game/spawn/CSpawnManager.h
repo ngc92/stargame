@@ -8,7 +8,6 @@
 #include <vector>
 #include <unordered_map>
 #include "game/fwd.h"
-#include <Box2D/Common/b2Math.h>
 
 class b2Body;
 
