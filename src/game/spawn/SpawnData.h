@@ -12,17 +12,11 @@ namespace game
 	class IGameObject;
 	class IGameObjectView;
 	class IGameWorld;
+	enum class ObjectCategory : int;
 
 	namespace spawn
 	{
 		class ISpawnManager;
-
-		//! the different categories of things we can spawn
-		enum class SpawnType
-		{
-			SPACESHIP,
-			BULLET
-		};
 
 		/*! \struct SpawnData
 			\brief This struct collects all necessary information to create a
@@ -34,12 +28,12 @@ namespace game
 		struct SpawnData
 		{
 			/// create a spawn data object. needs at least category, type and position.
-			SpawnData( SpawnType category, std::string type, b2Vec2 pos );
+			SpawnData( ObjectCategory category, std::string type, b2Vec2 pos );
 
 			/// create a spawn data object that copies info from existing object.
-			SpawnData( SpawnType category, const IGameObjectView& source );
+			SpawnData( const IGameObjectView& source );
 
-			SpawnType category;								//!< category of the object to be spawned.
+			ObjectCategory category;								//!< category of the object to be spawned.
 			std::string type;								//!< type identifying the new object.
 			b2Vec2 position;								//!< initial position.
 			b2Vec2 velocity           = b2Vec2(0, 0);		//!< initial velocity.

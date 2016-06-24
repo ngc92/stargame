@@ -9,7 +9,7 @@ namespace game
 {
 namespace spawn
 {
-	SpawnData::SpawnData( SpawnType category_, std::string type_, b2Vec2 pos_ ) :
+	SpawnData::SpawnData( ObjectCategory category_, std::string type_, b2Vec2 pos_ ) :
 		category( category_ ),
 		type( std::move(type_) ),
 		position( std::move(pos_) )
@@ -17,8 +17,8 @@ namespace spawn
 
 	}
 
-	SpawnData::SpawnData( SpawnType category_, const IGameObjectView& source ):
-		category( category_ ),
+	SpawnData::SpawnData( const IGameObjectView& source ):
+		category( source.category() ),
 		type( source.type() ),
 		position( source.position() ),
 		velocity( source.velocity() ),

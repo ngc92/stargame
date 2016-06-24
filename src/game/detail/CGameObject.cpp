@@ -5,12 +5,13 @@
 
 namespace game
 {
-	CGameObject::CGameObject(uint64_t id, std::string type, b2Body* b, std::string name) :
+	CGameObject::CGameObject(uint64_t id, std::string type, ObjectCategory cateogry, b2Body* b, std::string name) :
 		 CPropertyObject( std::move(name) ),
 		 mBody(b),
 		 mIsAlive(true),
 		 mID(id),
-		 mType( "type", this, std::move(type) )
+		 mType( "type", this, std::move(type) ),
+		 mCategory( "category", this, (int)cateogry)
 	{
 		assert(mBody);
 		mBody.setUserPointer(this);
@@ -111,6 +112,12 @@ namespace game
 	{
 		return mType;
 	}
+	
+	/// the category of this object. 
+	ObjectCategory CGameObject::category() const
+	{	
+		return (ObjectCategory)(int)mCategory;
+	}
 
 	ListenerRef CGameObject::addStepListener( std::function<void()> lst )
 	{
@@ -161,8 +168,8 @@ namespace game
 	//						constructor function
 	// -----------------------------------------------------------------------
 	
-	std::shared_ptr<IGameObject> createGameObject( uint64_t id, std::string type, b2Body* b, std::string name )
+	std::shared_ptr<IGameObject> createGameObject( uint64_t id, std::string type, ObjectCategory category, b2Body* b, std::string name )
 	{
-		return std::make_shared<CGameObject>( id, std::move(type), b, std::move(name) );
+		return std::make_shared<CGameObject>( id, std::move(type), category, b, std::move(name) );
 	}
 }

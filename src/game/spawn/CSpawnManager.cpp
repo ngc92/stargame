@@ -41,11 +41,11 @@ namespace spawn
 		b2BodyDef def = body_def(data);
 		def.type = b2_dynamicBody;
 		auto body = world.getWorld()->CreateBody(&def);
-		auto game_object = createGameObject(data.id, data.type, body);
+		auto game_object = createGameObject(data.id, data.type, data.category, body);
 
-		if(data.category == SpawnType::SPACESHIP)
+		if(data.category == ObjectCategory::SPACESHIP)
 			makeSpaceShip(*game_object, 1);
-		else if( data.category == SpawnType::BULLET )
+		else if( data.category == ObjectCategory::BULLET )
 			makeBullet(*game_object, *data.origin);
 
 		game_object->onInit(world);

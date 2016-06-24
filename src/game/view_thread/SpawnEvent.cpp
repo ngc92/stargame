@@ -9,7 +9,7 @@ namespace view_thread
 {
 	SpawnEvent::SpawnEvent( IGameObjectView& spawned ) :
 		mProperties( std::make_shared<property::CPropertyObject>("spawn_event") ),
-		mSpawnData( spawn::SpawnType::SPACESHIP, spawned )
+		mSpawnData( spawned )
 	{
 		// copy all properties from original into here
 		copyProperties(*mProperties, spawned);

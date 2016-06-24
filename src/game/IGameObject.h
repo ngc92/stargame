@@ -98,7 +98,7 @@ namespace game
 	
 	// constructor function
 	/// creates an object of IGameObject using the default implementation.
-	std::shared_ptr<IGameObject> createGameObject( uint64_t id, std::string type, b2Body* b, std::string name = "object" );
+	std::shared_ptr<IGameObject> createGameObject( uint64_t id, std::string type, ObjectCategory category, b2Body* b, std::string name = "object" );
 }
 
 #endif // IGAMEOBJECT_H_INCLUDED

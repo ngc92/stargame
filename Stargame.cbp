@@ -165,6 +165,7 @@
 		<Unit filename="src/game/spawn/SpawnData.h" />
 		<Unit filename="src/game/spawn/spawn_util.cpp" />
 		<Unit filename="src/game/spawn/spawn_util.h" />
+		<Unit filename="src/game/view_thread/ActionStream.h" />
 		<Unit filename="src/game/view_thread/CSimulationThreadWriter.cpp" />
 		<Unit filename="src/game/view_thread/CSimulationThreadWriter.h" />
 		<Unit filename="src/game/view_thread/CViewThreadReader.cpp" />
