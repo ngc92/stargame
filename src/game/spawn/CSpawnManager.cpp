@@ -41,7 +41,7 @@ namespace spawn
 		// create the body to be used
 		b2BodyDef def = body_def(data);
 		def.type = b2_dynamicBody;
-		auto body = world.getWorld()->CreateBody(&def);
+		auto body = world.getWorld().CreateBody(&def);
 		uint64_t new_id = data.id == -1 ? ++mSpawnCounter : data.id;
 		auto game_object = createGameObject(data.id, data.type, data.category, body);
 

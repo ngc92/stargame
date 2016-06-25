@@ -28,10 +28,11 @@ namespace game
 		virtual IGameObject& getObjectByID( uint64_t id ) = 0;
 
 		/// get a pointer to the internal world
-		virtual const b2World* world() const = 0;
-
-		/// get a pointer to the internal world
-		virtual b2World* getWorld() = 0;
+		virtual const b2World& world() const = 0;
+		
+		/// get a pointer to the internal world.
+		/// \todo get rid of this function!
+		virtual b2World& getWorld() = 0;
 
 		/// Adds a module to this worlds module list.
 		/// the module is removed as soon as that weak_ptr
