@@ -26,9 +26,10 @@ namespace spawn
 		std::shared_ptr<IGameObject> spawn( IGameWorld& world, const SpawnData& data ) const override;
 
 		void makeSpaceShip( IGameObject& object, int team ) const;
-		void makeBullet( IGameObject& object, const IGameObject& shooter ) const;
+		void makeBullet( IGameObject& object, const IGameObject* shooter ) const;
 	private:
 		std::unique_ptr<IDataManager> mDataManager;
+		mutable uint64_t mSpawnCounter;
 	};
 }
 }
