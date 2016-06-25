@@ -37,13 +37,9 @@ namespace game
 
 		mInitialized = true;
 	}
-
-	void CGameObject::onStep(const IGameWorld& world, WorldActionQueue& push_action)
+	
+	void CGameObject::step(const IGameWorld& world, WorldActionQueue& push_action)
 	{
-		// step listeners and modules
-		/// \todo this should happen after the modules, I think?
-		mStepListeners.notify();
-
 		for(auto& module : mModules)
 		{
 			// check that the object is still alive before each call,
@@ -52,7 +48,14 @@ namespace game
 			if(isAlive())
 				module->onStep(*this, world, push_action);
 		}
+	}
 
+	void CGameObject::onStep(const IGameWorld& world) const
+	{
+		// step listeners and modules
+		/// \todo this should happen after the modules, I think?
+		mStepListeners.notify();
+		
 		// update property listeners
 		notifyAll();
 	}

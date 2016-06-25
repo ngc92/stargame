@@ -20,7 +20,8 @@ namespace game
 
 			/// called just after the object is constructed and added to the world.
 			void onInit(IGameWorld& world) override;
-			void onStep(const IGameWorld& world, WorldActionQueue& push_action) override;
+			void step(const IGameWorld& world, WorldActionQueue& push_action) override;
+			void onStep(const IGameWorld& world) const override;
 			void onImpact(IGameObject& other, const ImpactInfo& info) override;
 			void dealDamage( const Damage& damage, const b2Vec2& pos, const b2Vec2& dir ) override;
 

@@ -92,7 +92,7 @@ namespace property
 		/// \brief calls notifyIfChanged on all properties.
 		/// \details This function triggers the change listeners for
 		///			all registered properties, including those in subobjects.
-		void notifyAll() final;
+		void notifyAll() const final;
 
 	protected:
 		/// gets the property that is referred to by path (i.e. this can

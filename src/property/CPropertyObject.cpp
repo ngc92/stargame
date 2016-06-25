@@ -181,7 +181,7 @@ namespace property
 	/// \brief calls notifyIfChanged on all properties.
 	/// \details This function triggers the change listeners for
 	///			all registered properties, including those in subobjects.
-	void CPropertyObject::notifyAll()
+	void CPropertyObject::notifyAll() const
 	{
 		for(auto& prop : mProperties)
 			prop.second->notifyIfChanged();

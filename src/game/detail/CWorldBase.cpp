@@ -114,7 +114,11 @@ namespace game
 		// update all objects
 		for(auto& obj : mGameObjects)
 		{
-			if(obj->isAlive())	obj->onStep( *this, push_action );
+			if(obj->isAlive())
+			{
+				obj->step( *this, push_action );
+				obj->onStep( *this );
+			}
 		}
 
 		for(auto& a : action_queue)

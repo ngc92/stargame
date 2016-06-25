@@ -64,9 +64,9 @@ namespace game
 		
 		// protected data.
 /*		std::unique_ptr<ContactListener> mContactListener;		//!< The contact listener for Box2D
-		
-*/		std::vector<std::shared_ptr<IGameObject>> mGameObjects;	//!< Vector of all IGameObject in this world.
+*/
 	private:
+		std::vector<std::shared_ptr<IGameObject>> mGameObjects;	//!< Vector of all IGameObject in this world.
 		std::unique_ptr<b2World> mPhysicWorld; 					//!< The Box2D physics world.
 		std::vector<std::shared_ptr<IGameObject>> mSpawnQueue;	//!< Vector of all IGameObject that have to be spawned at the end of the step.
 		ListenerList<IGameObject&> mSpawnListeners;				//! List of spawn listeners
