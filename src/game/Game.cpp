@@ -19,10 +19,10 @@ namespace game
 		mRunGame(false),
 		mQuitGame(false),
 		mGameThread( [this](){ gameloop(); } ),
-		mGameWorld( createGameWorld() ),
+		mGameWorld( createSimulationWorld() ),
 		mTimeManager( std::make_unique<CTimeManager>() ),
 		mSpawnManager( std::make_unique<spawn::CSpawnManager>( ) ),
-		mWorldView( createGameWorld() ),
+		mWorldView( createObservationWorld() ),
 		mEventStream( std::make_unique<view_thread::EventStream>()),
 		mActionStream( std::make_unique<view_thread::ActionStream>()),
 		mExportModule( std::make_shared<view_thread::CSimulationThreadWriter>( *mEventStream ) ),
@@ -76,7 +76,7 @@ namespace game
 				static int i = 0;
 				if(i++ == 10)
 				{
-					mGameWorld->getObjectByID(0).getBody().setVelocity( b2Vec2(10, 10) );
+					mGameWorld->getObjectByID(1).getBody().setVelocity( b2Vec2(10, 10) );
 				}
 			}
 		}

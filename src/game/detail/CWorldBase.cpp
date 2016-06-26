@@ -4,6 +4,7 @@
 #include "../IGameViewModule.h"
 #include "util/algos.h"
 #include <Box2D/Dynamics/b2World.h>
+#include <iostream>
 
 namespace game
 {
@@ -125,5 +126,17 @@ namespace game
 			a(*this, spawner);
 
 		clear_objects();
+	}
+	
+	/// calls onStep for all game objects
+	void CWorldBase::notify_game_objects( )
+	{
+		for(auto& obj : mGameObjects)
+		{
+			if(obj->isAlive())
+			{
+				obj->onStep( *this );
+			}
+		}
 	}
 }

@@ -23,12 +23,12 @@ namespace game
 		
 		/// \todo do some physics simulation, i.e. just propagate positions according to passed time.
 		
-		// update all current objects and remove old ones.
-		update_game_objects(spawner);
+		// only notfy new object, all updates happen in the game thread.
+		notify_game_objects();
 
 		// spawn new objects
 		perform_spawning();
-
+		
 		// finally, update all modules
 		for(auto& mod : mModules)
 		{
@@ -52,5 +52,13 @@ namespace game
 			locked->init( *this );
 			mModules.push_back( std::move(module) );
 		}
+	}
+	
+	// -----------------------------------------------------------
+	//			constructor function
+	// -----------------------------------------------------------
+	std::unique_ptr<IGameWorld> createObservationWorld()
+	{
+		return std::make_unique<CObservationWorld>();
 	}
 }

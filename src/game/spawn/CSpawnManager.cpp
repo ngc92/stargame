@@ -17,6 +17,7 @@
 #include "game/object_module/CImpactDamageSource.h"
 #include <Box2D/Box2D.h>
 #include <cassert>
+#include <iostream>
 
 #include <boost/property_tree/ptree.hpp>
 
@@ -43,7 +44,7 @@ namespace spawn
 		def.type = b2_dynamicBody;
 		auto body = world.getWorld().CreateBody(&def);
 		uint64_t new_id = data.id == -1 ? ++mSpawnCounter : data.id;
-		auto game_object = createGameObject(data.id, data.type, data.category, body);
+		auto game_object = createGameObject(new_id, data.type, data.category, body);
 
 		if(data.category == ObjectCategory::SPACESHIP)
 			makeSpaceShip(*game_object, 1);

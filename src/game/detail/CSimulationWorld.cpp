@@ -35,6 +35,7 @@ namespace game
 		
 		// update all current objects and remove old ones.
 		update_game_objects(spawner);
+		notify_game_objects( );
 
 		// spawn new objects
 		perform_spawning();
@@ -67,7 +68,7 @@ namespace game
 	// -----------------------------------------------------------
 	//			constructor function
 	// -----------------------------------------------------------
-	std::unique_ptr<IGameWorld> createGameWorld()
+	std::unique_ptr<IGameWorld> createSimulationWorld()
 	{
 		return std::make_unique<CSimulationWorld>();
 	}

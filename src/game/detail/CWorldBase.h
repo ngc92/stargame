@@ -62,6 +62,9 @@ namespace game
 		/// steps all game objects, and removes expired ones.
 		void update_game_objects(const spawn::ISpawnManager& spawner);
 		
+		/// calls onStep for all game objects
+		void notify_game_objects( );
+		
 		// protected data.
 /*		std::unique_ptr<ContactListener> mContactListener;		//!< The contact listener for Box2D
 */

@@ -42,8 +42,11 @@ namespace game
 		using IGameWorldView::addModule;
 	};
 	
-	/// creates an IGameWorld object using the default implementation.
-	std::unique_ptr<IGameWorld> createGameWorld();
+	/// creates an IGameWorld object using the simulation implementation.
+	std::unique_ptr<IGameWorld> createSimulationWorld();
+	
+	/// creates an IGameWorld object using the observation implementation.
+	std::unique_ptr<IGameWorld> createObservationWorld();
 }
 
 #endif // IGAMEWORLD_H_INCLUDED

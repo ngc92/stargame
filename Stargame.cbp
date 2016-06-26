@@ -99,8 +99,12 @@
 		<Unit filename="src/game/WorldAction.h" />
 		<Unit filename="src/game/detail/CGameObject.cpp" />
 		<Unit filename="src/game/detail/CGameObject.h" />
-		<Unit filename="src/game/detail/CGameWorld.cpp" />
-		<Unit filename="src/game/detail/CGameWorld.h" />
+		<Unit filename="src/game/detail/CObservationWorld.cpp" />
+		<Unit filename="src/game/detail/CObservationWorld.h" />
+		<Unit filename="src/game/detail/CSimulationWorld.cpp" />
+		<Unit filename="src/game/detail/CSimulationWorld.h" />
+		<Unit filename="src/game/detail/CWorldBase.cpp" />
+		<Unit filename="src/game/detail/CWorldBase.h" />
 		<Unit filename="src/game/fwd.h" />
 		<Unit filename="src/game/object_module/ArmourSegment.cpp" />
 		<Unit filename="src/game/object_module/ArmourSegment.h" />
@@ -234,6 +238,7 @@
 		<Unit filename="src/property/io.h" />
 		<Unit filename="src/property/property.h" />
 		<Unit filename="src/util.h" />
+		<Unit filename="src/util/algos.h" />
 		<Unit filename="src/util/io.cpp" />
 		<Unit filename="src/util/io.h" />
 		<Unit filename="src/util/logging.cpp" />
