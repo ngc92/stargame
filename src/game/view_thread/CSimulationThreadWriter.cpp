@@ -36,7 +36,6 @@ namespace view_thread
 	{
 		// create a unique id for that object
 		std::uint64_t uuid = ++mUUID_counter;
-		std::cout << "ON_SPAWN\a: " << uuid << "\n";
 
 		// add a change listener to all properties.
 		object.forallProperties(

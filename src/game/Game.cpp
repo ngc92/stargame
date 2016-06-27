@@ -73,11 +73,6 @@ namespace game
 				
 				// update the world
 				mGameWorld->step( *mSpawnManager );
-				static int i = 0;
-				if(i++ == 10)
-				{
-					mGameWorld->getObjectByID(1).getBody().setVelocity( b2Vec2(10, 10) );
-				}
 			}
 		}
 	}
