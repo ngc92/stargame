@@ -18,10 +18,7 @@ namespace listener
 		{
 			auto lst = std::make_shared<listener_t>( std::move(lstf) );
 			addListenerInternal(std::static_pointer_cast<ListenerBase>(lst));
-			std::promise< std::shared_ptr<ListenerBase> > promise;
-			promise.set_value( std::move(lst) );
-			// this is save, we can delete the promise as soon as we got the future.
-			return promise.get_future();
+			return lst;
 		}
 
 		template<class... PArgs>
