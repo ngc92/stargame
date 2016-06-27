@@ -9,6 +9,13 @@ class b2Fixture;
 
 namespace game
 {
+	enum class ObjectCategory : int
+	{
+		SPACESHIP, 
+		BULLET
+	};
+	
+	
 	/*! \struct ImpactInfo
 		\brief Data relating to impact
 		\details This struct contains the necessary data to process
@@ -49,6 +56,11 @@ namespace game
 		virtual float angular_velocity() const = 0;
 		/// gets an ID for object identification.
 		virtual uint64_t id() const = 0;
+		/// gets the object type. This is the type that
+		/// was used to get the spawn data for the object.
+		virtual const std::string& type() const = 0;
+		/// the category of this object. 
+		virtual ObjectCategory category() const = 0;
 
 		/// return whether the game object is considered to be alive, or marked for deletion.
 		virtual bool isAlive() const = 0;

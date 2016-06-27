@@ -23,16 +23,24 @@ namespace view_thread
 	public:
 		virtual ~IEventStreamReader() = default;
 		virtual void update() = 0;
-        virtual const std::vector<Event>& read() const = 0;
+		virtual const std::vector<Event>& read() const = 0;
 	};
 
 	class EventStream : public IEventStreamWriter, public IEventStreamReader
 	{
 	public:
+		// info
+		std::size_t cache_size() const { return mStream.cache_size(); }
+		std::size_t in_data_size() const { return mStream.in_data_size(); }
+		std::size_t out_data_size() const { return mStream.out_data_size(); }
+			
+		// writer
 		void push(Event e) override { return mStream.push(std::move(e)); }
 		std::size_t publish() override { return mStream.publish(); }
+		
+		// reader
 		void update() override { return mStream.update(); }
-        const std::vector<Event>& read() const override { return mStream.read(); }
+		const std::vector<Event>& read() const override { return mStream.read(); }
 	private:
 		BufferedThreadStream<std::vector<Event>> mStream;
 	};

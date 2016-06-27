@@ -7,7 +7,7 @@
 namespace property
 {
 	class IProperty;
-	
+
 	/*! \class IPropertyObject
 		\brief Full interface of a IPropertyObjects, extends IPropertyObjectView with add/remove
 		\details Allows the addition and removal of properties and property subobjects. The
@@ -26,6 +26,11 @@ namespace property
 		IPropertyObject& operator=(const IPropertyObject& ) = delete;
 		IPropertyObject(IPropertyObject&&) = default;
 		IPropertyObject& operator=(IPropertyObject&&) = default;
+
+		// extended getter interface for mutation
+		/// gets a child property object of name \p name, or throws.
+		/// only works for direct children.
+		virtual IPropertyObject& getChild(const std::string& name) = 0;
 
 		// add/ remove properties
 		// --------------------------------------------------------
@@ -54,8 +59,8 @@ namespace property
 		/// \brief calls notifyIfChanged on all properties.
 		/// \details This function triggers the change listeners for
 		///			all registered properties, including those in subobjects.
-		virtual void notifyAll() = 0;
-		
+		virtual void notifyAll() const = 0;
+
 		/// gets the property that is referred to by path (i.e. this can
 		/// also access properties of child objects).
 		/// this version of the function returns the internal shared_ptr.
@@ -65,8 +70,12 @@ namespace property
 	/// \todo figure out how to do access protection here
 		/// sets the parent of this object
 		virtual void setParent(const IPropertyObject* parent) noexcept = 0;
-		
+
 	};
+
+	// copy function
+	void copyProperties(property::IPropertyObject& target, const property::IPropertyObjectView& source);
+
 }
 
 #endif // IPROPERTYOBJECT_H_INCLUDED

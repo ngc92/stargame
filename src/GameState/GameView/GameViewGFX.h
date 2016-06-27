@@ -40,7 +40,7 @@ namespace gfx
 		void init();
 		/// \note takes object as nonconst reference because it has to add a remove listener.
 		/// \return reference to the deletion listener of the object.
-		ListenerRef addShip(game::IGameObjectView& object, std::string type );
+		ListenerRef addShip(game::IGameObjectView& object, int type );
 
 		// let camera follow and track object
 

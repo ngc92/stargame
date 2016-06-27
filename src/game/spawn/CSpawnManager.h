@@ -16,19 +16,20 @@ namespace game
 namespace spawn
 {
 	class IDataManager;
-	
+
 	class CSpawnManager : public ISpawnManager
 	{
 	public:
 		CSpawnManager();
 		~CSpawnManager();
-		
+
 		std::shared_ptr<IGameObject> spawn( IGameWorld& world, const SpawnData& data ) const override;
 
-		void makeSpaceShip( const std::string& type, IGameObject& object, int team ) const;
-		void makeBullet( const std::string& type, IGameObject& object, const IGameObject& shooter ) const;
+		void makeSpaceShip( IGameObject& object, int team ) const;
+		void makeBullet( IGameObject& object, const IGameObject* shooter ) const;
 	private:
 		std::unique_ptr<IDataManager> mDataManager;
+		mutable uint64_t mSpawnCounter;
 	};
 }
 }

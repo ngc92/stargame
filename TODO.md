@@ -53,6 +53,13 @@
 
 ## AI
 
+## Threading
+- [ ] remove futures from event listener references
+- [ ] split world into master and slave world
+- [ ] despawn event
+- [ ] save handling of object ids
+- [ ] 
+
 ## Sound
 
 ## Refactoring:
@@ -65,7 +72,6 @@
       irrlicht without changing default compilation flags.
 - [x] add a thin wrapper layer around Box2D that provides the most used functions
       in a variant that automatically converts from SI units to Box units.
-- [ ] rework all threading related stuff and find all bugs there^^
 
 ## Permagoals:
 - [ ] improve error handling and logging

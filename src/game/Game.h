@@ -14,6 +14,7 @@ namespace game
 	class IGameWorld;
 	class IGameObject;
 	class IGameViewModule;
+	class IGameModule;
 	namespace spawn
 	{
 		class ISpawnManager;
@@ -21,11 +22,10 @@ namespace game
 
 	namespace view_thread
 	{
-		class IViewThreadGameWorld;
 		class EventStream;
+		class ActionStream;
 	}
 
-	using WorldView = view_thread::IViewThreadGameWorld;
 
 	/*! \class Game
 		\brief Class responsible for a game.
@@ -45,10 +45,10 @@ namespace game
 		/// call from view threads
 		void step();
 
-		WorldView& getWorldView();
-
 		/// adds a module to the module list in a thread-save manner.
 		void addModule(std::weak_ptr<IGameViewModule> module);
+		
+		view_thread::ActionStream& getActionStream() { return *mActionStream; }
 
 	private:
 		void gameloop();
@@ -60,13 +60,11 @@ namespace game
 		std::unique_ptr<ITimeManager> mTimeManager;
 		std::unique_ptr<spawn::ISpawnManager> mSpawnManager;
 
-		std::unique_ptr<view_thread::IViewThreadGameWorld> mWorldView;
+		std::unique_ptr<IGameWorld> mWorldView;
 		std::unique_ptr<view_thread::EventStream> mEventStream;
+		std::unique_ptr<view_thread::ActionStream> mActionStream;
 		std::shared_ptr<IGameViewModule> mExportModule;
-		std::shared_ptr<IGameViewModule> mImportModule;
-
-		std::mutex mModuleMutex;
-		std::vector<std::weak_ptr<IGameViewModule>> mModules;
+		std::shared_ptr<IGameModule> mImportModule;
 	};
 }
 

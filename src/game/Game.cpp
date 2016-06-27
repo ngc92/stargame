@@ -1,15 +1,17 @@
 #include "Game.h"
 #include "IGameWorld.h"
-#include "view_thread/CViewThreadGW.h"
 #include "view_thread/CSimulationThreadWriter.h"
 #include "view_thread/CViewThreadReader.h"
 #include "view_thread/EventStream.h"
+#include "view_thread/ActionStream.h"
+#include "physics/body.h"
 #include "IGameObject.h"
 #include "IGameViewModule.h"
 #include "util.h"
 #include "CTimeManager.h"
 #include "spawn/CSpawnManager.h"
 #include "spawn/SpawnData.h"
+#include <iostream>
 
 namespace game
 {
@@ -17,16 +19,18 @@ namespace game
 		mRunGame(false),
 		mQuitGame(false),
 		mGameThread( [this](){ gameloop(); } ),
-		mGameWorld( createGameWorld() ),
+		mGameWorld( createSimulationWorld() ),
 		mTimeManager( std::make_unique<CTimeManager>() ),
 		mSpawnManager( std::make_unique<spawn::CSpawnManager>( ) ),
-		mWorldView( std::make_unique<view_thread::CViewThreadGameWorld>( *mGameWorld ) ),
+		mWorldView( createObservationWorld() ),
 		mEventStream( std::make_unique<view_thread::EventStream>()),
+		mActionStream( std::make_unique<view_thread::ActionStream>()),
 		mExportModule( std::make_shared<view_thread::CSimulationThreadWriter>( *mEventStream ) ),
 		mImportModule( std::make_shared<view_thread::CViewThreadReader>( *mEventStream ) )
 	{
 		mTimeManager->setDesiredFPS(50);
-		mExportModule->init(*mGameWorld);
+		mGameWorld->addModule( mExportModule );
+		mWorldView->addModule( mImportModule );
 	};
 	Game::~Game()
 	{
@@ -37,8 +41,8 @@ namespace game
 	void Game::run()
 	{
 		auto world = mGameWorld.get();
-		mSpawnManager->spawn(*world, spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(0,0)).set_id(0));
-		mSpawnManager->spawn(*world, spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(50,50)).set_id(1));
+		mSpawnManager->spawn(*world, spawn::SpawnData(ObjectCategory::SPACESHIP, "Destroyer", b2Vec2(0,0)).set_id(0));
+		mSpawnManager->spawn(*world, spawn::SpawnData(ObjectCategory::SPACESHIP, "Destroyer", b2Vec2(50,50)).set_id(1));
 		mRunGame = true;
 	}
 
@@ -49,18 +53,7 @@ namespace game
 
 	void Game::step()
 	{
-		mWorldView->step();
-		for(auto& mod : mModules)
-		{
-			auto locked = mod.lock();
-			if(locked)
-			{
-				std::lock_guard<std::mutex> lock( mWorldView->getUpdateMutex() );
-				locked->step( *mWorldView );
-			}
-		}
-
-		mImportModule->step(*mWorldView);
+		mWorldView->step( *mSpawnManager );
 	}
 
 	void Game::gameloop()
@@ -70,36 +63,23 @@ namespace game
 			if(mRunGame)
 			{
 				mTimeManager->waitTillNextFrame();
+				// perform all queued actions
+				mActionStream->update();
+				for(auto& action : mActionStream->read())
+				{
+					auto& target = mGameWorld->getObjectByID(action.target_id);
+					action.action(target);
+				}
+				
 				// update the world
 				mGameWorld->step( *mSpawnManager );
-
-				// update the world references
-				mWorldView->update();
-
-				mExportModule->step(*mGameWorld);
-
-				// update modules
-				std::lock_guard<std::mutex> lock(mModuleMutex);
-				// remove old modules
-				/// \todo
 			}
 		}
 	}
 
-	WorldView& Game::getWorldView()
-	{
-		return *mWorldView;
-	}
-
 	void Game::addModule(std::weak_ptr<IGameViewModule> module)
 	{
-		std::lock_guard<std::mutex> lock(mModuleMutex);
-		auto locked = module.lock();
-		if(locked)
-		{
-			locked->init( *mWorldView );
-			mModules.push_back( std::move(module) );
-		}
+		mWorldView->addModule( std::move(module) );
 	}
 
 }

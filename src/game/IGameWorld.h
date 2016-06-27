@@ -5,11 +5,13 @@
 
 namespace game
 {
+	class IGameModule;
+
 	namespace spawn
 	{
 		class ISpawnManager;
 	}
-	
+
 	/*! \class IGameWorld
 		\brief Game World, manages Game Objects and physics.
 	*/
@@ -26,14 +28,25 @@ namespace game
 		virtual IGameObject& getObjectByID( uint64_t id ) = 0;
 
 		/// get a pointer to the internal world
-		virtual const b2World* world() const = 0;
+		virtual const b2World& world() const = 0;
+		
+		/// get a pointer to the internal world.
+		/// \todo get rid of this function!
+		virtual b2World& getWorld() = 0;
 
-		/// get a pointer to the internal world
-		virtual b2World* getWorld() = 0;
+		/// Adds a module to this worlds module list.
+		/// the module is removed as soon as that weak_ptr
+		/// expires.
+		/// The module is directly initialized.
+		virtual void addModule(std::weak_ptr<IGameModule> module) = 0;
+		using IGameWorldView::addModule;
 	};
 	
-	/// creates an IGameWorld object using the default implementation.
-	std::unique_ptr<IGameWorld> createGameWorld();
+	/// creates an IGameWorld object using the simulation implementation.
+	std::unique_ptr<IGameWorld> createSimulationWorld();
+	
+	/// creates an IGameWorld object using the observation implementation.
+	std::unique_ptr<IGameWorld> createObservationWorld();
 }
 
 #endif // IGAMEWORLD_H_INCLUDED

@@ -18,10 +18,11 @@ namespace view_thread
 
 	void CSimulationThreadWriter::step( IGameWorldView& world_view )
 	{
-		std::cout << "step ";
+//		std::cout << "step ";
 //		std::cout << mBuffer.cache_size() << " -> ";
-		world_view.iterateAllObjects([this](IGameObjectView& object){pushObjectUpdate(object);});
-		std::cout << mBuffer.publish() << "\n";
+		world_view.iterateAllObjects([this](IGameObjectView& object){ pushObjectUpdate(object);} );
+//		std::cout << mBuffer.publish() << "\n";
+		mBuffer.publish();
 
 	}
 
@@ -35,7 +36,6 @@ namespace view_thread
 	{
 		// create a unique id for that object
 		std::uint64_t uuid = ++mUUID_counter;
-		std::cout << "ON_SPAWN\a: " << uuid << "\n";
 
 		// add a change listener to all properties.
 		object.forallProperties(
@@ -57,6 +57,7 @@ namespace view_thread
 	void CSimulationThreadWriter::pushObjectUpdate( const IGameObjectView& object )
 	{
 		UpdateEvent update;
+		update.id = object.id();
 		update.position = object.position();
 		update.velocity = object.velocity();
 		update.angle = object.angle();

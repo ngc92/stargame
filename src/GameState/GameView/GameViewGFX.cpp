@@ -59,8 +59,9 @@ namespace gfx
 		light->setLightType( video::ELT_DIRECTIONAL );
 	}
 
-	ListenerRef GameViewGFX::addShip( game::IGameObjectView& object, std::string type )
+	ListenerRef GameViewGFX::addShip( game::IGameObjectView& object, int cat )
 	{
+		std::string type = cat == 0 ? "ship" : "bullet";
 		/// \todo this caches, except when we cannot find the model. remember these.
 		auto mesh = mSceneMgr->getMesh( ("gfx/models/" + type + ".3ds").c_str() );
 		if(!mesh)

@@ -3,7 +3,6 @@
 #include "input/IInputElement.h"
 #include "input/CInputConfig.h"
 #include "game/IGameWorldView.h"
-#include "game/view_thread/IViewThreadGO.h"
 #include "IEngine.h"
 #include "IInputManager.h"
 #include <iostream>
@@ -12,7 +11,7 @@
 
 using namespace std::placeholders;
 
-InputModule::InputModule(IEngine* engine, long myship) :
+InputModule::InputModule(IEngine* engine, uint64_t myship) :
 	mShipID(myship), mInputConfig( std::make_unique<input::CInputConfig>() )
 {
 	/// \todo this is suicide, only for testing!
@@ -51,7 +50,16 @@ void InputModule::onSpawn(game::IGameObjectView& spawned)
 void InputModule::step( game::IGameWorldView& world_view )
 {
 	for(auto& elem : mInputElements)
-		elem->onStep();
+	{
+		auto result = elem->onStep();
+		if(result)
+		{
+			game::view_thread::Action action;
+			action.target_id = mShipID;
+			action.action = std::move(result);
+			mActions.push_back( std::move(action) );
+		}
+	}
 }
 
 void InputModule::reset()
@@ -67,7 +75,7 @@ void InputModule::propertyCallback(property::IPropertyView& property)
 	if(!boost::algorithm::starts_with(name, "input:"))
 		return;
 
-	std::cout << "INPUT: " << property.path() << "\n";
+	std::cout << "INPUT: " << property.path() << " ";
 	auto input = mInputConfig->getInputElemt(property);
 	if(input)
 	{

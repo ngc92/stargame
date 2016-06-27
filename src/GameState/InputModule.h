@@ -7,6 +7,7 @@
 #include <memory>
 #include <map>
 #include <set>
+#include "game/view_thread/ActionStream.h"
 
 namespace property
 {
@@ -29,11 +30,12 @@ namespace input
 class InputModule : public game::IGameViewModule, public IEventListener
 {
 public:
-	InputModule(IEngine*, long myship);
+	InputModule(IEngine*, uint64_t myship);
 	~InputModule();
 
 	void step( game::IGameWorldView& world_view ) override;
 	void init( game::IGameWorldView& world_view ) override;
+	const auto& getActions() const { return mActions; };
 
 	void registerListener( const IInputManager* mgr) override {}
 	void onKeyEvent(irr::EKEY_CODE key, bool press) override;
@@ -42,13 +44,15 @@ private:
 	void onSpawn( game::IGameObjectView& spawned );
 	void propertyCallback( property::IPropertyView& pview);
 	void reset();
-	long mShipID;
+	uint64_t mShipID;
 	std::unique_ptr<input::IInputConfig> mInputConfig;
 	std::vector<std::shared_ptr<input::IInputElement>> mInputElements;
 	ListenerRef mSpawnLst;
 	ListenerRef mRemLst;
 
 	std::shared_ptr<game::IGameObjectView> mControlledObject;
+	
+	std::vector<game::view_thread::Action> mActions;
 };
 
 #endif // INPUTMODULE_H_INCLUDED

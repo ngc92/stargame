@@ -2,6 +2,7 @@
 #define SPAWNEVENT_H_INCLUDED
 
 #include <memory>
+#include "game/spawn/SpawnData.h"
 
 namespace property
 {
@@ -26,8 +27,11 @@ namespace view_thread
 		SpawnEvent( IGameObjectView& spawned );
 
 		const property::IPropertyObject& properties() const;
+		spawn::SpawnData& spawn_data() { return mSpawnData; }
+		const spawn::SpawnData& spawn_data() const { return mSpawnData; }
 	private:
 		std::shared_ptr<property::IPropertyObject> mProperties;
+		spawn::SpawnData mSpawnData;
 	};
 }
 }

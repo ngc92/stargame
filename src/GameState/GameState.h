@@ -6,6 +6,7 @@
 
 
 class IEngine;
+class InputModule;
 
 namespace game
 {
@@ -59,6 +60,7 @@ private:
 	irr::scene::ISceneManager* mSceneMgr;
 	std::unique_ptr<game::Game> mGame;
 	std::shared_ptr<IDebugDraw> mDebugDraw;
+	std::shared_ptr<InputModule> mInputModule;
 	std::vector<std::shared_ptr<game::IGameViewModule>> mModules;
 };
 

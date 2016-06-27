@@ -34,10 +34,13 @@ namespace game
 	public:
 		/// called just after the object is constructed and added to the world.
 		virtual void onInit(IGameWorld& world) = 0;
+		
+		/// perform a step. 
+		virtual void step(const IGameWorld& world, WorldActionQueue& push_action) = 0;
 
 		/// this function will be called every step by the game world, and should trigger
-		/// the onStep listener.
-		virtual void onStep(const IGameWorld& world, WorldActionQueue& push_action) = 0;
+		/// the onStep listener and notify any change listener.
+		virtual void onStep(const IGameWorld& world) const = 0;
 
 		/// this function is called whenever another game object hits the current one.
 		virtual void onImpact(IGameObject& other, const ImpactInfo& info) = 0;
@@ -64,7 +67,9 @@ namespace game
 		virtual void setIgnoreCollisionTarget( const b2Body* ignore ) = 0;
 
 		// modules
-		/// adds a module to this game object.
+		/// adds a module to this game object. All modules have to be
+		/// added before the call to onInit. Trying to add a module afterwards will
+		/// trigger an assert or an exception.
 		virtual void addModule( std::shared_ptr<IGameObjectModule> ) = 0;
 
 		/// gets a module converted to a certain type.
@@ -96,7 +101,7 @@ namespace game
 	
 	// constructor function
 	/// creates an object of IGameObject using the default implementation.
-	std::shared_ptr<IGameObject> createGameObject( b2Body* body, uint64_t id );
+	std::shared_ptr<IGameObject> createGameObject( uint64_t id, std::string type, ObjectCategory category, b2Body* b, std::string name = "object" );
 }
 
 #endif // IGAMEOBJECT_H_INCLUDED

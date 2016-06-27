@@ -12,19 +12,20 @@ namespace game
 namespace view_thread
 {
 	class IEventStreamReader;
-	class CViewThreadReader : public IGameViewModule
+	class CViewThreadReader : public IGameModule
 	{
 	public:
 		CViewThreadReader(IEventStreamReader& stream);
 
-		void step( IGameWorldView& world_view ) override;
+		void step( IGameWorld& world, const spawn::ISpawnManager& spawner ) override;
 
-		void init( IGameWorldView& world_view ) override;
+		void init( IGameWorld& world_view ) override;
+
+		// event handler functions
+		void onSpawn( IGameWorld& world, const spawn::ISpawnManager& spawner, const SpawnEvent& event );
+		void onUpdate( IGameWorld& world, const UpdateEvent& event );
 
 	private:
-
-		std::uint64_t mUUID_counter = 0;
-
 		IEventStreamReader& mBuffer;
 	};
 }
