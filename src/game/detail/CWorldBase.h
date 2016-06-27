@@ -19,9 +19,9 @@ namespace game
 	public:
 		
 		CWorldBase();
-/*
+
 		virtual ~CWorldBase();
-*/
+
 		/// iterates over all game objects \p o inside this world and calls \p f(o).
 		void iterateAllObjects(const std::function<void(IGameObjectView&)>& f) const final;
 
@@ -82,8 +82,8 @@ namespace game
 */
 	private:
 		std::vector<std::shared_ptr<IGameObject>> mGameObjects;	//!< Vector of all IGameObject in this world.
-		std::unique_ptr<b2World> mPhysicWorld; 					//!< The Box2D physics world.
 		std::vector<std::shared_ptr<IGameObject>> mSpawnQueue;	//!< Vector of all IGameObject that have to be spawned at the end of the step.
+		std::unique_ptr<b2World> mPhysicWorld; 					//!< The Box2D physics world.
 		ListenerList<IGameObject&> mSpawnListeners;				//! List of spawn listeners
 		
 		std::vector<std::weak_ptr<IGameViewModule>> mViewModules;	//! Vector of all registered game view modules.

@@ -14,6 +14,13 @@ namespace game
 		mPhysicWorld->SetContinuousPhysics( true );
 	}
 	
+	CWorldBase::~CWorldBase()
+	{
+		// ensure all physic bodies are destroyed in-game before we remove the b2World
+		mGameObjects.clear();
+		mSpawnQueue.clear();
+	}
+	
 	/// adds a listener that is called whenever a new game objects is spawned in the world.
 	ListenerRef CWorldBase::addSpawnListener(std::function<void(IGameObjectView&)> f)
 	{

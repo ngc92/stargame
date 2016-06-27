@@ -1,6 +1,7 @@
 #include "body.h"
 #include "consts.h"
 #include <cassert>
+#include <iostream>
 #include <Box2D/Dynamics/b2Body.h>
 #include <Box2D/Dynamics/b2World.h>
 
@@ -10,7 +11,10 @@ namespace game
 	{
 	}
 
-	Body::~Body(){}
+	Body::~Body()
+	{
+		destroy();
+	}
 
 	// general physics properties getters
 	/// gets the current position.
