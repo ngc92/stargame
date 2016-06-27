@@ -26,8 +26,7 @@ namespace game
 namespace spawn
 {
 	CSpawnManager::CSpawnManager() :
-		mDataManager(std::make_unique<spawn::CDataManager>() ),
-		mSpawnCounter(1000)
+		mDataManager(std::make_unique<spawn::CDataManager>() )
 	{
 		mDataManager->loadFile("data/components.xml");
 		mDataManager->loadFile("data/hulls.xml");
@@ -43,7 +42,7 @@ namespace spawn
 		b2BodyDef def = body_def(data);
 		def.type = b2_dynamicBody;
 		auto body = world.getWorld().CreateBody(&def);
-		uint64_t new_id = data.id == -1 ? ++mSpawnCounter : data.id;
+		uint64_t new_id = data.id == -1 ? world.getNextFreeID() : data.id;
 		auto game_object = createGameObject(new_id, data.type, data.category, body);
 
 		if(data.category == ObjectCategory::SPACESHIP)

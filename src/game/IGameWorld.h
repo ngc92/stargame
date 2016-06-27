@@ -2,6 +2,7 @@
 #define IGAMEWORLD_H_INCLUDED
 
 #include "IGameWorldView.h"
+#include "IGameObject.h" // we need this for covariant return
 
 namespace game
 {
@@ -26,6 +27,15 @@ namespace game
 
 		/// get a game object with specified id.
 		virtual IGameObject& getObjectByID( uint64_t id ) = 0;
+		
+		/// get a game object view with specified name. If more than
+		/// one object exists with the given name, it is unspecified 
+		/// which one is returned (i.e. don't do that!).
+		virtual IGameObject& getObjectByName( const std::string& name ) = 0;
+		
+		/// gets an id that is currently not used by any game object.
+		/// \note currently not marked as const, because the internal id cache may be changed.
+		virtual uint64_t getNextFreeID() = 0;
 
 		/// get a pointer to the internal world
 		virtual const b2World& world() const = 0;

@@ -48,23 +48,60 @@ namespace game
 	void CWorldBase::addGameObject(std::shared_ptr<IGameObject> object)
 	{
 		// check uniqueness
-		assert( std::find_if(begin(mGameObjects), end(mGameObjects), [id=object->id()](auto& o){ return o->id() == id; }) == end(mGameObjects) );
-		assert( std::find_if(begin(mSpawnQueue), end(mSpawnQueue), [id=object->id()](auto& o){ return o->id() == id; }) == end(mSpawnQueue) );
+		assert( std::none_of(begin(mGameObjects), end(mGameObjects), [id=object->id()](auto& o){ return o->id() == id; }) );
+		assert( std::none_of(begin(mSpawnQueue), end(mSpawnQueue), [id=object->id()](auto& o){ return o->id() == id; }) );
 		mSpawnQueue.push_back( std::move(object) );
 	}
 
-	IGameObject& CWorldBase::getObjectByID( uint64_t id )
+	/// get a game object that fulfills a predicate. Searches both 
+	/// current objects and spawn list.
+	template<class F>
+	IGameObject& CWorldBase::getObjectByPredicate( F&& function )
 	{
-		auto found = std::find_if(begin(mGameObjects), end(mGameObjects), [id](auto& o){ return o->id() == id; });
+		auto found = std::find_if(begin(mGameObjects), end(mGameObjects), function);
 		if( found == end(mGameObjects))
 		{
 			// maybe the object still waits to be added to the world.
-			auto not_spawned_yet = std::find_if(begin(mSpawnQueue), end(mSpawnQueue), [id](auto& o){ return o->id() == id; });
+			auto not_spawned_yet = std::find_if(begin(mSpawnQueue), end(mSpawnQueue), function);
 			if( not_spawned_yet == end(mSpawnQueue))
+			{
+				std::cerr << "requested object not found!\n";
 				assert(0);
+			}
 			return **not_spawned_yet;
 		}
 		return **found;
+	}
+	
+	IGameObject& CWorldBase::getObjectByID( uint64_t id )
+	{
+		return getObjectByPredicate([id](auto& o){ return o->id() == id; });
+	}
+	
+	/// get a game object view with specified name. If more than
+	/// one object exists with the given name, it is unspecified 
+	/// which one is returned (i.e. don't do that!).
+	IGameObject& CWorldBase::getObjectByName( const std::string& name )
+	{
+		return getObjectByPredicate([&name](auto& o){ return o->name() == name; });
+	}
+	
+	/// gets an id that is currently not used by any game object.
+	uint64_t CWorldBase::getNextFreeID()
+	{
+		while(true)
+		{
+			++mFreeIDCandidate;
+			
+			if(std::any_of(begin(mGameObjects), end(mGameObjects), [id=mFreeIDCandidate](auto& o){ return o->id() == id; }))
+				continue;
+		
+			if(std::any_of(begin(mSpawnQueue), end(mSpawnQueue), [id=mFreeIDCandidate](auto& o){ return o->id() == id; }))
+				continue;
+			
+			// ok, we're good to go
+			return mFreeIDCandidate;
+		}
 	}
 	
 	void CWorldBase::clear_objects()

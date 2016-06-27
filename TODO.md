@@ -25,6 +25,7 @@
 - [ ] introduce mass handling for ships
 - [x] scaling of units! 1unit = 1m seems to small
 - [ ] allow adding custom collision filtering info to physic objects (refactor setIgnoreCollisionTarget)
+- [ ] add change listeners for physics properties (restitution, friction, ...)
 
 ## Event system
 - [ ] add generic infrastructure for event handling, within both game and view thread
@@ -54,11 +55,12 @@
 ## AI
 
 ## Threading
-- [ ] remove futures from event listener references
+- [x] remove futures from event listener references
 - [ ] split world into master and slave world
 - [ ] despawn event
-- [ ] save handling of object ids
-- [ ] 
+- [x] save handling of object ids
+- [ ] remove all threading stuff from listeners
+- [ ] profiling stuff
 
 ## Sound
 

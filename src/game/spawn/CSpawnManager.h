@@ -29,7 +29,6 @@ namespace spawn
 		void makeBullet( IGameObject& object, const IGameObject* shooter ) const;
 	private:
 		std::unique_ptr<IDataManager> mDataManager;
-		mutable uint64_t mSpawnCounter;
 	};
 }
 }
