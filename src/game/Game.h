@@ -45,8 +45,8 @@ namespace game
 		/// call from view threads
 		void step();
 
-		/// adds a module to the module list in a thread-save manner.
-		void addModule(std::weak_ptr<IGameViewModule> module);
+		/// gets the simulation world.
+		IGameWorld& getSimulationWorld() const;
 		
 		view_thread::ActionStream& getActionStream() { return *mActionStream; }
 

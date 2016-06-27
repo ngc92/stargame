@@ -3,7 +3,7 @@
 
 #include "game/IGameViewModule.h"
 
-class IDebugDraw : public virtual game::IGameViewModule
+class IDebugDraw : public virtual game::IGameModule
 {
 public:
 	virtual ~IDebugDraw() = default;

@@ -1,5 +1,6 @@
 #include "GameState.h"
 #include "game/Game.h"
+#include "game/IGameWorld.h"
 #include "IEngine.h"
 #include "util.h"
 #include "TextInterface/TextInterface.h"
@@ -23,7 +24,8 @@ GameState::GameState(IEngine* engine) :
 	addGameModule(std::make_shared<GameView>( &engine->getIrrlichDevice() ));
 	addGameModule(mInputModule);
 	addGameModule(std::make_shared<HUD>(mGUIEnv, 0));
-	addGameModule(mDebugDraw);
+	
+	mGame->getSimulationWorld().addModule( mDebugDraw );
 }
 
 GameState::~GameState()
@@ -75,6 +77,6 @@ bool GameState::onEvent(const irr::SEvent::SGUIEvent& event)
 
 void GameState::addGameModule(std::shared_ptr<game::IGameViewModule> module)
 {
-	mGame->addModule( module );
+	mGame->getSimulationWorld().addModule( module );
 	mModules.push_back( std::move(module) );
 }

@@ -44,8 +44,8 @@ class CDebugDraw : public b2Draw, public IDebugDraw
 		void doDraw() const override;
 
 		// game view module implementation
-		void init(  game::IGameWorldView& world_view  ) final{};
-		void step( game::IGameWorldView& world_view ) final{};
+		void init(  game::IGameWorld& world  ) final;
+		void step( game::IGameWorld& world, const game::spawn::ISpawnManager& spawner ) final;
 
 	private:
 		void drawLine(const b2Vec2& p1, const b2Vec2& p2, const color_type& color);
@@ -57,7 +57,5 @@ class CDebugDraw : public b2Draw, public IDebugDraw
 
 		irr::video::IVideoDriver* mDriver;
 };
-
-//extern CDebugDraw d;
 
 #endif // CDEBUGDRAW_H_INCLUDED

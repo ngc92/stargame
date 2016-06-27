@@ -77,9 +77,9 @@ namespace game
 		}
 	}
 
-	void Game::addModule(std::weak_ptr<IGameViewModule> module)
+	IGameWorld& Game::getSimulationWorld() const
 	{
-		mWorldView->addModule( std::move(module) );
+		return *mWorldView;
 	}
 
 }

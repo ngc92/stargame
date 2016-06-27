@@ -13,6 +13,11 @@ namespace physics
 	public:
 		Body(b2Body* source);
 		~Body();
+		
+		Body(Body&&) = default;
+		Body& operator=(Body&&) = default;
+		Body(const Body&) = delete;
+		Body& operator=(const Body&) = delete;
 
 		// general physics properties getters
 		/// gets the current position.
