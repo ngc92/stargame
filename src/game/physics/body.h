@@ -3,6 +3,7 @@
 
 class b2Body;
 class b2Vec2;
+class b2Transform;
 
 namespace game
 {
@@ -34,6 +35,14 @@ namespace physics
 		float mass() const;
 		/// gets the moment of inertia in kg m²
 		float inertia() const;
+		
+		/*! gets the transform of the body. 
+			\attention This function returns a direct reference 
+						to the targets transform. It is not converted
+						into game units, and only intended to be used
+						as argument to other Box2D functions.
+		*/
+		const b2Transform& getTransform() const;
 
 		// physics state setters
 		/// sets the position.

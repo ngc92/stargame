@@ -94,7 +94,7 @@ namespace physics
 		mBoxShape.apply_visitor(v);
 	}
 	
-	const b2Shape* to_b2shape(const Shape& shape)
+	const b2Shape* as_b2shape(const Shape& shape)
 	{
 		PtrVariant v;
 		return shape.mBoxShape.apply_visitor( v );

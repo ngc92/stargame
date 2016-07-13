@@ -1,6 +1,8 @@
 #include "CSubStructure.h"
 #include "game/physics/body.h"
 #include "game/physics/fixture.h"
+#include "game/physics/shape.h"
+#include "game/physics/raycast.h"
 #include "util/io.h"
 #include "components/IComponent.h"
 #include "IDamageSource.h"
@@ -95,7 +97,7 @@ namespace game
 
 	void CSubStructure::onDamage( IGameObject& object, const Damage& damage, const b2Vec2& pos, const b2Vec2& dir )
 	{
-		hit(object.body().body()->GetTransform(), damage, pos, dir);
+		hit(object.body().getTransform(), damage, pos, dir);
 	}
 
 	void CSubStructure::hit(const b2Transform& trafo, Damage damage, vector2d position, vector2d direction)
@@ -134,7 +136,7 @@ namespace game
 		std::vector<HitCell> hit_cells;
 		for(auto& cell : mCells)
 		{
-			if(cell->shape().RayCast(&rcout, rcin, trafo, 0))
+			if(physics::raycast(rcout, cell->shape(), rcin, trafo))
 			{
 				rcin.maxFraction = rcout.fraction;
 				hit_cells.push_back(HitCell{rcout.fraction, cell.get()});

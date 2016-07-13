@@ -21,7 +21,7 @@ namespace physics
 	{
 		b2FixtureDef def;
 		def.density = density;
-		def.shape = to_b2shape(shape);
+		def.shape = as_b2shape(shape);
 		return create(body, def);
 	}
 
@@ -31,7 +31,7 @@ namespace physics
 		// now, create the new shape;
 		Shape shape(*def.shape);
 		shape.scale( METERS_TO_BOX );
-		def.shape = to_b2shape(shape);
+		def.shape = as_b2shape(shape);
 		return *body.body()->CreateFixture(&def);
 	}
 
@@ -42,7 +42,7 @@ namespace physics
 	}
 
 	/// Set if this fixture is a sensor.
-	void Fixture::setSensor(bool sensor)
+	Fixture& Fixture::setSensor(bool sensor)
 	{
 		mFixture.SetSensor( sensor );
 	}

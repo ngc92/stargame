@@ -32,11 +32,11 @@ namespace physics
 	private:
 		shape_t mBoxShape;
 		
-		friend const b2Shape* to_b2shape(const Shape& shape);
+		friend const b2Shape* as_b2shape(const Shape& shape);
 	};
 	
 	
-	const b2Shape* to_b2shape(const Shape& shape);
+	const b2Shape* as_b2shape(const Shape& shape);
 }
 }
 

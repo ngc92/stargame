@@ -5,6 +5,7 @@
 #include "game/physics/body.h"
 #include "game/physics/convert.h"
 #include "game/physics/fixture.h"
+#include "game/physics/shape.h"
 
 #include "game/IGameObject.h"
 #include "property/CProperty.h"
@@ -15,7 +16,8 @@
 #include "game/object_module/CAffiliation.h"
 #include "game/object_module/CTimedDeletion.h"
 #include "game/object_module/CImpactDamageSource.h"
-#include <Box2D/Box2D.h>
+#include <Box2D/Dynamics/b2Body.h>
+#include <Box2D/Dynamics/b2World.h>
 #include <cassert>
 #include <iostream>
 
@@ -90,14 +92,8 @@ namespace spawn
 		object.addModule( std::make_shared<CImpactDamageSource>( 0.5, 0.5 ) );
 
 		// add circular fixture
-		b2CircleShape shape;
-		shape.m_radius = dat.radius();
-		b2FixtureDef def;
-		def.density = 1.0;
-		def.restitution = 0.5;
-		def.shape = &shape;
 		/// \todo set density for mass!
-		auto fix = physics::Fixture::create(object.getBody(), def);
+		physics::Fixture::create(object.getBody(), physics::Shape::circle(dat.radius()), 1.0).setRestitution(0.5);
 		object.getBody().body()->SetBullet(true);
 		object.getBody().addLinearVelocity( world_vector(object.body(), b2Vec2(dat.propellVelocity(), 0) ) );
 		if(shooter)

@@ -46,6 +46,17 @@ namespace game
 	{
 		return mBody->GetAngularVelocity();
 	}
+	
+	/*! gets the transform of the body. 
+		\attention This function returns a direct reference 
+					to the targets transform. It is not converted
+					into game units, and only intended to be used
+					as argument to other Box2D functions.
+	*/
+	const b2Transform& Body::getTransform() const
+	{
+		return mBody->GetTransform();
+	}
 
 	/// sets the position.
 	/// \note \p new_pos in world coordinates, in game units.

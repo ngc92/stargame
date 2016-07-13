@@ -17,13 +17,12 @@ namespace physics
 		Fixture(b2Fixture& source);
 
 		static Fixture create( Body&, const Shape&, float density );
-		static Fixture create( Body&, b2FixtureDef def );
 
 		/// Get the child shape.
 		Shape getShape() const;
 
 		/// Set if this fixture is a sensor.
-		void setSensor(bool sensor);
+		Fixture& setSensor(bool sensor);
 
 		/// Is this fixture a sensor (non-solid)?
 		/// @return true if the shape is a sensor.
@@ -54,6 +53,8 @@ namespace physics
 		Fixture& addMass( float mass );
 
 	private:
+		static Fixture create( Body&, b2FixtureDef def );
+		
 		b2Fixture& mFixture;
 	};
 }
