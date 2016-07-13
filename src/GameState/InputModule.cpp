@@ -49,6 +49,7 @@ void InputModule::onSpawn(game::IGameObjectView& spawned)
 
 void InputModule::step( game::IGameWorldView& world_view )
 {
+	mActions.clear();
 	for(auto& elem : mInputElements)
 	{
 		auto result = elem->onStep();
