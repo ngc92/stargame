@@ -56,10 +56,10 @@
 
 ## Threading
 - [x] remove futures from event listener references
-- [ ] split world into master and slave world
+- [x] split world into master and slave world
 - [ ] despawn event
 - [x] save handling of object ids
-- [ ] remove all threading stuff from listeners
+- [ ] remove all threading stuff from listeners?
 - [ ] profiling stuff
 
 ## Sound

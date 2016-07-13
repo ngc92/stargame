@@ -2,7 +2,6 @@
 #define FIXTURE_H_INCLUDED
 
 class b2Fixture;
-class b2Shape;
 class b2FixtureDef;
 
 namespace game
@@ -10,17 +9,18 @@ namespace game
 namespace physics
 {
 	class Body;
+	class Shape;
 
 	class Fixture
 	{
 	public:
 		Fixture(b2Fixture& source);
 
-		static Fixture create( Body&, const b2Shape&, float density );
+		static Fixture create( Body&, const Shape&, float density );
 		static Fixture create( Body&, b2FixtureDef def );
 
 		/// Get the child shape.
-		const b2Shape& shape() const;
+		Shape getShape() const;
 
 		/// Set if this fixture is a sensor.
 		void setSensor(bool sensor);

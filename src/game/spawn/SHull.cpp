@@ -111,7 +111,7 @@ namespace spawn
 
 	std::unique_ptr<IStructureCell> SStructureCell::create() const
 	{
-		return std::make_unique<CStructureCell>(mID, mMaxLoad, std::make_unique<b2PolygonShape>(mShape));
+		return std::make_unique<CStructureCell>(mID, mMaxLoad, physics::Shape(mShape));
 	}
 }
 }

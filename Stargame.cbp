@@ -150,6 +150,8 @@
 		<Unit filename="src/game/physics/convert.h" />
 		<Unit filename="src/game/physics/fixture.cpp" />
 		<Unit filename="src/game/physics/fixture.h" />
+		<Unit filename="src/game/physics/shape.cpp" />
+		<Unit filename="src/game/physics/shape.h" />
 		<Unit filename="src/game/spawn/CDataManager.cpp" />
 		<Unit filename="src/game/spawn/CDataManager.h" />
 		<Unit filename="src/game/spawn/CSpawnManager.cpp" />

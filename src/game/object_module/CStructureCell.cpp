@@ -1,11 +1,10 @@
 #include "CStructureCell.h"
 #include "components/IComponent.h"
-#include <Box2D/Collision/Shapes/b2Shape.h>
 #include <boost/iterator/indirect_iterator.hpp>
 
 namespace game
 {
-	CStructureCell::CStructureCell( long id, float maxload, std::unique_ptr<b2Shape> shape ) :
+	CStructureCell::CStructureCell( long id, float maxload, physics::Shape shape ) :
 		mID(id),
 		mMaxLoad(maxload),
 		mShape(std::move(shape))
@@ -50,9 +49,9 @@ namespace game
 		return comp_range_t( idt(begin(mComponents)), idt(end(mComponents)) );
 	}
 
-	const b2Shape& CStructureCell::shape() const
+	const physics::Shape& CStructureCell::shape() const
 	{
-		return *mShape;
+		return mShape;
 	}
 
 	std::size_t CStructureCell::component_count() const
