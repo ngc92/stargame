@@ -56,11 +56,11 @@ namespace game
 			void addModule( std::shared_ptr<IGameObjectModule> ) final;
 
 			/// adds a listener that is called every step for this game object.
-			ListenerRef addStepListener( std::function<void()> lst ) final;
+			ListenerRef addStepListener( std::function<void(const IGameObjectView&)> lst ) final;
 			/// adds a listener that is called when this object is hit by another game object.
 			ListenerRef addImpactListener( std::function<void(IGameObjectView&, const ImpactInfo&)> lst ) final;
 			/// adds a listener that is called when the object is removed
-			ListenerRef addRemoveListener( std::function<void()> lst ) final;
+			ListenerRef addRemoveListener( std::function<void(const IGameObjectView&)> lst ) final;
 
 			/// get a pointer to the internal body, if any
 			const Body& body() const final;
@@ -88,8 +88,8 @@ namespace game
 			property::TypedProperty<std::string> mType;
 			property::TypedProperty<int> mCategory;
 
-			ListenerList<> mStepListeners;
-			ListenerList<> mRemoveListeners;
+			ListenerList<const IGameObjectView&> mStepListeners;
+			ListenerList<const IGameObjectView&> mRemoveListeners;
 			ListenerList<IGameObject&, const ImpactInfo&> mImpactListeners;
 
 			// modules

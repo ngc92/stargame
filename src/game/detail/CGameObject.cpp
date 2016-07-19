@@ -27,7 +27,7 @@ namespace game
 		mIsAlive = false;
 		mBody.destroy();
 
-		mRemoveListeners.notify();
+		mRemoveListeners.notify(*this);
 	}
 
 	void CGameObject::onInit(IGameWorld& world)
@@ -54,7 +54,7 @@ namespace game
 	{
 		// step listeners and modules
 		/// \todo this should happen after the modules, I think?
-		mStepListeners.notify();
+		mStepListeners.notify(*this);
 		
 		// update property listeners
 		notifyAll();
@@ -122,7 +122,7 @@ namespace game
 		return (ObjectCategory)(int)mCategory;
 	}
 
-	ListenerRef CGameObject::addStepListener( std::function<void()> lst )
+	ListenerRef CGameObject::addStepListener( std::function<void(const IGameObjectView&)> lst )
 	{
 		return mStepListeners.addListener( std::move(lst) );
 	}
@@ -132,7 +132,7 @@ namespace game
 		return mImpactListeners.addListener( std::move(lst) );
 	}
 
-	ListenerRef CGameObject::addRemoveListener( std::function<void()> lst )
+	ListenerRef CGameObject::addRemoveListener( std::function<void(const IGameObjectView&)> lst )
 	{
 		return mRemoveListeners.addListener( std::move(lst) );
 	}

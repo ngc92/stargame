@@ -78,7 +78,7 @@ namespace gfx
 		config.mIntensitySource = "structure.MainPropulsionSystem.input:thrust";
 		exhaust->addAnimator( new EngineExhaustAnimator(object, std::move(config)) );
 
-		auto ref = object.addRemoveListener( [node](){ node->remove(); } );
+		auto ref = object.addRemoveListener( [node]( const game::IGameObjectView& ){ node->remove(); } );
 
 		static bool f = true;
 		if(f)

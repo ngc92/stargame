@@ -31,7 +31,7 @@ namespace graphic
 			return;
 
 		auto view_entity = mView->addObject( object.position(), object.angle(), team, "ship" );
-		auto update = object.addStepListener([view_entity, &object]()
+		auto update = object.addStepListener([view_entity](const game::IGameObjectView& object)
 											{
 												view_entity->setPosition( object.position() );
 												view_entity->setAngle( object.angle() );
