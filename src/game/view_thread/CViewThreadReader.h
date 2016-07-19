@@ -23,7 +23,9 @@ namespace view_thread
 
 		// event handler functions
 		void onSpawn( IGameWorld& world, const spawn::ISpawnManager& spawner, const SpawnEvent& event );
+		void onDespawn( IGameWorld& world, const DespawnEvent& event );
 		void onUpdate( IGameWorld& world, const UpdateEvent& event );
+		void onPropertyUpdate( IGameWorld& world, const PropertyEvent& event );
 
 	private:
 		IEventStreamReader& mBuffer;

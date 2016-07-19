@@ -5,6 +5,7 @@
 #include "property/IPropertyView.h"
 #include "util/buffered_thread_stream.h"
 #include "UpdateEvent.h"
+#include <unordered_map>
 
 namespace game
 {
@@ -22,13 +23,13 @@ namespace view_thread
 
 	private:
 		void onSpawn( IGameObjectView& object );
+		void onDespawn( uint64_t id );
 
-		void pushPropertyUpdate( property::IPropertyView& property );
+		void pushPropertyUpdate( uint64_t id, property::IPropertyView& property );
 		void pushObjectUpdate( const IGameObjectView& object );
 
-		std::uint64_t mUUID_counter = 0;
-
 		ListenerRef mSpawnListener;
+		std::unordered_map<uint64_t, ListenerRef> mRemoveListeners;
 
 		IEventStreamWriter& mBuffer;
 	};

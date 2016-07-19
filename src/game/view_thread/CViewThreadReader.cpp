@@ -10,6 +10,7 @@
 #include <iostream>
 #include "util/io.h"
 #include "property/io.h"
+#include "property/IProperty.h"
 
 namespace game
 {
@@ -28,11 +29,17 @@ namespace view_thread
 
 		void operator()(const DespawnEvent& spev)
 		{
+			reader.onDespawn( world, spev );
 		}
 
 		void operator()(const UpdateEvent& uev)
 		{
 			reader.onUpdate( world, uev );
+		}
+		
+		void operator()(const PropertyEvent& pev)
+		{
+			reader.onPropertyUpdate( world, pev );
 		}
 	};
 
@@ -48,7 +55,7 @@ namespace view_thread
 	void CViewThreadReader::step( IGameWorld& world, const spawn::ISpawnManager& spawner )
 	{
 		mBuffer.update();
-		//std::cout << "READ " << mBuffer.read().size() << "\n";
+		//std::cout << "READ " << mBuffer.cache_size() << " " << mBuffer.in_data_size() << " " << mBuffer.out_data_size() << "\n";
 
 		EventHandler visit = {*this, world, spawner};
 		for(auto& event : mBuffer.read())
@@ -63,6 +70,14 @@ namespace view_thread
 		// copy all properties
 		copyProperties(*spawned_object, event.properties());
 	}
+	
+	void CViewThreadReader::onDespawn( IGameWorld& world, const DespawnEvent& event )
+	{
+		uint64_t id = event.id;
+		auto object = world.getObjectPtrByID(id);
+		if(object)
+			object->remove();
+	}
 
 	void CViewThreadReader::onUpdate( IGameWorld& world, const UpdateEvent& event )
 	{
@@ -71,6 +86,16 @@ namespace view_thread
 		target.getBody().setPosition( event.position );
 		target.getBody().setVelocity( event.velocity );
 		target.getBody().setAngularVelocity( event.angular_velocity );
+	}
+	
+	void CViewThreadReader::onPropertyUpdate( IGameWorld& world, const PropertyEvent& event )
+	{
+		IGameObject& target = world.getObjectByID( event.id );
+		/// \todo this is really ugly, fix this!
+		using namespace std;
+		auto delim = find(event.path.begin(), event.path.end(), '.');
+		string rest(delim+1, event.path.end());
+		target.getPropertyPtr( rest )->assign( event.value );
 	}
 }
 }

@@ -35,23 +35,34 @@ namespace view_thread
 	void CSimulationThreadWriter::onSpawn( IGameObjectView& object )
 	{
 		// create a unique id for that object
-		std::uint64_t uuid = ++mUUID_counter;
+		std::uint64_t uuid = object.id();
+		std::vector<ListenerRef> reglist;
 
 		// add a change listener to all properties.
 		object.forallProperties(
-			[this](property::IPropertyView& prop)
+			[this, &reglist, uuid](property::IPropertyView& prop)
 			{
-				prop.addListener([this](property::IPropertyView& changed) { pushPropertyUpdate(changed); });
+				auto lst = prop.addListener([this, uuid](property::IPropertyView& changed) { pushPropertyUpdate(uuid, changed); });
+				reglist.push_back( lst );
 			});
 
 		// and built a spawn event
 		SpawnEvent event(object);
 		mBuffer.push( std::move(event) );
+		
+		// move all registered listeners into a remove listener, so they stay registered until the object gets removed
+		auto remlist = object.addRemoveListener([listeners = std::move(reglist), this]( const IGameObjectView& object )
+												{
+													onDespawn(object.id());
+												});
+		mRemoveListeners[object.id()] = std::move(remlist);
 	}
 
-	void CSimulationThreadWriter::pushPropertyUpdate( property::IPropertyView& property )
+	void CSimulationThreadWriter::pushPropertyUpdate( uint64_t id, property::IPropertyView& property )
 	{
 		std::string path = property.path(); // this operation allocates a string, so it is potentially slow
+		PropertyEvent pevent = {id, std::move(path), property.value()};
+		mBuffer.push( std::move(pevent) );
 	}
 
 	void CSimulationThreadWriter::pushObjectUpdate( const IGameObjectView& object )
@@ -63,6 +74,12 @@ namespace view_thread
 		update.angle = object.angle();
 		update.angular_velocity = object.angular_velocity();
 		mBuffer.push( std::move(update) );
+	}
+	
+	void CSimulationThreadWriter::onDespawn( uint64_t id )
+	{
+		mRemoveListeners.erase( mRemoveListeners.find(id) );
+		mBuffer.push( DespawnEvent{id} );
 	}
 }
 }
