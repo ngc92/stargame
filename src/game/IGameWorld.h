@@ -3,6 +3,7 @@
 
 #include "IGameWorldView.h"
 #include "IGameObject.h" // we need this for covariant return
+#include <boost/optional.hpp>
 
 namespace game
 {
@@ -26,7 +27,11 @@ namespace game
 		virtual void addGameObject(std::shared_ptr<IGameObject> object) = 0;
 
 		/// get a game object with specified id.
+		/// \throw If object not found. For non-throwing, use the pointer version.
 		virtual IGameObject& getObjectByID( uint64_t id ) = 0;
+		
+		/// get the game object view with specified id.
+		virtual IGameObject* getObjectPtrByID( uint64_t id ) = 0;
 		
 		/// get a game object view with specified name. If more than
 		/// one object exists with the given name, it is unspecified 

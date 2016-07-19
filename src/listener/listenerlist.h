@@ -33,6 +33,7 @@ namespace listener
 				auto fob = std::dynamic_pointer_cast<listener_t>(lst.lock());
 				if(fob)
 					fob->notify(std::forward<PArgs>(args)...);
+				/// \todo can we catch argument errors here with a static assert to improve error msg?
 			}
 		}
 	};

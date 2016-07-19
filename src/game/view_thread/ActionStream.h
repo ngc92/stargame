@@ -44,7 +44,7 @@ namespace view_thread
 		
 		// reader
 		void update() override { return mStream.update(); }
-        const std::vector<Action>& read() const override { return mStream.read(); }
+		const std::vector<Action>& read() const override { return mStream.read(); }
 	private:
 		BufferedThreadStream<std::vector<Action>> mStream;
 	};

@@ -63,7 +63,7 @@ namespace game
 	/// get a game object that fulfills a predicate. Searches both 
 	/// current objects and spawn list.
 	template<class F>
-	IGameObject& CWorldBase::getObjectByPredicate( F&& function )
+	boost::optional<IGameObject&> CWorldBase::getObjectByPredicate( F&& function )
 	{
 		auto found = std::find_if(begin(mGameObjects), end(mGameObjects), function);
 		if( found == end(mGameObjects))
@@ -72,8 +72,7 @@ namespace game
 			auto not_spawned_yet = std::find_if(begin(mSpawnQueue), end(mSpawnQueue), function);
 			if( not_spawned_yet == end(mSpawnQueue))
 			{
-				std::cerr << "requested object not found!\n";
-				assert(0);
+				return boost::none;
 			}
 			return **not_spawned_yet;
 		}
@@ -82,7 +81,19 @@ namespace game
 	
 	IGameObject& CWorldBase::getObjectByID( uint64_t id )
 	{
-		return getObjectByPredicate([id](auto& o){ return o->id() == id; });
+		auto object = getObjectByPredicate([id](auto& o){ return o->id() == id; });
+		if(!object)
+			throw( std::exception() );
+		return object.get();
+	}
+	
+	/// get the game object view with specified id.
+	IGameObject* CWorldBase::getObjectPtrByID( uint64_t id )
+	{
+		auto object = getObjectByPredicate([id](auto& o){ return o->id() == id; });
+		if(!object)
+			return nullptr;
+		return &object.get();
 	}
 	
 	/// get a game object view with specified name. If more than
@@ -90,7 +101,10 @@ namespace game
 	/// which one is returned (i.e. don't do that!).
 	IGameObject& CWorldBase::getObjectByName( const std::string& name )
 	{
-		return getObjectByPredicate([&name](auto& o){ return o->name() == name; });
+		auto object = getObjectByPredicate([&name](auto& o){ return o->name() == name; });
+		if(!object)
+			throw( std::exception() );
+		return object.get();
 	}
 	
 	/// gets an id that is currently not used by any game object.

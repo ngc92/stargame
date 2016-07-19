@@ -67,8 +67,10 @@ namespace game
 				mActionStream->update();
 				for(auto& action : mActionStream->read())
 				{
-					auto& target = mGameWorld->getObjectByID(action.target_id);
-					action.action(target);
+					// the object might be dead by now, then just ignore the action
+					auto target = mGameWorld->getObjectPtrByID(action.target_id);
+					if(target)
+						action.action(*target);
 				}
 				
 				// update the world

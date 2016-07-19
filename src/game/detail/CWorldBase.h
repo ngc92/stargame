@@ -4,6 +4,7 @@
 
 #include "../IGameWorld.h"
 #include "listener/listenerlist.h"
+#include <boost/optional.hpp>
 
 namespace game
 {
@@ -37,6 +38,9 @@ namespace game
 		/// get a game object with specified id.
 		IGameObject& getObjectByID( uint64_t id ) final;
 		
+		/// get the game object view with specified id.
+		IGameObject* getObjectPtrByID( uint64_t id ) final;
+		
 		/// get a game object view with specified name. If more than
 		/// one object exists with the given name, it is unspecified 
 		/// which one is returned (i.e. don't do that!).
@@ -60,7 +64,7 @@ namespace game
 		///get a game object that fulfills a predicate. Searches both 
 		/// current objects and spawn list.
 		template<class F>
-		IGameObject& getObjectByPredicate( F&& function );
+		boost::optional<IGameObject&> getObjectByPredicate( F&& function );
 		
 		/// add all object from the spawn queue to the object list, and call the spawn listeners.
 		void perform_spawning();
