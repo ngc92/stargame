@@ -55,7 +55,7 @@ namespace view_thread
 	void CViewThreadReader::step( IGameWorld& world, const spawn::ISpawnManager& spawner )
 	{
 		mBuffer.update();
-		//std::cout << "READ " << mBuffer.cache_size() << " " << mBuffer.in_data_size() << " " << mBuffer.out_data_size() << "\n";
+		//std::cout << "READ " << mBuffer.read().size() << "\n";
 
 		EventHandler visit = {*this, world, spawner};
 		for(auto& event : mBuffer.read())
