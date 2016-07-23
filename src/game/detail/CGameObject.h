@@ -1,10 +1,10 @@
 #ifndef CGAMEOBJECT_H_INCLUDED
 #define CGAMEOBJECT_H_INCLUDED
 
-#include "IGameObject.h"
+#include "../IGameObject.h"
 #include "property/CPropertyObject.h"
-#include "physics/body.h"
-
+#include "../physics/body.h"
+#include "property/TypedProperty.h"
 namespace game
 {
 	/*! \class CGameObject
@@ -15,12 +15,13 @@ namespace game
 					   ObjectCounter<CGameObject>
 	{
 		public:
-			CGameObject(b2Body* body = nullptr, long ID = -1);
+			CGameObject(uint64_t ID, std::string type, ObjectCategory cateogry, b2Body* body = nullptr, std::string name = "object");
 			virtual ~CGameObject();
 
 			/// called just after the object is constructed and added to the world.
 			void onInit(IGameWorld& world) override;
-			void onStep(const IGameWorld& world, WorldActionQueue& push_action) override;
+			void step(const IGameWorld& world, WorldActionQueue& push_action) override;
+			void onStep(const IGameWorld& world) const override;
 			void onImpact(IGameObject& other, const ImpactInfo& info) override;
 			void dealDamage( const Damage& damage, const b2Vec2& pos, const b2Vec2& dir ) override;
 
@@ -33,7 +34,12 @@ namespace game
 			/// gets the current angular velocity.
 			float angular_velocity() const final;
 			/// gets an ID for object identification.
-			long id() const final;
+			uint64_t id() const final;
+			/// gets the object type. This is the type that
+			/// was used to get the spawn data for the object.
+			const std::string& type() const final;
+			/// the category of this object. 
+			ObjectCategory category() const final;
 
 			/// collision filter data. This is currently very specialised, so maybe a more general
 			/// interface would be nice. However, we need to ensure that this does not cost performance for objects
@@ -50,11 +56,11 @@ namespace game
 			void addModule( std::shared_ptr<IGameObjectModule> ) final;
 
 			/// adds a listener that is called every step for this game object.
-			ListenerRef addStepListener( std::function<void()> lst ) final;
+			ListenerRef addStepListener( std::function<void(const IGameObjectView&)> lst ) final;
 			/// adds a listener that is called when this object is hit by another game object.
 			ListenerRef addImpactListener( std::function<void(IGameObjectView&, const ImpactInfo&)> lst ) final;
 			/// adds a listener that is called when the object is removed
-			ListenerRef addRemoveListener( std::function<void()> lst ) final;
+			ListenerRef addRemoveListener( std::function<void(const IGameObjectView&)> lst ) final;
 
 			/// get a pointer to the internal body, if any
 			const Body& body() const final;
@@ -75,12 +81,15 @@ namespace game
 
 			// status
 			bool mIsAlive;
+			bool mInitialized = false;
 
 			// id
-			long mID;
+			const uint64_t mID;
+			property::TypedProperty<std::string> mType;
+			property::TypedProperty<int> mCategory;
 
-			ListenerList<> mStepListeners;
-			ListenerList<> mRemoveListeners;
+			ListenerList<const IGameObjectView&> mStepListeners;
+			ListenerList<const IGameObjectView&> mRemoveListeners;
 			ListenerList<IGameObject&, const ImpactInfo&> mImpactListeners;
 
 			// modules

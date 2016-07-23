@@ -3,9 +3,8 @@
 
 namespace input
 {
-	CInputGauge::CInputGauge(std::string path, game::view_thread::IViewThreadGameObject* obj, 
-							int inc, int dec, float mn, float mx) :
-		CInputElement( std::move(path), obj ),
+	CInputGauge::CInputGauge(std::string path, int inc, int dec, float mn, float mx) :
+		CInputElement( std::move(path) ),
 		mIncreaseKey(inc), mDecreaseKey(dec),
 		mMinimumValue(mn), mMaximumValue(mx)
 	{
@@ -16,17 +15,19 @@ namespace input
 		return InputType::GAUGE;
 	}
 	
-	void CInputGauge::onStep()
+	std::function<void(game::IGameObject&)> CInputGauge::onStep()
 	{
 		/// \todo actual increase/decrease function.
 		if(mIncreasePressed)
 		{
-			setValue( mMaximumValue );
+			return setValue( mMaximumValue );
 		} 
 		else if(mDecreasePressed)
 		{
-			setValue( mMinimumValue );
+			return setValue( mMinimumValue );
 		}
+		
+		return std::function<void(game::IGameObject&)>();
 	}
 
 	void CInputGauge::onKeyEvent( int key_code, KeyState state )

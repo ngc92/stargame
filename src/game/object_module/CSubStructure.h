@@ -64,7 +64,7 @@ namespace game
 
 		/*! \brief Calls function F for each cell shape.
 			\details Allows arbitrary constant arguments to be passed to the function.
-			\param func Function to be called for each component. Has to take b2Shape and Args as parameters
+			\param func Function to be called for each component. Has to take Shape and Args as parameters
 			\param args optional additional arguments to be passed to func.
 		*/
 		template<class F, class... Args>

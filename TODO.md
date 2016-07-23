@@ -25,6 +25,7 @@
 - [ ] introduce mass handling for ships
 - [x] scaling of units! 1unit = 1m seems to small
 - [ ] allow adding custom collision filtering info to physic objects (refactor setIgnoreCollisionTarget)
+- [ ] add change listeners for physics properties (restitution, friction, ...)
 
 ## Event system
 - [ ] add generic infrastructure for event handling, within both game and view thread
@@ -49,6 +50,17 @@
 ## AI
 - [ ] low level micro ai: basic actions. see ai.md for more detailled list of subgoals.
 
+## Threading
+- [x] remove futures from event listener references
+- [x] split world into master and slave world
+- [x] despawn event
+- [x] save handling of object ids
+- [ ] events for adding and removing properties
+- [ ] events for adding and removing subobjects
+- [ ] complete serialization over event stream - no "spawn" in view thread!  
+- [ ] remove all threading stuff from listeners?
+- [ ] profiling stuff
+
 ## Sound
 
 ## Refactoring:
@@ -61,7 +73,6 @@
       irrlicht without changing default compilation flags.
 - [x] add a thin wrapper layer around Box2D that provides the most used functions
       in a variant that automatically converts from SI units to Box units.
-- [ ] rework all threading related stuff and find all bugs there^^
 
 ## Permagoals:
 - [ ] improve error handling and logging

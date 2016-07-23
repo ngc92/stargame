@@ -1,6 +1,7 @@
 #include "body.h"
 #include "consts.h"
 #include <cassert>
+#include <iostream>
 #include <Box2D/Dynamics/b2Body.h>
 #include <Box2D/Dynamics/b2World.h>
 
@@ -10,7 +11,10 @@ namespace game
 	{
 	}
 
-	Body::~Body(){}
+	Body::~Body()
+	{
+		destroy();
+	}
 
 	// general physics properties getters
 	/// gets the current position.
@@ -41,6 +45,47 @@ namespace game
 	float Body::angular_velocity() const
 	{
 		return mBody->GetAngularVelocity();
+	}
+	
+	/*! gets the transform of the body. 
+		\attention This function returns a direct reference 
+					to the targets transform. It is not converted
+					into game units, and only intended to be used
+					as argument to other Box2D functions.
+	*/
+	const b2Transform& Body::getTransform() const
+	{
+		return mBody->GetTransform();
+	}
+
+	/// sets the position.
+	/// \note \p new_pos in world coordinates, in game units.
+	void Body::setPosition( b2Vec2 new_pos )
+	{
+		new_pos *= METERS_TO_BOX;
+		mBody->SetTransform(new_pos, mBody->GetAngle() );
+	}
+
+	/// sets the linear velocity.
+	/// \note \p new_vel in world coordinates, in game units.
+	void Body::setVelocity( b2Vec2 new_vel )
+	{
+		new_vel *= METERS_TO_BOX;
+		new_vel -= mBody->GetLinearVelocity();
+		mBody->ApplyLinearImpulseToCenter( mBody->GetMass() * new_vel, true );
+	}
+
+	/// sets the angle
+	void Body::setAngle( float angle )
+	{
+		mBody->SetTransform( mBody->GetPosition(), angle );
+	}
+
+	/// sets the angular velocity
+	void Body::setAngularVelocity( float ang_vel )
+	{
+		ang_vel -= mBody->GetAngularVelocity();
+		mBody->ApplyTorque( mBody->GetInertia() * ang_vel, true );
 	}
 
 	/// Get the linear damping of the body.

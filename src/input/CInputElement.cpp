@@ -1,16 +1,18 @@
 #include "CInputElement.h"
-#include "game/view_thread/IViewThreadGO.h"
+#include "game/IGameObject.h"
+#include "property/IProperty.h"
 
 namespace input
 {
-	CInputElement::CInputElement(std::string path, game::view_thread::IViewThreadGameObject* object) :
-		mPropertyPath( std::move(path) ), mObject( object )
+	CInputElement::CInputElement(std::string path) :
+		mPropertyPath( std::move(path) )
 	{
 
 	}
-	
-	void CInputElement::setValue( float value )
+
+	std::function<void(game::IGameObject&)> CInputElement::setValue( float value )
 	{
-		mObject->setProperty(  mPropertyPath, value );
+		/// \todo somewhat ugly here.
+		return [path=mPropertyPath, value](game::IGameObject& object){ object.getPropertyPtr(path)->assign(value); };
 	}
 }

@@ -1,15 +1,17 @@
 #include "CGameObject.h"
 #include <cassert>
 #include "property/IProperty.h"
-#include "IGameObjectModule.h"
+#include "../IGameObjectModule.h"
 
 namespace game
 {
-	CGameObject::CGameObject(b2Body* b, long id) :
-		 CPropertyObject("object"),
+	CGameObject::CGameObject(uint64_t id, std::string type, ObjectCategory cateogry, b2Body* b, std::string name) :
+		 CPropertyObject( std::move(name) ),
 		 mBody(b),
 		 mIsAlive(true),
-		 mID(id)
+		 mID(id),
+		 mType( "type", this, std::move(type) ),
+		 mCategory( "category", this, (int)cateogry)
 	{
 		assert(mBody);
 		mBody.setUserPointer(this);
@@ -26,19 +28,19 @@ namespace game
 		mIsAlive = false;
 		mBody.destroy();
 
-		mRemoveListeners.notify();
+		mRemoveListeners.notify(*this);
 	}
 
 	void CGameObject::onInit(IGameWorld& world)
 	{
 		for(auto& module : mModules)
 			module->onInit(*this, world);
+
+		mInitialized = true;
 	}
-
-	void CGameObject::onStep(const IGameWorld& world, WorldActionQueue& push_action)
+	
+	void CGameObject::step(const IGameWorld& world, WorldActionQueue& push_action)
 	{
-		mStepListeners.notify();
-
 		for(auto& module : mModules)
 		{
 			// check that the object is still alive before each call,
@@ -47,7 +49,14 @@ namespace game
 			if(isAlive())
 				module->onStep(*this, world, push_action);
 		}
+	}
 
+	void CGameObject::onStep(const IGameWorld& world) const
+	{
+		// step listeners and modules
+		/// \todo this should happen after the modules, I think?
+		mStepListeners.notify(*this);
+		
 		// update property listeners
 		notifyAll();
 	}
@@ -101,7 +110,20 @@ namespace game
 		return mBody.angular_velocity();
 	}
 
-	ListenerRef CGameObject::addStepListener( std::function<void()> lst )
+	/// gets the object type. This is the type that
+	/// was used to get the spawn data for the object.
+	const std::string& CGameObject::type() const
+	{
+		return mType;
+	}
+	
+	/// the category of this object. 
+	ObjectCategory CGameObject::category() const
+	{	
+		return (ObjectCategory)(int)mCategory;
+	}
+
+	ListenerRef CGameObject::addStepListener( std::function<void(const IGameObjectView&)> lst )
 	{
 		return mStepListeners.addListener( std::move(lst) );
 	}
@@ -111,13 +133,13 @@ namespace game
 		return mImpactListeners.addListener( std::move(lst) );
 	}
 
-	ListenerRef CGameObject::addRemoveListener( std::function<void()> lst )
+	ListenerRef CGameObject::addRemoveListener( std::function<void(const IGameObjectView&)> lst )
 	{
 		return mRemoveListeners.addListener( std::move(lst) );
 	}
 
 
-	long CGameObject::id() const
+	uint64_t CGameObject::id() const
 	{
 		return mID;
 	}
@@ -139,7 +161,19 @@ namespace game
 
 	void CGameObject::addModule( std::shared_ptr<IGameObjectModule> module )
 	{
+		// this restriction ensures that after the spawner is finished, no
+		// new modules can be added.
+		assert(!mInitialized);
 		mModules.push_back( std::move(module) );
 		addChild( mModules.back() );
+	}
+	
+	// -----------------------------------------------------------------------
+	//						constructor function
+	// -----------------------------------------------------------------------
+	
+	std::shared_ptr<IGameObject> createGameObject( uint64_t id, std::string type, ObjectCategory category, b2Body* b, std::string name )
+	{
+		return std::make_shared<CGameObject>( id, std::move(type), category, b, std::move(name) );
 	}
 }

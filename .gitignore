@@ -9,4 +9,4 @@ external/Box2D/Box2D/BuildLinux/
 *.log
 docs/html
 config.xml
-/external/Box2D/Box2D/Documentation/API
+/external/Box2D/Box2D/Documentation/API/html

@@ -8,12 +8,11 @@ namespace input
 	class CInputGauge : public CInputElement
 	{
 	public:
-		CInputGauge(std::string path, game::view_thread::IViewThreadGameObject*, 
-					int inc, int dec, float mn, float mx);
+		CInputGauge(std::string path, int inc, int dec, float mn, float mx);
 
 		InputType type() const override;
 		void onKeyEvent( int key_code, KeyState state ) override;
-		void onStep() override;
+		std::function<void(game::IGameObject&)> onStep() override;
 
 	private:
 		int mIncreaseKey = -1;

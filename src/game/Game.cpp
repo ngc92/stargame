@@ -1,12 +1,15 @@
 #include "Game.h"
-#include "CGameWorld.h"
-#include "view_thread/CViewThreadGW.h"
+#include "IGameWorld.h"
+#include "threading/CSimulationThreadWriter.h"
+#include "threading/CViewThreadReader.h"
+#include "physics/body.h"
 #include "IGameObject.h"
 #include "IGameViewModule.h"
 #include "util.h"
 #include "CTimeManager.h"
 #include "spawn/CSpawnManager.h"
 #include "spawn/SpawnData.h"
+#include <iostream>
 
 #include "ai/MicroAI.h"
 #include "ai/IAIManager.h"
@@ -18,13 +21,23 @@ namespace game
 		mRunGame(false),
 		mQuitGame(false),
 		mGameThread( [this](){ gameloop(); } ),
-		mGameWorld( std::make_unique<CGameWorld>() ),
+		mGameWorld( createSimulationWorld() ),
 		mTimeManager( std::make_unique<CTimeManager>() ),
 		mSpawnManager( std::make_unique<spawn::CSpawnManager>( ) ),
+<<<<<<< HEAD
 		mAIManager( ai::createDefaultAIManager() ),
 		mWorldView( std::make_unique<view_thread::CViewThreadGameWorld>( *mGameWorld ) )
+=======
+		mWorldView( createObservationWorld() ),
+		mEventStream( std::make_unique<threading::EventStream>()),
+		mActionStream( std::make_unique<threading::ActionStream>()),
+		mExportModule( std::make_shared<threading::CSimulationThreadWriter>( *mEventStream ) ),
+		mImportModule( std::make_shared<threading::CViewThreadReader>( *mEventStream ) )
+>>>>>>> dev
 	{
 		mTimeManager->setDesiredFPS(50);
+		mGameWorld->addModule( mExportModule );
+		mWorldView->addModule( mImportModule );
 	};
 	Game::~Game()
 	{
@@ -35,6 +48,7 @@ namespace game
 	void Game::run()
 	{
 		auto world = mGameWorld.get();
+<<<<<<< HEAD
 		auto player = mSpawnManager->spawn(*world, spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(50, 50)).set_id(0));
 		auto edat = spawn::SpawnData(spawn::SpawnType::SPACESHIP, "Destroyer", b2Vec2(300, 50));
 		edat.angle = 3;
@@ -47,6 +61,10 @@ namespace game
 							AI->move_to( player->position() );
 						}
 					});
+=======
+		mSpawnManager->spawn(*world, spawn::SpawnData(ObjectCategory::SPACESHIP, "Destroyer", b2Vec2(0,0)).set_id(0));
+		mSpawnManager->spawn(*world, spawn::SpawnData(ObjectCategory::SPACESHIP, "Destroyer", b2Vec2(50,50)).set_id(1));
+>>>>>>> dev
 		mRunGame = true;
 	}
 
@@ -57,8 +75,7 @@ namespace game
 
 	void Game::step()
 	{
-		mWorldView->step();
-		/// \todo should we step modules here?
+		mWorldView->step( *mSpawnManager );
 	}
 
 	void Game::gameloop()
@@ -68,6 +85,7 @@ namespace game
 			if(mRunGame)
 			{
 				mTimeManager->waitTillNextFrame();
+<<<<<<< HEAD
 				// update the world
 				mGameWorld->step( *mSpawnManager );
 				mAIManager->step();
@@ -77,35 +95,27 @@ namespace game
 
 				// update modules
 				for(auto& mod : mModules)
+=======
+				// perform all queued actions
+				mActionStream->update();
+				for(auto& action : mActionStream->read())
+>>>>>>> dev
 				{
-					auto locked = mod.lock();
-					if(locked)
-						locked->onGameStep(*mGameWorld);
+					// the object might be dead by now, then just ignore the action
+					auto target = mGameWorld->getObjectPtrByID(action.target_id);
+					if(target)
+						action.action(*target);
 				}
-
-				std::lock_guard<std::mutex> lock(mModuleMutex);
-				// remove old modules
-				/// \todo
+				
+				// update the world
+				mGameWorld->step( *mSpawnManager );
 			}
 		}
 	}
 
-	WorldView& Game::getWorldView()
+	IGameWorld& Game::getSimulationWorld() const
 	{
 		return *mWorldView;
-	}
-
-	void Game::addModule(std::weak_ptr<IGameViewModule> module)
-	{
-		std::lock_guard<std::mutex> lock(mModuleMutex);
-		auto locked = module.lock();
-		if(locked)
-		{
-			locked->setStepMutex( &mWorldView->getUpdateMutex() );
-			locked->setWorldView( mWorldView.get() );
-			locked->init();
-			mModules.push_back( std::move(module) );
-		}
 	}
 
 }

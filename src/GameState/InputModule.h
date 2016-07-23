@@ -1,12 +1,13 @@
 #ifndef INPUTMODULE_H_INCLUDED
 #define INPUTMODULE_H_INCLUDED
 
-#include "game/CGameViewModule.h"
+#include "game/IGameViewModule.h"
 #include "IEventListener.h"
 #include "listener/listener.h"
 #include <memory>
 #include <map>
 #include <set>
+#include "game/threading/ThreadStreams.h"
 
 namespace property
 {
@@ -26,14 +27,15 @@ namespace input
 	class IInputConfig;
 }
 
-class InputModule : public game::CGameViewModule, public IEventListener
+class InputModule : public game::IGameViewModule, public IEventListener
 {
 public:
-	InputModule(IEngine*, long myship);
+	InputModule(IEngine*, uint64_t myship);
 	~InputModule();
 
-	void onStep() override;
-	void init() override;
+	void step( game::IGameWorldView& world_view ) override;
+	void init( game::IGameWorldView& world_view ) override;
+	const auto& getActions() const { return mActions; };
 
 	void registerListener( const IInputManager* mgr) override {}
 	void onKeyEvent(irr::EKEY_CODE key, bool press) override;
@@ -42,13 +44,15 @@ private:
 	void onSpawn( game::IGameObjectView& spawned );
 	void propertyCallback( property::IPropertyView& pview);
 	void reset();
-	long mShipID;
+	uint64_t mShipID;
 	std::unique_ptr<input::IInputConfig> mInputConfig;
 	std::vector<std::shared_ptr<input::IInputElement>> mInputElements;
 	ListenerRef mSpawnLst;
 	ListenerRef mRemLst;
 
 	std::shared_ptr<game::IGameObjectView> mControlledObject;
+	
+	std::vector<game::threading::Action> mActions;
 };
 
 #endif // INPUTMODULE_H_INCLUDED

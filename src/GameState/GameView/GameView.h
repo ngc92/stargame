@@ -1,7 +1,7 @@
 #ifndef GAMEVIEW_H_INCLUDED
 #define GAMEVIEW_H_INCLUDED
 
-#include "game/CGameViewModule.h"
+#include "game/IGameViewModule.h"
 #include "util.h"
 #include "property/property.h"
 
@@ -10,14 +10,14 @@ namespace gfx
 	class GameViewGFX;
 }
 
-class GameView : public game::CGameViewModule
+class GameView : public game::IGameViewModule
 {
 public:
 	GameView( irr::IrrlichtDevice* device );
 	~GameView();
 
-	void init() override;
-	void onStep() override {};
+	void init( game::IGameWorldView& world_view  ) override;
+	void step( game::IGameWorldView& world_view ) override {};
 private:
 	void onSpawn(game::IGameObjectView& spawned);
 

@@ -1,7 +1,7 @@
 #ifndef HUD_H_INCLUDED
 #define HUD_H_INCLUDED
 
-#include "game/CGameViewModule.h"
+#include "game/IGameViewModule.h"
 #include "util.h"
 #include "listener/listenerlist.h"
 
@@ -32,21 +32,21 @@ namespace graphic
 	class TacticalMapCtrl;
 }
 
-class HUD : public game::CGameViewModule
+class HUD : public game::IGameViewModule
 {
 public:
 	HUD(irr::gui::IGUIEnvironment* env, long ship);
 	~HUD();
 
-	void init() override;
-	void onStep() override {};
+	void init( game::IGameWorldView& world_view  ) override;
+	void step( game::IGameWorldView& world_view ) override {};
 private:
 	void onSpawn(const game::IGameObjectView& spawned);
 
 	// processing
 	void processChild(const property::IPropertyObjectView& child);
 
-	long mShipID;
+	uint64_t mShipID;
 	irr::gui::IGUIEnvironment* mGUIEnv;
 	graphic::SubsystemDamageView* mDmgView;
 	graphic::IShipStatusView* mStaView;

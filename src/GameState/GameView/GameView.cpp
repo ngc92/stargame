@@ -15,10 +15,10 @@ GameView::~GameView()
 
 }
 
-void GameView::init()
+void GameView::init( game::IGameWorldView& world_view  )
 {
 	using std::placeholders::_1;
-	mListeners.push_back(world().addSpawnListener(std::bind(&GameView::onSpawn, this, _1)));
+	mListeners.push_back(world_view.addSpawnListener(std::bind(&GameView::onSpawn, this, _1)));
 
 	mGFX->init();
 }
@@ -27,7 +27,7 @@ void GameView::init()
 void GameView::onSpawn(game::IGameObjectView& spawned)
 {
 	/// \todo load the model based on embedded data
-	auto type = boost::get<std::string>(spawned.getProperty("_type_").value());
+	auto type = spawned.category();
 	/// \todo find a better way to keep track of those listeners! Remove when they are done!
-	mRemoveListenerDump.push_back(mGFX->addShip(spawned, type));
+	mRemoveListenerDump.push_back(mGFX->addShip(spawned, (int)type));
 }

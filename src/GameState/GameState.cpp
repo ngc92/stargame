@@ -1,5 +1,6 @@
 #include "GameState.h"
 #include "game/Game.h"
+#include "game/IGameWorld.h"
 #include "IEngine.h"
 #include "util.h"
 #include "TextInterface/TextInterface.h"
@@ -17,12 +18,14 @@ GameState::GameState(IEngine* engine) :
 	mGUIEnv(engine->getGUIEnvironment()),
 	mSceneMgr( engine->getIrrlichDevice().getSceneManager() ),
 	mGame( std::make_unique<game::Game>() ),
-	mDebugDraw( std::make_shared<CDebugDraw>( engine->getIrrlichDevice().getVideoDriver() ) )
+	mDebugDraw( std::make_shared<CDebugDraw>( engine->getIrrlichDevice().getVideoDriver() ) ),
+	mInputModule(std::make_shared<InputModule>(engine, 0))
 {
 	addGameModule(std::make_shared<GameView>( &engine->getIrrlichDevice() ));
-	addGameModule(std::make_shared<InputModule>(engine, 0));
+	addGameModule(mInputModule);
 	addGameModule(std::make_shared<HUD>(mGUIEnv, 0));
-	addGameModule(mDebugDraw);
+	
+	mGame->getSimulationWorld().addModule( mDebugDraw );
 }
 
 GameState::~GameState()
@@ -31,9 +34,12 @@ GameState::~GameState()
 
 void GameState::update()
 {
+	for(auto& a : mInputModule->getActions())
+	{
+		mGame->getActionStream().push(a);
+	}
+	mGame->getActionStream().publish();
 	mGame->step();
-	for(auto& module : mModules)
-		module->step();
 }
 
 void GameState::onDraw()
@@ -71,6 +77,6 @@ bool GameState::onEvent(const irr::SEvent::SGUIEvent& event)
 
 void GameState::addGameModule(std::shared_ptr<game::IGameViewModule> module)
 {
-	mGame->addModule( module );
+	mGame->getSimulationWorld().addModule( module );
 	mModules.push_back( std::move(module) );
 }

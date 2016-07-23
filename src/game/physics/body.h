@@ -3,6 +3,7 @@
 
 class b2Body;
 class b2Vec2;
+class b2Transform;
 
 namespace game
 {
@@ -13,6 +14,11 @@ namespace physics
 	public:
 		Body(b2Body* source);
 		~Body();
+		
+		Body(Body&&) = default;
+		Body& operator=(Body&&) = default;
+		Body(const Body&) = delete;
+		Body& operator=(const Body&) = delete;
 
 		// general physics properties getters
 		/// gets the current position.
@@ -29,6 +35,29 @@ namespace physics
 		float mass() const;
 		/// gets the moment of inertia in kg m²
 		float inertia() const;
+		
+		/*! gets the transform of the body. 
+			\attention This function returns a direct reference 
+						to the targets transform. It is not converted
+						into game units, and only intended to be used
+						as argument to other Box2D functions.
+		*/
+		const b2Transform& getTransform() const;
+
+		// physics state setters
+		/// sets the position.
+		/// \note \p new_pos in world coordinates, in game units.
+		void setPosition( b2Vec2 new_pos );
+
+		/// sets the linear velocity.
+		/// \note \p new_vel in world coordinates, in game units.
+		void setVelocity( b2Vec2 new_vel );
+
+		/// sets the angle (radians)
+		void setAngle( float angle );
+
+		/// sets the angular velocity
+		void setAngularVelocity( float ang_vel );
 
 		// other body properties
 		/// Get the linear damping of the body.

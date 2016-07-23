@@ -2,7 +2,6 @@
 #define LISTENER_H_INCLUDED
 
 #include <memory>
-#include <future>
 
 namespace listener
 {
@@ -27,10 +26,8 @@ namespace listener
 			It is a shared_ptr ot a ListenerBase Object. Inside the ListenerList,
 			only a weak pointer is saved, so when the shared_ptr goes out of scope,
 			the listener is automatically removed.
-			This construct is wrapped into a std::future, as we cannot be sure that
-			the Listener can be added immediately in a multi-threaded context.
 	*/
-	using ListenerRef = std::future<std::shared_ptr<ListenerBase>>;
+	using ListenerRef = std::shared_ptr<ListenerBase>;
 }
 
 using listener::ListenerRef;

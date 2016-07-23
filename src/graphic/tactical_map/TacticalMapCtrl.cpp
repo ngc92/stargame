@@ -23,15 +23,15 @@ namespace graphic
 	{
 		/// \todo determine, whether to show this object on the tactical map.
 		/// for now, show all!
-		auto type = boost::get<std::string>(object.getProperty("_type_").value());
+		auto type = object.category();
 		auto team = boost::get<int>(object.getProperty("affiliation.team").value());
 
 		// filter types
-		if( type == "bullet")
+		if( type == game::ObjectCategory::BULLET)
 			return;
 
-		auto view_entity = mView->addObject( object.position(), object.angle(), team, std::move(type) );
-		auto update = object.addStepListener([view_entity, &object]()
+		auto view_entity = mView->addObject( object.position(), object.angle(), team, "ship" );
+		auto update = object.addStepListener([view_entity](const game::IGameObjectView& object)
 											{
 												view_entity->setPosition( object.position() );
 												view_entity->setAngle( object.angle() );

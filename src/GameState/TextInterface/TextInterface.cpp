@@ -6,16 +6,16 @@
 #include <functional>
 
 
-void TextInterface::init()
+void TextInterface::init(game::IGameWorldView& world_view)
 {
 	using namespace std::placeholders;
-	
-	mSpawnLst = world().addSpawnListener(std::bind(&TextInterface::onSpawn, this, _1));
+
+	mSpawnLst = world_view.addSpawnListener(std::bind(&TextInterface::onSpawn, this, _1));
 }
 
-void TextInterface::onStep()
+void TextInterface::step(game::IGameWorldView& world_view)
 {
-	world().iterateAllObjects([this](const game::IGameObjectView& o){ this->handleObject(o);});
+	world_view.iterateAllObjects([this](const game::IGameObjectView& o){ this->handleObject(o);});
 }
 
 void TextInterface::onSpawn( const game::IGameObjectView& spawned )

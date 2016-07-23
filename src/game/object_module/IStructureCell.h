@@ -5,11 +5,18 @@
 #include <boost/range/any_range.hpp>
 #include "game/fwd.h"
 
-class b2Shape;
-
 namespace game
 {
+<<<<<<< HEAD
 	/*! \class IStructureCell
+=======
+	namespace physics
+	{
+		class Shape;
+	}
+	
+	/*! \class StructureCell
+>>>>>>> dev
 		\brief A single cell within the space ships structural built.
 		\details A cell is a part of the space ship, which is localized and
 				can hold one or more ship components.
@@ -32,7 +39,7 @@ namespace game
 			//! gets the maximum total weight
 			virtual float max_weight() const = 0;
 			//! access to the cell's shape
-			virtual const b2Shape& shape() const = 0;
+			virtual const physics::Shape& shape() const = 0;
 			//! access the components
 			virtual comp_range_t components() = 0;
 			//! get the number of components in the cell

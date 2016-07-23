@@ -1,8 +1,7 @@
 #include "InputElements.h"
 #include "CInputGauge.h"
 #include "CInputButton.h"
-
-#include "game/view_thread/IViewThreadGO.h"
+#include "property/IPropertyView.h"
 
 #include <boost/property_tree/ptree.hpp>
 
@@ -16,8 +15,6 @@ namespace input
 	std::shared_ptr<IInputElement> createInputElement(  boost::property_tree::ptree& props,
 														const property::IPropertyView& property )
 	{
-		auto cowner = dynamic_cast<const game::view_thread::IViewThreadGameObject*>(property.owner()->root());
-		auto owner = const_cast<game::view_thread::IViewThreadGameObject*>(cowner);
 		std::string type = props.get<std::string>("type");
 		if( type == "gauge" )
 		{
@@ -29,7 +26,7 @@ namespace input
 			/// \todo this is very ugly, maybe we can get rid of that soon.
 			// the path contains the name of the object itself, so to access, we need to remove that!
 			path = path.substr(path.find('.')+1);
-			return std::make_shared<CInputGauge>(path, owner, increase, decrease, minimum, maximum);
+			return std::make_shared<CInputGauge>(path, increase, decrease, minimum, maximum);
 		} else if( type == "button" )
 		{
 			float def_val = props.get<float>("default", 0.f);
@@ -37,7 +34,7 @@ namespace input
 			/// \todo this is very ugly, maybe we can get rid of that soon.
 			// the path contains the name of the object itself, so to access, we need to remove that!
 			path = path.substr(path.find('.')+1);
-			auto element = std::make_shared<CInputButton>(path, owner, def_val);
+			auto element = std::make_shared<CInputButton>(path, def_val);
 			for(auto& value : props)
 			{
 				if(value.first == "state")
@@ -49,7 +46,6 @@ namespace input
 			}
 			return element;
 		}
-
 		return nullptr;
 	}
 }
