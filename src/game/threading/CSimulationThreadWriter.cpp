@@ -2,15 +2,14 @@
 #include "SpawnEvent.h"
 #include "game/IGameWorldView.h"
 #include "game/IGameObjectView.h"
-#include "EventStream.h"
 #include <iostream>
 #include "util/io.h"
 
 namespace game
 {
-namespace view_thread
+namespace threading
 {
-	CSimulationThreadWriter::CSimulationThreadWriter(IEventStreamWriter& writer) :
+	CSimulationThreadWriter::CSimulationThreadWriter(IThreadStreamWriter<Event>& writer) :
 		mBuffer(writer)
 	{
 

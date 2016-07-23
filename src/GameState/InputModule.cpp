@@ -55,7 +55,7 @@ void InputModule::step( game::IGameWorldView& world_view )
 		auto result = elem->onStep();
 		if(result)
 		{
-			game::view_thread::Action action;
+			game::threading::Action action;
 			action.target_id = mShipID;
 			action.action = std::move(result);
 			mActions.push_back( std::move(action) );

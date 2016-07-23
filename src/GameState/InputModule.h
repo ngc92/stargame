@@ -7,7 +7,7 @@
 #include <memory>
 #include <map>
 #include <set>
-#include "game/view_thread/ActionStream.h"
+#include "game/threading/ThreadStreams.h"
 
 namespace property
 {
@@ -52,7 +52,7 @@ private:
 
 	std::shared_ptr<game::IGameObjectView> mControlledObject;
 	
-	std::vector<game::view_thread::Action> mActions;
+	std::vector<game::threading::Action> mActions;
 };
 
 #endif // INPUTMODULE_H_INCLUDED

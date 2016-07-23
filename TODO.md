@@ -57,8 +57,11 @@
 ## Threading
 - [x] remove futures from event listener references
 - [x] split world into master and slave world
-- [ ] despawn event
+- [x] despawn event
 - [x] save handling of object ids
+- [ ] events for adding and removing properties
+- [ ] events for adding and removing subobjects
+- [ ] complete serialization over event stream - no "spawn" in view thread!  
 - [ ] remove all threading stuff from listeners?
 - [ ] profiling stuff
 

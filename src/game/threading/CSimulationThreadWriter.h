@@ -5,17 +5,17 @@
 #include "property/IPropertyView.h"
 #include "util/buffered_thread_stream.h"
 #include "UpdateEvent.h"
+#include "ThreadStreams.h"
 #include <unordered_map>
 
 namespace game
 {
-namespace view_thread
+namespace threading
 {
-	class IEventStreamWriter;
 	class CSimulationThreadWriter : public IGameViewModule
 	{
 	public:
-		CSimulationThreadWriter(IEventStreamWriter& writer);
+		CSimulationThreadWriter(IThreadStreamWriter<Event>& writer);
 
 		void step( IGameWorldView& world_view ) override;
 
@@ -31,7 +31,7 @@ namespace view_thread
 		ListenerRef mSpawnListener;
 		std::unordered_map<uint64_t, ListenerRef> mRemoveListeners;
 
-		IEventStreamWriter& mBuffer;
+		IThreadStreamWriter<Event>& mBuffer;
 	};
 }
 }

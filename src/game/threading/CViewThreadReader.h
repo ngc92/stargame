@@ -6,16 +6,16 @@
 #include "property/IPropertyView.h"
 #include "util/buffered_thread_stream.h"
 #include "UpdateEvent.h"
+#include "ThreadStreams.h"
 
 namespace game
 {
-namespace view_thread
+namespace threading
 {
-	class IEventStreamReader;
 	class CViewThreadReader : public IGameModule
 	{
 	public:
-		CViewThreadReader(IEventStreamReader& stream);
+		CViewThreadReader(IThreadStreamReader<Event>& stream);
 
 		void step( IGameWorld& world, const spawn::ISpawnManager& spawner ) override;
 
@@ -28,7 +28,7 @@ namespace view_thread
 		void onPropertyUpdate( IGameWorld& world, const PropertyEvent& event );
 
 	private:
-		IEventStreamReader& mBuffer;
+		IThreadStreamReader<Event>& mBuffer;
 	};
 }
 }

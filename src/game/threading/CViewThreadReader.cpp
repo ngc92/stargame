@@ -1,6 +1,5 @@
 #include "CViewThreadReader.h"
 #include "SpawnEvent.h"
-#include "EventStream.h"
 #include "game/IGameWorldView.h"
 #include "game/IGameObjectView.h"
 #include "game/IGameObject.h"
@@ -14,7 +13,7 @@
 
 namespace game
 {
-namespace view_thread
+namespace threading
 {
 	struct EventHandler : public boost::static_visitor<void>
 	{
@@ -43,7 +42,7 @@ namespace view_thread
 		}
 	};
 
-	CViewThreadReader::CViewThreadReader(IEventStreamReader& stream) : mBuffer( stream )
+	CViewThreadReader::CViewThreadReader(IThreadStreamReader<Event>& stream) : mBuffer( stream )
 	{
 
 	}

@@ -6,6 +6,7 @@
 #include <atomic>
 #include <functional>
 #include "listener/listenerlist.h"
+#include "threading/ThreadStreams.h"
 
 class ITimeManager;
 
@@ -18,12 +19,6 @@ namespace game
 	namespace spawn
 	{
 		class ISpawnManager;
-	}
-
-	namespace view_thread
-	{
-		class EventStream;
-		class ActionStream;
 	}
 
 
@@ -48,7 +43,7 @@ namespace game
 		/// gets the simulation world.
 		IGameWorld& getSimulationWorld() const;
 		
-		view_thread::ActionStream& getActionStream() { return *mActionStream; }
+		threading::ActionStream& getActionStream() { return *mActionStream; }
 
 	private:
 		void gameloop();
@@ -61,8 +56,10 @@ namespace game
 		std::unique_ptr<spawn::ISpawnManager> mSpawnManager;
 
 		std::unique_ptr<IGameWorld> mWorldView;
-		std::unique_ptr<view_thread::EventStream> mEventStream;
-		std::unique_ptr<view_thread::ActionStream> mActionStream;
+		//! stream that goes from the simulation world to the view world
+		std::unique_ptr<threading::EventStream> mEventStream;
+		//! stream that goes from view to simulation
+		std::unique_ptr<threading::ActionStream> mActionStream;
 		std::shared_ptr<IGameViewModule> mExportModule;
 		std::shared_ptr<IGameModule> mImportModule;
 	};

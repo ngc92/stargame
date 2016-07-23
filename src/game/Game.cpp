@@ -1,9 +1,7 @@
 #include "Game.h"
 #include "IGameWorld.h"
-#include "view_thread/CSimulationThreadWriter.h"
-#include "view_thread/CViewThreadReader.h"
-#include "view_thread/EventStream.h"
-#include "view_thread/ActionStream.h"
+#include "threading/CSimulationThreadWriter.h"
+#include "threading/CViewThreadReader.h"
 #include "physics/body.h"
 #include "IGameObject.h"
 #include "IGameViewModule.h"
@@ -23,10 +21,10 @@ namespace game
 		mTimeManager( std::make_unique<CTimeManager>() ),
 		mSpawnManager( std::make_unique<spawn::CSpawnManager>( ) ),
 		mWorldView( createObservationWorld() ),
-		mEventStream( std::make_unique<view_thread::EventStream>()),
-		mActionStream( std::make_unique<view_thread::ActionStream>()),
-		mExportModule( std::make_shared<view_thread::CSimulationThreadWriter>( *mEventStream ) ),
-		mImportModule( std::make_shared<view_thread::CViewThreadReader>( *mEventStream ) )
+		mEventStream( std::make_unique<threading::EventStream>()),
+		mActionStream( std::make_unique<threading::ActionStream>()),
+		mExportModule( std::make_shared<threading::CSimulationThreadWriter>( *mEventStream ) ),
+		mImportModule( std::make_shared<threading::CViewThreadReader>( *mEventStream ) )
 	{
 		mTimeManager->setDesiredFPS(50);
 		mGameWorld->addModule( mExportModule );

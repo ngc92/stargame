@@ -1,11 +1,11 @@
-#include "SpawnEvent.h"
+#include "UpdateEvent.h"
 #include "property/CPropertyObject.h"
 #include "property/CProperty.h"
 #include "game/IGameObjectView.h"
 
 namespace game
 {
-namespace view_thread
+namespace threading
 {
 	SpawnEvent::SpawnEvent( IGameObjectView& spawned ) :
 		mProperties( std::make_shared<property::CPropertyObject>("spawn_event") ),

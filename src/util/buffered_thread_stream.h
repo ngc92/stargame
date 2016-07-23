@@ -46,13 +46,15 @@ public:
 
 	// reader thread functions
 	/// update the readable data from the write cache,
-	/// and clear the write cache.
-	void update()
+	/// and clear the write cache. 
+	/// \return Number of objects now available.
+	std::size_t update()
 	{
 		check_reader();
 		std::lock_guard<std::mutex> lock(mLockIncoming);
 		std::swap(mIncomingData, mOutgoingData);
         mIncomingData.clear();
+        return mOutgoingData.size();
 	}
 
 	/// read the outgoing data.
