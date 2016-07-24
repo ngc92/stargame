@@ -66,7 +66,7 @@ namespace game
 		if(ob1->ignoreCollisionTarget() == bodyB || ob2->ignoreCollisionTarget() == bodyA)
 			return false;
 
-		return true;
+		return b2ContactFilter::ShouldCollide(fixtureA, fixtureB);
 	}
 
 	void ContactListener::triggerEvents()
