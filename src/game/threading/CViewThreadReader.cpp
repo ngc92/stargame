@@ -1,5 +1,5 @@
 #include "CViewThreadReader.h"
-#include "SpawnEvent.h"
+#include "UpdateEvent.h"
 #include "game/IGameWorldView.h"
 #include "game/IGameObjectView.h"
 #include "game/IGameObject.h"
