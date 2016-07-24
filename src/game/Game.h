@@ -6,6 +6,7 @@
 #include <atomic>
 #include <functional>
 #include "listener/listenerlist.h"
+#include "threading/ThreadStreams.h"
 
 class ITimeManager;
 
@@ -14,17 +15,12 @@ namespace game
 	class IGameWorld;
 	class IGameObject;
 	class IGameViewModule;
-	namespace spawn 
+	class IGameModule;
+	namespace spawn
 	{
 		class ISpawnManager;
 	}
-	
-	namespace view_thread
-	{
-		class IViewThreadGameWorld;
-	}
 
-	using WorldView = view_thread::IViewThreadGameWorld;
 
 	/*! \class Game
 		\brief Class responsible for a game.
@@ -44,10 +40,10 @@ namespace game
 		/// call from view threads
 		void step();
 
-		WorldView& getWorldView();
-
-		/// adds a module to the module list in a thread-save manner.
-		void addModule(std::weak_ptr<IGameViewModule> module);
+		/// gets the simulation world.
+		IGameWorld& getSimulationWorld() const;
+		
+		threading::ActionStream& getActionStream() { return *mActionStream; }
 
 	private:
 		void gameloop();
@@ -59,10 +55,13 @@ namespace game
 		std::unique_ptr<ITimeManager> mTimeManager;
 		std::unique_ptr<spawn::ISpawnManager> mSpawnManager;
 
-		std::unique_ptr<view_thread::IViewThreadGameWorld> mWorldView;
-
-		std::mutex mModuleMutex;
-		std::vector<std::weak_ptr<IGameViewModule>> mModules;
+		std::unique_ptr<IGameWorld> mWorldView;
+		//! stream that goes from the simulation world to the view world
+		std::unique_ptr<threading::EventStream> mEventStream;
+		//! stream that goes from view to simulation
+		std::unique_ptr<threading::ActionStream> mActionStream;
+		std::shared_ptr<IGameViewModule> mExportModule;
+		std::shared_ptr<IGameModule> mImportModule;
 	};
 }
 

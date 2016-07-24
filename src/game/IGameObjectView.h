@@ -5,8 +5,17 @@
 #include "listener/listenerlist.h"
 #include "property/IPropertyObject.h"
 
+class b2Fixture;
+
 namespace game
 {
+	enum class ObjectCategory : int
+	{
+		SPACESHIP, 
+		BULLET
+	};
+	
+	
 	/*! \struct ImpactInfo
 		\brief Data relating to impact
 		\details This struct contains the necessary data to process
@@ -46,15 +55,20 @@ namespace game
 		/// gets the current angular velocity.
 		virtual float angular_velocity() const = 0;
 		/// gets an ID for object identification.
-		virtual long id() const = 0;
+		virtual uint64_t id() const = 0;
+		/// gets the object type. This is the type that
+		/// was used to get the spawn data for the object.
+		virtual const std::string& type() const = 0;
+		/// the category of this object. 
+		virtual ObjectCategory category() const = 0;
 
 		/// return whether the game object is considered to be alive, or marked for deletion.
 		virtual bool isAlive() const = 0;
 
 		/// adds a listener that is called every step for this game object.
-		virtual ListenerRef addStepListener( std::function<void()> lst ) = 0;
+		virtual ListenerRef addStepListener( std::function<void(const IGameObjectView&)> lst ) = 0;
 		/// adds a listener that is called when the object is removed
-		virtual ListenerRef addRemoveListener( std::function<void()> lst ) = 0;
+		virtual ListenerRef addRemoveListener( std::function<void(const IGameObjectView&)> lst ) = 0;
 		/// adds a listener that is called when this object is hit by another game object.
 		virtual ListenerRef addImpactListener( std::function<void(IGameObjectView&, const ImpactInfo&)> lst ) = 0;
 	};

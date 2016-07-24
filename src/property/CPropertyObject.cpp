@@ -1,7 +1,9 @@
 #include "CPropertyObject.h"
 #include "IProperty.h"
+#include "CProperty.h"  /// for the copy algorithm. \todo move that elsewhere.
 #include <algorithm>
 #include <cassert>
+#include <iostream>
 
 namespace property
 {
@@ -23,7 +25,7 @@ namespace property
 
 	/// gets a child property object of name \p name, or throws.
 	/// only works for direct children.
-	IPropertyObjectView& CPropertyObject::getChild(const std::string& name)
+	IPropertyObject& CPropertyObject::getChild(const std::string& name)
 	{
 		return *mChildren.at(name);
 	}
@@ -60,7 +62,7 @@ namespace property
 	{
 		return *getPropertyPtr(path);
 	}
-	
+
 	/// gets the property that is referred to by path (i.e. this can
 	/// also access properties of child objects).
 	/// this version of the function returns the internal shared_ptr.
@@ -78,7 +80,7 @@ namespace property
 		string rest(delim+1, path.end());
 		return mChildren.at(subobj)->getPropertyPtr( move(rest) );
 	}
-	
+
 	/// check if the property that is referred to by path (i.e. this can
 	/// also access properties of child objects) exists.
 	bool CPropertyObject::hasProperty(const std::string& path) const
@@ -93,13 +95,20 @@ namespace property
 
 		string subobj(path.begin(), delim);
 		string rest(delim+1, path.end());
-		
+
 		// check if correct child present
 		if(mChildren.count(subobj) == 0)
 			return false;
-		
+
 		// if yes, continue search
 		return getChild(subobj).hasProperty( move(rest) );
+	}
+
+	/// check if this property object has \p child as a direct
+	/// child node.
+	bool CPropertyObject::hasChild(const std::string& child) const
+	{
+		return mChildren.count(child) != 0;
 	}
 
 	/// iterates over all properties and calls f for them.
@@ -114,7 +123,7 @@ namespace property
 				child.second->forallProperties(f);
 		}
 	}
-	
+
 	/// applies \p f to all immediate children of this property.
 	void CPropertyObject::forallChildren( const std::function<void(const IPropertyObjectView&)>& f ) const
 	{
@@ -166,18 +175,47 @@ namespace property
 		mChildren.erase( child.name() );
 		const_cast<IPropertyObject&>(child).setParent(nullptr);
 	}
-	
+
 	// notification
 	// ---------------------------------------------------------
 	/// \brief calls notifyIfChanged on all properties.
 	/// \details This function triggers the change listeners for
 	///			all registered properties, including those in subobjects.
-	void CPropertyObject::notifyAll()
+	void CPropertyObject::notifyAll() const
 	{
 		for(auto& prop : mProperties)
 			prop.second->notifyIfChanged();
 
 		for(auto& child : mChildren)
 			child.second->notifyAll();
+	}
+
+
+	/// \todo this refers directly to CPropertyObject
+	void copyProperties(property::IPropertyObject& target, const property::IPropertyObjectView& source)
+	{
+		source.forallProperties([&](property::IPropertyView& view) mutable
+		{
+			if(target.hasProperty(view.name()))
+			{
+				*target.getPropertyPtr(view.name()) = view.value();
+			} else
+			{
+				auto newprop = property::CProperty::create( view.name(), &target, view.value() );
+			}
+		}, false);
+
+		// copy all children
+		source.forallChildren([&](const property::IPropertyObjectView& view) mutable
+		{
+			if( target.hasChild(view.name()))
+			{
+				copyProperties(target.getChild(view.name()), view);
+			} else {
+				auto child = std::make_shared<property::CPropertyObject>( view.name() );
+				target.addChild( child );
+				copyProperties(*child, view);
+			}
+		});
 	}
 }

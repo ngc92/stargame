@@ -11,6 +11,11 @@ namespace property
 	class IPropertyView;
 }
 
+namespace game
+{
+	class IGameObject;
+}
+
 namespace input
 {
 
@@ -39,8 +44,8 @@ namespace input
 		virtual ~IInputElement() = default;
 		virtual InputType type() const = 0;
 
-		virtual void onStep() = 0;
 		virtual void onKeyEvent( int key_code, KeyState state ) = 0;
+		virtual std::function<void(game::IGameObject&)> onStep() = 0;
 	};
 }
 

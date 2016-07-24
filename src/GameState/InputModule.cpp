@@ -3,7 +3,6 @@
 #include "input/IInputElement.h"
 #include "input/CInputConfig.h"
 #include "game/IGameWorldView.h"
-#include "game/view_thread/IViewThreadGO.h"
 #include "IEngine.h"
 #include "IInputManager.h"
 #include <iostream>
@@ -12,7 +11,7 @@
 
 using namespace std::placeholders;
 
-InputModule::InputModule(IEngine* engine, long myship) :
+InputModule::InputModule(IEngine* engine, uint64_t myship) :
 	mShipID(myship), mInputConfig( std::make_unique<input::CInputConfig>() )
 {
 	/// \todo this is suicide, only for testing!
@@ -24,16 +23,21 @@ InputModule::~InputModule()
 {
 }
 
-void InputModule::init()
+void InputModule::init(game::IGameWorldView& world_view)
 {
-	mSpawnLst = world().addSpawnListener(std::bind(&InputModule::onSpawn, this, _1));
+	mSpawnLst = world_view.addSpawnListener(std::bind(&InputModule::onSpawn, this, _1));
 }
 
-void InputModule::onSpawn(const game::IGameObjectView& spawned)
+void InputModule::onSpawn(game::IGameObjectView& spawned)
 {
 	std::cout << "INPUT MODULE ON SPAWN\n";
 	if(spawned.id() != mShipID)
 		return;
+
+	// save the object into a shared_ptr to ensure that
+	// it does not get destroyed prematurely.
+	mControlledObject = spawned.shared_from_this();
+	mRemLst = spawned.addRemoveListener( std::bind(&InputModule::reset, this ) );
 
 	// found our ship
 	spawned.forallProperties(std::bind(&InputModule::propertyCallback, this, _1));
@@ -43,10 +47,27 @@ void InputModule::onSpawn(const game::IGameObjectView& spawned)
 }
 
 
-void InputModule::onStep()
+void InputModule::step( game::IGameWorldView& world_view )
 {
+	mActions.clear();
 	for(auto& elem : mInputElements)
-		elem->onStep();
+	{
+		auto result = elem->onStep();
+		if(result)
+		{
+			game::threading::Action action;
+			action.target_id = mShipID;
+			action.action = std::move(result);
+			mActions.push_back( std::move(action) );
+		}
+	}
+}
+
+void InputModule::reset()
+{
+	mInputElements.clear();
+	mControlledObject.reset();
+	mRemLst = ListenerRef();
 }
 
 void InputModule::propertyCallback(property::IPropertyView& property)
@@ -55,7 +76,7 @@ void InputModule::propertyCallback(property::IPropertyView& property)
 	if(!boost::algorithm::starts_with(name, "input:"))
 		return;
 
-	std::cout << "INPUT: " << property.path() << "\n";
+	std::cout << "INPUT: " << property.path() << " ";
 	auto input = mInputConfig->getInputElemt(property);
 	if(input)
 	{

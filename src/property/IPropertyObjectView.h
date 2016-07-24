@@ -75,6 +75,10 @@ namespace property
 		/// also access properties of child objects) exists.
 		virtual bool hasProperty(const std::string& path) const = 0;
 
+		/// check if this property object has \p child as a direct
+		/// child node.
+		virtual bool hasChild(const std::string& child) const = 0;
+
 		/// \todo figure out a nice way to do the iterators here. until then, use the forallProperties function
 		/// \param f Function to apply
 		/// \param recurse apply to all properties of subobjects as well?

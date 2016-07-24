@@ -1,9 +1,14 @@
 #include "CDebugDraw.h"
-#include "util.h"
+#include "consts.h"
 #include "game/IGameWorld.h"
-#include <Box2D/Dynamics/b2World.h>
 #include <irrlicht/irrlicht.h>
+#include <Box2D/Dynamics/b2World.h>
 #include <iostream>
+
+inline irr::core::vector3df b2i(b2Vec2 v)
+{
+	return irr::core::vector3df( BOX_TO_METERS * v.x, 0, BOX_TO_METERS * v.y );
+}
 
 CDebugDraw::CDebugDraw( irr::video::IVideoDriver* driver ) : mDriver(driver)
 {
@@ -89,13 +94,15 @@ void CDebugDraw::doDraw() const
 		f(mDriver);
 }
 
-void CDebugDraw::onGameStep(const game::IGameWorld& world)
+void CDebugDraw::init(  game::IGameWorld& world  )
 {
-	{
-		std::lock_guard<std::mutex> lck(mWriteMutex);
-		mWriteQueue.clear();
-	}
-	const_cast<game::IGameWorld&>(world).getWorld()->SetDebugDraw(this);
-	const_cast<game::IGameWorld&>(world).getWorld()->DrawDebugData();
+	world.getWorld().SetDebugDraw(this);
+}
+
+void CDebugDraw::step( game::IGameWorld& world, const game::spawn::ISpawnManager& spawner )
+{
+	mWriteQueue.clear();
+	world.getWorld().DrawDebugData();
 	setFinished();
 }
+

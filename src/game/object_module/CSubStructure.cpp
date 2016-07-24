@@ -1,12 +1,14 @@
 #include "CSubStructure.h"
-#include "util/physics.h"
+#include "game/physics/body.h"
+#include "game/physics/fixture.h"
+#include "game/physics/shape.h"
+#include "game/physics/raycast.h"
 #include "util/io.h"
 #include "components/IComponent.h"
 #include "IDamageSource.h"
 #include <Box2D/Collision/b2Collision.h>
 #include <Box2D/Collision/Shapes/b2EdgeShape.h>
 #include <Box2D/Dynamics/b2Body.h>
-#include <Box2D/Dynamics/b2Fixture.h>
 #include <boost/iterator/indirect_iterator.hpp>
 
 #include "property/CProperty.h"
@@ -55,16 +57,15 @@ namespace game
 
 		// need to write the component subobject loop ourselves here, because we need the shared_ptr
 		// build the physic body
-		b2Body* body = object.getBody();
 		for(auto& cell : mCells)
 		{
-			auto fixture = body->CreateFixture( &cell->shape(), 10.f );
-			fixture->SetRestitution(0.1);
-			fixture->SetFriction(0.5);
+			auto fixture = physics::Fixture::create(object.getBody(), cell->shape(), 10.f);
+			fixture.setRestitution(0.1);
+			fixture.setFriction(0.5);
 			for(std::size_t i = 0; i < cell->component_count(); ++i)
 			{
 				addChild(cell->getComponent(i));
-				addMassToFixture(*fixture, cell->getComponent(i)->weight());
+				fixture.addMass(cell->getComponent(i)->weight());
 			}
 		}
 
@@ -77,11 +78,6 @@ namespace game
 			pob->addProperty( property::CProperty::create("p1", pob.get(), mArmour[i].p1) );
 			pob->addProperty( property::CProperty::create("p2", pob.get(), mArmour[i].p2) );
 		}
-
-		// fix global properties of body
-		b2MassData mass;
-		body->GetMassData( &mass );
-		std::cout << "mass: " << mass.mass << "\n";
 	}
 
 	void CSubStructure::onStep(IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action)
@@ -101,7 +97,7 @@ namespace game
 
 	void CSubStructure::onDamage( IGameObject& object, const Damage& damage, const b2Vec2& pos, const b2Vec2& dir )
 	{
-		hit(object.body()->GetTransform(), damage, pos, dir);
+		hit(object.body().getTransform(), damage, pos, dir);
 	}
 
 	void CSubStructure::hit(const b2Transform& trafo, Damage damage, vector2d position, vector2d direction)
@@ -140,7 +136,7 @@ namespace game
 		std::vector<HitCell> hit_cells;
 		for(auto& cell : mCells)
 		{
-			if(cell->shape().RayCast(&rcout, rcin, trafo, 0))
+			if(physics::raycast(rcout, cell->shape(), rcin, trafo))
 			{
 				rcin.maxFraction = rcout.fraction;
 				hit_cells.push_back(HitCell{rcout.fraction, cell.get()});

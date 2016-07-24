@@ -7,7 +7,6 @@
 #include <Box2D/Common/b2Draw.h>
 #include "util.h"
 #include "IDebugDraw.h"
-#include "game/CGameViewModule.h"
 
 namespace irr
 {
@@ -19,7 +18,7 @@ namespace irr
 
 struct b2AABB;
 
-class CDebugDraw : public b2Draw, public IDebugDraw, public game::CGameViewModule
+class CDebugDraw : public b2Draw, public IDebugDraw
 {
 	public:
 		CDebugDraw( irr::video::IVideoDriver* driver );
@@ -45,12 +44,8 @@ class CDebugDraw : public b2Draw, public IDebugDraw, public game::CGameViewModul
 		void doDraw() const override;
 
 		// game view module implementation
-		void init() final{};
-		void onStep() final{};
-
-		/// this function is called inside the game thread step function
-		/// \attention Do not access variables of the module thread unprotected.
-		void onGameStep(const game::IGameWorld& world) final;
+		void init(  game::IGameWorld& world  ) final;
+		void step( game::IGameWorld& world, const game::spawn::ISpawnManager& spawner ) final;
 
 	private:
 		void drawLine(const b2Vec2& p1, const b2Vec2& p2, const color_type& color);
@@ -62,7 +57,5 @@ class CDebugDraw : public b2Draw, public IDebugDraw, public game::CGameViewModul
 
 		irr::video::IVideoDriver* mDriver;
 };
-
-//extern CDebugDraw d;
 
 #endif // CDEBUGDRAW_H_INCLUDED

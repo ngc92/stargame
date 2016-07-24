@@ -10,8 +10,8 @@ namespace components
 	//! \todo BaseTemperature Parameter
 	ManeuverEngine::ManeuverEngine() : CComponent(100, 100, "ManeuverEngine"),
 		mThrust( "max_thrust", this, 1000.f ),
-		mTorque( "torque", this, 0.1f ),
 		mFuelEfficiency( "efficiency", this, 5000 ),
+		mTorque( "torque", this, 0.1f ),
 		mLateralControl( "input:lateral_thrust", this, 0.f ),
 		mLongitudinalControl( "input:longitudinal_thrust", this, 0.f ),
 		mTurnControl( "input:turn", this, 0.f )

@@ -12,7 +12,7 @@ namespace spawn
 
 	b2Vec2 read_position( const boost::property_tree::ptree& tree )
 	{
-		return b2Vec2{tree.get<float>("x") * METERS_TO_BOX, tree.get<float>("y") * METERS_TO_BOX };
+		return b2Vec2{tree.get<float>("x"), tree.get<float>("y")};
 	}
 
 	b2Vec2 read_position( const boost::property_tree::ptree& tree, const vertex_cache_t& vcache  )

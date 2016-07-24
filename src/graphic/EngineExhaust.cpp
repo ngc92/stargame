@@ -10,9 +10,9 @@ namespace gfx
 	EngineExhaustNode::EngineExhaustNode(ISceneNode* parent, ISceneManager *mgr, s32 id,
 										float radius, float psize, bool light):
 				ISceneNode(parent, mgr, id),
-				mRadius(radius),
 				mParticleSize(psize),
-				mExhaustVelocity(-0.02, 0, 0)
+				mExhaustVelocity(-0.02, 0, 0),
+				mRadius(radius)
 	{
 
 		// engine light
@@ -78,7 +78,7 @@ namespace gfx
 
 		auto vec = mExhaustVelocity;
 		getAbsoluteTransformation().rotateVect(vec);
-		
+
 		for(auto fire : mFireEmitters )
 		{
 			fire->getEmitter()->setDirection( vec + mShipVelocity );
@@ -88,25 +88,25 @@ namespace gfx
 	void EngineExhaustNode::render()
 	{
 	}
-	
+
 	const core::aabbox3d<f32>& EngineExhaustNode::getBoundingBox() const
 	{
 		return mFireEmitters[0]->getBoundingBox();
 	}
-	
+
 	// configuration options
 	void EngineExhaustNode::setParticleSize( f32 size )
 	{
 		mParticleSize = size;
 		/// \todo change size of emitters and animators
 	}
-	
+
 	void EngineExhaustNode::setParticleLifetime( u32 lifetime )
 	{
 		mParticleLifetime = lifetime;
 		mFadeOutAffector->setFadeOutTime( lifetime );
 	}
-	
+
 	void EngineExhaustNode::setParticleCount( u32 max_particles )
 	{
 		mMaxParticles = max_particles;
@@ -137,13 +137,13 @@ namespace gfx
 			fire->setMaterialType( material );
 		}
 	}
-	
+
 	void EngineExhaustNode::setExhaustVelocity( core::vector3df velocity )
 	{
 		// convert to per millisecond and set
 		mExhaustVelocity = 0.001 * velocity;
 	}
-	
+
 	void EngineExhaustNode::setShipVelocity( core::vector3df velocity )
 	{
 		// convert to per millisecond and set

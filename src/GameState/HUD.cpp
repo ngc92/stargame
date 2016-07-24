@@ -21,11 +21,11 @@ HUD::~HUD()
 
 }
 
-void HUD::init()
+void HUD::init( game::IGameWorldView& world_view )
 {
 	using std::placeholders::_1;
-	mListeners.push_back(world().addSpawnListener(std::bind(&HUD::onSpawn, this, _1)));
-	mTacCtrl = std::make_unique<graphic::TacticalMapCtrl>(mTacMap, world());
+	mListeners.push_back(world_view.addSpawnListener(std::bind(&HUD::onSpawn, this, _1)));
+	mTacCtrl = std::make_unique<graphic::TacticalMapCtrl>(mTacMap, world_view);
 }
 
 void HUD::onSpawn(const game::IGameObjectView& spawned)

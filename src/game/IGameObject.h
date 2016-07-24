@@ -4,8 +4,16 @@
 #include "IGameObjectView.h"
 #include <vector>
 
+class b2Body;
+
 namespace game
 {
+	namespace physics
+	{
+		class Body;
+	}
+	using physics::Body;
+
 	class IGameWorld;
 	class IGameObjectModule;
 	class WorldActionQueue;
@@ -26,10 +34,13 @@ namespace game
 	public:
 		/// called just after the object is constructed and added to the world.
 		virtual void onInit(IGameWorld& world) = 0;
+		
+		/// perform a step. 
+		virtual void step(const IGameWorld& world, WorldActionQueue& push_action) = 0;
 
 		/// this function will be called every step by the game world, and should trigger
-		/// the onStep listener.
-		virtual void onStep(const IGameWorld& world, WorldActionQueue& push_action) = 0;
+		/// the onStep listener and notify any change listener.
+		virtual void onStep(const IGameWorld& world) const = 0;
 
 		/// this function is called whenever another game object hits the current one.
 		virtual void onImpact(IGameObject& other, const ImpactInfo& info) = 0;
@@ -38,10 +49,10 @@ namespace game
 		virtual void dealDamage( const Damage& damage, const b2Vec2& pos, const b2Vec2& dir ) = 0;
 
 		/// get a pointer to the internal body, if any
-		virtual const b2Body* body() const = 0;
+		virtual const Body& body() const = 0;
 
 		/// get a pointer to the internal body, if any
-		virtual b2Body* getBody() = 0;
+		virtual Body& getBody() = 0;
 
 		/// marks this body for deletion.
 		virtual void remove() = 0;
@@ -56,7 +67,9 @@ namespace game
 		virtual void setIgnoreCollisionTarget( const b2Body* ignore ) = 0;
 
 		// modules
-		/// adds a module to this game object.
+		/// adds a module to this game object. All modules have to be
+		/// added before the call to onInit. Trying to add a module afterwards will
+		/// trigger an assert or an exception.
 		virtual void addModule( std::shared_ptr<IGameObjectModule> ) = 0;
 
 		/// gets a module converted to a certain type.
@@ -84,6 +97,11 @@ namespace game
 		}
 		return nullptr;
 	}
+	
+	
+	// constructor function
+	/// creates an object of IGameObject using the default implementation.
+	std::shared_ptr<IGameObject> createGameObject( uint64_t id, std::string type, ObjectCategory category, b2Body* b, std::string name = "object" );
 }
 
 #endif // IGAMEOBJECT_H_INCLUDED

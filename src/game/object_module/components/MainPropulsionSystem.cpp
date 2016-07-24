@@ -1,6 +1,7 @@
 #include "MainPropulsionSystem.h"
 #include "game/IGameObject.h"
 #include "game/object_module/IFlightModel.h"
+#include "consts.h"
 #include <iostream>
 
 namespace game
@@ -43,9 +44,9 @@ namespace components
 			eta = 0.25;			// but 100% extra fuel consumption
 		}
 
-		float fconsum = mThrust / mFuelEfficiency / 50 * tval / eta;	// get the amount of fuel we need for
-																// the desired thrust, i.e. we correct
-																// for eta here.
+		float fconsum = mThrust / mFuelEfficiency * STEP_TIME * tval / eta;	// get the amount of fuel we need for
+																			// the desired thrust, i.e. we correct
+																			// for eta here.
 
 		float fuel = tank->getSupply("fuel", fconsum);
 		float thrust = mThrust * fuel / fconsum * tval;
