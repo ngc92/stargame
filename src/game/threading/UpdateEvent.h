@@ -3,6 +3,7 @@
 
 #include "property/property.h"
 #include "game/spawn/SpawnData.h"
+
 namespace game
 {
 class IGameObjectView;
