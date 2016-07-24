@@ -15,30 +15,17 @@ namespace game
 	class IGameWorld;
 	class IGameObject;
 	class IGameViewModule;
-<<<<<<< HEAD
-=======
 	class IGameModule;
->>>>>>> dev
+
 	namespace spawn
 	{
 		class ISpawnManager;
-	}
-<<<<<<< HEAD
-
-	namespace view_thread
-	{
-		class IViewThreadGameWorld;
 	}
 
 	namespace ai
 	{
 		class IAIManager;
 	}
-
-	using WorldView = view_thread::IViewThreadGameWorld;
-=======
-
->>>>>>> dev
 
 	/*! \class Game
 		\brief Class responsible for a game.

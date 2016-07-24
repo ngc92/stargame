@@ -2,10 +2,10 @@
 #define UPDATEEVENT_H_INCLUDED
 
 #include "property/property.h"
-#include "SpawnEvent.h"
-
+#include "game/spawn/SpawnData.h"
 namespace game
 {
+class IGameObjectView;
 namespace threading
 {
 	/*! created for every object every frame, updates physics data */

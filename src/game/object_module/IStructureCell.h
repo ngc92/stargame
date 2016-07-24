@@ -7,16 +7,12 @@
 
 namespace game
 {
-<<<<<<< HEAD
-	/*! \class IStructureCell
-=======
 	namespace physics
 	{
 		class Shape;
 	}
 	
-	/*! \class StructureCell
->>>>>>> dev
+	/*! \class IStructureCell
 		\brief A single cell within the space ships structural built.
 		\details A cell is a part of the space ship, which is localized and
 				can hold one or more ship components.
