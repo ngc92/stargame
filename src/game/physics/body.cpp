@@ -1,5 +1,6 @@
 #include "body.h"
 #include "consts.h"
+#include "ContactFilter.h"
 #include <cassert>
 #include <iostream>
 #include <Box2D/Dynamics/b2Body.h>
@@ -7,8 +8,22 @@
 
 namespace game
 {
-	Body::Body(b2Body* source) : mBody(source)
+class IGameObject;
+
+namespace physics
+{	
+	struct BodyReg
 	{
+		BodyReg( Body& b ) : body(b) {}
+		Body& body;							//!< reference to the body.
+		IGameObject* object = nullptr;		//!< reference to the GameObject.
+		ContactFilter filter;				//!< The associated contact filter.
+	};
+	
+	Body::Body(b2Body* source) : mBody(source),
+		mBodyReg( std::make_unique<BodyReg>(*this) )
+	{
+		mBody->SetUserData( mBodyReg.get() );
 	}
 
 	Body::~Body()
@@ -119,14 +134,6 @@ namespace game
 		return *this;
 	}
 
-	/// sets the user pointer
-	Body& Body::setUserPointer( void* ptr )
-	{
-		assert( mBody );
-		mBody->SetUserData( ptr );
-		return *this;
-	}
-
 	/// gets mass in kg
 	float Body::mass() const
 	{
@@ -165,6 +172,40 @@ namespace game
 		// also do not convert mass, because we get value in box system, and reuse it directly.
 		mBody->ApplyLinearImpulseToCenter( (METERS_TO_BOX * mBody->GetMass()) * velocity, true );
 	}
+	
+	/// set the associated game object. Should normally
+	/// not be called more than once.
+	void Body::setGameObject( IGameObject* object )
+	{
+		mBodyReg->object = object;
+	}
+	
+	/// get the associated game object.
+	IGameObject* Body::getGameObject() const
+	{
+		return mBodyReg->object;
+	}
 
-
+	const ContactFilter& Body::getContactFilter() const
+	{
+		return mBodyReg->filter;
+	}
+	
+	ContactFilter& Body::getContactFilter()
+	{
+		return mBodyReg->filter;
+	}
+	
+	Body& from_b2_body( b2Body* source )
+	{
+		void* ud = source->GetUserData();
+		return reinterpret_cast<BodyReg*>(ud)->body;
+	}
+	
+	const Body& from_b2_body( const b2Body* source )
+	{
+		void* ud = source->GetUserData();
+		return reinterpret_cast<BodyReg*>(ud)->body;
+	}
+}
 }

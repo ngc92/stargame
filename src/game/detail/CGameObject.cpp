@@ -14,7 +14,7 @@ namespace game
 		 mCategory( "category", this, (int)cateogry)
 	{
 		assert(mBody);
-		mBody.setUserPointer(this);
+		mBody.setGameObject(this);
 	}
 
 	CGameObject::~CGameObject()
@@ -72,21 +72,6 @@ namespace game
 	{
 		for(auto& module : mModules)
 			module->onDamage(*this, damage, pos, dir);
-	}
-
-	/// collision filter data. This is currently very specialised, so maybe a more general
-	/// interface would be nice. However, we need to ensure that this does not cost performance for objects
-	/// that do not require special collision handling.
-	/// Right now, we can set one specific body with which this object shall not collide.
-	const b2Body* CGameObject::ignoreCollisionTarget() const
-	{
-		return mIgnoreBody;
-	}
-
-	/// sets the body which shall be ignored upon collision checks
-	void CGameObject::setIgnoreCollisionTarget( const b2Body* ignore )
-	{
-		mIgnoreBody = ignore;
 	}
 
 	b2Vec2 CGameObject::position() const

@@ -6,6 +6,7 @@
 #include "game/physics/convert.h"
 #include "game/physics/fixture.h"
 #include "game/physics/shape.h"
+#include "game/physics/ContactFilter.h"
 
 #include "game/IGameObject.h"
 #include "property/CProperty.h"
@@ -97,7 +98,7 @@ namespace spawn
 		object.getBody().body()->SetBullet(true);
 		object.getBody().addLinearVelocity( world_vector(object.body(), b2Vec2(dat.propellVelocity(), 0) ) );
 		if(shooter)
-			object.setIgnoreCollisionTarget( shooter->body().body() );
+			object.getBody().getContactFilter().addToBlacklist( shooter );
 	}
 }
 }

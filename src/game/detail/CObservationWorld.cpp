@@ -9,7 +9,7 @@
 
 namespace game
 {
-	CObservationWorld::CObservationWorld() : mContactListener( std::make_unique<ContactListener>() )
+	CObservationWorld::CObservationWorld() : mContactListener( std::make_unique<physics::ContactListener>() )
 	{
 		getWorld().SetContactFilter( mContactListener.get() );
 	}

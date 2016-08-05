@@ -5,8 +5,11 @@
 
 namespace game
 {
-	class ContactListener;
-
+	namespace physics 
+	{
+		class ContactListener;
+	}
+	
 	class CSimulationWorld : public CWorldBase
 	{
 	public:
@@ -23,9 +26,9 @@ namespace game
 		/// The module is directly initialized.
 		void addModule(std::weak_ptr<IGameModule> module) final;
 	private:
-		std::unique_ptr<ContactListener> mContactListener;		//!< The contact listener for Box2D
+		std::unique_ptr<physics::ContactListener> mContactListener;		//!< The contact listener for Box2D
 
-		std::vector<std::weak_ptr<IGameModule>> mModules;			//! Vector of all registered game modules.
+		std::vector<std::weak_ptr<IGameModule>> mModules;				//! Vector of all registered game modules.
 
 	};
 }

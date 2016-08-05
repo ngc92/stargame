@@ -1,14 +1,21 @@
 #ifndef BODY_H_INCLUDED
 #define BODY_H_INCLUDED
 
+#include <memory>
+
 class b2Body;
 class b2Vec2;
 class b2Transform;
 
 namespace game
 {
+class IGameObject;
+
 namespace physics
 {
+	struct BodyReg;
+	class ContactFilter;
+	
 	class Body
 	{
 	public:
@@ -69,8 +76,11 @@ namespace physics
 		/// Set the angular damping of the body.
 		Body& setAngularDamping(float angularDamping);
 
-		/// sets the user pointer
-		Body& setUserPointer( void* ptr );
+		/// set the associated game object. Should normally
+		/// not be called more than once.
+		void setGameObject( IGameObject* object );
+		/// get the associated game object.
+		IGameObject* getGameObject() const;
 
 		/// delete the pointed to body and remove from its world.
 		/// This operation is safe to call even if mBody == nullptr
@@ -85,13 +95,21 @@ namespace physics
 
 		// conversion operator to check if a body is present
 		operator bool() const { return mBody; }
+		
+		// contact filer
+		const ContactFilter& getContactFilter() const;
+		ContactFilter& getContactFilter();
 
 		// access the full box2d body.
 		b2Body* body() { return mBody; };
 		const b2Body* body() const { return mBody; };
 	private:
 		b2Body* mBody;
+		std::unique_ptr<BodyReg> mBodyReg;
 	};
+	
+	Body& from_b2_body( b2Body* source );
+	const Body& from_b2_body( const b2Body* source );
 }
 using physics::Body;
 }
