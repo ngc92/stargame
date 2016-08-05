@@ -45,6 +45,7 @@ namespace physics
 	Fixture& Fixture::setSensor(bool sensor)
 	{
 		mFixture.SetSensor( sensor );
+		return *this;
 	}
 
 	/// Is this fixture a sensor (non-solid)?
