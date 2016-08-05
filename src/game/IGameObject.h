@@ -57,15 +57,6 @@ namespace game
 		/// marks this body for deletion.
 		virtual void remove() = 0;
 
-		/// collision filter data. This is currently very specialised, so maybe a more general
-		/// interface would be nice. However, we need to ensure that this does not cost performance for objects
-		/// that do not require special collision handling.
-		/// Right now, we can set one specific body with which this object shall not collide.
-		virtual const b2Body* ignoreCollisionTarget() const = 0;
-
-		/// sets the body which shall be ignored upon collision checks
-		virtual void setIgnoreCollisionTarget( const b2Body* ignore ) = 0;
-
 		// modules
 		/// adds a module to this game object. All modules have to be
 		/// added before the call to onInit. Trying to add a module afterwards will

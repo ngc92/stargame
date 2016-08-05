@@ -1,10 +1,13 @@
 #include "ContactListener.h"
+#include "body.h"
+#include "ContactFilter.h"
 #include "game/IGameObject.h"
 #include <Box2D/Box2D.h>
 
 namespace game
 {
-
+namespace physics
+{
 	ContactListener::ContactListener()
 	{
 	}
@@ -41,8 +44,8 @@ namespace game
 	void ContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse)
 	{
 		// get pointer to GameObjects
-		IGameObject* ob1 = (IGameObject*)contact->GetFixtureA()->GetBody()->GetUserData();
-		IGameObject* ob2 = (IGameObject*)contact->GetFixtureB()->GetBody()->GetUserData();
+		IGameObject* ob1 = from_b2_body(contact->GetFixtureA()->GetBody()).getGameObject();
+		IGameObject* ob2 = from_b2_body(contact->GetFixtureB()->GetBody()).getGameObject();
 
 		float imp = impulse->normalImpulses[0];
 
@@ -58,15 +61,18 @@ namespace game
 
 	bool ContactListener::ShouldCollide(b2Fixture* fixtureA, b2Fixture* fixtureB)
 	{
-		b2Body* bodyA = fixtureA->GetBody();
-		b2Body* bodyB = fixtureB->GetBody();
-		const IGameObject* ob1 = (IGameObject*)bodyA->GetUserData();
-		const IGameObject* ob2 = (IGameObject*)bodyB->GetUserData();
+		const Body& bodyA = from_b2_body(fixtureA->GetBody());
+		const Body& bodyB = from_b2_body(fixtureB->GetBody());
 
-		if(ob1->ignoreCollisionTarget() == bodyB || ob2->ignoreCollisionTarget() == bodyA)
+		// this check is fast, I think, so do it first.
+		bool bit_test_result = b2ContactFilter::ShouldCollide(fixtureA, fixtureB);
+		if( bit_test_result == false )
 			return false;
+		
+		if(bodyA.getContactFilter().doesCollide(bodyB) && bodyB.getContactFilter().doesCollide(bodyA))
+			return true;
 
-		return true;
+		return false;
 	}
 
 	void ContactListener::triggerEvents()
@@ -95,5 +101,5 @@ namespace game
 
 		mResponseQueue.clear();
 	}
-
+}
 }

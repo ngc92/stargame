@@ -9,7 +9,7 @@
 
 namespace game
 {
-	CSimulationWorld::CSimulationWorld() : mContactListener( std::make_unique<ContactListener>() )
+	CSimulationWorld::CSimulationWorld() : mContactListener( std::make_unique<physics::ContactListener>() )
 	{
 		getWorld().SetContactListener( mContactListener.get() );
 		getWorld().SetContactFilter( mContactListener.get() );

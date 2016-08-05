@@ -41,17 +41,6 @@ namespace game
 			/// the category of this object. 
 			ObjectCategory category() const final;
 
-			/// collision filter data. This is currently very specialised, so maybe a more general
-			/// interface would be nice. However, we need to ensure that this does not cost performance for objects
-			/// that do not require special collision handling.
-			/// Right now, we can set one specific body with which this object shall not collide.
-			const b2Body* ignoreCollisionTarget() const final;
-
-			/// sets the body which shall be ignored upon collision checks
-			void setIgnoreCollisionTarget( const b2Body* ignore ) final;
-
-
-
 			/// adds a module to this game object.
 			void addModule( std::shared_ptr<IGameObjectModule> ) final;
 

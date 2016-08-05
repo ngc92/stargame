@@ -6,6 +6,8 @@
 
 namespace game
 {
+namespace physics
+{
 
 	/*! \class ContactListener
 		\brief Listener for the Box2D world.
@@ -39,7 +41,7 @@ namespace game
 		struct Contact;
 		std::vector<Contact> mResponseQueue;
 	};
-
+}
 }
 
 #endif // CONTACTLISTENER_H_INCLUDED
