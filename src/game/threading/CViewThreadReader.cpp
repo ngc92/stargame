@@ -40,6 +40,10 @@ namespace threading
 		{
 			reader.onPropertyUpdate( world, pev );
 		}
+		void operator()(const AddPropertyEvent& pev)
+		{
+			reader.onAddProperty( world, pev );
+		}
 	};
 
 	CViewThreadReader::CViewThreadReader(IThreadStreamReader<Event>& stream) : mBuffer( stream )
@@ -95,6 +99,17 @@ namespace threading
 		auto delim = find(event.path.begin(), event.path.end(), '.');
 		string rest(delim+1, event.path.end());
 		target.getPropertyPtr( rest )->assign( event.value );
+	}
+	
+	void CViewThreadReader::onAddProperty( IGameWorld& world, const AddPropertyEvent& event )
+	{
+		IGameObject& target = world.getObjectByID( event.id );
+		/// \todo this is really ugly, fix this!
+		using namespace std;
+		auto delim = find(event.path.begin(), event.path.end(), '.');
+		string rest(delim+1, event.path.end());
+		/// \todo this only works for level one properties.
+		target.addProperty( property::CProperty::create(rest, &target, event.value) );
 	}
 }
 }

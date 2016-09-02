@@ -36,6 +36,13 @@ namespace threading
 		property::data_t value;	//!< new value of the property.
 	};
 	
+	struct AddPropertyEvent
+	{
+		uint64_t id;				//!< ID id of the associated game object.
+		std::string path;			//!< Full path of the new property.
+		property::data_t value;		//!< Value of the new property.
+	};
+	
 	/*! \brief This event transfers game objects from the simulation word to the view world.
 		\details This means most likely that a new object spawn, but we can use it also
 				to transmit an initial state. Since events of this type are relatively
@@ -56,7 +63,7 @@ namespace threading
 		spawn::SpawnData mSpawnData;
 	};
 
-	using Event = boost::variant<UpdateEvent, SpawnEvent, DespawnEvent, PropertyEvent>;
+	using Event = boost::variant<UpdateEvent, SpawnEvent, DespawnEvent, PropertyEvent, AddPropertyEvent>;
 }
 }
 

@@ -26,6 +26,7 @@ namespace threading
 		void onDespawn( IGameWorld& world, const DespawnEvent& event );
 		void onUpdate( IGameWorld& world, const UpdateEvent& event );
 		void onPropertyUpdate( IGameWorld& world, const PropertyEvent& event );
+		void onAddProperty( IGameWorld& world, const AddPropertyEvent& event );
 
 	private:
 		IThreadStreamReader<Event>& mBuffer;
