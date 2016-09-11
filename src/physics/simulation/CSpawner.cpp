@@ -2,6 +2,7 @@
 #include "Box2D/Box2D.h"
 #include "physics/data/Fixture.h"
 #include "physics/data/Body.h"
+#include <boost/throw_exception.hpp>
 
 namespace physics
 {

@@ -10,7 +10,8 @@ namespace simulation
 	CSimulation::CSimulation(std::unique_ptr<ISpawner> spawner, std::shared_ptr<ISimulationEventListener> listener) : 
 		mWorld( b2Vec2(0,0) ),
 		mSpawner( std::move(spawner) ),
-		mListener( std::move(listener) )
+		mListener( std::move(listener) ),
+		mConverter(1.0)
 	{
 		
 	}
@@ -39,7 +40,7 @@ namespace simulation
 		while(body)
 		{
 			events::ObjectStateUpdateEvent update;
-//			update.object_id    = ;
+			update.object_id    = get_userdata(*body).id;
 			update.position     = body->GetPosition();
 			update.velocity     = body->GetLinearVelocity();
 			update.rotation     = body->GetAngle();
@@ -54,14 +55,19 @@ namespace simulation
 	
 	void CSimulation::spawn( const actions::SpawnObject& spw )
 	{
-		auto body = mSpawner->spawnBody( mWorld, spw.body );
+		auto body = mSpawner->spawnBody( mWorld, mConverter.toBoxUnits(spw.body) );
+		// add user pointer to body.
+		mUserData.push_back( std::unique_ptr<BodyUserData>( new BodyUserData ) );
+		mUserData.back()->id = ++next_id;
+		body->SetUserData( mUserData.back().get() );
+		
 		for(const auto& fix : spw.fixtures)
 		{
-			mSpawner->spawnFixture( *body, fix );
+			mSpawner->spawnFixture( *body, mConverter.toBoxUnits(fix) );
 		}
 		
 		// trigger spawn event!
-		events::SpawnEvent spawn{0, spw.body};
+		events::SpawnEvent spawn{mUserData.back()->id, spw.body};
 		if(mListener)
 			mListener->onSpawn( spawn );
 	}

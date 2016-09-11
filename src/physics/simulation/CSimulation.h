@@ -1,11 +1,13 @@
 #ifndef SIMULATION_H_INCLUDED
 #define SIMULATION_H_INCLUDED
 
+#include "ISimulation.h"
 #include <Box2D/Box2D.h>
 #include <functional>
+#include "SUnitConverter.h"
+#include "userdata.h"
 #include "physics/events/ObjectUpdateEvent.h"
 #include "physics/actions/SpawnObject.h"
-#include "ISimulation.h"
 
 namespace physics
 {
@@ -29,8 +31,7 @@ namespace simulation
 		/// spawn an object
 		void spawn( const actions::SpawnObject& spw ) override;
 		
-		// unit conversion interface
-		double getMeterToBox() const override { return mMetersToBox; }
+		const SUnitConverter& getConverter() const override { return mConverter; }
 	private:
 		
 		void tick();
@@ -39,9 +40,10 @@ namespace simulation
 		double mStepSize    = 1.0/100;
 		double mPartialStep = 0;
 		
-		// conversion factors
-		double mMetersToBox = 1;
+		std::vector<std::unique_ptr<BodyUserData>> mUserData;
+		std::uint64_t next_id = 0;
 		
+		SUnitConverter mConverter;
 		std::shared_ptr<ISimulationEventListener> mListener;
 		std::unique_ptr<ISpawner> mSpawner;
 	};

@@ -1,6 +1,8 @@
 #ifndef ISIMULATION_H_INCLUDED
 #define ISIMULATION_H_INCLUDED
 
+#include <cstddef>
+
 namespace physics
 {
 namespace events
@@ -8,8 +10,15 @@ namespace events
 	class ObjectStateUpdateEvent;
 	class SpawnEvent;
 }
+namespace actions
+{
+    class SpawnObject;
+}
+
 namespace simulation
 {
+    class SUnitConverter;
+
 	struct ISimulationEventListener
 	{
 		virtual void onObjectStateUpdate(const events::ObjectStateUpdateEvent& event) = 0;
@@ -40,15 +49,9 @@ namespace simulation
 		/// returns the physics step size in seconds.
 		virtual double getStepSize() const = 0;
 		
-		// unit conversion interface
-		/// Gets the conversion factor from game meters to Box2D meters.
-		/// This should probably be set in the constructor of the implementation class, and remain unchanged.
-		virtual double getMeterToBox() const = 0;
 		
-		/// converts game meters to Box2D meters.
-		double metersToBox(double box) const { return box * getMeterToBox(); }
-		/// converts Box2D meters to game meters.
-		double boxToMeters(double mks) const { return mks / getMeterToBox(); }
+		/// gets the unit converter
+		virtual const SUnitConverter& getConverter() const = 0;
 	};
 }
 }

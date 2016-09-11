@@ -52,6 +52,15 @@ namespace data
 			BOOST_THROW_EXCEPTION( std::logic_error("Box2D supports at most b2_maxPolygonVertices vertices.") );
 	}
 	
+	void PolygonShape::setVertices( std::vector<b2Vec2> vtx )
+	{
+        mVertices = std::move(vtx);
+		if(mVertices.size() < 3)
+			BOOST_THROW_EXCEPTION( std::logic_error("Polygon need to have at least three vertices.") );
+		if(mVertices.size() > b2_maxPolygonVertices)
+			BOOST_THROW_EXCEPTION( std::logic_error("Box2D supports at most b2_maxPolygonVertices vertices.") );
+	}
+	
 	bool PolygonShape::valid() const 
 	{ 
 		return  mVertices.size() >= 3 && 

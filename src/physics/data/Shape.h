@@ -51,6 +51,7 @@ namespace physics
 			
 			// setters
 			void setVertices(std::initializer_list<b2Vec2> vtx );
+			void setVertices( std::vector<b2Vec2> vtx );
 			
 			// getters
 			std::size_t getVertexCount() const 			{ return mVertices.size(); }

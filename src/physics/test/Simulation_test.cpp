@@ -42,6 +42,9 @@ BOOST_FIXTURE_TEST_CASE(Spawn, Simulation_fixture)
 	
 	BOOST_TEST( simulation.getBodyCount() == 1u );
 	Verify(Method(listener_mock, onSpawn)).Once();
+	/// \todo more checks!
+	/// \todo verify correct setup of user pointer
+	/// \todo 
 }
 
 BOOST_FIXTURE_TEST_CASE(Step, Simulation_fixture)

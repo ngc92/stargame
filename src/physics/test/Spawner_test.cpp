@@ -39,7 +39,10 @@ BOOST_FIXTURE_TEST_CASE(SpawnKineticProps, SpawnFixture_fixture)
 	physics::data::BodyDef dat(b2Vec2(10, 5), b2Vec2(-5, 10), 5, 1.6f);
 	
 	b2Body* body = spawner.spawnBody(world, dat);
+	BOOST_REQUIRE( body != nullptr );
+	
 	check_spawn(*body, dat);
+	BOOST_CHECK( body->GetUserData() == nullptr );
 	
 	dat.setBullet(true);
 	dat.setLinearDamping(0.5);

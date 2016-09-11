@@ -35,7 +35,7 @@ namespace physics
 			float mRestitution = 0.9;
 			float mDensity     = 1;
 			bool  mIsSensor    = false;
-			boost::variant<PolygonShape, CircleShape> mShape;
+			shape_t mShape;
 		};
 	}
 }

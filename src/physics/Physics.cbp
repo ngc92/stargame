@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Physics" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../../bin/Debug/Physics" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../../obj/Debug/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="../../bin/Release/Physics" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../../obj/Release/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-std=c++11" />
+			<Add directory=".." />
+		</Compiler>
+		<Linker>
+			<Add library="Box2D" />
+		</Linker>
+		<Unit filename="CPhysicsThread.cpp" />
+		<Unit filename="CPhysicsThread.h" />
+		<Unit filename="IPhysicsThread.h" />
+		<Unit filename="actions/SpawnObject.h" />
+		<Unit filename="data/Body.cpp" />
+		<Unit filename="data/Body.h" />
+		<Unit filename="data/Fixture.cpp" />
+		<Unit filename="data/Fixture.h" />
+		<Unit filename="data/Shape.cpp" />
+		<Unit filename="data/Shape.h" />
+		<Unit filename="events/ObjectUpdateEvent.h" />
+		<Unit filename="events/SpawnEvent.h" />
+		<Unit filename="simulation/CSimulation.cpp" />
+		<Unit filename="simulation/CSimulation.h" />
+		<Unit filename="simulation/CSpawner.cpp" />
+		<Unit filename="simulation/CSpawner.h" />
+		<Unit filename="simulation/ISimulation.h" />
+		<Unit filename="simulation/ISpawner.h" />
+		<Unit filename="simulation/SUnitConverter.cpp" />
+		<Unit filename="simulation/SUnitConverter.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
