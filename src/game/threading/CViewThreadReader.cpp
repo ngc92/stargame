@@ -109,7 +109,7 @@ namespace threading
 		auto delim = find(event.path.begin(), event.path.end(), '.');
 		string rest(delim+1, event.path.end());
 		/// \todo this only works for level one properties.
-		target.addProperty( property::CProperty::create(rest, &target, event.value) );
+		// target.addProperty( property::CProperty::create(rest, &target, event.value) );
 	}
 }
 }

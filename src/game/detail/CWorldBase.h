@@ -6,6 +6,11 @@
 #include "listener/listenerlist.h"
 #include <boost/optional.hpp>
 
+namespace physics
+{
+	class IPhysicsThread;
+}
+
 namespace game
 {
 	class ContactListener;
@@ -49,11 +54,6 @@ namespace game
 		/// gets an id that is currently not used by any game object.
 		uint64_t getNextFreeID();
 
-		/// get a pointer to the internal world
-		const b2World& world() const final;
-		
-		b2World& getWorld() final;
-
 		/// Adds a module to this worlds module list.
 		/// the module is removed as soon as that weak_ptr
 		/// expires.
@@ -87,10 +87,11 @@ namespace game
 	private:
 		std::vector<std::shared_ptr<IGameObject>> mGameObjects;	//!< Vector of all IGameObject in this world.
 		std::vector<std::shared_ptr<IGameObject>> mSpawnQueue;	//!< Vector of all IGameObject that have to be spawned at the end of the step.
-		std::unique_ptr<b2World> mPhysicWorld; 					//!< The Box2D physics world.
 		ListenerList<IGameObject&> mSpawnListeners;				//! List of spawn listeners
 		
 		std::vector<std::weak_ptr<IGameViewModule>> mViewModules;	//! Vector of all registered game view modules.
+	protected:
+		std::unique_ptr<::physics::IPhysicsThread> mPhysics;
 		
 		uint64_t mFreeIDCandidate = 1;
 	};

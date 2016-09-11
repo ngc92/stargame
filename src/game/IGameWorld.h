@@ -42,13 +42,6 @@ namespace game
 		/// \note currently not marked as const, because the internal id cache may be changed.
 		virtual uint64_t getNextFreeID() = 0;
 
-		/// get a pointer to the internal world
-		virtual const b2World& world() const = 0;
-		
-		/// get a pointer to the internal world.
-		/// \todo get rid of this function!
-		virtual b2World& getWorld() = 0;
-
 		/// Adds a module to this worlds module list.
 		/// the module is removed as soon as that weak_ptr
 		/// expires.

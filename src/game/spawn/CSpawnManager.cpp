@@ -44,9 +44,9 @@ namespace spawn
 		// create the body to be used
 		b2BodyDef def = body_def(data);
 		def.type = b2_dynamicBody;
-		auto body = world.getWorld().CreateBody(&def);
+//		auto body = world.getWorld().CreateBody(&def);
 		uint64_t new_id = data.id == -1 ? world.getNextFreeID() : data.id;
-		auto game_object = createGameObject(new_id, data.type, data.category, body);
+/*		auto game_object = createGameObject(new_id, data.type, data.category, body);
 
 		if(data.category == ObjectCategory::SPACESHIP)
 			makeSpaceShip(*game_object, 1);
@@ -56,6 +56,7 @@ namespace spawn
 		game_object->onInit(world);
 		world.addGameObject( game_object );
 		return game_object;
+*/
 	}
 
 	void CSpawnManager::makeSpaceShip( IGameObject& object,  int team ) const

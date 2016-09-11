@@ -2,16 +2,15 @@
 #include "../IGameObject.h"
 #include "../WorldAction.h"
 #include "../IGameViewModule.h"
+#include "physics/CPhysicsThread.h"
 #include "util/algos.h"
-#include <Box2D/Dynamics/b2World.h>
 #include <iostream>
 
 namespace game
 {
-	CWorldBase::CWorldBase() : mPhysicWorld( std::make_unique<b2World>(b2Vec2(0,0)) )
+	CWorldBase::CWorldBase() : mPhysics( new ::physics::detail::CPhysicsThread )
 	{
-		mPhysicWorld->SetAutoClearForces( false );
-		mPhysicWorld->SetContinuousPhysics( true );
+		mPhysics->start();
 	}
 	
 	CWorldBase::~CWorldBase()
@@ -128,17 +127,6 @@ namespace game
 	void CWorldBase::clear_objects()
 	{
 		remove_if(mGameObjects, [](const auto& o){ return !o->isAlive(); });
-	}
-
-	/// get a pointer to the internal world
-	const b2World& CWorldBase::world() const
-	{
-		return *mPhysicWorld;
-	}
-	
-	b2World& CWorldBase::getWorld()
-	{
-		return *mPhysicWorld;
 	}
 	
 	void CWorldBase::addModule(std::weak_ptr<IGameViewModule> module)

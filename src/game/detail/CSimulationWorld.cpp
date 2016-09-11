@@ -4,15 +4,16 @@
 #include "../IGameViewModule.h"
 #include "../physics/ContactListener.h"
 #include "util/algos.h"
-#include <Box2D/Dynamics/b2World.h>
 #include <iostream>
+#include "physics/IPhysicsThread.h"
 
 namespace game
 {
 	CSimulationWorld::CSimulationWorld() : mContactListener( std::make_unique<physics::ContactListener>() )
 	{
-		getWorld().SetContactListener( mContactListener.get() );
+/*		getWorld().SetContactListener( mContactListener.get() );
 		getWorld().SetContactFilter( mContactListener.get() );
+*/
 	}
 
 	CSimulationWorld::~CSimulationWorld()
@@ -21,17 +22,8 @@ namespace game
 
 	void CSimulationWorld::step(const spawn::ISpawnManager& spawner)
 	{
-		// do actually 2 physic steps per loop step.
-		// this makes it possible for bodies to move faster.
-		constexpr const int SUB_STEPS = 2;
-		// step the physic world
-		for(int i = 0; i < SUB_STEPS; ++i)
-		{
-			getWorld().Step(1.0/60 / SUB_STEPS, 8, 3);
-			// and trigger corresponding physic events
-			mContactListener->triggerEvents();
-		}
-		getWorld().ClearForces();
+		mPhysics->updateEvents();
+		const auto& events = mPhysics->getEvents();
 		
 		// update all current objects and remove old ones.
 		update_game_objects(spawner);

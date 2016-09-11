@@ -4,14 +4,13 @@
 #include "../IGameViewModule.h"
 #include "../physics/ContactListener.h"
 #include "util/algos.h"
-#include <Box2D/Dynamics/b2World.h>
 #include <iostream>
 
 namespace game
 {
 	CObservationWorld::CObservationWorld() : mContactListener( std::make_unique<physics::ContactListener>() )
 	{
-		getWorld().SetContactFilter( mContactListener.get() );
+//		getWorld().SetContactFilter( mContactListener.get() );
 	}
 
 	CObservationWorld::~CObservationWorld()

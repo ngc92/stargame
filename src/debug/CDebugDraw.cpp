@@ -96,13 +96,13 @@ void CDebugDraw::doDraw() const
 
 void CDebugDraw::init(  game::IGameWorld& world  )
 {
-	world.getWorld().SetDebugDraw(this);
+//	world.getWorld().SetDebugDraw(this);
 }
 
 void CDebugDraw::step( game::IGameWorld& world, const game::spawn::ISpawnManager& spawner )
 {
 	mWriteQueue.clear();
-	world.getWorld().DrawDebugData();
+//	world.getWorld().DrawDebugData();
 	setFinished();
 }
 
