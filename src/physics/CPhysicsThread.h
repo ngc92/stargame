@@ -21,6 +21,11 @@ namespace detail
 		void start() override;
 		bool is_running() const override;
 		void stop() override;
+		
+		void updateEvents() override;
+		const std::vector<events::ObjectStateUpdateEvent>& getEvents() const override;
+		
+		void pushAction( actions::SpawnObject spac ) override;
 	private:
 		
 		void loop();
@@ -38,6 +43,7 @@ namespace detail
 		
 		// communication management
 		core::BufferedThreadStream< std::vector<events::ObjectStateUpdateEvent> > mUpdateEvents;
+		core::BufferedThreadStream< std::vector<actions::SpawnObject> > mActions;
 		
 		simulation::CSimulation mSimulation;
 	};

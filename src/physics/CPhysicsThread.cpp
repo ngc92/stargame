@@ -59,5 +59,21 @@ namespace detail
 	{
 		mUpdateEvents.push( event );
 	}
+	
+	void CPhysicsThread::updateEvents()
+	{
+		mUpdateEvents.update();
+	}
+	
+	const std::vector<events::ObjectStateUpdateEvent>& CPhysicsThread::getEvents() const
+	{
+		return mUpdateEvents.read();
+	}
+	
+	void CPhysicsThread::pushAction( actions::SpawnObject spac )
+	{
+		mActions.push( std::move(spac) );
+		mActions.publish();
+	}
 }
 }
