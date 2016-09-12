@@ -43,7 +43,7 @@ namespace spawn
 		// create the body to be used
 		uint64_t new_id = data.id == -1 ? world.getNextFreeID() : data.id;
 		
-		auto game_object = createGameObject(new_id, data.type, data.category, nullptr);
+		auto game_object = createGameObject(new_id, data.type, data.category);
 
         ::physics::data::BodyDef bdef(data.position, data.velocity, data.angle, data.angular_velocity);
 		::physics::actions::SpawnObject spob{bdef};

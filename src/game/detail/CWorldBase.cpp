@@ -3,6 +3,9 @@
 #include "../WorldAction.h"
 #include "../IGameViewModule.h"
 #include "physics/CPhysicsThread.h"
+#include "physics/events/SpawnEvent.h"
+#include "physics/events/ObjectUpdateEvent.h"
+#include "physics/events/CollisionEvent.h"
 #include "util/algos.h"
 #include <iostream>
 
@@ -161,6 +164,11 @@ namespace game
 		
 		// get update events
 		const auto& events = getPhysicsThread().getEvents();
+		std::cout << events.size() << "\n";
+		for(auto& ev : events )
+		{
+			std::cout << "event " << ev.type().name() <<"\n";
+		}
 
 		// update all objects
 		for(auto& obj : mGameObjects)

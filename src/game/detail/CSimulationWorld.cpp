@@ -2,17 +2,15 @@
 #include "../IGameObject.h"
 #include "../spawn/ISpawnManager.h"
 #include "../IGameViewModule.h"
-#include "../physics/ContactListener.h"
 #include "util/algos.h"
 #include <iostream>
 #include "physics/IPhysicsThread.h"
 
 namespace game
 {
-	CSimulationWorld::CSimulationWorld() : mContactListener( std::make_unique<physics::ContactListener>() )
+	CSimulationWorld::CSimulationWorld()
 	{
-/*		getWorld().SetContactListener( mContactListener.get() );
-		getWorld().SetContactFilter( mContactListener.get() );
+/*		getWorld().SetContactFilter( mContactListener.get() );
 */
 	}
 

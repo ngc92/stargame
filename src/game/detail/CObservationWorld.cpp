@@ -2,13 +2,12 @@
 #include "../IGameObject.h"
 #include "../spawn/ISpawnManager.h"
 #include "../IGameViewModule.h"
-#include "../physics/ContactListener.h"
 #include "util/algos.h"
 #include <iostream>
 
 namespace game
 {
-	CObservationWorld::CObservationWorld() : mContactListener( std::make_unique<physics::ContactListener>() )
+	CObservationWorld::CObservationWorld()
 	{
 //		getWorld().SetContactFilter( mContactListener.get() );
 	}
