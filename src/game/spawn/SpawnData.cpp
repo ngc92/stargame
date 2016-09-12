@@ -31,10 +31,12 @@ namespace spawn
 
 	SpawnData& subordinate( SpawnData& data, const IGameObject& parent )
 	{
-		data.velocity = parent.body().velocity_at( data.position );
+		/// \todo fix this!
+/*		data.velocity = parent.body().velocity_at( data.position );
 		data.position = world_point(parent.body(), data.position );
 		data.angle += parent.body().angle();
 		return data;
+*/
 	}
 
 	std::function<void(IGameWorld&, const ISpawnManager&)> make_spawner( SpawnData data )

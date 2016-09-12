@@ -10,22 +10,18 @@ namespace game
 		 mIsAlive(true),
 		 mID(id),
 		 mType( "type", this, std::move(type) ),
-		 mCategory( "category", this, (int)cateogry)
+		 mCategory( "category", this, (int)cateogry),
+		 mLastState( b2Vec2(0, 0) ) /// \todo this is bullshit
 	{
-		assert(mBody);
-		mBody.setGameObject(this);
 	}
 
 	CGameObject::~CGameObject()
 	{
-		mBody.destroy();
 	}
 
 	void CGameObject::remove()
 	{
 		mIsAlive = false;
-		mBody.destroy();
-
 		mRemoveListeners.notify(*this);
 	}
 
@@ -75,22 +71,22 @@ namespace game
 
 	b2Vec2 CGameObject::position() const
 	{
-		return mBody.position();
+		return mLastState.position();
 	}
 
 	float CGameObject::angle() const
 	{
-		return std::fmod(mBody.angle(), 2 * irr::core::PI);
+		return std::fmod(mLastState.angle(), 2 * irr::core::PI);
 	}
 
 	b2Vec2 CGameObject::velocity() const
 	{
-		return mBody.velocity();
+		return mLastState.velocity();
 	}
 
 	float CGameObject::angular_velocity() const
 	{
-		return mBody.angular_velocity();
+		return mLastState.angular_velocity();
 	}
 
 	/// gets the object type. This is the type that

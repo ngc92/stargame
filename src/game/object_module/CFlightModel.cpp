@@ -21,11 +21,11 @@ namespace game
 	{
 	}
 
-	void CFlightModel::update_movement( Body& ship )
+	void CFlightModel::update_movement( IGameObject& ship )
 	{
 		/// \todo this is copied from the old flight model.
 		/// need sth new here.
-		b2Vec2 v = local_vector(ship, ship.velocity() );
+/*		b2Vec2 v = game::physics::local_vector(ship, ship.velocity() );
 		v.x = std::max(0.f, v.x - mOperatingSpeed);
 
 		// decompose
@@ -34,20 +34,18 @@ namespace game
 			v.Normalize();
 		v *= f;
 
-		ship.applyForce( world_vector( ship, mTotalThrust + v ) );
+		ship.applyForce( game::physics::world_vector( ship, mTotalThrust + v ) );
 		ship.applyTorque( mTotalAngImp );
 
 		mTotalThrust = b2Vec2_zero;
 		mTotalAngImp = 0;
+*/
+		/// \todo this needs to be reworked!
 	}
 
 	void CFlightModel::onStep( IGameObject& object, const IGameWorld& world, WorldActionQueue& push_action)
 	{
-		Body& body = object.getBody();
-		if(!body)
-			BOOST_THROW_EXCEPTION( std::runtime_error("flight model module applied to bodyless game object!") );
-		
-		update_movement( body );
+		update_movement( object );
 	}
 
 	void CFlightModel::thrust( b2Vec2 thrust_vector )
@@ -76,64 +74,5 @@ namespace game
 	{
 		/// \todo this currently ignores the operation speed
 		return std::sqrt(thrust / mDragFactor);
-	}
-
-	void CFlightModel::pilot( const IGameObject& ship, const SFlightState& target_state )
-	{
-		///! \note this code is not finished!
-		auto cur_pos = ship.position();
-		auto cur_vel = ship.velocity();
-		auto cur_ang = ship.angle();
- 		auto& body = ship.body();
-
-		if(!target_state.position)
-			return;
-
-		// gather info
-		float max_thrust = 0;
-		for(auto& ps : mPropulsionSystems)
-		{
-			max_thrust += ps->getMaxThrust();
-		}
-		float max_ang_acc = 0;
-		for(auto& ps : mPropulsionSystems)
-		{
-			max_ang_acc += ps->getMaxTorque() / body.inertia();
-		}
-
-		auto distance = target_state.position.get_value_or( cur_pos ) - cur_pos;
-		/// \todo for now, this is the most simple implementation that only works for position constraints
-		float max_vel = getTerminalVelocity(max_thrust);
-		float time_to = distance.Length() / max_vel;
-		std::cout << max_vel << " " << cur_vel.Length() << "\n";
-		b2Vec2 future_pos = cur_pos + time_to * cur_vel;
-		auto future_distance = target_state.position.get_value_or( cur_pos ) - future_pos;
-
-		for(auto& ps : mPropulsionSystems)
-		{
-			ps->thrust(local_vector(ship.body(), future_distance));
-		}
-
-		float target_angle = target_state.rotation.get_value_or( cur_ang );
-
-		// if we are free to rotate
-		if(!target_state.rotation)
-			target_angle = std::atan2( future_distance.y, future_distance.x );
-
-		float ang_dif = std::remainder(target_angle - cur_ang, 4*std::acos(0));
-        float time_to_angle = ang_dif / ship.angular_velocity();
-        float time_to_brake = std::abs(ship.angular_velocity() / max_ang_acc);
-        float target_rotate = ang_dif;
-		if(time_to_angle < time_to_brake)
-			target_rotate = -ship.angular_velocity();
-
-        // want velocity = 0 at time_to_angle
-		std::cout << target_rotate << "\n";
-		for(auto& ps : mPropulsionSystems)
-		{
-			ps->rotate(target_rotate * body.inertia());
-		}
-
-
 	}
 }

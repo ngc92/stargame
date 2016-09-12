@@ -3,8 +3,8 @@
 
 #include "../IGameObject.h"
 #include "property/CPropertyObject.h"
-#include "../physics/body.h"
 #include "property/TypedProperty.h"
+#include "physics/data/Body.h"
 namespace game
 {
 	/*! \class CGameObject
@@ -66,6 +66,9 @@ namespace game
 			const uint64_t mID;
 			property::TypedProperty<std::string> mType;
 			property::TypedProperty<int> mCategory;
+			
+			// body state
+			::physics::data::KinematicState mLastState;
 
 			ListenerList<const IGameObjectView&> mStepListeners;
 			ListenerList<const IGameObjectView&> mRemoveListeners;

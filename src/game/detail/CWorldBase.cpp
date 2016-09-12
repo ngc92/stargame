@@ -126,6 +126,7 @@ namespace game
 	
 	void CWorldBase::clear_objects()
 	{
+		/// \todo remove associated body
 		remove_if(mGameObjects, [](const auto& o){ return !o->isAlive(); });
 	}
 	
@@ -157,6 +158,9 @@ namespace game
 	{
 		std::vector<WorldActionQueue::action_fn> action_queue;
 		WorldActionQueue push_action(action_queue);
+		
+		// get update events
+		const auto& events = getPhysicsThread().getEvents();
 
 		// update all objects
 		for(auto& obj : mGameObjects)

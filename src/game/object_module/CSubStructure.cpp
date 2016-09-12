@@ -10,6 +10,8 @@
 #include <Box2D/Collision/Shapes/b2EdgeShape.h>
 #include <boost/iterator/indirect_iterator.hpp>
 
+#include "physics/data/Fixture.h"
+
 #include "property/CProperty.h"
 #include <iostream>
 
@@ -66,7 +68,7 @@ namespace game
                 /// \todo add mass for components!
 				//fixture.addMass(cell->getComponent(i)->weight());
 			}
-			fixture.push_back( fixture );
+			fixtures.push_back( fixture );
 		}
 		return fixtures;
     }
@@ -114,7 +116,8 @@ namespace game
 
 	void CSubStructure::onDamage( IGameObject& object, const Damage& damage, const b2Vec2& pos, const b2Vec2& dir )
 	{
-		hit(object.body().getTransform(), damage, pos, dir);
+		/// \todo re-enable
+//		hit(object.body().getTransform(), damage, pos, dir);
 	}
 
 	void CSubStructure::hit(const b2Transform& trafo, Damage damage, vector2d position, vector2d direction)

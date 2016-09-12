@@ -16,15 +16,13 @@ namespace game
 		void onInit( IGameObject& object, IGameWorld& world ) override;
 
 
-		void update_movement( Body& ship );
+		void update_movement( IGameObject& ship );
 
 		void thrust( b2Vec2 thrust_vector ) override;
 		void rotate( float turn_impulse ) override;
 
 		// info functions
 		float getTerminalVelocity( float thrust );
-
-		void pilot( const IGameObject& ship, const SFlightState& target_state );// override;
 	private:
 		void registerPropulsionSystem_( IPropulsionSystem& propsys ) override;
 		void removePropulsionSystem_( IPropulsionSystem& propsys ) override;
