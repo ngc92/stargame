@@ -1,5 +1,5 @@
-#ifndef BODY_H_INCLUDED
-#define BODY_H_INCLUDED
+#ifndef DATA_BODY_H_INCLUDED
+#define DATA_BODY_H_INCLUDED
 
 #include "Box2D/Common/b2Math.h"
 
@@ -62,4 +62,4 @@ namespace data
 }
 }
 
-#endif // BODY_H_INCLUDED
+#endif // DATA_BODY_H_INCLUDED
