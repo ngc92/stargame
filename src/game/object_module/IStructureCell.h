@@ -4,13 +4,10 @@
 #include <memory>
 #include <boost/range/any_range.hpp>
 #include "game/fwd.h"
+#include "physics/data/Shape.h"
 
 namespace game
 {
-	namespace physics
-	{
-		class Shape;
-	}
 	
 	/*! \class StructureCell
 		\brief A single cell within the space ships structural built.
@@ -35,7 +32,7 @@ namespace game
 			//! gets the maximum total weight
 			virtual float max_weight() const = 0;
 			//! access to the cell's shape
-			virtual const physics::Shape& shape() const = 0;
+			virtual const ::physics::data::Shape& shape() const = 0;
 			//! access the components
 			virtual comp_range_t components() = 0;
 			//! get the number of components in the cell

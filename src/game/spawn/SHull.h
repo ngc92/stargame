@@ -2,7 +2,7 @@
 #define SHULL_H_INCLUDED
 
 #include "Definitions.h"
-#include <Box2D/Collision/Shapes/b2PolygonShape.h>
+#include "physics/data/Shape.h"
 
 namespace game
 {
@@ -21,13 +21,13 @@ namespace spawn
 
 		long id() const;
 		float maxLoad() const;
-		const b2PolygonShape& shape() const;
+		const ::physics::data::PolygonShape& shape() const;
 
 		std::unique_ptr<IStructureCell> create() const;
 	private:
 		long mID;
 		float mMaxLoad;
-		b2PolygonShape mShape;
+		::physics::data::PolygonShape mShape;
 	};
 
 	// ---------------------------------------------------------------------

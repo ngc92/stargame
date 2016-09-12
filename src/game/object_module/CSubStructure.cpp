@@ -1,7 +1,4 @@
 #include "CSubStructure.h"
-#include "game/physics/body.h"
-#include "game/physics/fixture.h"
-#include "game/physics/shape.h"
 #include "game/physics/raycast.h"
 #include "util/io.h"
 #include "components/IComponent.h"
@@ -154,14 +151,15 @@ namespace game
 		};
 		rcin.maxFraction = 10000;
 		std::vector<HitCell> hit_cells;
-		for(auto& cell : mCells)
+		assert(0);
+		/*for(auto& cell : mCells)
 		{
 			if(physics::raycast(rcout, cell->shape(), rcin, trafo))
 			{
 				rcin.maxFraction = rcout.fraction;
 				hit_cells.push_back(HitCell{rcout.fraction, cell.get()});
 			}
-		}
+		}*/
 
 		// sort hits
 		std::sort( hit_cells.begin(), hit_cells.end(), [](HitCell a, HitCell b) { return a.frac < b.frac; } );

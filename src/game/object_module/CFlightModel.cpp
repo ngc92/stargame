@@ -1,7 +1,6 @@
 #include "CFlightModel.h"
 #include "IPropulsionSystem.h"
 #include "consts.h"
-#include "game/physics/body.h"
 #include "game/physics/convert.h"
 #include <boost/throw_exception.hpp>
 #include <algorithm>

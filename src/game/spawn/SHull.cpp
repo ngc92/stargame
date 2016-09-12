@@ -91,7 +91,7 @@ namespace spawn
 			vertices.push_back( read_position(prop.second, vertex_cache) );
 		}
 
-        mShape.Set(vertices.data(), vertices.size());
+        mShape.setVertices( std::move(vertices) );
 	}
 
 	long SStructureCell::id() const
@@ -104,14 +104,14 @@ namespace spawn
 		return mMaxLoad;
 	}
 
-	const b2PolygonShape& SStructureCell::shape() const
+	const ::physics::data::PolygonShape& SStructureCell::shape() const
 	{
 		return mShape;
 	}
 
 	std::unique_ptr<IStructureCell> SStructureCell::create() const
 	{
-		return std::make_unique<CStructureCell>(mID, mMaxLoad, physics::Shape(mShape));
+		return std::make_unique<CStructureCell>(mID, mMaxLoad, mShape);
 	}
 }
 }

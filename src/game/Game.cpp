@@ -2,7 +2,6 @@
 #include "IGameWorld.h"
 #include "threading/CSimulationThreadWriter.h"
 #include "threading/CViewThreadReader.h"
-#include "physics/body.h"
 #include "IGameObject.h"
 #include "IGameViewModule.h"
 #include "util.h"

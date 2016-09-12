@@ -1,12 +1,11 @@
 #include "ContactFilter.h"
-#include "body.h"
 #include "game/IGameObject.h" // needed for automatic conversion IGameObjectView* -> IGameObject*
 
 namespace game
 {
 namespace physics
 {
-	bool ContactFilter::doesCollide(const Body& target) const
+	/*bool ContactFilter::doesCollide(const Body& target) const
 	{
 		if(mCollisionBlacklist.empty())
 			return true;
@@ -23,6 +22,6 @@ namespace physics
 	void ContactFilter::removeFromBlacklist( const IGameObjectView* query )
 	{
 		mCollisionBlacklist.erase( query );
-	}
+	}*/
 }
 }

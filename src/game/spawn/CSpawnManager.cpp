@@ -2,14 +2,12 @@
 
 #include "CDataManager.h"
 #include "SpawnData.h"
-#include "game/physics/body.h"
 #include "game/physics/convert.h"
-#include "game/physics/fixture.h"
-#include "game/physics/shape.h"
 #include "game/physics/ContactFilter.h"
 
 #include "physics/actions/SpawnObject.h"
 #include "physics/data/Body.h"
+#include "physics/IPhysicsThread.h"
 
 #include "game/IGameObject.h"
 #include "property/CProperty.h"
@@ -48,7 +46,7 @@ namespace spawn
 		auto game_object = createGameObject(new_id, data.type, data.category, nullptr);
 
         ::physics::data::BodyDef bdef(data.position, data.velocity, data.angle, data.angular_velocity);
-		::physics::actions::SpawnObject spob;
+		::physics::actions::SpawnObject spob{bdef};
 
 		if(data.category == ObjectCategory::SPACESHIP)
 		{
@@ -60,7 +58,6 @@ namespace spawn
         }
         
         // push spawn body action to physics world
-		spob.body = std::move(bdef);
 		world.getPhysicsThread().pushAction( std::move(spob) );
         
 		game_object->onInit(world);
@@ -74,8 +71,8 @@ namespace spawn
 		auto structure = mDataManager->getHullData( dat.hull() ).create();
 		spob.fixtures = structure->getFixtures();
 		
-		spob.setLinearDamping( 0.0 );
-        spob.setAngularDamping( 1 );
+		spob.body.setLinearDamping( 0.0 );
+        spob.body.setAngularDamping( 1 );
 
 		for(auto& c : dat.components())
 		{
@@ -93,7 +90,7 @@ namespace spawn
 		dat.addAttributes( object );
 	}
 
-	void CSpawnManager::makeBullet( IGameObject& object, const IGameObject* shooter, ::physics::actions::SpawnAction& spac ) const
+	void CSpawnManager::makeBullet( IGameObject& object, const IGameObject* shooter, ::physics::actions::SpawnObject& spob ) const
 	{
 		auto& dat = mDataManager->getProjectileData( object.type() );
 
@@ -108,11 +105,11 @@ namespace spawn
 
 		// add circular fixture
 		/// \todo set density for mass!
-		::physics::data::CircleShape shape(dat.radius);
+		::physics::data::CircleShape shape(dat.radius());
         ::physics::data::Fixture f( shape );
         f.setRestitution( 0.5 );
         f.setDensity( 1 );
-        bdef.setBullet(true);
+        spob.body.setBullet(true);
         spob.fixtures.push_back( std::move(f) );
         
         /// \todo transform propell velocity into world frame and add

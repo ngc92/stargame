@@ -1,5 +1,4 @@
 #include "convert.h"
-#include "body.h"
 #include <Box2D/Dynamics/b2Body.h>
 #include <cassert>
 
@@ -7,6 +6,7 @@ namespace game
 {
 namespace physics
 {
+	/*
 	b2Vec2 world_vector( const Body& ref, const b2Vec2& local )
 	{
 		assert( ref.body() );
@@ -29,6 +29,6 @@ namespace physics
 	{
 		assert( ref.body() );
 		return ref.body()->GetLocalPoint( global );
-	}
+	}*/
 }
 }

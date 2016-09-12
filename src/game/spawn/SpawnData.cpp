@@ -1,7 +1,6 @@
 #include "SpawnData.h"
 #include "ISpawnManager.h"
 #include "game/IGameObject.h"
-#include "game/physics/body.h"
 #include "game/physics/convert.h"
 
 namespace game

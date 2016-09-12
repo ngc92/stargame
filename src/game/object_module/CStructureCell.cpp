@@ -4,7 +4,7 @@
 
 namespace game
 {
-	CStructureCell::CStructureCell( long id, float maxload, physics::Shape shape ) :
+	CStructureCell::CStructureCell( long id, float maxload, physics::data::Shape shape ) :
 		mID(id),
 		mMaxLoad(maxload),
 		mShape(std::move(shape))
@@ -49,7 +49,7 @@ namespace game
 		return comp_range_t( idt(begin(mComponents)), idt(end(mComponents)) );
 	}
 
-	const physics::Shape& CStructureCell::shape() const
+	const ::physics::data::Shape& CStructureCell::shape() const
 	{
 		return mShape;
 	}

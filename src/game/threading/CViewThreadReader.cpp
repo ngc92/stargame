@@ -5,7 +5,6 @@
 #include "game/IGameObject.h"
 #include "game/IGameWorld.h"
 #include "game/spawn/ISpawnManager.h"
-#include "game/physics/body.h"
 #include <iostream>
 #include "util/io.h"
 #include "property/io.h"

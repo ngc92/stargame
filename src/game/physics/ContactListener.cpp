@@ -1,5 +1,4 @@
 #include "ContactListener.h"
-#include "body.h"
 #include "ContactFilter.h"
 #include "game/IGameObject.h"
 #include <Box2D/Box2D.h>
@@ -40,7 +39,7 @@ namespace physics
 	void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* old)
 	{
 	}
-
+/*
 	void ContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse)
 	{
 		// get pointer to GameObjects
@@ -101,5 +100,6 @@ namespace physics
 
 		mResponseQueue.clear();
 	}
+*/
 }
 }
