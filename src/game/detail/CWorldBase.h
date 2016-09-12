@@ -59,6 +59,9 @@ namespace game
 		/// expires.
 		/// The module is directly initialized.
 		void addModule(std::weak_ptr<IGameViewModule> module) final;
+		
+		::physics::IPhysicsThread& getPhysicsThread() final;
+		const ::physics::IPhysicsThread& getPhysicsThread() const final;
 	
 	protected:
 		///get a game object that fulfills a predicate. Searches both 

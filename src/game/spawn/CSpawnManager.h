@@ -9,7 +9,13 @@
 #include <unordered_map>
 #include "game/fwd.h"
 
-class b2Body;
+namespace physics
+{
+namespace actions
+{
+    class SpawnObject;
+}
+}
 
 namespace game
 {
@@ -25,8 +31,8 @@ namespace spawn
 
 		std::shared_ptr<IGameObject> spawn( IGameWorld& world, const SpawnData& data ) const override;
 
-		void makeSpaceShip( IGameObject& object, int team ) const;
-		void makeBullet( IGameObject& object, const IGameObject* shooter ) const;
+		void makeSpaceShip( IGameObject& object, int team, ::physics::actions::SpawnObject& spac ) const;
+		void makeBullet( IGameObject& object, const IGameObject* shooter, ::physics::actions::SpawnObject& spac ) const;
 	private:
 		std::unique_ptr<IDataManager> mDataManager;
 	};

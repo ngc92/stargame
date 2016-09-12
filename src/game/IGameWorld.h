@@ -5,6 +5,11 @@
 #include "IGameObject.h" // we need this for covariant return
 #include <boost/optional.hpp>
 
+namespace physics
+{
+    class IPhysicsThread;
+}
+
 namespace game
 {
 	class IGameModule;
@@ -48,6 +53,9 @@ namespace game
 		/// The module is directly initialized.
 		virtual void addModule(std::weak_ptr<IGameModule> module) = 0;
 		using IGameWorldView::addModule;
+		
+		virtual ::physics::IPhysicsThread& getPhysicsThread() = 0;
+		virtual const ::physics::IPhysicsThread& getPhysicsThread() const = 0;
 	};
 	
 	/// creates an IGameWorld object using the simulation implementation.

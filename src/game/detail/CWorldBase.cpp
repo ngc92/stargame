@@ -185,4 +185,14 @@ namespace game
 			}
 		}
 	}
+	
+	::physics::IPhysicsThread& CWorldBase::getPhysicsThread()
+	{
+        return *mPhysics;
+	}
+    
+    const ::physics::IPhysicsThread& CWorldBase::getPhysicsThread() const
+    {
+        return *mPhysics;
+    }
 }

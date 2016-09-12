@@ -11,10 +11,10 @@
 using namespace irr;
 
 CEngine::CEngine() :	mIrrlichtDevice( nullptr ),
-						mDebugConsole( std::make_unique<CDebugConsole>() ),
-						mInputManager( std::make_unique<CInputManager>() ),
+						mDebugConsole(  std::make_unique<CDebugConsole>() ),
+						mInputManager(  std::make_unique<CInputManager>() ),
 						mStateManager ( std::make_unique<CStateManager>(this) ),
-						mSoundManager( std::make_unique<CSoundManager>() ),
+						mSoundManager(  std::make_unique<CSoundManager>() ),
 						mMasterEventReceiver(std::make_unique<CIrrMasterEventReceiver>(mInputManager.get(), mStateManager.get()))
 {
 }

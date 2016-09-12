@@ -60,6 +60,8 @@ namespace game
 		float weight() const final;
 		float baseWeight() const final;
 
+        std::vector<::physics::data::Fixture> getFixtures() const final;
+
 		/*! \brief Calls function F for each cell shape.
 			\details Allows arbitrary constant arguments to be passed to the function.
 			\param func Function to be called for each component. Has to take Shape and Args as parameters

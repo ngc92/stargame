@@ -2,7 +2,6 @@
 #include "consts.h"
 #include "game/IGameWorld.h"
 #include <irrlicht/irrlicht.h>
-#include <Box2D/Dynamics/b2World.h>
 #include <iostream>
 
 inline irr::core::vector3df b2i(b2Vec2 v)

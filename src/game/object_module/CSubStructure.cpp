@@ -8,7 +8,6 @@
 #include "IDamageSource.h"
 #include <Box2D/Collision/b2Collision.h>
 #include <Box2D/Collision/Shapes/b2EdgeShape.h>
-#include <Box2D/Dynamics/b2Body.h>
 #include <boost/iterator/indirect_iterator.hpp>
 
 #include "property/CProperty.h"
@@ -50,6 +49,28 @@ namespace game
 		return nullptr;
 	}
 
+    std::vector<::physics::data::Fixture> CSubStructure::getFixtures() const
+    {  
+        std::vector<::physics::data::Fixture> fixtures;
+    
+        // need to write the component subobject loop ourselves here, because we need the shared_ptr
+		// build the physic body
+		for(auto& cell : mCells)
+		{
+			::physics::data::Fixture fixture( cell->shape() );
+			fixture.setDensity(10);
+			fixture.setRestitution(0.1);
+			fixture.setFriction(0.5);
+			for(std::size_t i = 0; i < cell->component_count(); ++i)
+			{
+                /// \todo add mass for components!
+				//fixture.addMass(cell->getComponent(i)->weight());
+			}
+			fixture.push_back( fixture );
+		}
+		return fixtures;
+    }
+    
 	void CSubStructure::onInit(IGameObject& object, IGameWorld& world)
 	{
 		// init all components
@@ -59,13 +80,9 @@ namespace game
 		// build the physic body
 		for(auto& cell : mCells)
 		{
-			auto fixture = physics::Fixture::create(object.getBody(), cell->shape(), 10.f);
-			fixture.setRestitution(0.1);
-			fixture.setFriction(0.5);
 			for(std::size_t i = 0; i < cell->component_count(); ++i)
 			{
 				addChild(cell->getComponent(i));
-				fixture.addMass(cell->getComponent(i)->weight());
 			}
 		}
 

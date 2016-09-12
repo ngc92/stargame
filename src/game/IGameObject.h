@@ -4,8 +4,6 @@
 #include "IGameObjectView.h"
 #include <vector>
 
-class b2Body;
-
 namespace game
 {
 	namespace physics
@@ -48,12 +46,6 @@ namespace game
 		/// call this function to deal damage to this game object.
 		virtual void dealDamage( const Damage& damage, const b2Vec2& pos, const b2Vec2& dir ) = 0;
 
-		/// get a pointer to the internal body, if any
-		virtual const Body& body() const = 0;
-
-		/// get a pointer to the internal body, if any
-		virtual Body& getBody() = 0;
-
 		/// marks this body for deletion.
 		virtual void remove() = 0;
 
@@ -92,7 +84,7 @@ namespace game
 	
 	// constructor function
 	/// creates an object of IGameObject using the default implementation.
-	std::shared_ptr<IGameObject> createGameObject( uint64_t id, std::string type, ObjectCategory category, b2Body* b, std::string name = "object" );
+	std::shared_ptr<IGameObject> createGameObject( uint64_t id, std::string type, ObjectCategory category, std::string name = "object" );
 }
 
 #endif // IGAMEOBJECT_H_INCLUDED

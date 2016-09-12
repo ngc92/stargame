@@ -15,7 +15,7 @@ namespace game
 					   ObjectCounter<CGameObject>
 	{
 		public:
-			CGameObject(uint64_t ID, std::string type, ObjectCategory cateogry, b2Body* body = nullptr, std::string name = "object");
+			CGameObject(uint64_t ID, std::string type, ObjectCategory cateogry, std::string name = "object");
 			virtual ~CGameObject();
 
 			/// called just after the object is constructed and added to the world.
@@ -51,12 +51,6 @@ namespace game
 			/// adds a listener that is called when the object is removed
 			ListenerRef addRemoveListener( std::function<void(const IGameObjectView&)> lst ) final;
 
-			/// get a pointer to the internal body, if any
-			const Body& body() const final;
-
-			/// get a pointer to the internal body, if any
-			Body& getBody() final;
-
 			/// marks this body for deletion.
 			void remove() final;
 
@@ -64,10 +58,6 @@ namespace game
 			bool isAlive() const final;
 
 		private:
-			Body mBody;
-
-			const b2Body* mIgnoreBody = nullptr;
-
 			// status
 			bool mIsAlive;
 			bool mInitialized = false;

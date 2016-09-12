@@ -14,8 +14,6 @@
 #include "debug/ObjectCounter.h"
 
 // forward declarations
-class b2World;
-
 namespace irr
 {
 	class IrrlichtDevice;

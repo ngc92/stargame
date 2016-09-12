@@ -85,10 +85,7 @@ namespace threading
 	void CViewThreadReader::onUpdate( IGameWorld& world, const UpdateEvent& event )
 	{
 		IGameObject& target = world.getObjectByID( event.id );
-		target.getBody().setAngle( event.angle );
-		target.getBody().setPosition( event.position );
-		target.getBody().setVelocity( event.velocity );
-		target.getBody().setAngularVelocity( event.angular_velocity );
+        /// \todo what do we do with this?
 	}
 	
 	void CViewThreadReader::onPropertyUpdate( IGameWorld& world, const PropertyEvent& event )

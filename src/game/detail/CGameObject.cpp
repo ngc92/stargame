@@ -5,9 +5,8 @@
 
 namespace game
 {
-	CGameObject::CGameObject(uint64_t id, std::string type, ObjectCategory cateogry, b2Body* b, std::string name) :
+	CGameObject::CGameObject(uint64_t id, std::string type, ObjectCategory cateogry, std::string name) :
 		 CPropertyObject( std::move(name) ),
-		 mBody(b),
 		 mIsAlive(true),
 		 mID(id),
 		 mType( "type", this, std::move(type) ),
@@ -128,16 +127,6 @@ namespace game
 		return mID;
 	}
 
-	const Body& CGameObject::body() const
-	{
-		return mBody;
-	}
-
-	Body& CGameObject::getBody()
-	{
-		return mBody;
-	}
-
 	bool CGameObject::isAlive() const
 	{
 		return mIsAlive;
@@ -156,8 +145,8 @@ namespace game
 	//						constructor function
 	// -----------------------------------------------------------------------
 	
-	std::shared_ptr<IGameObject> createGameObject( uint64_t id, std::string type, ObjectCategory category, b2Body* b, std::string name )
+	std::shared_ptr<IGameObject> createGameObject( uint64_t id, std::string type, ObjectCategory category, std::string name )
 	{
-		return std::make_shared<CGameObject>( id, std::move(type), category, b, std::move(name) );
+		return std::make_shared<CGameObject>( id, std::move(type), category, std::move(name) );
 	}
 }

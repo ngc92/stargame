@@ -19,11 +19,6 @@ namespace game
 
 	void CFlightModel::onInit( IGameObject& object, IGameWorld& world )
 	{
-		auto& ship = object.getBody();
-		if(!ship)
-			BOOST_THROW_EXCEPTION( std::runtime_error("flight model module applied to bodyless game object!") );
-		ship.setLinearDamping( 0.0 );
-		ship.setAngularDamping( 1 );
 	}
 
 	void CFlightModel::update_movement( Body& ship )
@@ -51,11 +46,7 @@ namespace game
 		Body& body = object.getBody();
 		if(!body)
 			BOOST_THROW_EXCEPTION( std::runtime_error("flight model module applied to bodyless game object!") );
-		// pilot to target
-		SFlightState test_target;
-		test_target.position = b2Vec2(200, 200);
-		//pilot(object, test_target);
-
+		
 		update_movement( body );
 	}
 

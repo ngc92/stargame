@@ -3,7 +3,6 @@
 #include "game/IGameObject.h"
 #include "game/physics/body.h"
 #include "game/physics/convert.h"
-#include <Box2D/Dynamics/b2Body.h>
 
 namespace game
 {
@@ -28,16 +27,6 @@ namespace spawn
 		name( source.name() )
 	{
 
-	}
-
-	b2BodyDef body_def( const SpawnData& data )
-	{
-		b2BodyDef def;
-		def.angle = data.angle;
-		def.position = data.position;
-		def.linearVelocity = data.velocity;
-		def.angularVelocity = data.angular_velocity;
-		return def;
 	}
 
 	SpawnData& subordinate( SpawnData& data, const IGameObject& parent )

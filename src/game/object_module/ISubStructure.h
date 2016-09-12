@@ -5,6 +5,14 @@
 #include "IStructureCell.h"
 #include <boost/range/any_range.hpp>
 
+namespace physics
+{
+namespace data
+{
+    class Fixture;
+}
+}
+
 namespace game
 {
 	class ArmourSegment;
@@ -26,6 +34,9 @@ namespace game
 
 		/// iterate over all subcells
 		virtual cell_range_t getCells() = 0;
+		
+		/// get al fixtures 
+		virtual std::vector<::physics::data::Fixture> getFixtures() const = 0;
 
 		/// structure info
 		virtual float HP() const = 0;
