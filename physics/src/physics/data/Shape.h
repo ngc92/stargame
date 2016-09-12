@@ -1,5 +1,5 @@
-#ifndef SHAPE_H_INCLUDED
-#define SHAPE_H_INCLUDED
+#ifndef DATA_SHAPE_H_INCLUDED
+#define DATA_SHAPE_H_INCLUDED
 
 #include "Box2D/Common/b2Math.h"
 #include <vector>
@@ -69,4 +69,4 @@ namespace physics
 	}
 }
 
-#endif // SHAPE_H_INCLUDED
+#endif // DATA_SHAPE_H_INCLUDED

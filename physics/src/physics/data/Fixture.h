@@ -1,5 +1,5 @@
-#ifndef FIXTURE_H_INCLUDED
-#define FIXTURE_H_INCLUDED
+#ifndef DATA_FIXTURE_H_INCLUDED
+#define DATA_FIXTURE_H_INCLUDED
 
 #include "Shape.h"
 #include <boost/variant.hpp>
@@ -40,4 +40,4 @@ namespace physics
 	}
 }
 
-#endif // FIXTURE_H_INCLUDED
+#endif // DATA_FIXTURE_H_INCLUDED
